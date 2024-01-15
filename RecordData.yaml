@@ -1,0 +1,22 @@
+SpriggitSource:
+  PackageName: Spriggit.Yaml.Fallout4
+  Version: 0.16.0
+ModKey: Mantella.esp
+GameRelease: Fallout4
+ModHeader:
+  Stats:
+    NumRecords: 13
+    NextFormID: 17629
+  Author: DEFAULT
+  MasterReferences:
+  - Master: Fallout4.esm
+    FileSize: 0
+  TransientTypes:
+  - FormType: 78
+    Links:
+    - 0035A2:Mantella.esp
+    - 0035A6:Mantella.esp
+    - 0035A4:Mantella.esp
+    - 001ED1:Mantella.esp
+    - 0035A8:Mantella.esp
+  INTV: 0x01000000

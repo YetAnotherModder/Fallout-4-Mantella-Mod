@@ -1,0 +1,18 @@
+FormKey: 001ED2:Mantella.esp
+VersionControl: 12186
+Flags: {}
+PreviousDialog: Null
+Responses:
+- Emotion: FFFFFF:Mantella.esp
+  ResponseNumber: 1
+  CameraTargetAlias: -1
+  CameraLocationAlias: -1
+  Text:
+    TargetLanguage: English
+    Value: LINE 1
+  ScriptNotes: ''
+  Edits: ''
+  AlternateLipText: ''
+  TextHash: 0x507F6B8B8136DA01
+StartScenePhase: ''
+SubtitlePriority: Low

@@ -1,0 +1,38 @@
+FormKey: 000F99:Mantella.esp
+VersionControl: 12183
+EditorID: MantellaQuest
+VirtualMachineAdapter:
+  Scripts:
+  - Name: MantellaRepository
+  Script:
+    Name: ''
+  Aliases:
+  - Property:
+      Name: ''
+      Object: 000F99:Mantella.esp
+      Alias: 0
+    Scripts:
+    - Name: MantellaListenerScript
+      Properties:
+      - MutagenObjectType: ScriptObjectProperty
+        Name: PlayerRef
+        Object: 000014:Fallout4.esm
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaGun
+        Object: 001734:Mantella.esp
+Name:
+  TargetLanguage: English
+  Value: Mantella Quest
+Data:
+  Flags:
+  - StartGameEnabled
+  - StartsEnabled
+  - RunOnce
+  Unused: 172
+UnusedConditions: []
+Aliases:
+- MutagenObjectType: QuestReferenceAlias
+  Name: PlayerRef
+  Flags: []
+  ForcedReference: 000014:Fallout4.esm
+  VoiceTypes: Null
