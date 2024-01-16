@@ -1,6 +1,6 @@
 Bring Fallout 4 NPCs to life with AI
 
-This repository is for the Mantella Mod, which handles the Fallout4-side logic of Mantella. For the current Fallout4 Mantella repository, see [here](https://github.com/art-from-the-machine/Mantella).
+This repository is for the Mantella Mod, which handles the Fallout4-side logic of Mantella. For the current Fallout4 Mantella repository, see [here](https://github.com/YetAnotherModder/Mantella).
 
 The .esp is converted to version-control-friendly .yaml files using [Spriggit](https://github.com/Mutagen-Modding/Spriggit).
 
