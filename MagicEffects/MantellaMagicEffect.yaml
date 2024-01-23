@@ -1,16 +1,19 @@
 FormKey: 001735:Mantella.esp
-VersionControl: 12186
+VersionControl: 12342
 EditorID: MantellaMagicEffect
 VirtualMachineAdapter:
   Scripts:
   - Name: MantellaEffectScript
     Properties:
     - MutagenObjectType: ScriptObjectProperty
+      Name: repository
+      Object: 000F99:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
       Name: MantellaDialogueLine
       Object: 001ED1:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: repository
-      Object: 000F99:Mantella.esp
+      Name: MantellaWaitTimeBuffer
+      Object: 01E665:Mantella.esp
 Name:
   TargetLanguage: English
   Value: Mantella Magic Effect

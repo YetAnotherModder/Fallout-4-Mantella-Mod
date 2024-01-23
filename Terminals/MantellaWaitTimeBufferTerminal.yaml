@@ -1,0 +1,242 @@
+FormKey: 01E664:Mantella.esp
+MajorRecordFlagsRaw: 8208
+VersionControl: 12342
+EditorID: MantellaWaitTimeBufferTerminal
+Fallout4MajorRecordFlags:
+- 0x10
+- 0x2000
+VirtualMachineAdapter:
+  ScriptFragments:
+    Script:
+      Name: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      Properties:
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaWaitTimeBuffer
+        Object: 01E665:Mantella.esp
+    Fragments:
+    - FragmentIndex: 5
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_05
+    - FragmentIndex: 1
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_01
+    - FragmentIndex: 4
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_04
+    - FragmentIndex: 7
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_07
+    - FragmentIndex: 9
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_09
+    - FragmentIndex: 2
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_02
+    - FragmentIndex: 6
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_06
+    - FragmentIndex: 3
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_03
+    - FragmentIndex: 8
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaWaitTimeBufferT_0701E664
+      FragmentName: Fragment_Terminal_08
+ObjectBounds:
+  First: -18, -52, 86
+  Second: 21, 0, 135
+HeaderText:
+  TargetLanguage: English
+  Value: Mantella - Wait time buffer settings
+WelcomeText:
+  TargetLanguage: English
+  Value: This menu is used to configure the wait time buffer. If you notice Mantella response skipping lines, try increasing it. If you want faster responses, try lowering it.
+Name:
+  TargetLanguage: English
+  Value: '[Settings] Mantella Settings'
+Model:
+  File: Furniture\Terminals\TerminalWall01.nif
+  Data: 0x0400000000000000000000000000000000000000
+Keywords:
+- 0A56D7:Fallout4.esm
+- 06D5BB:Fallout4.esm
+- 0C2022:Fallout4.esm
+PNAM: 0xCC4C3300
+FNAM: 0x0000
+Holotapes: []
+Flags:
+- HasModel
+WorkbenchData: 0x00
+MarkerModel: Markers\MarkerWallTerminal3rdP.nif
+MarkerParameters:
+- Enabled: True
+  Offset: 0, -86, 0
+  EntryTypes:
+  - Front
+  - Behind
+  - Right
+  - Left
+  - Other
+  - 0x20
+  - 0x40
+  - 0x80
+  Unknown: 0xFFFFFF
+BodyTexts:
+- Text:
+    TargetLanguage: English
+    Value: 'Select the wait time buffer (in seconds).  Current : 0.5'
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 0.5
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: >+
+      Select the wait time buffer (in seconds).  Current : 0.8
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 0.8
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: 'Select the wait time buffer (in seconds).  Current : 1.0'
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: 'Select the wait time buffer (in seconds).  Current : 1.5'
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 1.5
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: 'Select the wait time buffer (in seconds).  Current : 2.0'
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: 'Select the wait time buffer (in seconds).  Current : 3.0'
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: 'Select the wait time buffer (in seconds).  Current : 4.0'
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 4
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: >+
+      Select the wait time buffer (in seconds).  Current : 5.0
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 5
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 01E665:Mantella.esp
+      ParameterOneNumber: 117565029
+- Text:
+    TargetLanguage: English
+    Value: Select the wait time buffer (in seconds)
+MenuItems:
+- ItemText:
+    TargetLanguage: English
+    Value: 0.5
+  Type: SubmenuForceRedraw
+  ItemId: 1
+- ItemText:
+    TargetLanguage: English
+    Value: 0.8
+  Type: SubmenuForceRedraw
+  ItemId: 2
+- ItemText:
+    TargetLanguage: English
+    Value: 1.0
+  Type: SubmenuForceRedraw
+  ItemId: 3
+- ItemText:
+    TargetLanguage: English
+    Value: 1.2
+  Type: SubmenuForceRedraw
+  ItemId: 4
+- ItemText:
+    TargetLanguage: English
+    Value: 1.5
+  Type: SubmenuForceRedraw
+  ItemId: 5
+- ItemText:
+    TargetLanguage: English
+    Value: 2.0
+  Type: SubmenuForceRedraw
+  ItemId: 6
+- ItemText:
+    TargetLanguage: English
+    Value: 3.0
+  Type: SubmenuForceRedraw
+  ItemId: 7
+- ItemText:
+    TargetLanguage: English
+    Value: 4.0
+  Type: SubmenuForceRedraw
+  ItemId: 8
+- ItemText:
+    TargetLanguage: English
+    Value: 5.0
+  Type: SubmenuForceRedraw
+  ItemId: 9
+MajorFlags:
+- 0x10
+- 0x2000

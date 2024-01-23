@@ -1,0 +1,197 @@
+FormKey: 01A213:Mantella.esp
+MajorRecordFlagsRaw: 8208
+VersionControl: 12342
+EditorID: MantellaRadiantFrequencyTerminal
+Fallout4MajorRecordFlags:
+- 0x10
+- 0x2000
+VirtualMachineAdapter:
+  ScriptFragments:
+    Script:
+      Name: Fragments:Terminals:TERM_MantellaRadiantFrequenc_0701A213
+      Properties:
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantFrequency
+        Object: 015DC1:Mantella.esp
+    Fragments:
+    - FragmentIndex: 5
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantFrequenc_0701A213
+      FragmentName: Fragment_Terminal_05
+    - FragmentIndex: 2
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantFrequenc_0701A213
+      FragmentName: Fragment_Terminal_02
+    - FragmentIndex: 6
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantFrequenc_0701A213
+      FragmentName: Fragment_Terminal_06
+    - FragmentIndex: 1
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantFrequenc_0701A213
+      FragmentName: Fragment_Terminal_01
+    - FragmentIndex: 3
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantFrequenc_0701A213
+      FragmentName: Fragment_Terminal_03
+    - FragmentIndex: 4
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantFrequenc_0701A213
+      FragmentName: Fragment_Terminal_04
+ObjectBounds:
+  First: -18, -52, 86
+  Second: 21, 0, 135
+HeaderText:
+  TargetLanguage: English
+  Value: Mantella - Radiant Frequency
+Name:
+  TargetLanguage: English
+  Value: '[Settings] Mantella Settings'
+Model:
+  File: Furniture\Terminals\TerminalWall01.nif
+  Data: 0x0400000000000000000000000000000000000000
+Keywords:
+- 0A56D7:Fallout4.esm
+- 06D5BB:Fallout4.esm
+- 0C2022:Fallout4.esm
+PNAM: 0xCC4C3300
+FNAM: 0x0000
+Holotapes: []
+Flags:
+- HasModel
+WorkbenchData: 0x00
+MarkerModel: Markers\MarkerWallTerminal3rdP.nif
+MarkerParameters:
+- Enabled: True
+  Offset: 0, -86, 0
+  EntryTypes:
+  - Front
+  - Behind
+  - Right
+  - Left
+  - Other
+  - 0x20
+  - 0x40
+  - 0x80
+  Unknown: 0xFFFFFF
+BodyTexts:
+- Text:
+    TargetLanguage: English
+    Value: Choose radiant frequency in seconds (Current:10)
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 10
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 015DC1:Mantella.esp
+      ParameterOneNumber: 117530049
+- Text:
+    TargetLanguage: English
+    Value: >+
+      Choose radiant frequency in seconds (Current:30)
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 30
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 015DC1:Mantella.esp
+      ParameterOneNumber: 117530049
+- Text:
+    TargetLanguage: English
+    Value: >+
+      Choose radiant frequency in seconds (Current:60)
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 60
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 015DC1:Mantella.esp
+      ParameterOneNumber: 117530049
+- Text:
+    TargetLanguage: English
+    Value: >+
+      Choose radiant frequency in seconds (Current:300)
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 300
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 015DC1:Mantella.esp
+      ParameterOneNumber: 117530049
+- Text:
+    TargetLanguage: English
+    Value: >+
+      Choose radiant frequency in seconds (Current:900)
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 900
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 015DC1:Mantella.esp
+      ParameterOneNumber: 117530049
+- Text:
+    TargetLanguage: English
+    Value: >+
+      Choose radiant frequency in seconds (Current:1800)
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72DC8A
+    ComparisonValue: 1800
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 015DC1:Mantella.esp
+      ParameterOneNumber: 117530049
+- Text:
+    TargetLanguage: English
+    Value: Choose radiant frequency in seconds
+MenuItems:
+- ItemText:
+    TargetLanguage: English
+    Value: 10
+  Type: SubmenuForceRedraw
+  ItemId: 1
+- ItemText:
+    TargetLanguage: English
+    Value: 30
+  Type: SubmenuForceRedraw
+  ItemId: 2
+- ItemText:
+    TargetLanguage: English
+    Value: 60
+  Type: SubmenuForceRedraw
+  ItemId: 3
+- ItemText:
+    TargetLanguage: English
+    Value: 300
+  Type: SubmenuForceRedraw
+  ItemId: 4
+- ItemText:
+    TargetLanguage: English
+    Value: 900
+  Type: SubmenuForceRedraw
+  ItemId: 5
+- ItemText:
+    TargetLanguage: English
+    Value: 1800
+  Type: SubmenuForceRedraw
+  ItemId: 6
+- ItemText:
+    TargetLanguage: English
+    Value: Back to radiant settings
+  Type: SubmenuTerminal
+  ItemId: 7
+  Submenu: 015DBF:Mantella.esp
+MajorFlags:
+- 0x10
+- 0x2000

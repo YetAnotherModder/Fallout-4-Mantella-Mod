@@ -1,0 +1,423 @@
+FormKey: 004C76:Mantella.esp
+VersionControl: 12324
+EditorID: MantellaActorList
+Data:
+  Flags:
+  - RepeatsConditions
+  Unused: 14
+UnusedConditions: []
+Aliases:
+- MutagenObjectType: QuestReferenceAlias
+  Name: PotentialActor1
+  Flags:
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0A563A:Fallout4.esm
+      ParameterOneNumber: 677434
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 001129:DLCRobot.esm
+      ParameterOneNumber: 16781609
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 01A009:Fallout4.esm
+      ParameterOneNumber: 106505
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0E8D09:Fallout4.esm
+      ParameterOneNumber: 953609
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 10BD65:Fallout4.esm
+      ParameterOneNumber: 1097061
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 2261A4:Fallout4.esm
+      ParameterOneNumber: 2253220
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0DFB33:Fallout4.esm
+      ParameterOneNumber: 916275
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0359F4:Fallout4.esm
+      ParameterOneNumber: 219636
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 11D83F:Fallout4.esm
+      ParameterOneNumber: 1169471
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0D8417:Fallout4.esm
+      ParameterOneNumber: 885783
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0EAFB6:Fallout4.esm
+      ParameterOneNumber: 962486
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 013746:Fallout4.esm
+      ParameterOneNumber: 79686
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsAlerted
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsInjured
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: LessThan
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 10000
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetDistance
+      ParameterOneRecord: 000014:Fallout4.esm
+      ParameterOneNumber: 20
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsTalking
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsInScene
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x1EB0A9
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsMoving
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsSneaking
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsFleeing
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsCommandedActor
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsInCombat
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsInDialogueWithPlayer
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 1
+  Name: PotentialActor2
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0A563A:Fallout4.esm
+      ParameterOneNumber: 677434
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 001129:DLCRobot.esm
+      ParameterOneNumber: 16781609
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 01A009:Fallout4.esm
+      ParameterOneNumber: 106505
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0E8D09:Fallout4.esm
+      ParameterOneNumber: 953609
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 10BD65:Fallout4.esm
+      ParameterOneNumber: 1097061
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 2261A4:Fallout4.esm
+      ParameterOneNumber: 2253220
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0DFB33:Fallout4.esm
+      ParameterOneNumber: 916275
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0359F4:Fallout4.esm
+      ParameterOneNumber: 219636
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 11D83F:Fallout4.esm
+      ParameterOneNumber: 1169471
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0D8417:Fallout4.esm
+      ParameterOneNumber: 885783
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0EAFB6:Fallout4.esm
+      ParameterOneNumber: 962486
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 013746:Fallout4.esm
+      ParameterOneNumber: 79686
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsAlerted
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsInjured
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: LessThan
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 10000
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetDistance
+      ParameterOneRecord: 000014:Fallout4.esm
+      ParameterOneNumber: 20
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsTalking
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsInScene
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x1EB0A9
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsMoving
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsSneaking
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsFleeing
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsCommandedActor
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsInCombat
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    Unknown1: 0x1EB0A9
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: IsInDialogueWithPlayer
+  VoiceTypes: Null

@@ -1,0 +1,16 @@
+FormKey: 0090C7:Mantella.esp
+VersionControl: 12324
+EditorID: MantellaSpell
+Name:
+  TargetLanguage: English
+  Value: Mantella Spell
+EquipmentType: 013F44:Fallout4.esm
+Description:
+  TargetLanguage: English
+  Value: ''
+CastType: FireAndForget
+TargetType: Touch
+Effects:
+- BaseEffect: 001735:Mantella.esp
+  Data:
+    Duration: 10

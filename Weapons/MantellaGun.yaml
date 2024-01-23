@@ -1,6 +1,6 @@
 FormKey: 001734:Mantella.esp
 MajorRecordFlagsRaw: 1073741824
-VersionControl: 12182
+VersionControl: 12324
 EditorID: MantellaGun
 Fallout4MajorRecordFlags:
 - 0x40000000
@@ -131,6 +131,7 @@ AttackFailSound: 01DACD:Fallout4.esm
 EquipSound: 06D01A:Fallout4.esm
 UnequipSound: 1526AC:Fallout4.esm
 FastEquipSound: 1D9336:Fallout4.esm
+AccuracyBonus: 100
 AnimationAttackSeconds: 0.6666667
 ActionPointCost: 0.0001
 Stagger: Small
