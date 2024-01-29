@@ -10,3 +10,6 @@ To operate the mod these plugins are required:
 [SUP F4SE](https://www.nexusmods.com/fallout4/mods/55419).
 [Textinputmenu](https://www.nexusmods.com/fallout4/mods/27347).
 
+Compatibility issues : 
+[WARS - Weapon Addition and Replacement Suite](https://www.nexusmods.com/fallout4/mods/73478).
+
