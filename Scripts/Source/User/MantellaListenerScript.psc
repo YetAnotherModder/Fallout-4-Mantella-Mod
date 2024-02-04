@@ -1,5 +1,5 @@
 Scriptname MantellaListenerScript extends ReferenceAlias
-
+Import SUP_F4SE
 Spell property MantellaSpell auto
 Actor property PlayerRef auto
 Weapon property MantellaGun auto

@@ -9,6 +9,7 @@ MantellaRepository kmyQuest = __temp as MantellaRepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
+Reset()
 ;END CODE
 EndFunction
 ;END FRAGMENT

@@ -95,7 +95,7 @@ BodyTexts:
     Value: 'Select the wait time buffer (in seconds).  Current : 0.5'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 0.5
     Data:
       MutagenObjectType: FunctionConditionData
@@ -108,7 +108,7 @@ BodyTexts:
       Select the wait time buffer (in seconds).  Current : 0.8
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 0.8
     Data:
       MutagenObjectType: FunctionConditionData
@@ -120,7 +120,7 @@ BodyTexts:
     Value: 'Select the wait time buffer (in seconds).  Current : 1.0'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -132,7 +132,7 @@ BodyTexts:
     Value: 'Select the wait time buffer (in seconds).  Current : 1.5'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 1.5
     Data:
       MutagenObjectType: FunctionConditionData
@@ -144,7 +144,7 @@ BodyTexts:
     Value: 'Select the wait time buffer (in seconds).  Current : 2.0'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 2
     Data:
       MutagenObjectType: FunctionConditionData
@@ -156,7 +156,7 @@ BodyTexts:
     Value: 'Select the wait time buffer (in seconds).  Current : 3.0'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 3
     Data:
       MutagenObjectType: FunctionConditionData
@@ -168,7 +168,7 @@ BodyTexts:
     Value: 'Select the wait time buffer (in seconds).  Current : 4.0'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 4
     Data:
       MutagenObjectType: FunctionConditionData
@@ -181,7 +181,7 @@ BodyTexts:
       Select the wait time buffer (in seconds).  Current : 5.0
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72DC8A
+    Unknown1: 0x72A0C5
     ComparisonValue: 5
     Data:
       MutagenObjectType: FunctionConditionData

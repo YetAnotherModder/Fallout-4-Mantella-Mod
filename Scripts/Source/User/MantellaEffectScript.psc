@@ -1,4 +1,5 @@
 Scriptname MantellaEffectScript extends activemagiceffect
+Import SUP_F4SE
 Topic property MantellaDialogueLine auto
 GlobalVariable property MantellaWaitTimeBuffer auto
 

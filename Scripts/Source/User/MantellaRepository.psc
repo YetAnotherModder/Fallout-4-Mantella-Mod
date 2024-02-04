@@ -1,5 +1,5 @@
 Scriptname MantellaRepository extends Quest
-
+Import SUP_F4SE
 int property textkeycode auto
 string property textinput auto
 bool property endFlagMantellaConversationOne auto

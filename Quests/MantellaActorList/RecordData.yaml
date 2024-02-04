@@ -4,7 +4,7 @@ EditorID: MantellaActorList
 Data:
   Flags:
   - RepeatsConditions
-  Unused: 14
+  Unused: 144
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias

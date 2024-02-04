@@ -6,7 +6,7 @@ GameRelease: Fallout4
 ModHeader:
   Stats:
     NumRecords: 35
-    NextFormID: 142006
+    NextFormID: 159494
   Author: DEFAULT
   MasterReferences:
   - Master: Fallout4.esm
