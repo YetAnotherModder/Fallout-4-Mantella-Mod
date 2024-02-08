@@ -114,7 +114,6 @@ event OnEffectStart(Actor target, Actor caster)
         Utility.Wait(0.5)
 
         SUP_F4SE.WriteStringToFile("_mantella_character_selected.txt", "True", 0)
-
         while repository.endFlagMantellaConversationOne == false && endConversation == false
             if actorCount == 1
                 MainConversationLoop( target, caster, loopCount)
@@ -146,19 +145,9 @@ function MainConversationLoop(Actor target, Actor caster, int loopCount)
             Utility.wait (0.1)
             ;This function is there to activate the lip file, the audio for MantellaDialogue line is actually 10 seconds of silence.
             target.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
-            sayline = setWavLocationAndGetReturnLine(sayline)
-            debug.notification(target.GetDisplayName()+":"+sayline)
-                       
-            ;SUP_F4SE has to be use instead of target.say() because Fallout 4 will hold previous voiceline inside its cache unlike Skyrim
-            SUP_F4SE.MP3LoadFile(wavfilelocation)
-            SUP_F4SE.MP3Play() 
-                ;while SUP_F4SE.MP3IsPlaying()
-            while SUP_F4SE.MP3HasFinishedPlaying() != true
-                Utility.wait (0.1)
-            endWhile
-            ;debug.messagebox(sayline+" has finished playing")
-            Utility.wait (MantellaWaitTimeBuffer.GetValue())
-            SUP_F4SE.MP3Stop()
+            ;###the function  internalMantellaAudioPlay is deprecated with F4SE 11.60   ###
+            ;internalMantellaAudioPlay(sayline, target) 
+            externalMantellaAudioPlay(sayline, target)
             SUP_F4SE.WriteStringToFile("_mantella_say_line.txt", "False", 0)
             localMenuTimer = -1
            
@@ -198,27 +187,45 @@ function MainConversationLoop(Actor target, Actor caster, int loopCount)
         endIf
 endfunction
 
+;### Function below is depcrecated with the updated of F4SE to 11.60 ###
+; function internalMantellaAudioPlay(string sayline, actor target)
+;    sayline = setWavLocationAndGetReturnLine(sayline)
+;    debug.notification(target.GetDisplayName()+":"+sayline)
+               
+    ;SUP_F4SE has to be use instead of target.say() because Fallout 4 will hold previous voiceline inside its cache unlike Skyrim
+;    SUP_F4SE.MP3LoadFile(wavfilelocation)
+;    SUP_F4SE.MP3Play() 
+        ;while SUP_F4SE.MP3IsPlaying()
+;    while SUP_F4SE.MP3HasFinishedPlaying() != true
+;        Utility.wait (0.1)
+;    endWhile
+    ;debug.messagebox(sayline+" has finished playing")
+;    Utility.wait (MantellaWaitTimeBuffer.GetValue())
+;    SUP_F4SE.MP3Stop()
+;endfunction */
+
+
+function externalMantellaAudioPlay(string sayline, actor target)
+    sayline = setWavLocationAndGetReturnLine(sayline)
+    SUP_F4SE.WriteStringToFile("_mantella_audio_ready.txt", "true", 0)
+    debug.notification(target.GetDisplayName()+":"+sayline)
+    string audioIsPlaying = "true"
+    debug.trace("Starting while loop waiting for audio to finish playing")
+    While audioIsPlaying == "true" && repository.endFlagMantellaConversationOne == false
+        audioIsPlaying= SUP_F4SE.ReadStringFromFile("_mantella_audio_ready.txt",0,99)
+    endwhile
+endfunction
+
 function ConversationLoop(Actor target, Actor caster, String actorName, String sayLineFile)
-    ;MAY NEED TO CHANGE THE SYNC METHOD WITH PYTHON MANTELLA TO CREATE A NEW FILE THAT WILL INDICATE THAT PAPYRUS IS READY TO RECEIVED VOICE INPUT
     String sayLine = SUP_F4SE.ReadStringFromFile(sayLineFile,0,99)
     if sayLine != "False"
         target.SetLookAt(caster, false)
         Utility.wait (0.1)
         ;This function is there to activate the lip file, the audio for MantellaDialogue line is actually 10 seconds of silence.
         target.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
-        sayline = setWavLocationAndGetReturnLine(sayline)
-        debug.notification(target.GetDisplayName()+":"+sayline)
-                    
-        ;SUP_F4SE has to be use instead of target.say() because Fallout 4 will hold previous voiceline inside its cache unlike Skyrim
-        SUP_F4SE.MP3LoadFile(wavfilelocation)
-        SUP_F4SE.MP3Play() 
-            ;while SUP_F4SE.MP3IsPlaying()
-        while SUP_F4SE.MP3HasFinishedPlaying() != true
-            Utility.wait (0.1)
-        endWhile
-        ;debug.messagebox(sayline+" has finished playing")
-        Utility.wait (MantellaWaitTimeBuffer.GetValue())
-        SUP_F4SE.MP3Stop()
+        ;###the function  internalMantellaAudioPlay is deprecated with F4SE 11.60   ###
+        ;internalMantellaAudioPlay(sayline, target) 
+        externalMantellaAudioPlay(sayline, target)
         ; Set sayLine back to False once the voiceline has been triggered
         SUP_F4SE.WriteStringToFile(sayLineFile, "False", 0)
         localMenuTimer = -1

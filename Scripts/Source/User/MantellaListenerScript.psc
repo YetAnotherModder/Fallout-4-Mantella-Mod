@@ -1,4 +1,17 @@
 Scriptname MantellaListenerScript extends ReferenceAlias
+; ---------------------------------------------
+; KGTemplates:GivePlayerItemsOnModStart.psc - by kinggath
+; ---------------------------------------------
+; Reusage Rights ------------------------------
+; You are free to use this script or portions of it in your own mods, provided you give me credit in your description and maintain this section of comments in any released source code (which includes the IMPORTED SCRIPT CREDIT section to give credit to anyone in the associated Import scripts below).
+; 
+; Warning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+; Do not directly recompile this script for redistribution without first renaming it to avoid compatibility issues with the mod this came from.
+; 
+; IMPORTED SCRIPT CREDITS
+; N/A
+; ---------------------------------------------
+
 Import SUP_F4SE
 Spell property MantellaSpell auto
 Actor property PlayerRef auto
@@ -13,15 +26,31 @@ GlobalVariable property MantellaRadiantDistance auto
 GlobalVariable property MantellaRadiantFrequency auto
 int RadiantFrequencyTimerID=1
 Float meterUnits = 78.74
+Worldspace PrewarWorldspace
 
 Event OnInit ()
-   PlayerRef.AddItem(MantellaGun, 1, false)
-   PlayerRef.AddItem(MantellaSettingsHolotape, 1, false)
-   Utility.Wait(0.5)
-   ;debug.messagebox("OnInit : Starting timer "+RadiantFrequencyTimerID+" for "+repository.radiantFrequency)
-   StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
-endEvent
+	PrewarWorldspace = Game.GetFormFromFile(0x000A7FF4, "Fallout4.esm") as Worldspace
+	TryToGiveItems()
+EndEvent
 
+Event OnPlayerTeleport()
+	TryToGiveItems()
+EndEvent
+
+
+Function TryToGiveItems()
+	Worldspace PlayerWorldspace = Game.GetPlayer().GetWorldspace()
+	if(PlayerWorldspace == PrewarWorldspace || PlayerWorldspace == None)
+		RegisterForPlayerTeleport()
+	else
+		UnregisterForPlayerTeleport()
+		PlayerRef.AddItem(MantellaGun, 1, false)
+        PlayerRef.AddItem(MantellaSettingsHolotape, 1, false)
+        Utility.Wait(0.5)
+        ;debug.messagebox("OnInit : Starting timer "+RadiantFrequencyTimerID+" for "+repository.radiantFrequency)
+        StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
+	endif
+EndFunction
 
 Float Function ConvertMeterToGameUnits(Float meter)
     Return Meter * meterUnits
@@ -32,9 +61,9 @@ Float Function ConvertGameUnitsToMeter(Float gameUnits)
 EndFunction
 
 Event OnPlayerLoadGame()
-debug.messagebox("Game loaded")
-   ;debug.messagebox("OnPLayerLoadGame : Starting timer "+RadiantFrequencyTimerID+" for "+repository.radiantFrequency)
-   StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
+    ;debug.messagebox("Game loaded")
+    ;debug.messagebox("OnPLayerLoadGame : Starting timer "+RadiantFrequencyTimerID+" for "+repository.radiantFrequency)
+    StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
 EndEvent
 
 Event Ontimer( int TimerID)

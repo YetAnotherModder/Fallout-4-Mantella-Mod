@@ -13,3 +13,8 @@ To operate the mod these plugins are required:
 Compatibility issues : 
 [WARS - Weapon Addition and Replacement Suite](https://www.nexusmods.com/fallout4/mods/73478).
 
+Credits : 
+TommInfinite for SUP F4SE
+Kinggath for parts of the ListenerScript
+Neanka for textinputmenu
+ArtFromTheMachine, Pendrokar, Leidtier, swwu, Leidtier, Mahe, teddybear082, Haurrus, SiftingSands, giamel, Pathos for Mantella
