@@ -1,0 +1,288 @@
+FormKey: 00D519:Mantella.esp
+MajorRecordFlagsRaw: 8208
+VersionControl: 12356
+EditorID: MantellaMainSettingsTerminal
+Fallout4MajorRecordFlags:
+- 0x10
+- 0x2000
+VirtualMachineAdapter:
+  ScriptFragments:
+    Script:
+      Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      Properties:
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaQuest
+        Object: 000F99:Mantella.esp
+    Fragments:
+    - FragmentIndex: 3
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_03
+ObjectBounds:
+  First: -18, -52, 86
+  Second: 21, 0, 135
+HeaderText:
+  TargetLanguage: English
+  Value: Mantella - Main Settings
+Name:
+  TargetLanguage: English
+  Value: '[Settings] Mantella Settings'
+Model:
+  File: Furniture\Terminals\TerminalWall01.nif
+  Data: 0x0400000000000000000000000000000000000000
+Keywords:
+- 0A56D7:Fallout4.esm
+- 06D5BB:Fallout4.esm
+- 0C2022:Fallout4.esm
+PNAM: 0xCC4C3300
+FNAM: 0x0000
+Holotapes: []
+Flags:
+- HasModel
+WorkbenchData: 0x00
+MarkerModel: Markers\MarkerWallTerminal3rdP.nif
+MarkerParameters:
+- Enabled: True
+  Offset: 0, -86, 0
+  EntryTypes:
+  - Front
+  - Behind
+  - Right
+  - Left
+  - Other
+  - 0x20
+  - 0x40
+  - 0x80
+  Unknown: 0xFFFFFF
+BodyTexts:
+- Text:
+    TargetLanguage: English
+    Value: Choose option
+MenuItems:
+- ItemText:
+    TargetLanguage: English
+    Value: Set Dialogue Hotkey
+  ResponseText:
+    TargetLanguage: English
+    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 35)'
+  Type: SubmenuTerminal
+  ItemId: 3
+- ItemText:
+    TargetLanguage: English
+    Value: Display keycode chart (DirectX scancodes)
+  Type: DisplayText
+  ItemId: 1
+  DisplayText:
+    TargetLanguage: English
+    Value: >-
+      Button          Dec
+
+      BACKSPACE       8
+
+      TAB             9
+
+      ENTER           13
+
+      CAPS LOCK       20
+
+      ESCAPE          27
+
+      SPACE           32
+
+      PGUP            33
+
+      PGDOWN          34
+
+      END             35
+
+      HOME            36
+
+      LEFT            37
+
+      UP              38
+
+      RIGHT           39
+
+      DOWN            40
+
+      DELETE          46
+
+      0               48
+
+      1               49
+
+      2               50
+
+      3               51
+
+      4               52
+
+      5               53
+
+      6               54
+
+      7               55
+
+      8               56
+
+      9               57
+
+      A               65
+
+      B               66
+
+      C               67
+
+      D               68
+
+      E               69
+
+      F               70
+
+      G               71
+
+      H               72
+
+      I               73
+
+      J               74
+
+      K               75
+
+      L               76
+
+      M               77
+
+      N               78
+
+      O               79
+
+      P               80
+
+      Q               81
+
+      R               82
+
+      S               83
+
+      T               84
+
+      U               85
+
+      V               86
+
+      W               87
+
+      X               88
+
+      Y               89
+
+      Z               90
+
+      SUPER           92
+
+      Num0            96
+
+      Num1            97
+
+      Num2            98
+
+      Num3            99
+
+      Num4            100
+
+      Num5            101
+
+      Num6            102
+
+      Num7            103
+
+      Num8            104
+
+      Num9            105
+
+      Num*            106
+
+      Num+            107
+
+      Num-            109
+
+      Num.            110
+
+      Num/            111
+
+      F1              112
+
+      F2              113
+
+      F3              114
+
+      F4              115
+
+      F5              116
+
+      F6              117
+
+      F7              118
+
+      F8              119
+
+      F9              120
+
+      F10             121
+
+      F11             122
+
+      NUMLOCK         144
+
+      SCRLOCK         145
+
+      L-SHIFT         160
+
+      R-SHIFT         161
+
+      L-CTRL          162
+
+      R-CTRL          163
+
+      L-ALT           164
+
+      R-ALT           165
+
+      ;               186
+
+      =               187
+
+      ,               188
+
+      -               189
+
+      .               190
+
+      /               191
+
+      [               219
+
+      \               220
+
+      ]               221
+
+      '               222
+
+      \               226
+
+      Mouse1          256
+
+      Mouse2          257
+
+      Mouse3          258
+
+      Mouse4          259
+
+      Mouse5          260
+MajorFlags:
+- 0x10
+- 0x2000

@@ -1,0 +1,156 @@
+FormKey: 02178E:Fallout4.esm
+VersionControl: 12324
+EditorID: VirtualLocation
+Version2: 2
+ActorCellPersistentReferences:
+- Actor: 00FF12:DLCRobot.esm
+  Location: 00003C:Fallout4.esm
+  Grid: -1, 5
+- Actor: 00FF0F:DLCRobot.esm
+  Location: 00003C:Fallout4.esm
+  Grid: -1, 5
+- Actor: 00FF83:DLCRobot.esm
+  Location: 00003C:Fallout4.esm
+  Grid: -1, 5
+- Actor: 042B48:DLCNukaWorld.esm
+  Location: 00290F:DLCNukaWorld.esm
+  Grid: -10, -8
+- Actor: 001DAD:DLCRobot.esm
+  Location: 0008A3:DLCRobot.esm
+  Grid: 32767, 32767
+- Actor: 00097C:DLCRobot.esm
+  Location: 0008A3:DLCRobot.esm
+  Grid: 32767, 32767
+- Actor: 00A52F:DLCNukaWorld.esm
+  Location: 00805B:DLCNukaWorld.esm
+  Grid: 32767, 32767
+ActorCellUniques:
+- Actor: 1D4CB5:Fallout4.esm
+  Ref: 187DB8:Fallout4.esm
+  Location: 1F1DFA:Fallout4.esm
+- Actor: 1D4CB6:Fallout4.esm
+  Ref: 187DB9:Fallout4.esm
+  Location: 1F1DFA:Fallout4.esm
+- Actor: 1D4CB7:Fallout4.esm
+  Ref: 187DBA:Fallout4.esm
+  Location: 1F1DFA:Fallout4.esm
+- Actor: 04863B:Fallout4.esm
+  Ref: 04863D:Fallout4.esm
+  Location: 04852B:Fallout4.esm
+- Actor: 0FD4C0:Fallout4.esm
+  Ref: 0FD4C2:Fallout4.esm
+  Location: 039D8E:Fallout4.esm
+- Actor: 00FD5A:DLCRobot.esm
+  Ref: 00FF12:DLCRobot.esm
+  Location: 00FFFA:DLCRobot.esm
+- Actor: 00FF0E:DLCRobot.esm
+  Ref: 00FF0F:DLCRobot.esm
+  Location: 00FFFA:DLCRobot.esm
+- Actor: 00FF0C:DLCRobot.esm
+  Ref: 00FF83:DLCRobot.esm
+  Location: 00FFFA:DLCRobot.esm
+- Actor: 1D4CBA:Fallout4.esm
+  Ref: 190527:Fallout4.esm
+  Location: 1F1DFA:Fallout4.esm
+- Actor: 1D4CBB:Fallout4.esm
+  Ref: 190526:Fallout4.esm
+  Location: 1F1DFA:Fallout4.esm
+- Actor: 1D4CBC:Fallout4.esm
+  Ref: 190525:Fallout4.esm
+  Location: 1F1DFA:Fallout4.esm
+- Actor: 0237C5:Fallout4.esm
+  Ref: 0237C6:Fallout4.esm
+  Location: 002CEF:Fallout4.esm
+- Actor: 004DF9:Fallout4.esm
+  Ref: 004DFA:Fallout4.esm
+  Location: 002CEF:Fallout4.esm
+- Actor: 004DF8:Fallout4.esm
+  Ref: 004DFB:Fallout4.esm
+  Location: 002CEF:Fallout4.esm
+- Actor: 042B47:DLCNukaWorld.esm
+  Ref: 042B48:DLCNukaWorld.esm
+  Location: 008060:DLCNukaWorld.esm
+- Actor: 03FE41:Fallout4.esm
+  Ref: 03FE42:Fallout4.esm
+  Location: 042811:Fallout4.esm
+- Actor: 073235:Fallout4.esm
+  Ref: 162777:Fallout4.esm
+  Location: 032192:Fallout4.esm
+- Actor: 030BA6:Fallout4.esm
+  Ref: 030BA7:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 02F61C:Fallout4.esm
+  Ref: 02F61D:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 02F2A6:Fallout4.esm
+  Ref: 02F2A7:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 03D638:Fallout4.esm
+  Ref: 03D639:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 14CE9E:Fallout4.esm
+  Ref: 14CE9F:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 14CEA2:Fallout4.esm
+  Ref: 14CEA5:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 14DCF8:Fallout4.esm
+  Ref: 14DCF9:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 18AF90:Fallout4.esm
+  Ref: 190047:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 192356:Fallout4.esm
+  Ref: 192357:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 194334:Fallout4.esm
+  Ref: 194335:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 1AD495:Fallout4.esm
+  Ref: 1AD497:Fallout4.esm
+  Location: 002CF0:Fallout4.esm
+- Actor: 03EFF2:Fallout4.esm
+  Ref: 03EFF3:Fallout4.esm
+  Location: 03B6F3:Fallout4.esm
+- Actor: 07CD78:Fallout4.esm
+  Ref: 07CDAB:Fallout4.esm
+  Location: 02BB00:Fallout4.esm
+- Actor: 001DAC:DLCRobot.esm
+  Ref: 001DAD:DLCRobot.esm
+  Location: 0008A4:DLCRobot.esm
+- Actor: 0008B2:DLCRobot.esm
+  Ref: 00097C:DLCRobot.esm
+  Location: 0008A4:DLCRobot.esm
+- Actor: 00A50A:DLCNukaWorld.esm
+  Ref: 00A52F:DLCNukaWorld.esm
+  Location: 00805D:DLCNukaWorld.esm
+ActorCellMarkerReference:
+- 00FF12:DLCRobot.esm
+- 187DB8:Fallout4.esm
+- 187DB9:Fallout4.esm
+- 187DBA:Fallout4.esm
+- 00FF12:DLCRobot.esm
+- 190527:Fallout4.esm
+- 190526:Fallout4.esm
+- 190525:Fallout4.esm
+- 03FE42:Fallout4.esm
+- 14DCF9:Fallout4.esm
+ActorCellEnablePoint:
+- Actor: 00FF0F:DLCRobot.esm
+  Ref: 00FF8A:DLCRobot.esm
+  Grid: -20426, -25856
+- Actor: 00FF83:DLCRobot.esm
+  Ref: 00FF8A:DLCRobot.esm
+  Grid: -20426, -25856
+- Actor: 00FF0F:DLCRobot.esm
+  Ref: 00FF8A:DLCRobot.esm
+- Actor: 00FF83:DLCRobot.esm
+  Ref: 00FF8A:DLCRobot.esm
+- Actor: 0237C6:Fallout4.esm
+  Ref: 0E45FE:Fallout4.esm
+- Actor: 004DFA:Fallout4.esm
+  Ref: 0E45FE:Fallout4.esm
+- Actor: 004DFB:Fallout4.esm
+  Ref: 17D87A:Fallout4.esm
+WorldLocationRadius: 0
+ActorFadeMult: 1
