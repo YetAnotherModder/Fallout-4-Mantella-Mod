@@ -64,7 +64,7 @@ BodyTexts:
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Set Dialogue Hotkey
+    Value: Set Dialogue Hotkey (desktop only)
   ResponseText:
     TargetLanguage: English
     Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 35)'
