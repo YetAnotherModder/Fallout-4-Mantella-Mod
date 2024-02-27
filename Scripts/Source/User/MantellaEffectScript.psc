@@ -4,14 +4,15 @@ Topic property MantellaDialogueLine auto
 GlobalVariable property MantellaWaitTimeBuffer auto
 
 MantellaRepository property repository auto
-string wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
+;string wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
 float localMenuTimer
 Float meterUnits = 78.74
+Actor property PlayerRef auto
 
 event OnEffectStart(Actor target, Actor caster)
     ;cleanupstep below checks if the player is targeting someone and cleans up all conversation if that's the case
     bool casterIsPlayer=false
-    if caster == Game.GetPlayer()
+    if caster == PlayerRef
         casterIsPlayer=true
         debug.notification("Cleaning up before starting conversation")
         repository.endFlagMantellaConversationOne = True
@@ -45,8 +46,8 @@ event OnEffectStart(Actor target, Actor caster)
 
     if (actorAlreadyLoaded == false) && (character_selection_enabled == "True")
         ;ENABLE THE NEXT LINE AFTER SETTING UP CK
-        ;TargetRefAlias.ForceRefTo(target)
-    
+        ;TargetRefAlias.ForceRefTo(target)      
+       
         String actorId = (target.getactorbase() as form).getformid()
         ;debug.notification("Actor ID is "+actorId)
         ;MiscUtil.WriteToFile("_mantella_current_actor_id.txt", actorId, append=false) THIS IS HOW THE FUNCTION LOOKS IN SKYRIM
@@ -64,14 +65,14 @@ event OnEffectStart(Actor target, Actor caster)
         String actorRace = target.getrace()
         SUP_F4SE.WriteStringToFile("_mantella_actor_race.txt", actorRace, 0)
 
-        String actorRelationship = target.getrelationshiprank(game.getplayer())
+        String actorRelationship = target.getrelationshiprank(PlayerRef)
         SUP_F4SE.WriteStringToFile("_mantella_actor_relationship.txt", actorRelationship, 0)
 
         String actorVoiceType = target.GetVoiceType()
         SUP_F4SE.WriteStringToFile("_mantella_actor_voice.txt", actorVoiceType, 0)
         ;the below is to build a substring to use later to find the correct wav file 
         String isEnemy = "False"
-        if (target.getcombattarget() == game.getplayer())
+        if (target.getcombattarget() == PlayerRef)
             isEnemy = "True"
         endIf
         SUP_F4SE.WriteStringToFile("_mantella_actor_is_enemy.txt", isEnemy, 0)
@@ -176,7 +177,7 @@ function MainConversationLoop(Actor target, Actor caster, int loopCount)
             String radiantDialogue = SUP_F4SE.ReadStringFromFile("_mantella_radiant_dialogue.txt",0,2) 
             if radiantDialogue == "True"
                 float distanceBetweenActors = caster.GetDistance(target)
-                float distanceToPlayer = ConvertGameUnitsToMeter(caster.GetDistance(game.getplayer()))
+                float distanceToPlayer = ConvertGameUnitsToMeter(caster.GetDistance(PlayerRef))
                 ;Debug.Notification(distanceBetweenActors)
                 ;TODO: allow distanceBetweenActos limit to be customisable
                 if (distanceBetweenActors > 1500) || (distanceToPlayer > repository.radiantDistance) || (caster.GetCurrentLocation() != target.GetCurrentLocation()) || (caster.GetCurrentScene() != None) || (target.GetCurrentScene() != None)
@@ -187,32 +188,23 @@ function MainConversationLoop(Actor target, Actor caster, int loopCount)
         endIf
 endfunction
 
-;### Function below is depcrecated with the updated of F4SE to 11.60 ###
-; function internalMantellaAudioPlay(string sayline, actor target)
-;    sayline = setWavLocationAndGetReturnLine(sayline)
-;    debug.notification(target.GetDisplayName()+":"+sayline)
-               
-    ;SUP_F4SE has to be use instead of target.say() because Fallout 4 will hold previous voiceline inside its cache unlike Skyrim
-;    SUP_F4SE.MP3LoadFile(wavfilelocation)
-;    SUP_F4SE.MP3Play() 
-        ;while SUP_F4SE.MP3IsPlaying()
-;    while SUP_F4SE.MP3HasFinishedPlaying() != true
-;        Utility.wait (0.1)
-;    endWhile
-    ;debug.messagebox(sayline+" has finished playing")
-;    Utility.wait (MantellaWaitTimeBuffer.GetValue())
-;    SUP_F4SE.MP3Stop()
-;endfunction */
-
 
 function externalMantellaAudioPlay(string sayline, actor target)
-    sayline = setWavLocationAndGetReturnLine(sayline)
-    SUP_F4SE.WriteStringToFile("_mantella_audio_ready.txt", "true", 0)
+    ;Get the player's and target position to determine audio direction
+    float game_angle_z = PlayerRef.GetAngleZ()
+    float playerpositionX=playerref.getpositionX()
+    float playerpositionY=playerref.getpositionY()
+    float targetpositionX=target.getpositionX()
+    float targetpositionY=target.getpositionY()
+    float currentDistance=target.GetDistance(playerref)
+    string audio_array = currentDistance as string+","+playerpositionX+","+playerpositionY+","+game_angle_z +","+targetpositionX+","+targetpositionY
+    SUP_F4SE.WriteStringToFile("_mantella_audio_ready.txt", audio_array, 0)
     debug.notification(target.GetDisplayName()+":"+sayline)
-    string audioIsPlaying = "true"
+    string checkAudioDistance = currentDistance as string
+    ;Start a loop waiting to hear back from Python
     debug.trace("Starting while loop waiting for audio to finish playing")
-    While audioIsPlaying == "true" && repository.endFlagMantellaConversationOne == false
-        audioIsPlaying= SUP_F4SE.ReadStringFromFile("_mantella_audio_ready.txt",0,99)
+    While checkAudioDistance != "false" && repository.endFlagMantellaConversationOne == false
+        checkAudioDistance= SUP_F4SE.ReadStringFromFile("_mantella_audio_ready.txt",0,99)
     endwhile
 endfunction
 
@@ -275,23 +267,23 @@ function StartTextTimer()
 	endWhile
 endFunction
 
-string function setWavLocationAndGetReturnLine(string currentLine)
+;string function setWavLocationAndGetReturnLine(string currentLine)
     ;This function tells FO4 from which wav file to read. It also reads the end of the line to be said and chops the end of the said line if it contains a Mutantella1 or Mutantella2 flag.
-    int Mutantella1_Pos = SUP_F4SE.SUPStringFind(currentLine, "Mutantella1",0,0)
-    if Mutantella1_Pos>=0
-        currentLine = SUP_F4SE.stringFindSubString(currentLine,0,Mutantella1_Pos-1)
-        wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
-    ElseIf Mutantella1_Pos==-1
-        int Mutantella2_Pos = SUP_F4SE.SUPStringFind(currentLine, "Mutantella2",0,0)
-        if Mutantella2_Pos>=0
-            currentLine = SUP_F4SE.stringFindSubString(currentLine,0,Mutantella2_Pos-1)
-            wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput2.wav"
-        endif
-    else
-        wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
-    endif
-    return currentLine
-endfunction
+;    int Mutantella1_Pos = SUP_F4SE.SUPStringFind(currentLine, "Mutantella1",0,0)
+;    if Mutantella1_Pos>=0
+;        currentLine = SUP_F4SE.stringFindSubString(currentLine,0,Mutantella1_Pos-1)
+;        wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
+;    ElseIf Mutantella1_Pos==-1
+;        int Mutantella2_Pos = SUP_F4SE.SUPStringFind(currentLine, "Mutantella2",0,0)
+;        if Mutantella2_Pos>=0
+;            currentLine = SUP_F4SE.stringFindSubString(currentLine,0,Mutantella2_Pos-1)
+;            wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput2.wav"
+;        endif
+;    else
+;        wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
+;    endif
+;    return currentLine
+;endfunction
 
 int function GetCurrentHourOfDay()
 	float Time = Utility.GetCurrentGameTime()
