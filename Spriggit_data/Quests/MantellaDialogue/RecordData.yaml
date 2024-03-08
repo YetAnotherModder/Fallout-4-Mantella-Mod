@@ -1,5 +1,5 @@
 FormKey: 001ED0:Mantella.esp
-VersionControl: 12186
+VersionControl: 12387
 EditorID: MantellaDialogue
 Name:
   TargetLanguage: English
@@ -9,8 +9,10 @@ Data:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 194
+  Unused: 203
 UnusedConditions: []
+Stages:
+- {}
 Aliases: []
-Timestamp: 12365
-Unknown: 470
+Timestamp: 12390
+Unknown: 509

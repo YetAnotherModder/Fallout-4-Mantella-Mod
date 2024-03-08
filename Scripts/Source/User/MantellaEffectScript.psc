@@ -8,16 +8,30 @@ MantellaRepository property repository auto
 float localMenuTimer
 Float meterUnits = 78.74
 Actor property PlayerRef auto
+ReferenceAlias property TargetRefAlias auto
 
 event OnEffectStart(Actor target, Actor caster)
+    String playerRace = PlayerRef.GetRace().GetName()
+    Int playerGenderID = PlayerRef.GetActorBase().GetSex()
+    String playerGender = ""
+    if (playerGenderID == 0)
+        playerGender = "Male"
+    else
+        playerGender = "Female"
+    endIf
+    String playerName = PlayerRef.GetActorBase().GetName()
+    SUP_F4SE.WriteStringToFile("_mantella_player_name.txt", playerName, 0)
+    SUP_F4SE.WriteStringToFile("_mantella_player_race.txt", playerRace, 0)
+    SUP_F4SE.WriteStringToFile("_mantella_player_gender.txt", playerGender, 0)
+
     ;cleanupstep below checks if the player is targeting someone and cleans up all conversation if that's the case
     bool casterIsPlayer=false
+    ;cleanupprevious Onhit event listeners
+    UnregisterForAllHitEvents(TargetRefAlias)
     if caster == PlayerRef
         casterIsPlayer=true
         debug.notification("Cleaning up before starting conversation")
-        repository.endFlagMantellaConversationOne = True
-        Utility.Wait(0.5)
-        repository.endFlagMantellaConversationOne = False
+        StopConversations()
     endif
     String activeActors = SUP_F4SE.ReadStringFromFile("_mantella_active_actors.txt",0,10)
     String actorCountString = SUP_F4SE.ReadStringFromFile("_mantella_actor_count.txt",0,1) 
@@ -45,14 +59,15 @@ event OnEffectStart(Actor target, Actor caster)
     endIf
 
     if (actorAlreadyLoaded == false) && (character_selection_enabled == "True")
-        ;ENABLE THE NEXT LINE AFTER SETTING UP CK
-        ;TargetRefAlias.ForceRefTo(target)      
-       
+        TargetRefAlias.ForceRefTo(target)      
+        RegisterForHitEvent(TargetRefAlias.GetActorReference())
         String actorId = (target.getactorbase() as form).getformid()
+        String actorRefId = target.getformid() 
         ;debug.notification("Actor ID is "+actorId)
         ;MiscUtil.WriteToFile("_mantella_current_actor_id.txt", actorId, append=false) THIS IS HOW THE FUNCTION LOOKS IN SKYRIM
         ;SUP_F4SE.WriteStringToFile(string sFilePath,string sText, int iAppend [0 for clean file, 1 for append, 2 for append with new line])
         SUP_F4SE.WriteStringToFile("_mantella_current_actor_id.txt",actorId, 0)
+        SUP_F4SE.WriteStringToFile("_mantella_current_actor_ref_id.txt",actorRefId, 0)
         SUP_F4SE.WriteStringToFile("_mantella_current_actor.txt",actorName, 0)
         ;this will eventually be rewritten when multi-NPC conversation is implemented in FO4
         SUP_F4SE.WriteStringToFile("_mantella_active_actors.txt",actorName, 1)
@@ -134,7 +149,10 @@ event OnEffectStart(Actor target, Actor caster)
     Else
         Debug.Notification("NPC not added. Please try again after your next response.")    
     endif
-    
+    ;cleanup magicactiveeffect
+    self.Dispel()
+    ;cleanup Onhit event listener
+    UnregisterForAllHitEvents(target)
 
 endevent
 
@@ -164,6 +182,9 @@ function MainConversationLoop(Actor target, Actor caster, int loopCount)
             if status != "False"
                 Debug.Notification(status)
                 SUP_F4SE.WriteStringToFile("_mantella_status.txt", "False", 0)
+                if status == "Listening..."
+                    repository.writePlayerState()
+                endif
             endIf
             
             ;text input to implement later
@@ -188,7 +209,6 @@ function MainConversationLoop(Actor target, Actor caster, int loopCount)
         endIf
 endfunction
 
-
 function externalMantellaAudioPlay(string sayline, actor target)
     ;Get the player's and target position to determine audio direction
     float game_angle_z = PlayerRef.GetAngleZ()
@@ -199,13 +219,16 @@ function externalMantellaAudioPlay(string sayline, actor target)
     float currentDistance=target.GetDistance(playerref)
     string audio_array = currentDistance as string+","+playerpositionX+","+playerpositionY+","+game_angle_z +","+targetpositionX+","+targetpositionY
     SUP_F4SE.WriteStringToFile("_mantella_audio_ready.txt", audio_array, 0)
-    debug.notification(target.GetDisplayName()+":"+sayline)
+    if repository.notificationsSubtitlesEnabled
+        debug.notification(target.GetDisplayName()+":"+sayline)
+    endif
     string checkAudioDistance = currentDistance as string
     ;Start a loop waiting to hear back from Python
     debug.trace("Starting while loop waiting for audio to finish playing")
     While checkAudioDistance != "false" && repository.endFlagMantellaConversationOne == false
         checkAudioDistance= SUP_F4SE.ReadStringFromFile("_mantella_audio_ready.txt",0,99)
     endwhile
+    repository.ResetEventSpamBlockers() ;this allows eventlistener to become active again
 endfunction
 
 function ConversationLoop(Actor target, Actor caster, String actorName, String sayLineFile)
@@ -300,4 +323,53 @@ EndFunction
 
 Float Function ConvertGameUnitsToMeter(Float gameUnits)
     Return gameUnits / meterUnits
+EndFunction
+
+String lastHitSource = ""
+String lastAggressor = ""
+Int timesHitSameAggressorSource = 0
+Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource, Projectile akProjectile, bool abPowerAttack, bool abSneakAttack, bool abBashAttack, bool abHitBlocked, string apMaterial)
+    if repository.targetTrackingOnHit 
+        String aggressor
+        if akAggressor == Game.GetPlayer()
+            aggressor = "The player"
+        else
+            aggressor = akAggressor.getdisplayname()
+        endif
+        string hitSource = akSource.getname()
+        String selfName = TargetRefAlias.GetActorReference().getdisplayname()
+        ; avoid writing events too often (continuous spells record very frequently)
+        ; if the actor and weapon hasn't changed, only record the event every 5 hits
+        if ((hitSource != lastHitSource) && (aggressor != lastAggressor)) || (timesHitSameAggressorSource > 5)
+            lastHitSource = hitSource
+            lastAggressor = aggressor
+            timesHitSameAggressorSource = 0
+            
+            if (hitSource == "None") || (hitSource == "")
+                ;Debug.MessageBox(aggressor + " punched "+selfName+".")
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " punched "+selfName+".\n", 2)
+            elseif hitSource == "Mantella"
+                ; Do not save event if Mantella itself is cast
+            elseif akAggressor == TargetRefAlias.GetActorReference()
+                if TargetRefAlias.GetActorReference().getleveledactorbase().getsex() == 0
+                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit himself with " + hitSource+".\n", 2)
+                else
+                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit herself with " + hitSource+".\n", 2)
+                endIf
+            else
+                ;Debug.MessageBox(aggressor + " hit "+selfName+" with a(n) " + hitSource)
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " hit "+selfName+" with " + hitSource+".\n", 2)
+            endIf
+        else
+            timesHitSameAggressorSource += 1
+        endIf
+    endif
+    ;reapply RegisterForHitEvent, necessary for Onhit to work properly
+    RegisterForHitEvent(TargetRefAlias.GetActorReference())
+EndEvent
+
+Function StopConversations()
+    repository.endFlagMantellaConversationOne = True
+    Utility.Wait(0.5)
+    repository.endFlagMantellaConversationOne = False
 EndFunction

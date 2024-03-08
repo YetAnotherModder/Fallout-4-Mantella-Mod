@@ -1,0 +1,38 @@
+FormKey: 044D36:Mantella.esp
+VersionControl: 12388
+EditorID: MantellaEvents
+VirtualMachineAdapter:
+  Script:
+    Name: ''
+  Aliases:
+  - Property:
+      Name: ''
+      Object: 044D36:Mantella.esp
+      Alias: 0
+    Scripts:
+    - Name: MantellaTargetListenerScript
+      Properties:
+      - MutagenObjectType: ScriptObjectProperty
+        Name: repository
+        Object: 000F99:Mantella.esp
+Data:
+  Flags:
+  - StartGameEnabled
+  - StartsEnabled
+  - RunOnce
+  Unused: 203
+  Type: Misc
+Filter: MantellaEvents\
+UnusedConditions: []
+Aliases:
+- MutagenObjectType: QuestReferenceAlias
+  Name: targetRef
+  Flags:
+  - Optional
+  - AllowReuseInQuest
+  - AllowDead
+  - AllowDisabled
+  - AllowDestroyed
+  - CanApplyDataToNonAliasedRefs
+  - OptionalAllScenes
+  VoiceTypes: Null

@@ -1,10 +1,13 @@
 FormKey: 001735:Mantella.esp
-VersionControl: 12365
+VersionControl: 12387
 EditorID: MantellaMagicEffect
 VirtualMachineAdapter:
   Scripts:
   - Name: MantellaEffectScript
     Properties:
+    - MutagenObjectType: ScriptObjectProperty
+      Name: PlayerRef
+      Object: 000014:Fallout4.esm
     - MutagenObjectType: ScriptObjectProperty
       Name: MantellaWaitTimeBuffer
       Object: 01E665:Mantella.esp
@@ -12,11 +15,12 @@ VirtualMachineAdapter:
       Name: MantellaDialogueLine
       Object: 001ED1:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
+      Name: TargetRefAlias
+      Object: 044D36:Mantella.esp
+      Alias: 0
+    - MutagenObjectType: ScriptObjectProperty
       Name: repository
       Object: 000F99:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
-      Name: PlayerRef
-      Object: 000014:Fallout4.esm
 Name:
   TargetLanguage: English
   Value: Mantella Magic Effect

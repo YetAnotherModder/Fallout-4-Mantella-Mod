@@ -1,5 +1,5 @@
 FormKey: 001736:Mantella.esp
-VersionControl: 12182
+VersionControl: 12390
 EditorID: MantellaEnchantment
 Name:
   TargetLanguage: English
@@ -10,4 +10,4 @@ EnchantType: Enchantment
 Effects:
 - BaseEffect: 001735:Mantella.esp
   Data:
-    Duration: 10
+    Duration: 86400
