@@ -32,6 +32,7 @@ Worldspace PrewarWorldspace
 Event OnInit ()
 	PrewarWorldspace = Game.GetFormFromFile(0x000A7FF4, "Fallout4.esm") as Worldspace
 	TryToGiveItems()
+    LoadMantellaEvents()
 EndEvent
 
 Event OnPlayerTeleport()
@@ -61,31 +62,36 @@ Float Function ConvertGameUnitsToMeter(Float gameUnits)
     Return gameUnits / meterUnits
 EndFunction
 
-Function StopConversations()
-    repository.endFlagMantellaConversationOne = True
-    Utility.Wait(0.5)
-    repository.endFlagMantellaConversationOne = False
-EndFunction
-
 Event OnPlayerLoadGame()
-    ;resets AddInventoryEventFilter, necessary for OnItemAdded & OnItemRemoved to work properly
+    LoadMantellaEvents()
+EndEvent
+
+Function LoadMantellaEvents()
     repository.reloadKeys()
-    StopConversations()
-    RemoveAllInventoryEventFilters()
-    AddInventoryEventFilter(none) 
-    ;resets RegisterForHitEvent at load, necessary for Onhit to work properly
-    UnregisterForAllHitEvents()
-    RegisterForHitEvent(PlayerRef)
-    UnregisterForAllRadiationDamageEvents()
-    RegisterForRadiationDamageEvent(PlayerRef)
+    registerForPlayerEvents()
     ;Will clean up all all conversation loops if they're still occuring
     repository.endFlagMantellaConversationOne = True
     if !SUP_F4SE.ReadStringFromFile("_mantella__fallout4_folder.txt",0,2) 
         SUP_F4SE.WriteStringToFile("_mantella__fallout4_folder.txt", "Set the folder this file is in as your fallout4_folder path in MantellaSoftware/config.ini", 0)
     endif
-    StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
-    
-EndEvent
+    Worldspace PlayerWorldspace = PlayerRef.GetWorldspace()
+    if(PlayerWorldspace != PrewarWorldspace && PlayerWorldspace != None)
+        StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
+    endif
+Endfunction
+
+Function registerForPlayerEvents()
+        ;resets AddInventoryEventFilter, necessary for OnItemAdded & OnItemRemoved to work properl
+        RemoveAllInventoryEventFilters()
+        AddInventoryEventFilter(none) 
+        ;Register for player sleep events
+        RegisterForPlayerSleep()
+        ;resets RegisterForHitEvent & RegisterForRadiationDamageEvent at load, necessary for Onhit to work properly
+        UnregisterForAllHitEvents()
+        RegisterForHitEvent(PlayerRef)
+        UnregisterForAllRadiationDamageEvents()
+        RegisterForRadiationDamageEvent(PlayerRef)
+Endfunction
 
 Event Ontimer( int TimerID)
    ;debug.notification("timer "+RadiantFrequencyTimerID+" finished counting from "+repository.radiantFrequency)
@@ -329,3 +335,45 @@ Event OnRadiationDamage(ObjectReference akTarget, bool abIngested)
     RegisterForRadiationDamageEvent(PlayerRef)
 EndEvent
 
+float sleepstartTime
+Event OnPlayerSleepStart(float afSleepStartTime, float afDesiredSleepEndTime, ObjectReference akBed)
+    sleepstartTime=afSleepStartTime
+EndEvent
+
+Event OnPlayerSleepStop(bool abInterrupted, ObjectReference akBed)
+    if repository.playerTrackingSleep
+        float timeSlept= Utility.GetCurrentGameTime()-sleepstartTime
+        string sleepMessage
+        string bedName=akBed.getbaseobject().getname()
+        string messagePrefix
+        if abInterrupted
+            messagePrefix="The player's sleep in a "+bedName+" was interrupted after "
+        else
+            messagePrefix="The player slept in a "+bedName+" for "
+        endif
+        ;if timeSlept>1
+        ;    int daysPassed=Math.floor(timeSlept)
+        ;    float remainingDayFraction=(timeSlept- daysPassed)
+        ;    int hoursPassed=Math.Floor(remainingDayFraction*24)
+        ;    sleepMessage=messagePrefix+daysPassed+" days and "+hoursPassed+" hours.\n"
+        ;    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", sleepMessage, 2)
+        ;Else
+            int hoursPassed=Math.Floor(timeSlept*24)
+            sleepMessage=messagePrefix+hoursPassed+" hours.\n"
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", sleepMessage, 2)
+        ;endif
+    endif
+EndEvent
+
+Event OnCripple(ActorValue akActorValue, bool abCrippled)
+    if repository.playerTrackingCripple
+        string messageSuffix=" is crippled.\n"
+        if !abCrippled
+            messageSuffix=" is now healed.\n"
+        endif
+        if akActorValue
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt","The player's "+akActorValue.getname()+messageSuffix,2)
+        endif
+    endif
+
+EndEvent

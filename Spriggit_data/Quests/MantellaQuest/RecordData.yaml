@@ -1,5 +1,5 @@
 FormKey: 000F99:Mantella.esp
-VersionControl: 12387
+VersionControl: 12392
 EditorID: MantellaQuest
 VirtualMachineAdapter:
   Scripts:
@@ -14,10 +14,42 @@ VirtualMachineAdapter:
   Script:
     Name: Fragments:Quests:QF_MantellaQuest_07000F99
   Fragments:
+  - Stage: 404
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0404_Item_00
+  - Stage: 304
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0304_Item_00
+  - Stage: 402
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0402_Item_00
+  - Stage: 302
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0302_Item_00
+  - Stage: 301
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0301_Item_00
   - Stage: 201
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0201_Item_00
+  - Stage: 403
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0403_Item_00
+  - Stage: 401
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0401_Item_00
+  - Stage: 303
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0303_Item_00
   Aliases:
   - Property:
       Name: ''
@@ -27,18 +59,31 @@ VirtualMachineAdapter:
     - Name: MantellaListenerScript
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantDistance
-        Object: 015DC0:Mantella.esp
+        Name: MantellaRadiantFrequency
+        Object: 015DC1:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
         Name: PotentialActor1
         Object: 004C76:Mantella.esp
         Alias: 0
       - MutagenObjectType: ScriptObjectProperty
-        Name: AmmoKeyword
-        Object: 0F4AE8:Fallout4.esm
+        Name: PotentialActor2
+        Object: 004C76:Mantella.esp
+        Alias: 1
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaGun
+        Object: 001734:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantDistance
+        Object: 015DC0:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaSettingsHolotape
+        Object: 00D51A:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: repository
+        Object: 000F99:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaSpell
         Object: 0090C7:Mantella.esp
@@ -46,24 +91,11 @@ VirtualMachineAdapter:
         Name: PlayerRef
         Object: 000014:Fallout4.esm
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantFrequency
-        Object: 015DC1:Mantella.esp
+        Name: AmmoKeyword
+        Object: 0F4AE8:Fallout4.esm
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaActorList
         Object: 004C76:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaGun
-        Object: 001734:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: repository
-        Object: 000F99:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaSettingsHolotape
-        Object: 00D51A:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: PotentialActor2
-        Object: 004C76:Mantella.esp
-        Alias: 1
 Name:
   TargetLanguage: English
   Value: Mantella Quest
@@ -72,7 +104,7 @@ Data:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 156
+  Unused: 232
 UnusedConditions: []
 Stages:
 - {}
@@ -80,6 +112,38 @@ Stages:
   LogEntries:
   - Flags: []
     Note: This trigger the prompt menu to enter the hotkey
+- Index: 301
+  LogEntries:
+  - Flags: []
+    Note: This resets all repository variables to default
+- Index: 302
+  LogEntries:
+  - Flags: []
+    Note: This will stop all ongoing NPC conversations
+- Index: 303
+  LogEntries:
+  - Flags: []
+    Note: This turns off dialogue subtitle notifications.
+- Index: 304
+  LogEntries:
+  - Flags: []
+    Note: This turns on dialogue subtitle notifications.
+- Index: 401
+  LogEntries:
+  - Flags: []
+    Note: This turns off player event tracking.
+- Index: 402
+  LogEntries:
+  - Flags: []
+    Note: This turns on player event tracking.
+- Index: 403
+  LogEntries:
+  - Flags: []
+    Note: This turns off NPC event tracking.
+- Index: 404
+  LogEntries:
+  - Flags: []
+    Note: This turns on NPC event tracking.
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
   Name: PlayerRef

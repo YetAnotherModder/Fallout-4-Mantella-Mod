@@ -8,6 +8,7 @@ bool property radiantEnabled auto
 bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
+int property MenuEventSelector auto
 
 ;variables below for Player game event tracking
 bool property playerTrackingOnItemAdded auto
@@ -20,6 +21,9 @@ bool property playerTrackingOnSit auto
 bool property playerTrackingOnGetUp auto
 bool property playerTrackingFireWeapon auto
 bool property playerTrackingRadiationDamage auto
+bool property playerTrackingSleep auto
+bool property playerTrackingCripple auto
+
 
 
 ;variables below for Mantella Target tracking
@@ -53,11 +57,17 @@ Endfunction
 
 Function StopConversations()
     endFlagMantellaConversationOne = True
+    SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
     Utility.Wait(0.5)
     endFlagMantellaConversationOne = False
+    SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
 EndFunction
 
 Event OnInit()
+    reinitializeVariables()
+EndEvent
+
+Function reinitializeVariables()
     ;change the below this is for debug only
     textkeycode=89
     RegisterForKey(textkeycode)
@@ -65,31 +75,44 @@ Event OnInit()
     radiantDistance = 20
     radiantFrequency = 10
     notificationsSubtitlesEnabled = true
-    ;Player tracking variables below
-    playerTrackingOnItemAdded = true
-    playerTrackingOnItemRemoved = true
-    playerTrackingOnHit = true
-    playerTrackingOnLocationChange = true
-    playerTrackingOnObjectEquipped = true
-    playerTrackingOnObjectUnequipped = true
-    playerTrackingOnSit = true
-    playerTrackingOnGetUp = true
-    playerTrackingFireWeapon = true
-    playerTrackingRadiationDamage=true
-    
-    ;Target tracking variables below
-    targetTrackingItemAdded = true 
-    targetTrackingItemRemoved = true
-    targetTrackingOnHit = true
-    targetTrackingOnCombatStateChanged = true
-    targetTrackingOnObjectEquipped = true
-    targetTrackingOnObjectUnequipped = true
-    targetTrackingOnSit = true
-    targetTrackingOnGetUp = true
-    targetTrackingCompleteCommands=true
-    targetTrackingGiveCommands=true
+    togglePlayerEventTracking(true)
+    toggleTargetEventTracking(true)
+EndFunction
 
-EndEvent
+Function togglePlayerEventTracking(bool bswitch)
+    ;Player tracking variables below
+    playerTrackingOnItemAdded = bswitch
+    playerTrackingOnItemRemoved = bswitch
+    playerTrackingOnHit = bswitch
+    playerTrackingOnLocationChange = bswitch
+    playerTrackingOnObjectEquipped = bswitch
+    playerTrackingOnObjectUnequipped = bswitch
+    playerTrackingOnSit = bswitch
+    playerTrackingOnGetUp = bswitch
+    playerTrackingFireWeapon = bswitch
+    playerTrackingRadiationDamage=bswitch
+    playerTrackingSleep = bswitch
+    playerTrackingCripple = bswitch
+EndFunction
+
+Function toggleTargetEventTracking(bool bswitch)
+    ;Target tracking variables below
+    targetTrackingItemAdded = bswitch 
+    targetTrackingItemRemoved = bswitch
+    targetTrackingOnHit = bswitch
+    targetTrackingOnCombatStateChanged = bswitch
+    targetTrackingOnObjectEquipped = bswitch
+    targetTrackingOnObjectUnequipped = bswitch
+    targetTrackingOnSit = bswitch
+    targetTrackingOnGetUp = bswitch
+    targetTrackingCompleteCommands = bswitch
+    targetTrackingGiveCommands = bswitch
+EndFunction
+
+Function toggleNotificationSubtitles(bool bswitch)
+    notificationsSubtitlesEnabled = bswitch
+EndFunction
+
 
 Function reloadKeys()
     ;called at player load
@@ -108,10 +131,11 @@ Event Onkeydown(int keycode)
 Endevent
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
-    if (asMenuName== "PipboyMenu")
-        if !abOpening
-	        OpenHotkeyPrompt()
-        endif
+    if (asMenuName== "PipboyMenu") && MenuEventSelector==1 && !abOpening
+	    OpenHotkeyPrompt()
+    elseif (asMenuName== "PipboyMenu") && MenuEventSelector==2 && !abOpening
+        StopConversations()
+        debug.MessageBox("Conversations stopped. Restart Mantella.exe to complete the process.")
     endif
 endEvent
 
