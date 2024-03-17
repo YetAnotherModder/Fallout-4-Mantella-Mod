@@ -1,10 +1,16 @@
 FormKey: 001735:Mantella.esp
-VersionControl: 12387
+VersionControl: 12400
 EditorID: MantellaMagicEffect
 VirtualMachineAdapter:
   Scripts:
   - Name: MantellaEffectScript
     Properties:
+    - MutagenObjectType: ScriptObjectProperty
+      Name: MantellaDialogueLine
+      Object: 001ED1:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
+      Name: MantellaWaitTimeBuffer
+      Object: 01E665:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: repository
       Object: 000F99:Mantella.esp
@@ -16,11 +22,8 @@ VirtualMachineAdapter:
       Object: 044D36:Mantella.esp
       Alias: 0
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaDialogueLine
-      Object: 001ED1:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaWaitTimeBuffer
-      Object: 01E665:Mantella.esp
+      Name: MantellaStartConversationMessage
+      Object: 05A2C9:Mantella.esp
 Name:
   TargetLanguage: English
   Value: Mantella Magic Effect

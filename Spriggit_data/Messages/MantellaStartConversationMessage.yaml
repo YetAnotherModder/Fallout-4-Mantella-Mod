@@ -1,0 +1,22 @@
+FormKey: 05A2C9:Mantella.esp
+VersionControl: 12400
+EditorID: MantellaStartConversationMessage
+Description:
+  TargetLanguage: English
+  Value: Choose [Yes] to add a this new NPC to the Mantella conversation, If you want to keep the conversation as is, choose [No].
+Name:
+  TargetLanguage: English
+  Value: Add a new NPC to the conversation?
+OwnerQuest: 000F99:Mantella.esp
+Flags:
+- MessageBox
+ShortTitle:
+  TargetLanguage: English
+  Value: Add a new NPC?
+MenuButtons:
+- Text:
+    TargetLanguage: English
+    Value: Yes
+- Text:
+    TargetLanguage: English
+    Value: No

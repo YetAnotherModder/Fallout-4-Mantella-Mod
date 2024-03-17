@@ -1,12 +1,12 @@
 SpriggitSource:
   PackageName: Spriggit.Yaml.Fallout4
-  Version: 0.16.0
+  Version: 0.17.0
 ModKey: Mantella.esp
 GameRelease: Fallout4
 ModHeader:
   Stats:
-    NumRecords: 36
-    NextFormID: 351865
+    NumRecords: 38
+    NextFormID: 369354
   Author: DEFAULT
   MasterReferences:
   - Master: Fallout4.esm

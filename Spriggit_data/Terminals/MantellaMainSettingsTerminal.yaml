@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12392
+VersionControl: 12400
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -83,9 +83,12 @@ MenuItems:
     Value: Set Dialogue Hotkey (desktop only)
   ResponseText:
     TargetLanguage: English
-    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 35)'
-  Type: SubmenuTerminal
+    Value: Close the Pipboy to update the keycode.
+  Type: DisplayText
   ItemId: 3
+  DisplayText:
+    TargetLanguage: English
+    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 35 or "y" = 89). See the keycode chart in the holotape.'
 - ItemText:
     TargetLanguage: English
     Value: Display keycode chart (DirectX scancodes)
