@@ -67,6 +67,11 @@ Event OnPlayerLoadGame()
 EndEvent
 
 Function LoadMantellaEvents()
+    int currentSUPversion
+    currentSUPversion = GetSUPF4SEVersion()
+    if currentSUPversion == 0
+        debug.messagebox("F4SE or SUP_F4SE not properly installed, Mantella will not work correctly")
+    endif
     repository.reloadKeys()
     registerForPlayerEvents()
     ;Will clean up all all conversation loops if they're still occuring

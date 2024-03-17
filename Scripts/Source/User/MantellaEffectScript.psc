@@ -2,152 +2,183 @@ Scriptname MantellaEffectScript extends activemagiceffect
 Import SUP_F4SE
 Topic property MantellaDialogueLine auto
 GlobalVariable property MantellaWaitTimeBuffer auto
-
 MantellaRepository property repository auto
 ;string wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
 float localMenuTimer
 Float meterUnits = 78.74
 Actor property PlayerRef auto
 ReferenceAlias property TargetRefAlias auto
+Message property MantellaStartConversationMessage auto
 
 event OnEffectStart(Actor target, Actor caster)
-    String playerRace = PlayerRef.GetRace().GetName()
-    Int playerGenderID = PlayerRef.GetActorBase().GetSex()
-    String playerGender = ""
-    if (playerGenderID == 0)
-        playerGender = "Male"
-    else
-        playerGender = "Female"
-    endIf
-    String playerName = PlayerRef.GetActorBase().GetName()
-    SUP_F4SE.WriteStringToFile("_mantella_player_name.txt", playerName, 0)
-    SUP_F4SE.WriteStringToFile("_mantella_player_race.txt", playerRace, 0)
-    SUP_F4SE.WriteStringToFile("_mantella_player_gender.txt", playerGender, 0)
-
-    ;cleanupstep below checks if the player is targeting someone and cleans up all conversation if that's the case
+    
+    
+    bool proceedWithConversation = true 
     bool casterIsPlayer=false
-    ;cleanupprevious Onhit event listeners
-    UnregisterForAllHitEvents(TargetRefAlias)
-    if caster == PlayerRef
-        casterIsPlayer=true
-        debug.notification("Cleaning up before starting conversation")
-        StopConversations()
-    endif
-    String activeActors = SUP_F4SE.ReadStringFromFile("_mantella_active_actors.txt",0,10)
     String actorCountString = SUP_F4SE.ReadStringFromFile("_mantella_actor_count.txt",0,1) 
     int actorCount = actorCountString as int
-    String character_selection_enabled = SUP_F4SE.ReadStringFromFile("_mantella_character_selection.txt",0,1) 
 
-    string actorName = target.GetDisplayName()
-    String casterName = caster.getdisplayname()
-    ;debug.messagebox ("MantellaEffectScript:"+casterName+" casting Mantella on "+actorName)
-    ;if radiant dialogue between two NPCs, label them 1 & 2
-    if (casterName == actorName)
-        if actorCount == 0
-            actorName = actorName + " 1"
-            casterName = casterName + " 2"
-        elseIf actorCount == 1
-            actorName = actorName + " 2"
-            casterName = casterName + " 1"
+    ;checks if the player is attempting to start a conversation and offer them to choose to add a new NPC or not
+    if caster == playerRef && actorCount>0
+        casterIsPlayer=true
+        int aButton=MantellaStartConversationMessage.show()
+        if aButton==1 ;player chose no
+            ;cleanupprevious Onhit event listeners
+            ;UnregisterForAllHitEvents(TargetRefAlias)
+            ;actorCount=0
+            ;SUP_F4SE.WriteStringToFile("activeActors.txt", "", 0)
+            ;StopConversations()
+            proceedWithConversation=false
+        elseif aButton==0 ;player chose yes
+            debug.notification("Adding NPC to conversation")
+        endif 
+    ElseIf caster == playerRef && actorCount==0
+        ;cleanupprevious Onhit event listeners
+        UnregisterForAllHitEvents(TargetRefAlias)
+        casterIsPlayer=true
+        actorCount=0
+        SUP_F4SE.WriteStringToFile("activeActors.txt", "", 0)
+        StopConversations()
+    endif
+    if proceedWithConversation==true
+        String playerRace = PlayerRef.GetRace().GetName()
+        Int playerGenderID = PlayerRef.GetActorBase().GetSex()
+        String playerGender = ""
+        if (playerGenderID == 0)
+            playerGender = "Male"
+        else
+            playerGender = "Female"
         endIf
-    endIf
+        String playerName = PlayerRef.GetActorBase().GetName()
+        SUP_F4SE.WriteStringToFile("_mantella_player_name.txt", playerName, 0)
+        SUP_F4SE.WriteStringToFile("_mantella_player_race.txt", playerRace, 0)
+        SUP_F4SE.WriteStringToFile("_mantella_player_gender.txt", playerGender, 0)
 
-    int index = SUP_F4SE.SUPStringFind(activeActors, actorName,0,0)
-    bool actorAlreadyLoaded = true
-    if index == -1
-        actorAlreadyLoaded = false
-    endIf
-
-    if (actorAlreadyLoaded == false) && (character_selection_enabled == "True")
-        TargetRefAlias.ForceRefTo(target)      
-        RegisterForHitEvent(TargetRefAlias.GetActorReference())
-        String actorId = (target.getactorbase() as form).getformid()
-        String actorRefId = target.getformid() 
-        ;debug.notification("Actor ID is "+actorId)
-        ;MiscUtil.WriteToFile("_mantella_current_actor_id.txt", actorId, append=false) THIS IS HOW THE FUNCTION LOOKS IN SKYRIM
-        ;SUP_F4SE.WriteStringToFile(string sFilePath,string sText, int iAppend [0 for clean file, 1 for append, 2 for append with new line])
-        SUP_F4SE.WriteStringToFile("_mantella_current_actor_id.txt",actorId, 0)
-        SUP_F4SE.WriteStringToFile("_mantella_current_actor_ref_id.txt",actorRefId, 0)
-        SUP_F4SE.WriteStringToFile("_mantella_current_actor.txt",actorName, 0)
-        ;this will eventually be rewritten when multi-NPC conversation is implemented in FO4
-        SUP_F4SE.WriteStringToFile("_mantella_active_actors.txt",actorName, 1)
-        ;debug.messagebox("Current active actors "+SUP_F4SE.ReadStringFromFile("_mantella_active_actors.txt",0,10))
-        SUP_F4SE.WriteStringToFile("_mantella_character_selection.txt","false",0)
-
-        String actorSex = target.getleveledactorbase().getsex()
-        SUP_F4SE.WriteStringToFile("_mantella_actor_sex.txt", actorSex, 0)
-
-        String actorRace = target.getrace()
-        SUP_F4SE.WriteStringToFile("_mantella_actor_race.txt", actorRace, 0)
-
-        String actorRelationship = target.getrelationshiprank(PlayerRef)
-        SUP_F4SE.WriteStringToFile("_mantella_actor_relationship.txt", actorRelationship, 0)
-
-        String actorVoiceType = target.GetVoiceType()
-        SUP_F4SE.WriteStringToFile("_mantella_actor_voice.txt", actorVoiceType, 0)
-        ;the below is to build a substring to use later to find the correct wav file 
-        String isEnemy = "False"
-        if (target.getcombattarget() == PlayerRef)
-            isEnemy = "True"
-        endIf
-        SUP_F4SE.WriteStringToFile("_mantella_actor_is_enemy.txt", isEnemy, 0)
-
-        String currLoc = (caster.GetCurrentLocation() as form).getname()
-        if currLoc == ""
-            currLoc = "Boston area"
-        endIf
-        SUP_F4SE.WriteStringToFile("_mantella_current_location.txt", currLoc, 0)
-
-        int Time = GetCurrentHourOfDay()
-        SUP_F4SE.WriteStringToFile("_mantella_in_game_time.txt", Time, 0)
-
-        ;will eventually be modified when multi-NPC conversation are added to FO4
-        actorCount += 1
-        SUP_F4SE.WriteStringToFile("_mantella_actor_count.txt", actorCount, 0)
-
-        if actorCount == 1 ; reset player input if this is the first actor selected
-            SUP_F4SE.WriteStringToFile("_mantella_text_input_enabled.txt", "False", 0)
-            SUP_F4SE.WriteStringToFile("_mantella_text_input.txt", "", 0)
-            ;NEED TO ENABLE ONCE EVENT TRACKING FOR PLAYER IS ADDED
-            ;SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "", 0)
-        endif
-        ;debug.notification("Initial setup finished")
-        
-        if casterIsPlayer
-		    Debug.Notification("Starting conversation with " + actorName)
-        elseIf actorCount == 1
-            Debug.Notification("Starting radiant dialogue with " + actorName + " and " + casterName)
-        endIf
-
-        
-        repository.endFlagMantellaConversationOne = false
-        bool endConversation = false
-        string sayFinalLine
-        String sayLineFile = "_mantella_say_line_"+actorCount+".txt"
-        int loopCount
-
-        ; Wait for first voiceline to play to avoid old conversation playing
-        Utility.Wait(0.5)
-
-        SUP_F4SE.WriteStringToFile("_mantella_character_selected.txt", "True", 0)
-        while repository.endFlagMantellaConversationOne == false && endConversation == false
-            if actorCount == 1
-                MainConversationLoop( target, caster, loopCount)
-                loopCount+=1
-            Else
-                ConversationLoop(target, caster, actorName, sayLineFile)
-            endif
+        String character_selection_enabled = SUP_F4SE.ReadStringFromFile("_mantella_character_selection.txt",0,1) 
+        String activeActors = SUP_F4SE.ReadStringFromFile("_mantella_active_actors.txt",0,10)
+        string actorName = target.GetDisplayName()
+        String casterName = caster.getdisplayname()
 
 
-            if sayFinalLine == "True"
-                endConversation = True
-                localMenuTimer = -1
+        ;if radiant dialogue between two NPCs, label them 1 & 2
+        if (casterName == actorName)
+            if actorCount == 0
+                actorName = actorName + " 1"
+                casterName = casterName + " 2"
+            elseIf actorCount == 1
+                actorName = actorName + " 2"
+                casterName = casterName + " 1"
             endIf
-            sayFinalLine = SUP_F4SE.ReadStringFromFile("_mantella_end_conversation.txt",0, 2) 
-        endWhile
-        debug.notification("Conversation with "+actorName+" has ended")
-    Else
-        Debug.Notification("NPC not added. Please try again after your next response.")    
+        endIf
+
+        int index = SUP_F4SE.SUPStringFind(activeActors, actorName,0,0)
+        bool actorAlreadyLoaded = true
+        if index == -1
+            actorAlreadyLoaded = false
+        endIf
+
+        String radiantDialogue = SUP_F4SE.ReadStringFromFile("_mantella_radiant_dialogue.txt",0,2)
+        ; if radiant dialogue is active without the actor selected by player, end the radiant dialogue
+        if (radiantDialogue == "True") && (caster == Game.GetPlayer()) && (actorAlreadyLoaded == false)
+            Debug.Notification("Ending radiant dialogue")
+            SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
+        ; if selected actor is in radiant dialogue, disable this mode to allow the player to join the conversation
+        elseIf (radiantDialogue == "True") && (actorAlreadyLoaded == true) && (caster == Game.GetPlayer())
+            Debug.Notification("Adding player to conversation")
+            SUP_F4SE.WriteStringToFile("_mantella_radiant_dialogue.txt", "False", 0)
+        ; if actor not already loaded and character selection is enabled
+        elseif (actorAlreadyLoaded == false) && (character_selection_enabled == "True")
+            TargetRefAlias.ForceRefTo(target)      
+            RegisterForHitEvent(TargetRefAlias.GetActorReference())
+            String actorId = (target.getactorbase() as form).getformid()
+            String actorRefId = target.getformid() 
+            ;debug.notification("Actor ID is "+actorId)
+            ;MiscUtil.WriteToFile("_mantella_current_actor_id.txt", actorId, append=false) THIS IS HOW THE FUNCTION LOOKS IN SKYRIM
+            ;SUP_F4SE.WriteStringToFile(string sFilePath,string sText, int iAppend [0 for clean file, 1 for append, 2 for append with new line])
+            SUP_F4SE.WriteStringToFile("_mantella_current_actor_id.txt",actorId, 0)
+            SUP_F4SE.WriteStringToFile("_mantella_current_actor_ref_id.txt",actorRefId, 0)
+            SUP_F4SE.WriteStringToFile("_mantella_current_actor.txt",actorName, 0)
+            ;this will eventually be rewritten when multi-NPC conversation is implemented in FO4
+            SUP_F4SE.WriteStringToFile("_mantella_active_actors.txt"," "+actorName+" ", 1)
+            ;debug.messagebox("Current active actors "+SUP_F4SE.ReadStringFromFile("_mantella_active_actors.txt",0,10))
+            SUP_F4SE.WriteStringToFile("_mantella_character_selection.txt","false",0)
+
+            String actorSex = target.getleveledactorbase().getsex()
+            SUP_F4SE.WriteStringToFile("_mantella_actor_sex.txt", actorSex, 0)
+
+            String actorRace = target.getrace()
+            SUP_F4SE.WriteStringToFile("_mantella_actor_race.txt", actorRace, 0)
+
+            String actorRelationship = target.getrelationshiprank(PlayerRef)
+            SUP_F4SE.WriteStringToFile("_mantella_actor_relationship.txt", actorRelationship, 0)
+
+            String actorVoiceType = target.GetVoiceType()
+            SUP_F4SE.WriteStringToFile("_mantella_actor_voice.txt", actorVoiceType, 0)
+            ;the below is to build a substring to use later to find the correct wav file 
+            String isEnemy = "False"
+            if (target.getcombattarget() == PlayerRef)
+                isEnemy = "True"
+            endIf
+            SUP_F4SE.WriteStringToFile("_mantella_actor_is_enemy.txt", isEnemy, 0)
+
+            String currLoc = (caster.GetCurrentLocation() as form).getname()
+            if currLoc == ""
+                currLoc = "Boston area"
+            endIf
+            SUP_F4SE.WriteStringToFile("_mantella_current_location.txt", currLoc, 0)
+
+            int Time = GetCurrentHourOfDay()
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_time.txt", Time, 0)
+
+            ;will eventually be modified when multi-NPC conversation are added to FO4
+            actorCount += 1
+            SUP_F4SE.WriteStringToFile("_mantella_actor_count.txt", actorCount, 0)
+
+            if actorCount == 1 ; reset player input if this is the first actor selected
+                SUP_F4SE.WriteStringToFile("_mantella_text_input_enabled.txt", "False", 0)
+                SUP_F4SE.WriteStringToFile("_mantella_text_input.txt", "", 0)
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "", 0)
+            endif
+            
+            
+            if casterIsPlayer && actorCount>1
+                Debug.Notification("Adding " + actorName+" to the conversation.")
+            elseif casterIsPlayer
+                    Debug.Notification("Starting conversation with " + actorName)
+            elseIf actorCount == 1
+                Debug.Notification("Starting radiant dialogue with " + actorName + " and " + casterName)
+            endIf
+
+            
+            repository.endFlagMantellaConversationOne = false
+            bool endConversation = false
+            string sayFinalLine
+            String sayLineFile = "_mantella_say_line_"+actorCount+".txt"
+            int loopCount
+
+            ; Wait for first voiceline to play to avoid old conversation playing
+            Utility.Wait(0.5)
+
+            SUP_F4SE.WriteStringToFile("_mantella_character_selected.txt", "True", 0)
+            while repository.endFlagMantellaConversationOne == false && endConversation == false
+                if actorCount == 1
+                    MainConversationLoop( target, caster, loopCount)
+                    loopCount+=1
+                Else
+                    ConversationLoop(target, caster, actorName, sayLineFile)
+                endif
+
+
+                if sayFinalLine == "True"
+                    endConversation = True
+                    localMenuTimer = -1
+                endIf
+                sayFinalLine = SUP_F4SE.ReadStringFromFile("_mantella_end_conversation.txt",0, 2) 
+            endWhile
+            debug.notification("Conversation with "+actorName+" has ended")
+        Else
+            Debug.Notification("NPC not added. Please try again after your next response.")    
+        endif
     endif
     ;cleanup magicactiveeffect
     self.Dispel()
@@ -290,24 +321,6 @@ function StartTextTimer()
 	endWhile
 endFunction
 
-;string function setWavLocationAndGetReturnLine(string currentLine)
-    ;This function tells FO4 from which wav file to read. It also reads the end of the line to be said and chops the end of the said line if it contains a Mutantella1 or Mutantella2 flag.
-;    int Mutantella1_Pos = SUP_F4SE.SUPStringFind(currentLine, "Mutantella1",0,0)
-;    if Mutantella1_Pos>=0
-;        currentLine = SUP_F4SE.stringFindSubString(currentLine,0,Mutantella1_Pos-1)
-;        wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
-;    ElseIf Mutantella1_Pos==-1
-;        int Mutantella2_Pos = SUP_F4SE.SUPStringFind(currentLine, "Mutantella2",0,0)
-;        if Mutantella2_Pos>=0
-;            currentLine = SUP_F4SE.stringFindSubString(currentLine,0,Mutantella2_Pos-1)
-;            wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput2.wav"
-;        endif
-;    else
-;        wavfilelocation="Data\\Sound\\Voice\\Mantella.esp\\MutantellaOutput1.wav"
-;    endif
-;    return currentLine
-;endfunction
-
 int function GetCurrentHourOfDay()
 	float Time = Utility.GetCurrentGameTime()
 	Time -= Math.Floor(Time) ; Remove "previous in-game days passed" bit
@@ -369,7 +382,9 @@ Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource
 EndEvent
 
 Function StopConversations()
+    debug.notification("Cleaning up before starting conversation")
     repository.endFlagMantellaConversationOne = True
     Utility.Wait(0.5)
     repository.endFlagMantellaConversationOne = False
 EndFunction
+
