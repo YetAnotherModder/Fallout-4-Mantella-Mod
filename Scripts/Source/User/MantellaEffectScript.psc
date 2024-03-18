@@ -162,7 +162,7 @@ event OnEffectStart(Actor target, Actor caster)
             SUP_F4SE.WriteStringToFile("_mantella_character_selected.txt", "True", 0)
             while repository.endFlagMantellaConversationOne == false && endConversation == false
                 if actorCount == 1
-                    MainConversationLoop( target, caster, loopCount)
+                    MainConversationLoop( target, caster, loopCount, actorName, actorRelationship)
                     loopCount+=1
                 Else
                     ConversationLoop(target, caster, actorName, sayLineFile)
@@ -187,7 +187,7 @@ event OnEffectStart(Actor target, Actor caster)
 
 endevent
 
-function MainConversationLoop(Actor target, Actor caster, int loopCount)
+function MainConversationLoop(Actor target, Actor caster, int loopCount, String actorName, String actorRelationship)
         String sayLine = SUP_F4SE.ReadStringFromFile("_mantella_say_line.txt",0,99) 
 
         if sayLine != "False" && !SUP_F4SE.IsMenuModeActive()
@@ -201,6 +201,28 @@ function MainConversationLoop(Actor target, Actor caster, int loopCount)
             SUP_F4SE.WriteStringToFile("_mantella_say_line.txt", "False", 0)
             localMenuTimer = -1
            
+            ; Check aggro status after every line spoken
+            if repository.allowAggro || repository.allowFollow
+                String aggro = SUP_F4SE.ReadStringFromFile("_mantella_aggro.txt",0,2)
+                if repository.allowAggro
+                    if aggro == "0"
+                        Debug.Notification(actorName + " forgave you.")
+                        target.StopCombat()
+                        SUP_F4SE.WriteStringToFile("_mantella_aggro.txt", "",  0)
+                    elseIf aggro == "1"
+                        Debug.Notification(actorName + " did not like that.")
+                        target.StartCombat(caster)
+                        SUP_F4SE.WriteStringToFile("_mantella_aggro.txt", "",  0)
+                    endif
+                endif
+                if repository.allowFollow
+                    if aggro == "2"
+                        Debug.Notification(actorName + " is willing to follow you.")
+                        target.SetPlayerTeammate(true, true)
+                        SUP_F4SE.WriteStringToFile("_mantella_aggro.txt", "",  0)
+                    endIf
+                endif
+            endif
         endif
             
 

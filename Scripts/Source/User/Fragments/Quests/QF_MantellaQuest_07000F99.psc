@@ -120,4 +120,69 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0501_Item_00
+Function Fragment_Stage_0501_Item_00()
+;BEGIN AUTOCAST TYPE MantellaRepository
+Quest __temp = self as Quest
+MantellaRepository kmyQuest = __temp as MantellaRepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowAggro(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0502_Item_00
+Function Fragment_Stage_0502_Item_00()
+;BEGIN AUTOCAST TYPE MantellaRepository
+Quest __temp = self as Quest
+MantellaRepository kmyQuest = __temp as MantellaRepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowAggro(true)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0503_Item_00
+Function Fragment_Stage_0503_Item_00()
+;BEGIN AUTOCAST TYPE MantellaRepository
+Quest __temp = self as Quest
+MantellaRepository kmyQuest = __temp as MantellaRepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowFollow(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0504_Item_00
+Function Fragment_Stage_0504_Item_00()
+;BEGIN AUTOCAST TYPE MantellaRepository
+Quest __temp = self as Quest
+MantellaRepository kmyQuest = __temp as MantellaRepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowFollow(true)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0601_Item_00
+Function Fragment_Stage_0601_Item_00()
+;BEGIN AUTOCAST TYPE MantellaRepository
+Quest __temp = self as Quest
+MantellaRepository kmyQuest = __temp as MantellaRepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.listMenuState("NPC_Actions")
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment

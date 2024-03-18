@@ -1,0 +1,113 @@
+FormKey: 05E71A:Mantella.esp
+MajorRecordFlagsRaw: 8208
+VersionControl: 12401
+EditorID: MantellaNPCActionsSettings
+Fallout4MajorRecordFlags:
+- 0x10
+- 0x2000
+VirtualMachineAdapter:
+  ScriptFragments:
+    Script:
+      Name: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      Properties:
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaQuest
+        Object: 000F99:Mantella.esp
+    Fragments:
+    - FragmentIndex: 2
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_02
+    - FragmentIndex: 1
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_01
+    - FragmentIndex: 3
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_03
+    - FragmentIndex: 4
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_04
+ObjectBounds:
+  First: -18, -52, 86
+  Second: 21, 0, 135
+HeaderText:
+  TargetLanguage: English
+  Value: Mantella - NPC Actions Settings (Experimental)
+Name:
+  TargetLanguage: English
+  Value: '[Settings] Mantella Event Tracking Settings'
+Model:
+  File: Furniture\Terminals\TerminalWall01.nif
+  Data: 0x0400000000000000000000000000000000000000
+Keywords:
+- 0A56D7:Fallout4.esm
+- 06D5BB:Fallout4.esm
+- 0C2022:Fallout4.esm
+PNAM: 0xCC4C3300
+FNAM: 0x0000
+Holotapes: []
+Flags:
+- HasModel
+WorkbenchData: 0x00
+MarkerModel: Markers\MarkerWallTerminal3rdP.nif
+MarkerParameters:
+- Enabled: True
+  Offset: 0, -86, 0
+  EntryTypes:
+  - Front
+  - Behind
+  - Right
+  - Left
+  - Other
+  - 0x20
+  - 0x40
+  - 0x80
+  Unknown: 0xFFFFFF
+BodyTexts:
+- Text:
+    TargetLanguage: English
+    Value: >-
+      Choose an option. 
+
+      NPC Aggro : NPCs will turn hostile when they receive insults. If the offender asks for forgiveness they will stop combat. (this function does not work on followers and settlers)
+
+      NPC Follow : NPCs will become teamates when given a reason to do so. (may not work on every NPC)
+MenuItems:
+- ItemText:
+    TargetLanguage: English
+    Value: Turn NPC aggro OFF
+  Type: DisplayText
+  ItemId: 3
+  DisplayText:
+    TargetLanguage: English
+    Value: NPC aggro is turned OFF
+- ItemText:
+    TargetLanguage: English
+    Value: Turn NPC aggro ON
+  Type: DisplayText
+  ItemId: 1
+  DisplayText:
+    TargetLanguage: English
+    Value: NPC aggro is turned ON. Make sure your Fallout 4 prompt in the Mantella config.ini has the 'Offended:' and 'Forgiven:'   instructions enabled (remove the semi-colon in front of the line to enable the instruction).
+- ItemText:
+    TargetLanguage: English
+    Value: Turn NPC follow OFF
+  Type: DisplayText
+  ItemId: 2
+  DisplayText:
+    TargetLanguage: English
+    Value: NPC aggro is turned OFF
+- ItemText:
+    TargetLanguage: English
+    Value: Turn NPC follow ON
+  Type: DisplayText
+  ItemId: 4
+  DisplayText:
+    TargetLanguage: English
+    Value: NPC aggro is turned ON. NPC aggro is turned ON. Make sure your Fallout 4 prompt in the Mantella config.ini has the 'Follow:'  instruction enabled (remove the semi-colon in front of the line to enable the instruction).
+MajorFlags:
+- 0x10
+- 0x2000

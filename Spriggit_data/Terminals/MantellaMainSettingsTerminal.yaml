@@ -11,11 +11,11 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
     Fragments:
     - FragmentIndex: 5
       Unknown2: 1

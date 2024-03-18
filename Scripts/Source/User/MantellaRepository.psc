@@ -9,6 +9,8 @@ bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
 int property MenuEventSelector auto
+bool property allowAggro auto
+bool property allowFollow auto
 
 ;variables below for Player game event tracking
 bool property playerTrackingOnItemAdded auto
@@ -75,6 +77,8 @@ Function reinitializeVariables()
     radiantDistance = 20
     radiantFrequency = 10
     notificationsSubtitlesEnabled = true
+    allowAggro = false
+    allowFollow = false
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
 EndFunction
@@ -111,6 +115,29 @@ EndFunction
 
 Function toggleNotificationSubtitles(bool bswitch)
     notificationsSubtitlesEnabled = bswitch
+EndFunction
+
+Function toggleAllowAggro(bool bswitch)
+    allowAggro = bswitch
+EndFunction
+
+Function toggleAllowFollow(bool bswitch)
+    allowFollow = bswitch
+EndFunction
+
+Function listMenuState(String aMenu)
+    if aMenu=="NPC_Actions"
+        if allowAggro==false
+            debug.notification("NPC aggro is OFF")
+        else
+            debug.notification("NPC aggro is ON")
+        endif
+        if allowFollow==false
+            debug.notification("NPC follow is OFF")
+        else
+            debug.notification("NPC follow is ON")
+        endif
+    endif
 EndFunction
 
 

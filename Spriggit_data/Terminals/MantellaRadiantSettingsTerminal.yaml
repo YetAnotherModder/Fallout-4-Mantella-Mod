@@ -70,7 +70,7 @@ MenuItems:
   ItemId: 1
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7271F5
+    Unknown1: 0x72E60F
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
@@ -83,7 +83,7 @@ MenuItems:
   ItemId: 2
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7271F5
+    Unknown1: 0x72E60F
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
