@@ -223,7 +223,7 @@ Event OnCommandModeGiveCommand(int aeCommandType, ObjectReference akTarget)
         elseif aeCommandType==9 ;Heal 
             commandMessage=" healed "+akTarget.GetDisplayName()+" at the player's request"
         elseif aeCommandType==10 ;workshop assign 
-            commandMessage=" was asked to take of the "+akTarget.GetDisplayName()+" in the settlement at the player's request"
+            commandMessage=" was asked to take care of the "+akTarget.GetDisplayName()+" in the settlement at the player's request"
         elseif aeCommandType==11 ;enter vertibird
             commandMessage=" was asked to enter the vehicle "+akTarget.GetDisplayName()+" at the player's request"
         elseif aeCommandType==12 ;enter power armor 
