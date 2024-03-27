@@ -21,6 +21,7 @@ Quest Property MantellaActorList  Auto
 ReferenceAlias Property PotentialActor1  Auto  
 ReferenceAlias Property PotentialActor2  Auto  
 MantellaRepository property repository auto
+MantellaConversation property conversation auto
 Keyword Property AmmoKeyword Auto Const
 GlobalVariable property MantellaRadiantEnabled auto
 GlobalVariable property MantellaRadiantDistance auto
@@ -75,10 +76,10 @@ Function LoadMantellaEvents()
     repository.reloadKeys()
     registerForPlayerEvents()
     ;Will clean up all all conversation loops if they're still occuring
-    repository.endFlagMantellaConversationOne = True
-    if !SUP_F4SE.ReadStringFromFile("_mantella__fallout4_folder.txt",0,2) 
-        SUP_F4SE.WriteStringToFile("_mantella__fallout4_folder.txt", "Set the folder this file is in as your fallout4_folder path in MantellaSoftware/config.ini", 0)
-    endif
+    ; repository.endFlagMantellaConversationOne = True    
+    If (conversation.IsRunning())        
+        conversation.EndConversation();Should there still be a running conversation after a load, end it
+    EndIf
     Worldspace PlayerWorldspace = PlayerRef.GetWorldspace()
     if(PlayerWorldspace != PrewarWorldspace && PlayerWorldspace != None)
         StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
@@ -102,60 +103,38 @@ Event Ontimer( int TimerID)
    ;debug.notification("timer "+RadiantFrequencyTimerID+" finished counting from "+repository.radiantFrequency)
    if TimerID==RadiantFrequencyTimerID
       if MantellaRadiantEnabled.GetValue()==1.000
-         String activeActors = SUP_F4SE.ReadStringFromFile("_mantella_active_actors.txt",0,10)
-         ; if no Mantella conversation active
-         if activeActors == ""
-             ;MantellaActorList taken from this tutorial:
-             ;http://skyrimmw.weebly.com/skyrim-modding/detecting-nearby-actors-skyrim-modding-tutorial
-             MantellaActorList.start()
-             ; if both actors found
-             if (PotentialActor1.GetReference() as Actor) && (PotentialActor2.GetReference() as Actor)
-                 Actor Actor1 = PotentialActor1.GetReference() as Actor
-                 Actor Actor2 = PotentialActor2.GetReference() as Actor
-                 ;debug.notification("located potential actors "+Actor1.getdisplayname()+" and "+Actor2.getdisplayname())
-                 float distanceToClosestActor = game.getplayer().GetDistance(Actor1)
-                 float maxDistance = ConvertMeterToGameUnits(MantellaRadiantDistance.GetValue())
-                 if distanceToClosestActor <= maxDistance
-                     String Actor1Name = Actor1.getdisplayname()
-                     String Actor2Name = Actor2.getdisplayname()
-                     float distanceBetweenActors = Actor1.GetDistance(Actor2)
- 
-                     ;TODO: make distanceBetweenActors customisable
-                     if (distanceBetweenActors <= 1000)
-                        ;MiscUtil.WriteToFile("_mantella_current_actor_id.txt", actorId, append=false) THIS IS HOW THE FUNCTION LOOKS IN SKYRIM
-                        ;SUP_F4SE.WriteStringToFile(string sFilePath,string sText, int iAppend [0 for clean file, 1 for append, 2 for append with new line])
-                        SUP_F4SE.WriteStringToFile("_mantella_radiant_dialogue.txt", "True", 0)
-                        ;debug.notification("Starting radiant dialogue between "+Actor1.getdisplayname()+" and "+Actor2.getdisplayname())
-                         ;have spell casted on Actor 1 by Actor 2
-                         MantellaSpell.Cast(Actor2 as ObjectReference, Actor1 as ObjectReference)
- 
-                         SUP_F4SE.WriteStringToFile("_mantella_character_selected.txt", "False", 0)
-                         ;debug.messagebox("MantellaListenerScript:"+Actor2.getdisplayname()+" casting Mantella Spell on "+Actor1.getdisplayname())
-                         String character_selected = "False"
-                         ;wait for the Mantella spell to give the green light that it is ready to load another actor
-                         while character_selected == "False"
-                             character_selected = SUP_F4SE.ReadStringFromFile("_mantella_character_selected.txt",0,2) 
-                         endWhile
- 
-                         String character_selection_enabled = "False"
-                         while character_selection_enabled == "False"
-                             character_selection_enabled = SUP_F4SE.ReadStringFromFile("_mantella_character_selection.txt",0,2) 
-                         endWhile
- 
-                         MantellaSpell.Cast(Actor1 as ObjectReference, Actor2 as ObjectReference)
-                         ;debug.messagebox("MantellaListenerScript:"+Actor1.getdisplayname()+" casting Mantella Spell on "+Actor2.getdisplayname())
-                     else
-                         ;TODO: make this notification optional
-                        ; Debug.Notification("Radiant dialogue attempted. No NPCs available")
-                     endIf
-                 else
-                     ;TODO: make this notification optional
-                     Debug.Notification("Radiant dialogue attempted. NPCs too far away at " + ConvertGameUnitsToMeter(distanceToClosestActor) + " meters")
-                     Debug.Notification("Max distance set to " + repository.radiantDistance + "m in Mantella MCM")
-                 endIf
-             else
-                 Debug.Notification("Radiant dialogue attempted. No NPCs available")
-             endIf
+        if !conversation.IsRunning()
+            ;MantellaActorList taken from this tutorial:
+            ;http://skyrimmw.weebly.com/skyrim-modding/detecting-nearby-actors-skyrim-modding-tutorial
+            MantellaActorList.start()
+            ; if both actors found
+            if (PotentialActor1.GetReference() as Actor) && (PotentialActor2.GetReference() as Actor)
+                Actor Actor1 = PotentialActor1.GetReference() as Actor
+                Actor Actor2 = PotentialActor2.GetReference() as Actor
+
+                float distanceToClosestActor = game.getplayer().GetDistance(Actor1)
+                float maxDistance = ConvertMeterToGameUnits(repository.radiantDistance)
+                if distanceToClosestActor <= maxDistance
+                    String Actor1Name = Actor1.getdisplayname()
+                    String Actor2Name = Actor2.getdisplayname()
+                    float distanceBetweenActors = Actor1.GetDistance(Actor2)
+
+                    ;TODO: make distanceBetweenActors customisable
+                    if (distanceBetweenActors <= 1000)
+                        ;have spell casted on Actor 1 by Actor 2
+                        MantellaSpell.Cast(Actor2 as ObjectReference, Actor1 as ObjectReference)
+                    else
+                        ;TODO: make this notification optional
+                        Debug.Notification("Radiant dialogue attempted. No NPCs available")
+                    endIf
+                else
+                    ;TODO: make this notification optional
+                    Debug.Notification("Radiant dialogue attempted. NPCs too far away at " + ConvertGameUnitsToMeter(distanceToClosestActor) + " meters")
+                    Debug.Notification("Max distance set to " + repository.radiantDistance + "m in Mantella MCM")
+                endIf
+            else
+                Debug.Notification("Radiant dialogue attempted. No NPCs available")
+            endIf
  
              MantellaActorList.stop()
          endIf
@@ -173,15 +152,15 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
             string itemName = akBaseItem.GetName()
             string itemPickedUpMessage = ""
             if itemName == "Powered Armor Frame" 
-                itemPickedUpMessage = "The player entered power armor.\n"
+                itemPickedUpMessage = "The player entered power armor."
             else
                 if sourceName != "" 
-                    itemPickedUpMessage = "The player picked up " + itemName + " from " + sourceName + ".\n"
+                    itemPickedUpMessage = "The player picked up " + itemName + " from " + sourceName 
                 Else
-                    itemPickedUpMessage = "The player picked up " + itemName + ".\n"
+                    itemPickedUpMessage = "The player picked up " + itemName 
                 endIf
             Endif
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", itemPickedUpMessage, 2)
+            conversation.AddIngameEvent(itemPickedUpMessage)
         endif
     endif
 EndEvent
@@ -193,15 +172,15 @@ Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemRefe
             string itemName = akBaseItem.GetName()
             string itemDroppedMessage = ""
             if itemName == "Powered Armor Frame" 
-                itemDroppedMessage = "The player exited power armor.\n"
+                itemDroppedMessage = "The player exited power armor."
             else
                 if destName != "" 
-                    itemDroppedMessage = "The player placed " + itemName + " in/on " + destName + ".\n"
+                    itemDroppedMessage = "The player placed " + itemName + " in/on " + destName 
                 Else
-                    itemDroppedMessage = "The player dropped " + itemName + ".\n"
+                    itemDroppedMessage = "The player dropped " + itemName 
                 endIf
             Endif
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", itemDroppedMessage, 2)
+            conversation.AddIngameEvent(itemDroppedMessage)
         endif
     endif
 endEvent
@@ -223,16 +202,16 @@ Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource
 
             if (hitSource == "None") || (hitSource == "")
                 ;Debug.MessageBox(aggressor + " punched the player.")
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " punched the player.\n", 2)
+                conversation.AddIngameEvent(aggressor + " punched the player.")
             else
                 if aggressor == PlayerRef.getdisplayname()
                     if playerref.getleveledactorbase().getsex() == 0
-                        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player hit himself with " + hitSource+".\n", 2)
+                        conversation.AddIngameEvent("The player hit himself with " + hitSource)
                     else
-                        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player hit herself with " + hitSource+".\n", 2)
+                        conversation.AddIngameEvent("The player hit herself with " + hitSource)
                     endIf
                 else
-                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " hit the player with " + hitSource+".\n", 2)
+                    conversation.AddIngameEvent(aggressor + " hit the player with " + hitSource)
                 endif
             endIf
         else
@@ -245,10 +224,9 @@ EndEvent
 
 Event OnLocationChange(Location akOldLoc, Location akNewLoc)
     ; check if radiant dialogue is playing, and end conversation if the player leaves the area
-    String radiant_dialogue_active = SUP_F4SE.ReadStringFromFile("_mantella_radiant_dialogue.txt", 0, 1)
-    if radiant_dialogue_active == "True"
-        SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
-    endIf
+    If (conversation.IsRunning() && !conversation.IsPlayerInConversation())
+        conversation.EndConversation()
+    EndIf
 
     if repository.playerTrackingOnLocationChange
         String currLoc = (akNewLoc as form).getname()
@@ -256,7 +234,7 @@ Event OnLocationChange(Location akOldLoc, Location akNewLoc)
             currLoc = "Commonwealth"
         endIf
         ;Debug.MessageBox("Current location is now " + currLoc)
-        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "Current location is now " + currLoc+".\n", 2)
+        conversation.AddIngameEvent("Current location is now " + currLoc)
     endif
 endEvent
 
@@ -267,7 +245,7 @@ Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
         if itemenchant != "" ;filtering out enchantments to avoid spamming the LLM with confusing feedback
             ;Debug.MessageBox("The player equipped " + itemEquipped)
             if itemEquipped != "Mantella"
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player equipped " + itemEquipped + ".\n", 2)
+                conversation.AddIngameEvent("The player equipped " + itemEquipped )
             endif
         endif
     endif
@@ -279,7 +257,7 @@ Event OnItemUnequipped (Form akBaseObject, ObjectReference akReference)
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox("The player unequipped " + itemUnequipped)
         if itemUnequipped != "Mantella Enchantment" && itemUnequipped != "Mantella"
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player unequipped " + itemUnequipped + ".\n", 2)
+            conversation.AddIngameEvent("The player unequipped " + itemUnequipped )
         Endif
     endif
 endEvent
@@ -289,7 +267,7 @@ Event OnSit(ObjectReference akFurniture)
         ;Debug.MessageBox("The player sat down.")
         String furnitureName = akFurniture.getbaseobject().getname()
         if furnitureName != "Power Armor"
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player rested on / used a(n) "+furnitureName+".\n", 2)
+            conversation.AddIngameEvent("The player rested on / used a(n) "+furnitureName)
         endif
     endif
 endEvent
@@ -300,14 +278,16 @@ Event OnGetUp(ObjectReference akFurniture)
         ;Debug.MessageBox("The player stood up.")
         String furnitureName = akFurniture.getbaseobject().getname()
         if furnitureName != "Power Armor"
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player stood up from a(n) "+furnitureName+".\n", 2)
+            conversation.AddIngameEvent("The player stood up from a(n) "+furnitureName)
         endif    
     endif
 EndEvent
 
 
 Event OnDying(Actor akKiller)
-    SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True",0)
+    If (conversation.IsRunning())
+        conversation.EndConversation()
+    EndIf
 EndEvent
 
 string lastWeaponFired =""
@@ -316,7 +296,7 @@ Event OnPlayerFireWeapon(Form akBaseObject)
         string weaponName=akBaseObject.getname()
         if weaponName!="Mantella"
             if lastWeaponFired!=akBaseObject && !repository.EventFireWeaponSpamBlocker
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player fired their "+akBaseObject.getname()+" weapon.\n", 2)
+                conversation.AddIngameEvent("The player fired their "+akBaseObject.getname()+" weapon.")
                 lastWeaponFired=akBaseObject
                 repository.WeaponFiredCount+=1
                 if repository.WeaponFiredCount>=3
@@ -331,9 +311,9 @@ endEvent
 Event OnRadiationDamage(ObjectReference akTarget, bool abIngested)
     if repository.playerTrackingRadiationDamage
         if ( abIngested )
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player consumed irradiated sustenance.\n", 2)
+            conversation.AddIngameEvent("The player consumed irradiated sustenance.")
         elseif repository.EventRadiationDamageSpamBlocker!=true
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player took damage from radiation exposure.\n", 2)
+            conversation.AddIngameEvent("The player took damage from radiation exposure.")
             repository.EventRadiationDamageSpamBlocker=true
         endif
     endif
@@ -360,24 +340,24 @@ Event OnPlayerSleepStop(bool abInterrupted, ObjectReference akBed)
         ;    int daysPassed=Math.floor(timeSlept)
         ;    float remainingDayFraction=(timeSlept- daysPassed)
         ;    int hoursPassed=Math.Floor(remainingDayFraction*24)
-        ;    sleepMessage=messagePrefix+daysPassed+" days and "+hoursPassed+" hours.\n"
+        ;    sleepMessage=messagePrefix+daysPassed+" days and "+hoursPassed+" hours."
         ;    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", sleepMessage, 2)
         ;Else
             int hoursPassed=Math.Floor(timeSlept*24)
-            sleepMessage=messagePrefix+hoursPassed+" hours.\n"
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", sleepMessage, 2)
+            sleepMessage=messagePrefix+hoursPassed+" hours."
+            conversation.AddIngameEvent(sleepMessage)
         ;endif
     endif
 EndEvent
 
 Event OnCripple(ActorValue akActorValue, bool abCrippled)
     if repository.playerTrackingCripple
-        string messageSuffix=" is crippled.\n"
+        string messageSuffix=" is crippled."
         if !abCrippled
-            messageSuffix=" is now healed.\n"
+            messageSuffix=" is now healed."
         endif
         if akActorValue
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt","The player's "+akActorValue.getname()+messageSuffix,2)
+            conversation.AddIngameEvent("The player's "+akActorValue.getname()+messageSuffix)
         endif
     endif
 

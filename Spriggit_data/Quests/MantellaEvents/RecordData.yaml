@@ -1,5 +1,5 @@
 FormKey: 044D36:Mantella.esp
-VersionControl: 12388
+VersionControl: 12411
 EditorID: MantellaEvents
 VirtualMachineAdapter:
   Script:
@@ -15,12 +15,15 @@ VirtualMachineAdapter:
       - MutagenObjectType: ScriptObjectProperty
         Name: repository
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: conversation
+        Object: 066FBB:Mantella.esp
 Data:
   Flags:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 166
+  Unused: 190
   Type: Misc
 Filter: MantellaEvents\
 UnusedConditions: []
