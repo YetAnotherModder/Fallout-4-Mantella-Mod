@@ -1,9 +1,14 @@
 Scriptname MantellaRepository extends Quest
 Import SUP_F4SE
+Import TIM:TIM
+
 int property textkeycode auto
-string property textinput auto
+; string property textinput auto
+MantellaConversation property conversation auto
+
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
+bool property microphoneEnabled auto
 bool property radiantEnabled auto
 bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
@@ -58,15 +63,18 @@ Function ResetEventSpamBlockers()
 Endfunction
 
 Function StopConversations()
-    endFlagMantellaConversationOne = True
-    SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
-    Utility.Wait(0.5)
-    endFlagMantellaConversationOne = False
-    SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
+    If (conversation.IsRunning())
+        conversation.EndConversation()
+    EndIf
+    ; endFlagMantellaConversationOne = True
+    ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
+    ; Utility.Wait(0.5)
+    ; endFlagMantellaConversationOne = False
+    ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
 EndFunction
 
 Event OnInit()
-    reinitializeVariables()
+    reinitializeVariables()    
 EndEvent
 
 Function reinitializeVariables()
@@ -148,12 +156,15 @@ Endfunction
 
 Event Onkeydown(int keycode)
     if (keycode == textkeycode) && !SUP_F4SE.IsMenuModeActive()
-        String playerResponse = "False"
-        playerResponse = SUP_F4SE.ReadStringFromFile("_mantella_text_input_enabled.txt",0,2) 
-        if playerResponse == "True" 
-            ;Debug.Notification("Forcing Conversation Through Hotkey")
-            OpenTextMenu()
+        if(conversation.IsRunning())
+            conversation.GetPlayerTextInput()
         endIf
+        ; String playerResponse = "False"
+        ; playerResponse = SUP_F4SE.ReadStringFromFile("_mantella_text_input_enabled.txt",0,2) 
+        ; if playerResponse == "True" 
+        ;     ;Debug.Notification("Forcing Conversation Through Hotkey")
+        ;     OpenTextMenu()
+        ; endIf
     endif
 Endevent
 
@@ -224,31 +235,31 @@ Function TIMNoDialogueHotkeyInput(string keycode)
     UnRegisterForExternalEvent("TIM::Cancel")
 EndFunction
 
-Function SetTextInput(string text)
-    ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    textinput = text
-    ProcessDialogue(textinput)
-EndFunction
+; Function SetTextInput(string text)
+;     ;Debug.notification("This text input was entered "+ text)
+;     UnRegisterForExternalEvent("TIM::Accept")
+;     UnRegisterForExternalEvent("TIM::Cancel")
+;     textinput = text
+;     ProcessDialogue(textinput)
+; EndFunction
     ;
-Function NoTextInput(string text)
-    ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    textinput = ""
-EndFunction
+; Function NoTextInput(string text)
+;     ;Debug.notification("Text input cancelled")
+;     UnRegisterForExternalEvent("TIM::Accept")
+;     UnRegisterForExternalEvent("TIM::Cancel")
+;     textinput = ""
+; EndFunction
 
-Function ProcessDialogue (string text)
-    if text != ""
-        writePlayerState()
-        SUP_F4SE.WriteStringToFile("_mantella_text_input_enabled.txt", "False", 0)
-        SUP_F4SE.WriteStringToFile("_mantella_text_input.txt", textinput, 0)
-        ;Debug.notification("Wrote to file "+ textinput)
-    endIf
-EndFunction
+; Function ProcessDialogue (string text)
+;     if text != ""
+;         writePlayerState()
+;         SUP_F4SE.WriteStringToFile("_mantella_text_input_enabled.txt", "False", 0)
+;         SUP_F4SE.WriteStringToFile("_mantella_text_input.txt", textinput, 0)
+;         ;Debug.notification("Wrote to file "+ textinput)
+;     endIf
+; EndFunction
 
-function writePlayerState()
+string function constructPlayerState()
     String[] playerStateArray = new String[10]
     string playerState = "The player is "
     int playerStatePositiveCount=0
@@ -310,11 +321,13 @@ function writePlayerState()
         playerState += " & " 
         playerState+= playerStateArray[playerStatePositiveCount - 1]
     EndIf
-
+    
 
     ;debug.notification(playerState)
     if playerStatePositiveCount>0
-        SUP_F4SE.WriteStringToFile("_mantella_player_state.txt", playerState, 0)
+        return playerState
+    Else
+        return ""
     endIf
 endfunction
 

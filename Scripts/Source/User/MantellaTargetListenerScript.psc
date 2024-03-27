@@ -1,7 +1,8 @@
 Scriptname MantellaTargetListenerScript extends ReferenceAlias
 ;new property added after Mantella 0.9.2
-Import SUP_F4SE
+
 MantellaRepository property repository auto
+MantellaConversation property conversation auto
 Keyword Property AmmoKeyword Auto Const
 int CleanUpTimerID=1
 Event Oninit()
@@ -37,16 +38,16 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
         if sourceName != "Power Armor" ;to prevent gameevent spam from the NPCs entering power armors 
             String selfName = self.GetActorReference().getdisplayname()
             string itemName = akBaseItem.GetName()
-            string itemPickedUpMessage = selfName+" picked up " + itemName + ".\n"
+            string itemPickedUpMessage = selfName+" picked up " + itemName
             if itemName == "Powered Armor Frame" 
-                itemPickedUpMessage = selfName+" entered power armor.\n"
+                itemPickedUpMessage = selfName+" entered power armor."
             else
                 if sourceName != ""
-                    itemPickedUpMessage = selfName+" picked up " + itemName + " from " + sourceName + ".\n"
+                    itemPickedUpMessage = selfName+" picked up " + itemName + " from " + sourceName
                 endIf
             Endif
-            if itemName != "" 
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", itemPickedUpMessage, 2)
+            if itemName != ""
+                conversation.AddIngameEvent(itemPickedUpMessage) 
             endIf
         endif
     endif
@@ -59,15 +60,15 @@ Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemRefe
         if destName != "Power Armor" ;to prevent gameevent spam from the NPC exiting power armors 
             String selfName = self.GetActorReference().getdisplayname()
             string itemName = akBaseItem.GetName()
-            string itemDroppedMessage = selfName+" dropped " + itemName + ".\n"
+            string itemDroppedMessage = selfName+" dropped " + itemName
             if itemName == "Powered Armor Frame" 
-                itemDroppedMessage = selfName+" exited power armor.\n"
+                itemDroppedMessage = selfName+" exited power armor."
             else
                 if destName != "" 
-                    itemDroppedMessage = selfName+" placed " + itemName + " in/on " + destName + ".\n"
+                    itemDroppedMessage = selfName+" placed " + itemName + " in/on " + destName
                 endIf
             Endif
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", itemDroppedMessage, 2)
+            conversation.AddIngameEvent(itemDroppedMessage) 
         endif
     endif
 endEvent
@@ -95,18 +96,18 @@ Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource
             
             if (hitSource == "None") || (hitSource == "")
                 ;Debug.MessageBox(aggressor + " punched "+selfName+".")
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " punched "+selfName+".\n", 2)
+                conversation.AddIngameEvent(aggressor + " punched "+selfName) 
             elseif hitSource == "Mantella"
                 ; Do not save event if Mantella itself is cast
             elseif akAggressor == self.GetActorReference()
                 if self.GetActorReference().getleveledactorbase().getsex() == 0
-                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit himself with " + hitSource+".\n", 2)
+                    conversation.AddIngameEvent(selfName+" hit himself with " + hitSource) 
                 else
-                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit herself with " + hitSource+".\n", 2)
+                    conversation.AddIngameEvent(selfName+" hit herself with " + hitSource) 
                 endIf
             else
                 ;Debug.MessageBox(aggressor + " hit "+selfName+" with a(n) " + hitSource)
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " hit "+selfName+" with " + hitSource+".\n", 2)
+                conversation.AddIngameEvent(aggressor + " hit "+selfName+" with " + hitSource) 
             endIf
         else
             timesHitSameAggressorSource += 1
@@ -129,13 +130,13 @@ Event OnCombatStateChanged(Actor akTarget, int aeCombatState)
 
         if (aeCombatState == 0)
             ;Debug.MessageBox(selfName+" is no longer in combat")
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" is no longer in combat.\n", 2)
+            conversation.AddIngameEvent(selfName+" is no longer in combat.") 
         elseif (aeCombatState == 1)
             ;Debug.MessageBox(selfName+" has entered combat with "+targetName)
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" has entered combat with "+targetName+".\n", 2)
+            conversation.AddIngameEvent(selfName+" has entered combat with "+targetName) 
         elseif (aeCombatState == 2)
             ;Debug.MessageBox(selfName+" is searching for "+targetName)
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" is searching for "+targetName+".\n", 2)
+            conversation.AddIngameEvent(selfName+" is searching for "+targetName) 
         endIf
     endif
 endEvent
@@ -146,7 +147,7 @@ Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
         String selfName = self.GetActorReference().getdisplayname()
         string itemEquipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" equipped " + itemEquipped)
-        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" equipped " + itemEquipped + ".\n", 2)
+        conversation.AddIngameEvent(selfName+" equipped " + itemEquipped) 
     endif
 endEvent
 
@@ -156,7 +157,7 @@ Event OnItemUnequipped(Form akBaseObject, ObjectReference akReference)
         String selfName = self.GetActorReference().getdisplayname()
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" unequipped " + itemUnequipped)
-        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" unequipped " + itemUnequipped + ".\n", 2)
+        conversation.AddIngameEvent(selfName+" unequipped " + itemUnequipped) 
     endif
 endEvent
 
@@ -167,7 +168,7 @@ Event OnSit(ObjectReference akFurniture)
         String furnitureName = akFurniture.getbaseobject().getname()
         ; only save event if actor is sitting / resting on furniture (and not just, for example, leaning on a bar table)
         if furnitureName != ""
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" sat down / rested on a(n) "+furnitureName+".\n", 2)
+            conversation.AddIngameEvent(selfName+" sat down / rested on a(n) "+furnitureName) 
         endIf
     endif
 endEvent
@@ -180,14 +181,16 @@ Event OnGetUp(ObjectReference akFurniture)
         String furnitureName = akFurniture.getbaseobject().getname()
         ; only save event if actor is sitting / resting on furniture (and not just, for example, leaning on a bar table)
         if furnitureName != ""
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" stood up from a(n) "+furnitureName+".\n", 2)
+            conversation.AddIngameEvent(selfName+" stood up from a(n) "+furnitureName) 
         endIf
     endif
 EndEvent
 
 
 Event OnDying(Actor akKiller)
-    SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
+    If (conversation.IsRunning())
+        conversation.EndConversation()
+    EndIf
 EndEvent
 
 Event OnCommandModeGiveCommand(int aeCommandType, ObjectReference akTarget)
@@ -229,10 +232,10 @@ Event OnCommandModeGiveCommand(int aeCommandType, ObjectReference akTarget)
         elseif aeCommandType==12 ;enter power armor 
             commandMessage=" was aked to enter "+akTarget.GetDisplayName()+" at the player's request"
         endif
-        commandMessage=(selfName+commandMessage+".\n")
+        commandMessage=(selfName+commandMessage)
         ;debug.notification(commandMessage)
         if validrequest
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", commandMessage, 2)
+            conversation.AddIngameEvent(commandMessage) 
         endif
     endif
 endEvent
@@ -267,6 +270,6 @@ Event OnCommandModeCompleteCommand(int aeCommandType, ObjectReference akTarget)
         elseif aeCommandType==9 ;Heal 
             commandMessage=" healed "+akTarget.GetDisplayName()+" at the player's request"
         endif
-        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+commandMessage+".\n", 2)
+        conversation.AddIngameEvent(selfName+commandMessage) 
     endif
 EndEvent

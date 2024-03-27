@@ -99,7 +99,7 @@ MenuItems:
   ItemId: 2
   DisplayText:
     TargetLanguage: English
-    Value: NPC aggro is turned OFF
+    Value: NPC follow is turned OFF
 - ItemText:
     TargetLanguage: English
     Value: Turn NPC follow ON
@@ -107,7 +107,7 @@ MenuItems:
   ItemId: 4
   DisplayText:
     TargetLanguage: English
-    Value: NPC aggro is turned ON. NPC aggro is turned ON. Make sure your Fallout 4 prompt in the Mantella config.ini has the 'Follow:'  instruction enabled (remove the semi-colon in front of the line to enable the instruction).
+    Value: NPC follow is turned ON. Make sure your Fallout 4 prompt in the Mantella config.ini has the 'Follow:'  instruction enabled (remove the semi-colon in front of the line to enable the instruction).
 MajorFlags:
 - 0x10
 - 0x2000
