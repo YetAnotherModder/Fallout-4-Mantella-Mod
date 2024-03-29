@@ -13,17 +13,17 @@ VirtualMachineAdapter:
     - Name: MantellaTargetListenerScript
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: repository
-        Object: 000F99:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: conversation
         Object: 066FBB:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: repository
+        Object: 000F99:Mantella.esp
 Data:
   Flags:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 190
+  Unused: 94
   Type: Misc
 Filter: MantellaEvents\
 UnusedConditions: []

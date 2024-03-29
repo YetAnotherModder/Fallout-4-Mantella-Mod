@@ -5,8 +5,8 @@ ModKey: Mantella.esp
 GameRelease: Fallout4
 ModHeader:
   Stats:
-    NumRecords: 40
-    NextFormID: 509260
+    NumRecords: 41
+    NextFormID: 526749
   Author: DEFAULT
   MasterReferences:
   - Master: Fallout4.esm

@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12400
+VersionControl: 12413
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -11,12 +11,16 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
     Fragments:
+    - FragmentIndex: 7
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_07
     - FragmentIndex: 5
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -29,6 +33,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_06
+    - FragmentIndex: 8
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_08
     - FragmentIndex: 3
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -88,7 +96,7 @@ MenuItems:
   ItemId: 3
   DisplayText:
     TargetLanguage: English
-    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 35 or "y" = 89). See the keycode chart in the holotape.'
+    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.'
 - ItemText:
     TargetLanguage: English
     Value: Display keycode chart (DirectX scancodes)
@@ -337,6 +345,25 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: Turning Mantella dialogue subtitles ON
+- ItemText:
+    TargetLanguage: English
+    Value: Turn microphone OFF
+  Type: DisplayText
+  ItemId: 7
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      Turning the microphone OFF. Use the dialogue hotkey to communicate with Mantella NPCs.
+- ItemText:
+    TargetLanguage: English
+    Value: Turn microphone ON
+  Type: DisplayText
+  ItemId: 8
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      Turning the microphone ON. Adjust the audio threshold if there are communication issues.
+
 MajorFlags:
 - 0x10
 - 0x2000

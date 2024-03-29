@@ -5,6 +5,7 @@ Import TIM:TIM
 int property textkeycode auto
 ; string property textinput auto
 MantellaConversation property conversation auto
+MantellaConstants property ConstantsScript auto
 
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
@@ -87,6 +88,8 @@ Function reinitializeVariables()
     notificationsSubtitlesEnabled = true
     allowAggro = false
     allowFollow = false
+    microphoneEnabled = true
+    ConstantsScript.HTTP_PORT = 4999
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
 EndFunction
@@ -133,6 +136,10 @@ Function toggleAllowFollow(bool bswitch)
     allowFollow = bswitch
 EndFunction
 
+Function togglemicrophoneEnabled(bool bswitch)
+    microphoneEnabled = bswitch
+EndFunction
+
 Function listMenuState(String aMenu)
     if aMenu=="NPC_Actions"
         if allowAggro==false
@@ -145,6 +152,19 @@ Function listMenuState(String aMenu)
         else
             debug.notification("NPC follow is ON")
         endif
+    elseif aMenu=="Main_Settings"
+        if notificationsSubtitlesEnabled==false
+            debug.notification("The dialogue subtittles are turned OFF")
+        else
+            debug.notification("The dialogue subtittles are turned ON")
+        endif
+        if microphoneEnabled==false
+            debug.notification("The microphone is turned OFF. The dialogue hotkey DirectX scancode is "+textkeycode+".")
+        else
+            debug.notification("The microphone is turned ON.")
+        endif
+    elseif aMenu=="HTTP_Settings"
+        debug.notification("The HTTP port is currently "+ConstantsScript.HTTP_PORT)
     endif
 EndFunction
 
@@ -169,11 +189,13 @@ Event Onkeydown(int keycode)
 Endevent
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
-    if (asMenuName== "PipboyMenu") && MenuEventSelector==1 && !abOpening
+    if (asMenuName== "PipboyMenu") && MenuEventSelector==1 && !abOpening ;This triggers if the player chooses to change the text input hotkey
 	    OpenHotkeyPrompt()
-    elseif (asMenuName== "PipboyMenu") && MenuEventSelector==2 && !abOpening
+    elseif (asMenuName== "PipboyMenu") && MenuEventSelector==2 && !abOpening ;This triggers if the player chooses to stop all conversations
         StopConversations()
         debug.MessageBox("Conversations stopped. Restart Mantella.exe to complete the process.")
+    elseif (asMenuName== "PipboyMenu") && MenuEventSelector==3 && !abOpening ;This triggers if the player chooses to change the HTTP port
+        Open_HTTP_Port_Prompt()
     endif
 endEvent
 
@@ -258,6 +280,39 @@ EndFunction
 ;         ;Debug.notification("Wrote to file "+ textinput)
 ;     endIf
 ; EndFunction
+
+function Open_HTTP_Port_Prompt()
+    
+    TIM:TIM.Open(1,"Enter the HTTP port, use a value between 0 and 65535","", 0, 5)
+    RegisterForExternalEvent("TIM::Accept","TIM_Set_HTTP_Port")
+    RegisterForExternalEvent("TIM::Cancel","TIM_No_Set_HTTP_Port")
+    UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    ;
+    ; Function SetFrequency(string freq)
+    ;   Debug.MessageBox("frequency will set at "+ freq)
+    ;   UnRegisterForExternalEvent("TIM::Accept")
+    ;   UnRegisterForExternalEvent("TIM::Cancel")
+    ; EndFunction
+    ;
+    ; Function NoSetFrequency(string freq)
+    ;   Debug.MessageBox("input frequency was aborted at "+ freq)
+    ;   UnRegisterForExternalEvent("TIM::Accept")
+    ;   UnRegisterForExternalEvent("TIM::Cancel")
+    ; EndFunction
+endfunction
+
+Function TIM_Set_HTTP_Port(string HTTP_port)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    ConstantsScript.HTTP_PORT = (HTTP_port as int)
+EndFunction
+    
+Function TIM_No_Set_HTTP_Port(string keycode)
+    ;Debug.notification("Text input cancelled")
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+EndFunction
 
 string function constructPlayerState()
     String[] playerStateArray = new String[10]

@@ -23,7 +23,6 @@ String[] _extraRequestActions
 bool _does_accept_player_input = false
 
 event OnInit()
-    repository.microphoneEnabled = True
     RegisterForExternalEvent("OnHttpReplyReceived","OnHttpReplyReceived")
     RegisterForExternalEvent("OnHttpErrorReceived","OnHttpErrorReceived")
     ;mConsts.EVENT_ACTIONS + mConsts.ACTION_RELOADCONVERSATION <- Does not work in Fallout4. Needs to be a raw string 

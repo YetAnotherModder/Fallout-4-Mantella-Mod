@@ -3,9 +3,9 @@ Scriptname Fragments:Quests:QF_MantellaQuest_07000F99 Extends Quest Hidden Const
 
 ;BEGIN FRAGMENT Fragment_Stage_0201_Item_00
 Function Fragment_Stage_0201_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
@@ -15,11 +15,26 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0202_Item_00
+Function Fragment_Stage_0202_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
+kmyQuest.MenuEventSelector=3
+
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0301_Item_00
 Function Fragment_Stage_0301_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.reinitializeVariables()
@@ -30,9 +45,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0302_Item_00
 Function Fragment_Stage_0302_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
@@ -44,9 +59,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0303_Item_00
 Function Fragment_Stage_0303_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleNotificationSubtitles(false)
@@ -57,9 +72,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0304_Item_00
 Function Fragment_Stage_0304_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleNotificationSubtitles(true)
@@ -68,11 +83,37 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0305_Item_00
+Function Fragment_Stage_0305_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.togglemicrophoneEnabled(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0306_Item_00
+Function Fragment_Stage_0306_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.togglemicrophoneEnabled(true)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0401_Item_00
 Function Fragment_Stage_0401_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.togglePlayerEventTracking(false)
@@ -83,9 +124,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0402_Item_00
 Function Fragment_Stage_0402_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.togglePlayerEventTracking(true)
@@ -96,9 +137,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0403_Item_00
 Function Fragment_Stage_0403_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleTargetEventTracking(false)
@@ -109,9 +150,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0404_Item_00
 Function Fragment_Stage_0404_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleTargetEventTracking(true)
@@ -122,9 +163,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0501_Item_00
 Function Fragment_Stage_0501_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleAllowAggro(false)
@@ -135,9 +176,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0502_Item_00
 Function Fragment_Stage_0502_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleAllowAggro(true)
@@ -148,9 +189,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0503_Item_00
 Function Fragment_Stage_0503_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleAllowFollow(false)
@@ -161,9 +202,9 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0504_Item_00
 Function Fragment_Stage_0504_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleAllowFollow(true)
@@ -174,12 +215,38 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0601_Item_00
 Function Fragment_Stage_0601_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
+;BEGIN AUTOCAST TYPE mantellarepository
 Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
+mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.listMenuState("NPC_Actions")
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0602_Item_00
+Function Fragment_Stage_0602_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.listMenuState("Main_Settings")
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0603_Item_00
+Function Fragment_Stage_0603_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.listMenuState("HTTP_Settings")
 Reset()
 ;END CODE
 EndFunction
