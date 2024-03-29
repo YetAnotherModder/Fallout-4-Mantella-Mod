@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12400
+VersionControl: 12412
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -88,7 +88,7 @@ MenuItems:
   ItemId: 3
   DisplayText:
     TargetLanguage: English
-    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 35 or "y" = 89). See the keycode chart in the holotape.'
+    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.'
 - ItemText:
     TargetLanguage: English
     Value: Display keycode chart (DirectX scancodes)
