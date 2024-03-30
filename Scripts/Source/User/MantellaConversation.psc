@@ -23,6 +23,9 @@ String[] _extraRequestActions
 bool _does_accept_player_input = false
 
 event OnInit()
+    _actorsInConversation = new Form[0]
+    _ingameEvents = new String[0]
+    _extraRequestActions = new String[0]
     RegisterForExternalEvent("OnHttpReplyReceived","OnHttpReplyReceived")
     RegisterForExternalEvent("OnHttpErrorReceived","OnHttpErrorReceived")
     ;mConsts.EVENT_ACTIONS + mConsts.ACTION_RELOADCONVERSATION <- Does not work in Fallout4. Needs to be a raw string 
@@ -40,6 +43,7 @@ function StartConversation(Actor[] actorsToStartConversationWith)
         return
     endIf
 
+    _actorsInConversation = new Form[0]
     _ingameEvents = new string[0]
     _extraRequestActions = new string[0]
     UpdateActorsArray(actorsToStartConversationWith)
@@ -138,7 +142,7 @@ function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpekTo, fl
     Utility.Wait(durationAdjusted)
 endfunction
 
-Actor function GetActorInConversation(string actorName)
+Actor function GetActorInConversation(string actorName)      
     int i = 0
     While i < _actorsInConversation.Length
         Actor currentActor = _actorsInConversation[i] as Actor
@@ -163,8 +167,6 @@ Function EndConversation()
 EndFunction
 
 Function CleanupConversation()
-    _actorsInConversation = None
-    _ingameEvents = None
     _does_accept_player_input = false
     F4SE_HTTP.clearAllDictionaries()
     Debug.Notification("Conversation has ended!")  
@@ -318,48 +320,33 @@ endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 bool Function IsPlayerInConversation()
-    if(!_actorsInConversation)
-        return false
-    endif
-        int i = 0
-        While i < _actorsInConversation.Length
-            if (_actorsInConversation[i] == Game.GetPlayer())
-                return true
-            endif
-            i += 1
-        EndWhile
-        return false    
+    int i = 0
+    While i < _actorsInConversation.Length
+        if (_actorsInConversation[i] == Game.GetPlayer())
+            return true
+        endif
+        i += 1
+    EndWhile
+    return false    
 EndFunction
 
-Function UpdateActorsArray(Actor[] actorsToStartConversationWith)
-    int i = 0
-    if(!_actorsInConversation)
-        _actorsInConversation = new Form[actorsToStartConversationWith.Length]
-        While i < actorsToStartConversationWith.Length
-            _actorsInConversation[i] = actorsToStartConversationWith[i]
-            i += 1
-        EndWhile
-        return
-    endIf
-    i = 0
-    While i < actorsToStartConversationWith.Length
-        int pos = _actorsInConversation.Find(actorsToStartConversationWith[i])
+Function UpdateActorsArray(Actor[] actorsToUpdate)
+    int i = 0    
+    While i < actorsToUpdate.Length
+        int pos = _actorsInConversation.Find(actorsToUpdate[i])
         if(pos < 0)
-            _actorsInConversation.Add(actorsToStartConversationWith[i])
+            _actorsInConversation.Add(actorsToUpdate[i])
         endIf
         i += 1
     EndWhile
 EndFunction
 
 int Function CountActorsInConversation()
-    If (_actorsInConversation)
-        return _actorsInConversation.Length
-    EndIf
-    return 0
+    return _actorsInConversation.Length
 EndFunction
 
 Actor Function GetActorInConversationByIndex(int indexOfActor) 
-    If (_actorsInConversation && indexOfActor >= 0 && indexOfActor < _actorsInConversation.Length)
+    If (indexOfActor >= 0 && indexOfActor < _actorsInConversation.Length)
         return _actorsInConversation[indexOfActor] as Actor
     EndIf
     return none
@@ -409,8 +396,11 @@ EndFunction
 
 int function BuildContext()
     int handle = F4SE_HTTP.createDictionary()
-    String currLoc = ((_actorsInConversation[0] as Actor).GetCurrentLocation() as Form).getName()
-    if currLoc == ""
+    String currLoc = ""
+    form currentLocation = game.getplayer().GetCurrentLocation() as Form
+    if currentLocation
+        currLoc = currentLocation.getName()
+    Else
         currLoc = "Boston area"
     endIf
     F4SE_HTTP.setString(handle, mConsts.KEY_CONTEXT_LOCATION, currLoc)
