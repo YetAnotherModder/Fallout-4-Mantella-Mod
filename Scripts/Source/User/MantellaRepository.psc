@@ -1,5 +1,6 @@
 Scriptname MantellaRepository extends Quest
 Import SUP_F4SE
+Import TIM:TIM
 int property textkeycode auto
 int property gameEventkeycode auto
 string property textinput auto

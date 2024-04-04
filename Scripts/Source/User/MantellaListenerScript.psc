@@ -1,4 +1,8 @@
 Scriptname MantellaListenerScript extends ReferenceAlias
+;********************
+;Mantella 0.8.0
+;*******************
+
 ; ---------------------------------------------
 ; KGTemplates:GivePlayerItemsOnModStart.psc - by kinggath
 ; ---------------------------------------------
@@ -83,6 +87,7 @@ Function LoadMantellaEvents()
     if(PlayerWorldspace != PrewarWorldspace && PlayerWorldspace != None)
         StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
     endif
+    debug.notification("Currently running Mantella 0.8.0")
 Endfunction
 
 Function registerForPlayerEvents()
