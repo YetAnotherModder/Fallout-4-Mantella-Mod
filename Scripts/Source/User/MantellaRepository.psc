@@ -1,6 +1,7 @@
 Scriptname MantellaRepository extends Quest
 Import SUP_F4SE
 int property textkeycode auto
+int property gameEventkeycode auto
 string property textinput auto
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
@@ -71,8 +72,10 @@ EndEvent
 
 Function reinitializeVariables()
     ;change the below this is for debug only
-    textkeycode=89
+    textkeycode=72
     RegisterForKey(textkeycode)
+    gameEventkeycode=89
+    RegisterForKey(gameEventkeycode)
     radiantEnabled = true
     radiantDistance = 20
     radiantFrequency = 10
@@ -143,39 +146,59 @@ EndFunction
 
 Function reloadKeys()
     ;called at player load
-    setDialogueHotkey(textkeycode)
+    setDialogueHotkey(textkeycode, "Dialogue")
+    setDialogueHotkey(gameEventkeycode, "GameEvent")
+
 Endfunction
 
 Event Onkeydown(int keycode)
-    if (keycode == textkeycode) && !SUP_F4SE.IsMenuModeActive()
-        String playerResponse = "False"
-        playerResponse = SUP_F4SE.ReadStringFromFile("_mantella_text_input_enabled.txt",0,2) 
-        if playerResponse == "True" 
-            ;Debug.Notification("Forcing Conversation Through Hotkey")
-            OpenTextMenu()
-        endIf
+    if !SUP_F4SE.IsMenuModeActive()
+        if keycode == textkeycode
+            String playerResponse = "False"
+            playerResponse = SUP_F4SE.ReadStringFromFile("_mantella_text_input_enabled.txt",0,2) 
+            if playerResponse == "True" 
+                ;Debug.Notification("Forcing Conversation Through Hotkey")
+                OpenTextMenu("playerResponseTextEntry")
+            endIf
+        ElseIf keycode == gameEventkeycode
+            OpenTextMenu("gameEventEntry")
+        endif
     endif
 Endevent
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
     if (asMenuName== "PipboyMenu") && MenuEventSelector==1 && !abOpening
-	    OpenHotkeyPrompt()
+	    OpenHotkeyPrompt("playerInputTextHotkey")
     elseif (asMenuName== "PipboyMenu") && MenuEventSelector==2 && !abOpening
         StopConversations()
         debug.MessageBox("Conversations stopped. Restart Mantella.exe to complete the process.")
+    elseif(asMenuName== "PipboyMenu") && MenuEventSelector==3 && !abOpening
+	    OpenHotkeyPrompt("gameEventHotkey")  
     endif
 endEvent
 
-function setDialogueHotkey(int keycode)
-    unRegisterForKey(textkeycode)
-    textkeycode = keycode
-    RegisterForKey(textkeycode)
+function setDialogueHotkey(int keycode, string keyType)
+    if keyType=="Dialogue"
+        unRegisterForKey(textkeycode)
+        textkeycode = keycode
+        RegisterForKey(textkeycode)
+    elseif keyType=="GameEvent"
+        unRegisterForKey(gameEventkeycode)
+        gameEventkeycode = keycode
+        RegisterForKey(gameEventkeycode)
+    endif
 endfunction
 
-function OpenTextMenu()
-    TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-    RegisterForExternalEvent("TIM::Accept","SetTextInput")
-    RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+function OpenTextMenu(string entryType)
+    if entryType == "playerResponseTextEntry"
+        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+        RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
+        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+    elseif entryType == "gameEventEntry"
+        TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
+        RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
+        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+    endif
     ;
     ; Function SetFrequency(string freq)
     ;   Debug.MessageBox("frequency will set at "+ freq)
@@ -191,13 +214,43 @@ function OpenTextMenu()
 
 endfunction
 
-function OpenHotkeyPrompt()
+Function SetPlayerResponseTextInput(string text)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    textinput = text
+    ProcessDialogue(textinput)
+EndFunction
     
-    TIM:TIM.Open(1,"Enter the keycode for the dialogue hotkey","", 0, 3)
-    RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
-    RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-    UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    ;
+Function SetGameEventTextInput(string text)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    text = text
+    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", text,2)
+
+EndFunction
+
+Function NoTextInput(string text)
+    ;Debug.notification("Text input cancelled")
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    textinput = ""
+EndFunction
+
+
+function OpenHotkeyPrompt(string entryType)
+    if entryType == "playerInputTextHotkey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    elseif entryType == "gameEventHotkey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the game event hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMGameEventHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    endif
     ; Function SetFrequency(string freq)
     ;   Debug.MessageBox("frequency will set at "+ freq)
     ;   UnRegisterForExternalEvent("TIM::Accept")
@@ -215,33 +268,27 @@ Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    setDialogueHotkey(keycode as int)
+    setDialogueHotkey(keycode as int, "Dialogue")
 EndFunction
     
+Function TIMGameEventHotkeyInput(string keycode)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    setDialogueHotkey(keycode as int, "GameEvent")
+EndFunction
+    
+
 Function TIMNoDialogueHotkeyInput(string keycode)
     ;Debug.notification("Text input cancelled")
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
 EndFunction
 
-Function SetTextInput(string text)
-    ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    textinput = text
-    ProcessDialogue(textinput)
-EndFunction
-    ;
-Function NoTextInput(string text)
-    ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    textinput = ""
-EndFunction
-
 Function ProcessDialogue (string text)
     if text != ""
-        writePlayerState()
+        ;to be implemented later
+        ;writePlayerState()
         SUP_F4SE.WriteStringToFile("_mantella_text_input_enabled.txt", "False", 0)
         SUP_F4SE.WriteStringToFile("_mantella_text_input.txt", textinput, 0)
         ;Debug.notification("Wrote to file "+ textinput)

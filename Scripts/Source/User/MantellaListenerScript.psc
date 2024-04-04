@@ -173,12 +173,12 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
             string itemName = akBaseItem.GetName()
             string itemPickedUpMessage = ""
             if itemName == "Powered Armor Frame" 
-                itemPickedUpMessage = "The player entered power armor.\n"
+                itemPickedUpMessage = "The player entered power armor."
             else
                 if sourceName != "" 
-                    itemPickedUpMessage = "The player picked up " + itemName + " from " + sourceName + ".\n"
+                    itemPickedUpMessage = "The player picked up " + itemName + " from " + sourceName + "."
                 Else
-                    itemPickedUpMessage = "The player picked up " + itemName + ".\n"
+                    itemPickedUpMessage = "The player picked up " + itemName + "."
                 endIf
             Endif
             SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", itemPickedUpMessage, 2)
@@ -193,12 +193,12 @@ Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemRefe
             string itemName = akBaseItem.GetName()
             string itemDroppedMessage = ""
             if itemName == "Powered Armor Frame" 
-                itemDroppedMessage = "The player exited power armor.\n"
+                itemDroppedMessage = "The player exited power armor."
             else
                 if destName != "" 
-                    itemDroppedMessage = "The player placed " + itemName + " in/on " + destName + ".\n"
+                    itemDroppedMessage = "The player placed " + itemName + " in/on " + destName + "."
                 Else
-                    itemDroppedMessage = "The player dropped " + itemName + ".\n"
+                    itemDroppedMessage = "The player dropped " + itemName + "."
                 endIf
             Endif
             SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", itemDroppedMessage, 2)
@@ -223,16 +223,16 @@ Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource
 
             if (hitSource == "None") || (hitSource == "")
                 ;Debug.MessageBox(aggressor + " punched the player.")
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " punched the player.\n", 2)
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " punched the player.", 2)
             else
                 if aggressor == PlayerRef.getdisplayname()
                     if playerref.getleveledactorbase().getsex() == 0
-                        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player hit himself with " + hitSource+".\n", 2)
+                        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player hit himself with " + hitSource+".", 2)
                     else
-                        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player hit herself with " + hitSource+".\n", 2)
+                        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player hit herself with " + hitSource+".", 2)
                     endIf
                 else
-                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " hit the player with " + hitSource+".\n", 2)
+                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " hit the player with " + hitSource+".", 2)
                 endif
             endIf
         else
@@ -256,7 +256,7 @@ Event OnLocationChange(Location akOldLoc, Location akNewLoc)
             currLoc = "Commonwealth"
         endIf
         ;Debug.MessageBox("Current location is now " + currLoc)
-        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "Current location is now " + currLoc+".\n", 2)
+        SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "Current location is now " + currLoc+".", 2)
     endif
 endEvent
 
@@ -267,7 +267,7 @@ Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
         if itemenchant != "" ;filtering out enchantments to avoid spamming the LLM with confusing feedback
             ;Debug.MessageBox("The player equipped " + itemEquipped)
             if itemEquipped != "Mantella"
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player equipped " + itemEquipped + ".\n", 2)
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player equipped " + itemEquipped + ".", 2)
             endif
         endif
     endif
@@ -279,7 +279,7 @@ Event OnItemUnequipped (Form akBaseObject, ObjectReference akReference)
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox("The player unequipped " + itemUnequipped)
         if itemUnequipped != "Mantella Enchantment" && itemUnequipped != "Mantella"
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player unequipped " + itemUnequipped + ".\n", 2)
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player unequipped " + itemUnequipped + ".", 2)
         Endif
     endif
 endEvent
@@ -289,7 +289,7 @@ Event OnSit(ObjectReference akFurniture)
         ;Debug.MessageBox("The player sat down.")
         String furnitureName = akFurniture.getbaseobject().getname()
         if furnitureName != "Power Armor"
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player rested on / used a(n) "+furnitureName+".\n", 2)
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player rested on / used a(n) "+furnitureName+".", 2)
         endif
     endif
 endEvent
@@ -300,7 +300,7 @@ Event OnGetUp(ObjectReference akFurniture)
         ;Debug.MessageBox("The player stood up.")
         String furnitureName = akFurniture.getbaseobject().getname()
         if furnitureName != "Power Armor"
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player stood up from a(n) "+furnitureName+".\n", 2)
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player stood up from a(n) "+furnitureName+".", 2)
         endif    
     endif
 EndEvent
@@ -316,7 +316,7 @@ Event OnPlayerFireWeapon(Form akBaseObject)
         string weaponName=akBaseObject.getname()
         if weaponName!="Mantella"
             if lastWeaponFired!=akBaseObject && !repository.EventFireWeaponSpamBlocker
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player fired their "+akBaseObject.getname()+" weapon.\n", 2)
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player fired their "+akBaseObject.getname()+" weapon.", 2)
                 lastWeaponFired=akBaseObject
                 repository.WeaponFiredCount+=1
                 if repository.WeaponFiredCount>=3
@@ -331,9 +331,9 @@ endEvent
 Event OnRadiationDamage(ObjectReference akTarget, bool abIngested)
     if repository.playerTrackingRadiationDamage
         if ( abIngested )
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player consumed irradiated sustenance.\n", 2)
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player consumed irradiated sustenance.", 2)
         elseif repository.EventRadiationDamageSpamBlocker!=true
-            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player took damage from radiation exposure.\n", 2)
+            SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", "The player took damage from radiation exposure.", 2)
             repository.EventRadiationDamageSpamBlocker=true
         endif
     endif
@@ -360,11 +360,11 @@ Event OnPlayerSleepStop(bool abInterrupted, ObjectReference akBed)
         ;    int daysPassed=Math.floor(timeSlept)
         ;    float remainingDayFraction=(timeSlept- daysPassed)
         ;    int hoursPassed=Math.Floor(remainingDayFraction*24)
-        ;    sleepMessage=messagePrefix+daysPassed+" days and "+hoursPassed+" hours.\n"
+        ;    sleepMessage=messagePrefix+daysPassed+" days and "+hoursPassed+" hours."
         ;    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", sleepMessage, 2)
         ;Else
             int hoursPassed=Math.Floor(timeSlept*24)
-            sleepMessage=messagePrefix+hoursPassed+" hours.\n"
+            sleepMessage=messagePrefix+hoursPassed+" hours."
             SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", sleepMessage, 2)
         ;endif
     endif
@@ -372,9 +372,9 @@ EndEvent
 
 Event OnCripple(ActorValue akActorValue, bool abCrippled)
     if repository.playerTrackingCripple
-        string messageSuffix=" is crippled.\n"
+        string messageSuffix=" is crippled."
         if !abCrippled
-            messageSuffix=" is now healed.\n"
+            messageSuffix=" is now healed."
         endif
         if akActorValue
             SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt","The player's "+akActorValue.getname()+messageSuffix,2)

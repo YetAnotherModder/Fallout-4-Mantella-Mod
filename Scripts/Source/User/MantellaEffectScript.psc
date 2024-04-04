@@ -332,7 +332,7 @@ function StartTextTimer()
             Monitorplayerresponse = SUP_F4SE.ReadStringFromFile("_mantella_text_input_enabled.txt",0,2)
 			if Monitorplayerresponse == "True"
 				;Debug.Notification("opening menu now")
-				repository.OpenTextMenu()
+				repository.OpenTextMenu("playerResponseTextEntry")
                 if repository.textinput != ""
                     SUP_F4SE.WriteStringToFile("_mantella_text_input_enabled.txt", "False", 0)
                     SUP_F4SE.WriteStringToFile("_mantella_text_input.txt", repository.textinput, 0)
@@ -382,18 +382,18 @@ Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource
             
             if (hitSource == "None") || (hitSource == "")
                 ;Debug.MessageBox(aggressor + " punched "+selfName+".")
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " punched "+selfName+".\n", 2)
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " punched "+selfName+".", 2)
             elseif hitSource == "Mantella"
                 ; Do not save event if Mantella itself is cast
             elseif akAggressor == TargetRefAlias.GetActorReference()
                 if TargetRefAlias.GetActorReference().getleveledactorbase().getsex() == 0
-                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit himself with " + hitSource+".\n", 2)
+                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit himself with " + hitSource+".", 2)
                 else
-                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit herself with " + hitSource+".\n", 2)
+                    SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", selfName+" hit herself with " + hitSource+".", 2)
                 endIf
             else
                 ;Debug.MessageBox(aggressor + " hit "+selfName+" with a(n) " + hitSource)
-                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " hit "+selfName+" with " + hitSource+".\n", 2)
+                SUP_F4SE.WriteStringToFile("_mantella_in_game_events.txt", aggressor + " hit "+selfName+" with " + hitSource+".", 2)
             endIf
         else
             timesHitSameAggressorSource += 1

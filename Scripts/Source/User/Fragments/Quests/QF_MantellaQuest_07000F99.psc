@@ -15,6 +15,20 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0202_Item_00
+Function Fragment_Stage_0202_Item_00()
+;BEGIN AUTOCAST TYPE MantellaRepository
+Quest __temp = self as Quest
+MantellaRepository kmyQuest = __temp as MantellaRepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
+kmyQuest.MenuEventSelector=3
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0301_Item_00
 Function Fragment_Stage_0301_Item_00()
 ;BEGIN AUTOCAST TYPE MantellaRepository
