@@ -65,6 +65,7 @@ Function StopConversations()
     Utility.Wait(0.5)
     endFlagMantellaConversationOne = False
     SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
+    UnregisterForMenuOpenCloseEvent("PipboyMenu")
 EndFunction
 
 Event OnInit()
@@ -83,6 +84,7 @@ Function reinitializeVariables()
     notificationsSubtitlesEnabled = true
     allowAggro = false
     allowFollow = false
+    MenuEventSelector=0
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
 EndFunction
