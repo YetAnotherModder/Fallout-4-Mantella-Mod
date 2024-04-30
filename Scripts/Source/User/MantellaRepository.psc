@@ -3,6 +3,7 @@ Import SUP_F4SE
 Import TIM:TIM
 int property textkeycode auto
 int property gameEventkeycode auto
+int property startConversationkeycode auto
 string property textinput auto
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
@@ -13,6 +14,9 @@ float property radiantFrequency auto
 int property MenuEventSelector auto
 bool property allowAggro auto
 bool property allowFollow auto
+bool property allowCrosshairTracking auto
+Spell property MantellaSpell auto
+Perk property ActivatePerk auto
 
 ;variables below for Player game event tracking
 bool property playerTrackingOnItemAdded auto
@@ -27,7 +31,7 @@ bool property playerTrackingFireWeapon auto
 bool property playerTrackingRadiationDamage auto
 bool property playerTrackingSleep auto
 bool property playerTrackingCripple auto
-
+bool property playerTrackingHealTeammate auto
 
 
 ;variables below for Mantella Target tracking
@@ -52,6 +56,7 @@ int property WeaponFiredCount auto
 ActorValue property HealthAV auto
 ActorValue property RadsAV auto
 float radiationToHealthRatio = 0.229
+Actor property CrosshairActor auto
 
 Function ResetEventSpamBlockers()
     EventFireWeaponSpamBlocker=false
@@ -68,9 +73,35 @@ Function StopConversations()
     UnregisterForMenuOpenCloseEvent("PipboyMenu")
 EndFunction
 
+Function ToggleActivatePerk()
+    Actor PlayerRef = Game.GetPlayer()
+    If (PlayerRef.HasPerk(ActivatePerk))
+		PlayerRef.RemovePerk(ActivatePerk)
+	Else
+        PlayerRef.AddPerk(ActivatePerk, False)
+	EndIf
+EndFunction
+
 Event OnInit()
     reinitializeVariables()
-EndEvent
+    ;int ActorFilter=  65
+    ;Var[] MyCrosshairRefFilter = new Var[4]
+    ;    MyCrosshairRefFilter[0] = true
+    ;    MyCrosshairRefFilter[1] = None
+    ;    MyCrosshairRefFilter[2] = None
+    ;    MyCrosshairRefFilter[3] = ActorFilter
+ EndEvent
+
+Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int Type)
+    ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
+    if bCrosshairOn
+        if Type==65 ;checks if type is actor
+            CrosshairActor= ObjectRef as actor
+        ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
+        ;debug.notification(" type is "+Type)
+        endif
+    endif
+Endfunction
 
 Function reinitializeVariables()
     ;change the below this is for debug only
@@ -78,6 +109,8 @@ Function reinitializeVariables()
     RegisterForKey(textkeycode)
     gameEventkeycode=89
     RegisterForKey(gameEventkeycode)
+    startConversationkeycode=72
+    RegisterForKey(startConversationkeycode)
     radiantEnabled = true
     radiantDistance = 20
     radiantFrequency = 10
@@ -87,7 +120,15 @@ Function reinitializeVariables()
     MenuEventSelector=0
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
+    RegisterForOnCrosshairRefChange()
+    Actor PlayerRef = Game.GetPlayer()
+    If !(PlayerRef.HasPerk(ActivatePerk))
+        PlayerRef.AddPerk(ActivatePerk, False)
+    Endif
 EndFunction
+
+
+
 
 Function togglePlayerEventTracking(bool bswitch)
     ;Player tracking variables below
@@ -103,6 +144,7 @@ Function togglePlayerEventTracking(bool bswitch)
     playerTrackingRadiationDamage=bswitch
     playerTrackingSleep = bswitch
     playerTrackingCripple = bswitch
+    playerTrackingHealTeammate = bswitch
 EndFunction
 
 Function toggleTargetEventTracking(bool bswitch)
@@ -143,6 +185,38 @@ Function listMenuState(String aMenu)
         else
             debug.notification("NPC follow is ON")
         endif
+    elseif aMenu=="Hotkeys"
+        if textkeycode!=0
+            Debug.notification("Current text response hotkey is "+textkeycode)
+        ElseIf (true)
+            Debug.notification("Current text response hotkey is unassigned")
+        endif
+        if gameEventkeycode!=0
+            Debug.notification("Current custom game event input hotkey is "+gameEventkeycode)
+        ElseIf (true)
+            Debug.notification("Current custom game event input hotkey is unassigned")
+        endif
+        if startConversationkeycode!=0
+            Debug.notification("Current start conversationhotkey is "+startConversationkeycode)
+        ElseIf (true)
+            Debug.notification("Current start conversation hotkey is unassigned")
+        endif
+    elseif aMenu=="Events"
+        if playerTrackingOnItemAdded
+            Debug.notification("Player events are being tracked by Mantella")
+        else
+            Debug.notification("Player events are NOT being tracked by Mantella")
+        endif
+        if targetTrackingItemAdded
+            Debug.notification("NPCs events are being tracked by Mantella")
+        else
+            Debug.notification("NPCs events are NOT being tracked by Mantella")
+        endif
+        if allowCrosshairTracking
+            Debug.notification("F4SE crosshair tracking is ON")
+        else
+            Debug.notification("F4SE crosshair tracking is OFF")
+        endif
     endif
 EndFunction
 
@@ -157,11 +231,33 @@ Endfunction
 Event Onkeydown(int keycode)
     if !SUP_F4SE.IsMenuModeActive()
         if keycode == textkeycode
+
             String playerResponse = "False"
             playerResponse = SUP_F4SE.ReadStringFromFile("_mantella_text_input_enabled.txt",0,2) 
             if playerResponse == "True" 
                 ;Debug.Notification("Forcing Conversation Through Hotkey")
                 OpenTextMenu("playerResponseTextEntry")
+            ElseIf playerResponse != "True" 
+                
+                String radiantDialogue = SUP_F4SE.ReadStringFromFile("_mantella_radiant_dialogue.txt",0,1) 
+
+                ;String currentActor = MiscUtil.ReadFromFile("_mantella_current_actor.txt") as String
+                String activeActors = SUP_F4SE.ReadStringFromFile("_mantella_active_actors.txt",0,10) 
+                String actorName = CrosshairActor.GetDisplayName()
+                int index = SUPStringFind(activeActors, actorName,0, 1)
+                float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
+                if distanceFromConversationTarget<1500
+                ; if actor not already loaded or player is interrupting radiant dialogue
+                    if (index == -1) || (radiantDialogue == "True")
+                        if radiantDialogue != "True"
+                            debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
+                        else 
+                            debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
+                        endif
+                        MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
+                        Utility.Wait(0.5)
+                    endif
+                endif
             endIf
         ElseIf keycode == gameEventkeycode
             OpenTextMenu("gameEventEntry")
@@ -177,6 +273,8 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
         debug.MessageBox("Conversations stopped. Restart Mantella.exe to complete the process.")
     elseif(asMenuName== "PipboyMenu") && MenuEventSelector==3 && !abOpening
 	    OpenHotkeyPrompt("gameEventHotkey")  
+    elseif(asMenuName== "PipboyMenu") && MenuEventSelector==4 && !abOpening
+	    OpenHotkeyPrompt("startConversationHotKey")  
     endif
 endEvent
 
@@ -189,10 +287,27 @@ function setDialogueHotkey(int keycode, string keyType)
         unRegisterForKey(gameEventkeycode)
         gameEventkeycode = keycode
         RegisterForKey(gameEventkeycode)
+    elseif keyType=="StartConversation"
+        unRegisterForKey(startConversationkeycode)
+        startConversationkeycode = keycode
+        RegisterForKey(startConversationkeycode)
     endif
 endfunction
 
+Function RegisterForOnCrosshairRefChange()
+    ;disable for VR
+    RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
+    allowCrosshairTracking=true
+EndFunction
+
+Function UnRegisterForOnCrosshairRefChange()
+    ;disable for VR
+    UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
+    allowCrosshairTracking=false
+EndFunction
+
 function OpenTextMenu(string entryType)
+    ;disable for VR
     if entryType == "playerResponseTextEntry"
         TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
         RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
@@ -243,6 +358,7 @@ EndFunction
 
 
 function OpenHotkeyPrompt(string entryType)
+    ;disable for VR
     if entryType == "playerInputTextHotkey"
         TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue hotkey","", 0, 3)
         RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
@@ -251,6 +367,11 @@ function OpenHotkeyPrompt(string entryType)
     elseif entryType == "gameEventHotkey"
         TIM:TIM.Open(1,"Enter the DirectX Scancode for the game event hotkey","", 0, 3)
         RegisterForExternalEvent("TIM::Accept","TIMGameEventHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    elseif entryType == "startConversationHotKey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the start converstion hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMStartConversationHotkeyInput")
         RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
     endif
@@ -279,6 +400,13 @@ Function TIMGameEventHotkeyInput(string keycode)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
     setDialogueHotkey(keycode as int, "GameEvent")
+EndFunction
+
+Function TIMStartConversationHotkeyInput(string keycode)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    setDialogueHotkey(keycode as int, "StartConversation")
 EndFunction
     
 

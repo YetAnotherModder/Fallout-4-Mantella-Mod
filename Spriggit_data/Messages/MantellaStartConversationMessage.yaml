@@ -1,5 +1,5 @@
 FormKey: 05A2C9:Mantella.esp
-VersionControl: 12400
+VersionControl: 12444
 EditorID: MantellaStartConversationMessage
 Description:
   TargetLanguage: English
@@ -16,7 +16,7 @@ ShortTitle:
 MenuButtons:
 - Text:
     TargetLanguage: English
-    Value: Yes
+    Value: Yes.
 - Text:
     TargetLanguage: English
-    Value: No
+    Value: No.

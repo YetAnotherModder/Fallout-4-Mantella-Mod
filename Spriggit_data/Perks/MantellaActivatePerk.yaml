@@ -1,0 +1,52 @@
+FormKey: 0780FC:Mantella.esp
+VersionControl: 12444
+EditorID: MantellaActivatePerk
+VirtualMachineAdapter:
+  ScriptFragments:
+    ExtraBindDataVersion: 3
+    Script:
+      Name: Fragments:Perks:PRKF_MantellaActivatePerk_070780FC
+      Properties:
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaSpell
+        Object: 0090C7:Mantella.esp
+    Fragments:
+    - Index: 1
+      Unknown2: 1
+      ScriptName: Fragments:Perks:PRKF_MantellaActivatePerk_070780FC
+      FragmentName: Fragment_Entry_01
+Name:
+  TargetLanguage: English
+  Value: MantellaActivatePerk
+Description:
+  TargetLanguage: English
+  Value: ''
+NumRanks: 1
+Playable: True
+Hidden: True
+Effects:
+- MutagenObjectType: PerkEntryPointAddActivateChoice
+  Priority: 55
+  Conditions:
+  - RunOnTabIndex: 1
+    Conditions:
+    - MutagenObjectType: ConditionFloat
+      Unknown1: 0xE5A09B
+      ComparisonValue: 1
+      Data:
+        MutagenObjectType: FunctionConditionData
+        Function: IsActor
+    - MutagenObjectType: ConditionFloat
+      CompareOperator: NotEqualTo
+      Unknown1: 0xE5A09B
+      ComparisonValue: 1
+      Data:
+        MutagenObjectType: FunctionConditionData
+        Function: GetDead
+  EntryPoint: Activate
+  PerkConditionTabCount: 2
+  PerkEntryID: 1
+  ButtonLabel:
+    TargetLanguage: English
+    Value: Conversation
+  Flags: []

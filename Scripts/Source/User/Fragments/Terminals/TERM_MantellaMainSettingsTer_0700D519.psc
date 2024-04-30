@@ -1,6 +1,14 @@
 ;BEGIN FRAGMENT CODE - Do not edit anything between this and the end comment
 Scriptname Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519 Extends Terminal Hidden Const
 
+;BEGIN FRAGMENT Fragment_Terminal_01
+Function Fragment_Terminal_01(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(305)
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Terminal_02
 Function Fragment_Terminal_02(ObjectReference akTerminalRef)
 ;BEGIN CODE
@@ -12,7 +20,7 @@ EndFunction
 ;BEGIN FRAGMENT Fragment_Terminal_03
 Function Fragment_Terminal_03(ObjectReference akTerminalRef)
 ;BEGIN CODE
-MantellaQuest.SetStage(201)
+MantellaQuest.SetStage(305)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -37,14 +45,6 @@ EndFunction
 Function Fragment_Terminal_06(ObjectReference akTerminalRef)
 ;BEGIN CODE
 MantellaQuest.SetStage(304)
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Terminal_07
-Function Fragment_Terminal_07(ObjectReference akTerminalRef)
-;BEGIN CODE
-MantellaQuest.SetStage(202)
 ;END CODE
 EndFunction
 ;END FRAGMENT

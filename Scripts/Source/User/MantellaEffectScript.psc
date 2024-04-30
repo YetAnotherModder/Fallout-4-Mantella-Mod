@@ -29,7 +29,7 @@ event OnEffectStart(Actor target, Actor caster)
             ;SUP_F4SE.WriteStringToFile("activeActors.txt", "", 0)
             ;StopConversations()
             proceedWithConversation=false
-        elseif aButton==0 ;player chose yes
+        elseif aButton==0 ;player chose  add a new NPC to the conversation
             debug.notification("Adding NPC to conversation")
         endif 
     ElseIf caster == playerRef && actorCount==0
@@ -114,7 +114,6 @@ event OnEffectStart(Actor target, Actor caster)
 
             String actorVoiceType = target.GetVoiceType()
             SUP_F4SE.WriteStringToFile("_mantella_actor_voice.txt", actorVoiceType, 0)
-            ;the below is to build a substring to use later to find the correct wav file 
             String isEnemy = "False"
             if (target.getcombattarget() == PlayerRef)
                 isEnemy = "True"

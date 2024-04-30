@@ -1,6 +1,6 @@
 FormKey: 055E78:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12392
+VersionControl: 12445
 EditorID: MantellaEventTrackingSettings
 Fallout4MajorRecordFlags:
 - 0x10
@@ -14,10 +14,18 @@ VirtualMachineAdapter:
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
     Fragments:
+    - FragmentIndex: 5
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
+      FragmentName: Fragment_Terminal_05
     - FragmentIndex: 2
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
       FragmentName: Fragment_Terminal_02
+    - FragmentIndex: 6
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
+      FragmentName: Fragment_Terminal_06
     - FragmentIndex: 1
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
@@ -113,6 +121,24 @@ MenuItems:
 
 
 
+- ItemText:
+    TargetLanguage: English
+    Value: F4SE Crosshair Tracking OFF (desktop only)
+  Type: DisplayText
+  ItemId: 5
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      F4SE Crosshair Tracking tracking is turned OFF.
+- ItemText:
+    TargetLanguage: English
+    Value: F4SE Crosshair Tracking ON (desktop only)
+  Type: DisplayText
+  ItemId: 6
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      F4SE Crosshair Tracking tracking is turned ON.
 MajorFlags:
 - 0x10
 - 0x2000

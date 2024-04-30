@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12419
+VersionControl: 12444
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -11,16 +11,12 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
     Fragments:
-    - FragmentIndex: 7
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_07
     - FragmentIndex: 5
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -33,6 +29,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_06
+    - FragmentIndex: 1
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_01
     - FragmentIndex: 3
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -84,242 +84,6 @@ BodyTexts:
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Set Dialogue Hotkey (desktop only)
-  ResponseText:
-    TargetLanguage: English
-    Value: Close the Pipboy to update the keycode.
-  Type: DisplayText
-  ItemId: 3
-  DisplayText:
-    TargetLanguage: English
-    Value: 'Close menu to set the new hotkey for player text input. Default key is "H". Use decima Directx scancode value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.'
-- ItemText:
-    TargetLanguage: English
-    Value: Set Game Event Hotkey (desktop only)
-  ResponseText:
-    TargetLanguage: English
-    Value: Close the Pipboy to update the keycode.
-  Type: DisplayText
-  ItemId: 7
-  DisplayText:
-    TargetLanguage: English
-    Value: >+
-      Close menu to set the new hotkey for game event input. Default key is "Y". Use decima Directx scancode value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.
-- ItemText:
-    TargetLanguage: English
-    Value: Display keycode chart (DirectX scancodes)
-  Type: DisplayText
-  ItemId: 1
-  DisplayText:
-    TargetLanguage: English
-    Value: >-
-      Button          Dec
-
-      BACKSPACE       8
-
-      TAB             9
-
-      ENTER           13
-
-      CAPS LOCK       20
-
-      ESCAPE          27
-
-      SPACE           32
-
-      PGUP            33
-
-      PGDOWN          34
-
-      END             35
-
-      HOME            36
-
-      LEFT            37
-
-      UP              38
-
-      RIGHT           39
-
-      DOWN            40
-
-      DELETE          46
-
-      0               48
-
-      1               49
-
-      2               50
-
-      3               51
-
-      4               52
-
-      5               53
-
-      6               54
-
-      7               55
-
-      8               56
-
-      9               57
-
-      A               65
-
-      B               66
-
-      C               67
-
-      D               68
-
-      E               69
-
-      F               70
-
-      G               71
-
-      H               72
-
-      I               73
-
-      J               74
-
-      K               75
-
-      L               76
-
-      M               77
-
-      N               78
-
-      O               79
-
-      P               80
-
-      Q               81
-
-      R               82
-
-      S               83
-
-      T               84
-
-      U               85
-
-      V               86
-
-      W               87
-
-      X               88
-
-      Y               89
-
-      Z               90
-
-      SUPER           92
-
-      Num0            96
-
-      Num1            97
-
-      Num2            98
-
-      Num3            99
-
-      Num4            100
-
-      Num5            101
-
-      Num6            102
-
-      Num7            103
-
-      Num8            104
-
-      Num9            105
-
-      Num*            106
-
-      Num+            107
-
-      Num-            109
-
-      Num.            110
-
-      Num/            111
-
-      F1              112
-
-      F2              113
-
-      F3              114
-
-      F4              115
-
-      F5              116
-
-      F6              117
-
-      F7              118
-
-      F8              119
-
-      F9              120
-
-      F10             121
-
-      F11             122
-
-      NUMLOCK         144
-
-      SCRLOCK         145
-
-      L-SHIFT         160
-
-      R-SHIFT         161
-
-      L-CTRL          162
-
-      R-CTRL          163
-
-      L-ALT           164
-
-      R-ALT           165
-
-      ;               186
-
-      =               187
-
-      ,               188
-
-      -               189
-
-      .               190
-
-      /               191
-
-      [               219
-
-      \               220
-
-      ]               221
-
-      '               222
-
-      \               226
-
-      Mouse1          256
-
-      Mouse2          257
-
-      Mouse3          258
-
-      Mouse4          259
-
-      Mouse5          260
-- ItemText:
-    TargetLanguage: English
     Value: Stop NPC subtitles bug
   ResponseText:
     TargetLanguage: English
@@ -328,15 +92,7 @@ MenuItems:
   ItemId: 4
   DisplayText:
     TargetLanguage: English
-    Value: This will end all Mantella effects running on NPCs.
-- ItemText:
-    TargetLanguage: English
-    Value: Restore defaults settings
-  Type: DisplayText
-  ItemId: 2
-  DisplayText:
-    TargetLanguage: English
-    Value: 'Restoring settings to default. '
+    Value: This will end all Mantella effects running on NPCs. Use this if you noticed that multiple NPCs are saying the same sentences in the subtitles.
 - ItemText:
     TargetLanguage: English
     Value: Turn subtitles OFF
@@ -353,6 +109,52 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: Turning Mantella dialogue subtitles ON
+- ItemText:
+    TargetLanguage: English
+    Value: Remove conversation activation option
+  Type: DisplayText
+  ItemId: 1
+  DisplayText:
+    TargetLanguage: English
+    Value: The extra activation option for Mantella has been removed.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72B38B
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: Reference
+      Reference: 000014:Fallout4.esm
+      Function: HasPerk
+      ParameterOneRecord: 0780FC:Mantella.esp
+      ParameterOneNumber: 117932284
+- ItemText:
+    TargetLanguage: English
+    Value: Add conversation activation option
+  Type: DisplayText
+  ItemId: 3
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      The extra activation option for Mantella has been added.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x72B38B
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: Reference
+      Reference: 000014:Fallout4.esm
+      Function: HasPerk
+      ParameterOneRecord: 0780FC:Mantella.esp
+      ParameterOneNumber: 117932284
+- ItemText:
+    TargetLanguage: English
+    Value: Restore defaults settings
+  Type: DisplayText
+  ItemId: 2
+  DisplayText:
+    TargetLanguage: English
+    Value: 'Restoring settings to default. '
 MajorFlags:
 - 0x10
 - 0x2000
