@@ -1,6 +1,7 @@
 Scriptname MantellaConversation extends Quest hidden
 
 Import F4SE
+Import SUP_F4SE
 Import Utility
 
 Topic property MantellaDialogueLine auto
@@ -22,12 +23,22 @@ String[] _ingameEvents
 String[] _extraRequestActions
 bool _does_accept_player_input = false
 
+;VR exclusive part
+;RequestCounter & acts like handle for F4SE_HTTP for output to Mantella Software
+int RequestCounter
+;JSON_Request will depend on RequestCounter to fetch the correct JSON name in the cache
+String[] VR_JSON_Requests
+;end VR exclusive part
+
 event OnInit()
     _actorsInConversation = new Form[0]
     _ingameEvents = new String[0]
     _extraRequestActions = new String[0]
     RegisterForExternalEvent("OnHttpReplyReceived","OnHttpReplyReceived")
     RegisterForExternalEvent("OnHttpErrorReceived","OnHttpErrorReceived")
+    ;VR exclusive part
+    VR_JSON_Requests = new String[128]
+    ;end VR exclusive part
     ;mConsts.EVENT_ACTIONS + mConsts.ACTION_RELOADCONVERSATION <- Does not work in Fallout4. Needs to be a raw string 
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_reload_conversation")
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_end_conversation")
@@ -52,10 +63,26 @@ function StartConversation(Actor[] actorsToStartConversationWith)
         Debug.Notification("Not enough characters to start a conversation")
         return
     endIf
-
     int handle = F4SE_HTTP.createDictionary()
+    ;VR exclusive part
+    int VRhandle = RequestCounter
+    RequestCounter+=1
+    VR_JSON_Requests[VRhandle]="mantella_json_start_conversation" 
+    if JSONIsFileCached(VR_JSON_Requests[VRhandle]) ;Checks if JSON already exist and clears JSON before using it
+        SUP_F4SE.JSONEraseKey(VR_JSON_Requests[VRhandle], "", 1) 
+    endif
+    SUP_F4SE.JSONCacheFile(VR_JSON_Requests[VRhandle], 1)
+    ;end VR exclusive part
     F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_STARTCONVERSATION)
+    ;VR exclusive part
+    SUP_F4SE.JSONSetValueString(VR_JSON_Requests[VRhandle], mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_STARTCONVERSATION, 1)
+
+    ;end VR exclusive part
     AddCurrentActorsAndContext(handle)
+    ;VR exclusive part
+    VR_AddCurrentActorsAndContext(VRhandle)
+    VR_CloseJsonArray(VR_JSON_Requests)
+    ;end VR exclusive part
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
     string address = "http://localhost:" + mConsts.HTTP_PORT + "/" + mConsts.HTTP_ROUTE_MAIN
     Debug.Notification("Sent StartConversation http request to " + address)  
@@ -80,6 +107,71 @@ function OnHttpReplyReceived(int typedDictionaryHandle)
     EndIf
 endFunction
 
+;VR exclusive part 
+;/
+function VR_OnJsonReplyReceived(string JSONFilename)
+    int debugcheck = SUP_F4SE.JSONCacheFile(JSONFilename, 0)
+    if debugcheck>0
+        JSONValue replytype = SUP_F4SE.JSONGetValue(JSONFilename, mConsts.KEY_REPLYTYPE, 1)
+        if (replytype.JSONSuccess == 3) && (replyType.JSONsValue != "error")
+            debug.notification("Read Success, continuing conversation")
+            ;ContinueConversation(typedDictionaryHandle)        
+        Elseif (replytype.JSONSuccess == 3) 
+            JSONValue errorMessage = SUP_F4SE.JSONGetValue(JSONFilename, "mantella_message",1)
+            if (replytype.JSONSuccess == 3)
+                Debug.Notification(errorMessage.JSONsValue)
+            Else
+                Debug.Notification("Error: Could not retrieve error message")
+            endif
+            debug.notification("Read fail, ending conversation")
+            ;CleanupConversation()
+        Else
+            Debug.Notification("Couldn't read JSON Reply type")
+        EndIf
+    Else
+        Debug.Notification("Error can't read JSON Mantella output, SUP_F4SE error code : "+VR_JSONdebugInterpreter(debugcheck))
+        Debug.trace("Error can't read JSON Mantella output, SUP_F4SE error code : "+VR_JSONdebugInterpreter(debugcheck))
+    endif
+    ;added this part to have a way to check if papyrus processed the message yet or not
+    SUP_F4SE.JSONSetValueString(JSONFilename, "mantella_papyrus_processed", "true", 1) 
+endFunction
+;end VR exclusive part
+/;
+
+string function VR_JSONGetString(string JSONFilename, string JSONKey, string errormessage )
+    JSONValue JSONString = SUP_F4SE.JSONGetValue(JSONFilename, JSONKey, 1)
+    if (JSONString.JSONSuccess == 3)
+        return JSONString.JSONsValue
+    else
+        return errormessage
+    endif
+endfunction 
+
+
+string function VR_JSONdebugInterpreter(int debugcode)
+    ;match debug code with array for errors by adding 14 to it
+    debugcode=(debugcode+14)
+    string[] debugMessageArray = new string[15]
+    debugMessageArray[0] = "-14 : Parsed JSON is not structured : tried to parse JSON object via string and it's not valid"
+    debugMessageArray[1] = "-13 : No Save Path : JSON file is missing save path"
+    debugMessageArray[2] = "-12 : Can't write to file : data can't be written to specified file"
+    debugMessageArray[3] = "-11 : Pos in Array out of range : tried to erase or access value in array which is out of range(i.e. request pos is 5 while array only has 4 elements)"
+    debugMessageArray[4] = "-10 : Not an array : tried to append value to existing key which is not an array"
+    debugMessageArray[5] = "Not used"
+    debugMessageArray[6] = "Not used"
+    debugMessageArray[7] = "Not used"
+    debugMessageArray[8] = "-6 : WrongFileExtension : tried to open other file with extenstion other than '.json'"
+    debugMessageArray[9] = "-5 : WrongDirectory :  tried to access directory outside of game folder"
+    debugMessageArray[10] = "-4 : CantOpen : File can't be opened or doesn't exist;"
+    debugMessageArray[11] = "-3 : NotStructured : JSON file is not structured"
+    debugMessageArray[12] = "-2 : KeyNotFound : Specified key is not found in JSON file"
+    debugMessageArray[13] = "-1 : SuccessOtherType : Value of JSON key is not supported type(binary or discarded types)"
+    debugMessageArray[14] = "0 : SuccessNULL : File was read sucessfully and the value is NULL"
+    string errormessage = debugMessageArray[debugcode]
+
+    return debugMessageArray[debugcode] as string
+endfunction
+
 function ContinueConversation(int handle)
     string nextAction = F4SE_HTTP.getString(handle, mConsts.KEY_REPLYTYPE, "Error: Did not receive reply type")
     ; Debug.Notification(nextAction)
@@ -103,6 +195,21 @@ function ContinueConversation(int handle)
         CleanupConversation()
     endIf
 endFunction
+
+;/ CONTINUE FROM HERE
+function VR_ContinueConversation(string JSONFilename)
+    string nextAction = VR_JSONGetString(JSONFilename, mConsts.KEY_REPLYTYPE,"Error: Did not receive reply type" )
+    if(nextAction == mConsts.KEY_REPLYTTYPE_STARTCONVERSATIONCOMPLETED)
+        RequestContinueConversation()
+    elseIf(nextAction == mConsts.KEY_REPLYTYPE_NPCTALK)
+        int npcTalkHandle = F4SE_HTTP.getNestedDictionary(handle, mConsts.KEY_REPLYTYPE_NPCTALK)
+        ;VR_ProcessNpcSpeak(JSONFilename) ;NEED TO ADD FUNCTION
+        ;VR_RequestContinueConversation() ;NEED TO ADD FUNCTION
+
+endFunction
+/;
+
+
 
 function RequestContinueConversation()
     int handle = F4SE_HTTP.createDictionary()
@@ -183,10 +290,9 @@ function sendRequestForPlayerInput(string playerInput)
     F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_PLAYERINPUT)
     F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE_PLAYERINPUT, playerinput)
     int[] handlesNpcs = BuildNpcsInConversationArray()
-    F4SE_HTTP.setNestedDictionariesArray(handle, mConsts.KEY_ACTORS, handlesNpcs)    
+    F4SE_HTTP.setNestedDictionariesArray(handle, mConsts.KEY_ACTORS, handlesNpcs)   
     int handleContext = BuildContext()
     F4SE_HTTP.setNestedDictionary(handle, mConsts.KEY_CONTEXT, handleContext)
-
     ClearIngameEvent()    
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
 endFunction
@@ -361,6 +467,79 @@ Function AddCurrentActorsAndContext(int handleToAddTo)
     F4SE_HTTP.setNestedDictionary(handleToAddTo, mConsts.KEY_CONTEXT, handleContext)
 EndFunction
 
+;VR exclusive part
+Function VR_AddCurrentActorsAndContext(int handleToAddTo)
+    ;Add Actors
+    int[] handlesNpcs = VR_BuildNpcsInConversationArray()
+    VR_SetNestedDictionariesArray(handleToAddTo, mConsts.KEY_ACTORS, handlesNpcs)
+
+    int handleContext = VR_BuildContext()
+    VR_SetNestedDictionary(handleToAddTo, mConsts.KEY_CONTEXT, handleContext)
+EndFunction
+;end VR exclusive part
+
+;VR exclusive part
+int Function VR_createDictionary(string JSONCacheName)
+    int VRhandle = RequestCounter
+    RequestCounter+=1
+    VR_JSON_Requests[VRhandle]=JSONCacheName+"_"+VRhandle
+    if JSONIsFileCached(VR_JSON_Requests[VRhandle]) ;Checks if JSON already exist and clears JSON before using it
+        SUP_F4SE.JSONEraseKey(VR_JSON_Requests[VRhandle], "", 1) 
+    endif
+    SUP_F4SE.JSONCacheFile(VR_JSON_Requests[VRhandle], 1)
+    return VRhandle
+Endfunction
+;end VR exclusive part
+
+;VR exclusive part
+;This remove all the caches JSON contained in the array and save them to file if they need to be read by Mantella Software (e.g. being "mantella_json_start_conversation")
+int Function VR_CloseJsonArray(String[] JSONArrayName)
+    int i = 0
+    While i < JSONArrayName.Length
+        ;TO UPDATE : REMOVE COMMENTED LINE WHEN FINISHED TESTING
+        if JSONArrayName[i]
+            ;if JSONArrayName[i]=="mantella_json_start_conversation"
+            SUP_F4SE.JSONCloseFile(JSONArrayName[i], 1, JSONArrayName[i]+".json")
+            ;endif
+        endif
+        i += 1
+    EndWhile
+    RequestCounter=0
+Endfunction
+;end VR exclusive part
+
+;VR exclusive part
+Function VR_SetNestedDictionariesArray(int JSON_handle,String ArrayKey,int[] ArrayToSet)
+    int i = 0
+    int CurrentArrayHandle=0
+    string currentArrayString
+    string currentJSONArrayName
+    int debugcheck
+    While i < ArrayToSet.Length
+        CurrentArrayHandle = ArrayToSet[i]   
+        currentJSONArrayName = VR_JSON_Requests[CurrentArrayHandle]
+        currentArrayString=SUP_F4SE.JSONToString(currentJSONArrayName)
+        debugcheck= SUP_F4SE.JSONAppendValueString(VR_JSON_Requests[JSON_handle], ArrayKey+"\\nestedobject",currentArrayString , 1,1) 
+        if debugcheck<1
+            Debug.trace("VR_SetNestedDictionariesArray "+currentJSONArrayName+" failed to build. Error code : "+debugcheck)
+        endif
+        i += 1
+    EndWhile
+Endfunction
+;end VR exclusive part
+
+;VR exclusive part
+Function VR_SetNestedDictionary(int JSON_handle,String JSONKey,int JSONtoSetHandle)
+    int debugcheck
+    string JSONName = VR_JSON_Requests[JSONtoSetHandle]
+    string JSONString=SUP_F4SE.JSONToString(JSONName)
+    debugcheck= SUP_F4SE.JSONAppendValueString(VR_JSON_Requests[JSON_handle], JSONKey+"\\NestedObject",JSONString , 1,1) 
+    if debugcheck<1
+        Debug.trace("VR_SetNestedDictionary "+JSONName+" failed to build. Error code : "+debugcheck)
+    endif
+Endfunction
+;end VR exclusive part
+
 int[] function BuildNpcsInConversationArray()
     int[] actorHandles =  new int[_actorsInConversation.Length]
     int i = 0
@@ -370,6 +549,18 @@ int[] function BuildNpcsInConversationArray()
     EndWhile
     return actorHandles
 endFunction
+
+;VR exclusive part
+int[] function VR_BuildNpcsInConversationArray()
+    int[] actorHandles =  new int[_actorsInConversation.Length]
+    int i = 0
+    While i < _actorsInConversation.Length
+        actorHandles[i] = VR_BuildActorSetting(_actorsInConversation[i] as Actor)
+        i += 1
+    EndWhile
+    return actorHandles
+endFunction
+;end VR exclusive part
 
 int function buildActorSetting(Actor actorToBuild)    
     int handle = F4SE_HTTP.createDictionary()
@@ -387,12 +578,39 @@ int function buildActorSetting(Actor actorToBuild)
     return handle
 endFunction
 
+    ;VR exclusive part
+int function VR_BuildActorSetting(Actor actorToBuild)   
+    int handle = VR_createDictionary("_mantella_json_actor_settings")
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_ID,(actorToBuild.getactorbase() as form).getformid(),1) 
+    SUP_F4SE.JSONSetValueString(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_NAME, actorToBuild.GetDisplayName(),1)
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_ISPLAYER, (actorToBuild == game.getplayer()) as float,1,1) ;is bool so added extra 1 parameter at the end
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_GENDER, actorToBuild.getleveledactorbase().getsex(),1)
+    SUP_F4SE.JSONSetValueString(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_RACE, actorToBuild.getrace(),1)
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_RELATIONSHIPRANK, actorToBuild.getrelationshiprank(game.getplayer()),1)
+    SUP_F4SE.JSONSetValueString(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_VOICETYPE, actorToBuild.GetVoiceType(),1)
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_ISINCOMBAT, actorToBuild.IsInCombat() as float,1,1)     ;is bool so added extra 1 parameter at the end
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handle], mConsts.KEY_ACTOR_ISENEMY, (actorToBuild.getcombattarget() == game.GetPlayer()) as float,1,1) ;is bool so added extra 1 parameter at the end
+    int customValuesHandle = VR_BuildCustomActorValues(actorToBuild)
+    VR_SetNestedDictionary(handle, mConsts.KEY_ACTOR_CUSTOMVALUES, customValuesHandle)
+    return handle
+endFunction
+    ;end VR exclusive part
+
 int Function BuildCustomActorValues(Actor actorToBuildCustomValuesFor)
     int handleCustomActorValues = F4SE_HTTP.createDictionary()
     F4SE_HTTP.setFloat(handleCustomActorValues, mConsts.KEY_ACTOR_CUSTOMVALUES_POSX, actorToBuildCustomValuesFor.getpositionX())
     F4SE_HTTP.setFloat(handleCustomActorValues, mConsts.KEY_ACTOR_CUSTOMVALUES_POSY, actorToBuildCustomValuesFor.getpositionY())
     return handleCustomActorValues
 EndFunction
+
+;VR exclusive part
+int Function VR_BuildCustomActorValues(Actor actorToBuildCustomValuesFor)
+    int handleCustomActorValues = VR_createDictionary("_mantella_json_custom_actor_values")
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handleCustomActorValues], mConsts.KEY_ACTOR_CUSTOMVALUES_POSX, actorToBuildCustomValuesFor.getpositionX(),1)
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handleCustomActorValues], mConsts.KEY_ACTOR_CUSTOMVALUES_POSY, actorToBuildCustomValuesFor.getpositionY(),1)
+    return handleCustomActorValues
+EndFunction
+;end VR exclusive part
 
 int function BuildContext()
     int handle = F4SE_HTTP.createDictionary()
@@ -411,6 +629,29 @@ int function BuildContext()
     return handle
 endFunction
 
+;VR exclusive part
+int function VR_BuildContext()
+    int handle = VR_createDictionary("_mantella_json_context")
+    String currLoc = ""
+    int debugcheck
+    form currentLocation = game.getplayer().GetCurrentLocation() as Form
+    if currentLocation
+        currLoc = currentLocation.getName()
+    Else
+        currLoc = "Boston area"
+    endIf
+    SUP_F4SE.JSONSetValueString(VR_JSON_Requests[handle], mConsts.KEY_CONTEXT_LOCATION, currLoc,1)
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handle], mConsts.KEY_CONTEXT_TIME, GetCurrentHourOfDay(),1)
+    debugcheck= SUP_F4SE.JSONAppendValueString(VR_JSON_Requests[handle], mConsts.KEY_CONTEXT_INGAMEEVENTS+"\\NestedObject",_ingameEvents , 1,1) 
+    if debugcheck<1
+        Debug.trace("JSONAppendValueString "+VR_JSON_Requests[handle]+" failed to build. Error code : "+debugcheck)
+    endif
+    int customValuesHandle = VR_BuildCustomContextValues()
+    VR_SetNestedDictionary(handle, mConsts.KEY_CONTEXT_CUSTOMVALUES, customValuesHandle)
+    return handle
+endFunction
+;end VR exclusive part
+
 int Function BuildCustomContextValues()
     int handleCustomContextValues = F4SE_HTTP.createDictionary()
     Actor player = game.getplayer()  
@@ -420,7 +661,16 @@ int Function BuildCustomContextValues()
     return handleCustomContextValues
 EndFunction
 
-
+;VR exclusive part
+int Function VR_BuildCustomContextValues()
+    int handleCustomContextValues = VR_createDictionary("_mantella_json_custom_context_values")
+    Actor player = game.getplayer()  
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handleCustomContextValues], mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, player.getpositionX(),1)
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handleCustomContextValues], mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, player.getpositionY(),1)
+    SUP_F4SE.JSONSetValueFloat(VR_JSON_Requests[handleCustomContextValues], mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, player.GetAngleZ(),1)
+    return handleCustomContextValues
+EndFunction
+;end VR exclusive part
 
 int function GetCurrentHourOfDay()
 	float Time = Utility.GetCurrentGameTime()
