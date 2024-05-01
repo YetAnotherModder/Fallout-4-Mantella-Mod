@@ -65,6 +65,7 @@ function StartConversation(Actor[] actorsToStartConversationWith)
     endIf
     int handle = F4SE_HTTP.createDictionary()
     ;VR exclusive part
+    VR_OnJsonReplyReceived("mantella_json_output.json")
     int VRhandle = RequestCounter
     RequestCounter+=1
     VR_JSON_Requests[VRhandle]="mantella_json_start_conversation" 
@@ -108,14 +109,14 @@ function OnHttpReplyReceived(int typedDictionaryHandle)
 endFunction
 
 ;VR exclusive part 
-;/
+
 function VR_OnJsonReplyReceived(string JSONFilename)
     int debugcheck = SUP_F4SE.JSONCacheFile(JSONFilename, 0)
     if debugcheck>0
         JSONValue replytype = SUP_F4SE.JSONGetValue(JSONFilename, mConsts.KEY_REPLYTYPE, 1)
         if (replytype.JSONSuccess == 3) && (replyType.JSONsValue != "error")
-            debug.notification("Read Success, continuing conversation")
-            ;ContinueConversation(typedDictionaryHandle)        
+            ;debug.notification("Read Success, continuing conversation")
+            VR_ContinueConversation(JSONFilename)
         Elseif (replytype.JSONSuccess == 3) 
             JSONValue errorMessage = SUP_F4SE.JSONGetValue(JSONFilename, "mantella_message",1)
             if (replytype.JSONSuccess == 3)
@@ -133,10 +134,10 @@ function VR_OnJsonReplyReceived(string JSONFilename)
         Debug.trace("Error can't read JSON Mantella output, SUP_F4SE error code : "+VR_JSONdebugInterpreter(debugcheck))
     endif
     ;added this part to have a way to check if papyrus processed the message yet or not
-    SUP_F4SE.JSONSetValueString(JSONFilename, "mantella_papyrus_processed", "true", 1) 
+    SUP_F4SE.JSONSetValueFloat(JSONFilename, "mantella_papyrus_processed",1, 1, 1)
 endFunction
 ;end VR exclusive part
-/;
+
 
 string function VR_JSONGetString(string JSONFilename, string JSONKey, string errormessage )
     JSONValue JSONString = SUP_F4SE.JSONGetValue(JSONFilename, JSONKey, 1)
@@ -167,7 +168,6 @@ string function VR_JSONdebugInterpreter(int debugcode)
     debugMessageArray[12] = "-2 : KeyNotFound : Specified key is not found in JSON file"
     debugMessageArray[13] = "-1 : SuccessOtherType : Value of JSON key is not supported type(binary or discarded types)"
     debugMessageArray[14] = "0 : SuccessNULL : File was read sucessfully and the value is NULL"
-    string errormessage = debugMessageArray[debugcode]
 
     return debugMessageArray[debugcode] as string
 endfunction
@@ -196,18 +196,22 @@ function ContinueConversation(int handle)
     endIf
 endFunction
 
-;/ CONTINUE FROM HERE
+
 function VR_ContinueConversation(string JSONFilename)
     string nextAction = VR_JSONGetString(JSONFilename, mConsts.KEY_REPLYTYPE,"Error: Did not receive reply type" )
     if(nextAction == mConsts.KEY_REPLYTTYPE_STARTCONVERSATIONCOMPLETED)
-        RequestContinueConversation()
+        ;RequestContinueConversation()
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_NPCTALK)
-        int npcTalkHandle = F4SE_HTTP.getNestedDictionary(handle, mConsts.KEY_REPLYTYPE_NPCTALK)
+        ;CONTINUE FROM HERE
+        JSONValue JSONstruct = JSONGetValue(JSONFilename, mConsts.KEY_REPLYTYPE_NPCTALK, 1)
+        debug.messagebox(JSONstruct.JSONsValue)
+        JSONValue[] JSONarray = JSONGetValueArray(JSONFilename, mConsts.KEY_REPLYTYPE_NPCTALK, 1)
+        debug.messagebox(JSONarray as string)
         ;VR_ProcessNpcSpeak(JSONFilename) ;NEED TO ADD FUNCTION
         ;VR_RequestContinueConversation() ;NEED TO ADD FUNCTION
-
+    endif
 endFunction
-/;
+
 
 
 
