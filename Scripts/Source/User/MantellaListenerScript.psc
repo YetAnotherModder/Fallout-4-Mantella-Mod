@@ -12,6 +12,7 @@ Scriptname MantellaListenerScript extends ReferenceAlias
 ; N/A
 ; ---------------------------------------------
 
+Import F4SE
 Import SUP_F4SE
 Spell property MantellaSpell auto
 Actor property PlayerRef auto
@@ -68,10 +69,15 @@ Event OnPlayerLoadGame()
 EndEvent
 
 Function LoadMantellaEvents()
+    string MantellaVersion="Mantella 0.8.3"
+    
+    if  !IsF4SEProperlyInstalled() 
+        debug.messagebox("F4SE not properly installed, Mantella will not work correctly")
+    endif
     int currentSUPversion
     currentSUPversion = GetSUPF4SEVersion()
     if currentSUPversion == 0
-        debug.messagebox("F4SE or SUP_F4SE not properly installed, Mantella will not work correctly")
+        debug.messagebox("SUP_F4SE not properly installed, Mantella will not work correctly")
     endif
     repository.reloadKeys()
     registerForPlayerEvents()
@@ -84,7 +90,23 @@ Function LoadMantellaEvents()
     if(PlayerWorldspace != PrewarWorldspace && PlayerWorldspace != None)
         StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
     endif
+    repository.currentFO4version = Debug.GetVersionNumber()
+    if repository.currentFO4version != "1.10.163.0" && repository.currentFO4version != "1.2.72.0"
+        debug.messagebox("The current FO4 version doesn't support Mantella.")
+    elseif repository.currentFO4version == "1.10.163.0"
+        debug.notification("Currently running "+ MantellaVersion)
+    elseif repository.currentFO4version == "1.2.72.0"
+        debug.notification("Currently running "+ MantellaVersion+" VR")
+    endif
 Endfunction
+bool Function IsF4SEProperlyInstalled() 
+    int major = F4SE.GetVersion()
+    int minor = F4SE.GetVersionMinor()
+    int beta = F4SE.GetVersionBeta()
+    int release = F4SE.GetVersionRelease()
+
+    return (major != 0 || minor != 0 || beta != 0 || release != 0)
+EndFunction
 
 Function registerForPlayerEvents()
         ;resets AddInventoryEventFilter, necessary for OnItemAdded & OnItemRemoved to work properl
@@ -125,7 +147,7 @@ Event Ontimer( int TimerID)
                         MantellaSpell.Cast(Actor2 as ObjectReference, Actor1 as ObjectReference)
                     else
                         ;TODO: make this notification optional
-                        Debug.Notification("Radiant dialogue attempted. No NPCs available")
+                        ;Debug.Notification("Radiant dialogue attempted. No NPCs available")
                     endIf
                 else
                     ;TODO: make this notification optional
@@ -155,9 +177,9 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
                 itemPickedUpMessage = "The player entered power armor."
             else
                 if sourceName != "" 
-                    itemPickedUpMessage = "The player picked up " + itemName + " from " + sourceName 
+                    itemPickedUpMessage = "The player picked up " + itemName + " from " + sourceName + "."
                 Else
-                    itemPickedUpMessage = "The player picked up " + itemName 
+                    itemPickedUpMessage = "The player picked up " + itemName + "."
                 endIf
             Endif
             conversation.AddIngameEvent(itemPickedUpMessage)
@@ -175,9 +197,9 @@ Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemRefe
                 itemDroppedMessage = "The player exited power armor."
             else
                 if destName != "" 
-                    itemDroppedMessage = "The player placed " + itemName + " in/on " + destName 
+                    itemDroppedMessage = "The player placed " + itemName + " in/on " + destName + "."
                 Else
-                    itemDroppedMessage = "The player dropped " + itemName 
+                    itemDroppedMessage = "The player dropped " + itemName + "."
                 endIf
             Endif
             conversation.AddIngameEvent(itemDroppedMessage)
@@ -206,12 +228,12 @@ Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource
             else
                 if aggressor == PlayerRef.getdisplayname()
                     if playerref.getleveledactorbase().getsex() == 0
-                        conversation.AddIngameEvent("The player hit himself with " + hitSource)
+                        conversation.AddIngameEvent("The player hit himself with " + hitSource+".")
                     else
-                        conversation.AddIngameEvent("The player hit herself with " + hitSource)
+                        conversation.AddIngameEvent("The player hit herself with " + hitSource+".")
                     endIf
                 else
-                    conversation.AddIngameEvent(aggressor + " hit the player with " + hitSource)
+                    conversation.AddIngameEvent(aggressor + " hit the player with " + hitSource+".")
                 endif
             endIf
         else
@@ -234,7 +256,7 @@ Event OnLocationChange(Location akOldLoc, Location akNewLoc)
             currLoc = "Commonwealth"
         endIf
         ;Debug.MessageBox("Current location is now " + currLoc)
-        conversation.AddIngameEvent("Current location is now " + currLoc)
+        conversation.AddIngameEvent("Current location is now " + currLoc+ ".")
     endif
 endEvent
 
@@ -245,7 +267,7 @@ Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
         if itemenchant != "" ;filtering out enchantments to avoid spamming the LLM with confusing feedback
             ;Debug.MessageBox("The player equipped " + itemEquipped)
             if itemEquipped != "Mantella"
-                conversation.AddIngameEvent("The player equipped " + itemEquipped )
+                conversation.AddIngameEvent("The player equipped " + itemEquipped + ".")
             endif
         endif
     endif
@@ -257,7 +279,7 @@ Event OnItemUnequipped (Form akBaseObject, ObjectReference akReference)
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox("The player unequipped " + itemUnequipped)
         if itemUnequipped != "Mantella Enchantment" && itemUnequipped != "Mantella"
-            conversation.AddIngameEvent("The player unequipped " + itemUnequipped )
+            conversation.AddIngameEvent("The player unequipped " + itemUnequipped + ".")
         Endif
     endif
 endEvent
@@ -267,7 +289,7 @@ Event OnSit(ObjectReference akFurniture)
         ;Debug.MessageBox("The player sat down.")
         String furnitureName = akFurniture.getbaseobject().getname()
         if furnitureName != "Power Armor"
-            conversation.AddIngameEvent("The player rested on / used a(n) "+furnitureName)
+            conversation.AddIngameEvent("The player rested on / used a(n) "+furnitureName+ ".")
         endif
     endif
 endEvent
@@ -278,7 +300,7 @@ Event OnGetUp(ObjectReference akFurniture)
         ;Debug.MessageBox("The player stood up.")
         String furnitureName = akFurniture.getbaseobject().getname()
         if furnitureName != "Power Armor"
-            conversation.AddIngameEvent("The player stood up from a(n) "+furnitureName)
+            conversation.AddIngameEvent("The player stood up from a(n) "+furnitureName+ ".")
         endif    
     endif
 EndEvent
@@ -361,4 +383,10 @@ Event OnCripple(ActorValue akActorValue, bool abCrippled)
         endif
     endif
 
+EndEvent
+Event OnPlayerHealTeammate(Actor akTeammate)
+    if repository.playerTrackingHealTeammate
+        string messageEvent="The player has healed "+akTeammate.getdisplayname()+"."
+        conversation.AddIngameEvent(messageEvent)
+    endif
 EndEvent

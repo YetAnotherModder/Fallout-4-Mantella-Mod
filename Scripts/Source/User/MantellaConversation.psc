@@ -204,25 +204,39 @@ function sendRequestForVoiceTranscribe()
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_STT)
 endFunction
 
-function GetPlayerTextInput()
-    if(!_does_accept_player_input)
-        return
+function GetPlayerTextInput(string entrytype)
+    ;disable for VR
+    if entryType == "playerResponseTextEntry" && _does_accept_player_input
+        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+        RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
+        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+    elseif entryType == "gameEventEntry"
+        TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
+        RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
+        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
     endif
-
-    TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-    RegisterForExternalEvent("TIM::Accept","SetTextInput")
-    RegisterForExternalEvent("TIM::Cancel","NoTextInput")    
 endFunction
 
-Function SetTextInput(string text)
+Function SetPlayerResponseTextInput(string text)
+    ;disable for VR
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
     sendRequestForPlayerInput(text)
     _does_accept_player_input = False
 EndFunction
+
+Function SetGameEventTextInput(string text)
+    ;disable for VR
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    AddIngameEvent(text)
+EndFunction
+
     ;
 Function NoTextInput(string text)
+    ;disable for VR
     ;Debug.notification("Text input cancelled")
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")

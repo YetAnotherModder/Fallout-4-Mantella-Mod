@@ -3,21 +3,28 @@ Import SUP_F4SE
 Import TIM:TIM
 
 int property textkeycode auto
+int property textAndVisionKeycode auto
+int property gameEventkeycode auto
+int property startConversationkeycode auto
 ; string property textinput auto
+int property MenuEventSelector auto
 MantellaConversation property conversation auto
 MantellaConstants property ConstantsScript auto
 
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
+string property currentFO4version auto
 bool property microphoneEnabled auto
 bool property radiantEnabled auto
 bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
-int property MenuEventSelector auto
+bool property allowVision auto
 bool property allowAggro auto
 bool property allowFollow auto
-
+bool property allowCrosshairTracking auto
+Spell property MantellaSpell auto
+Perk property ActivatePerk auto
 ;variables below for Player game event tracking
 bool property playerTrackingOnItemAdded auto
 bool property playerTrackingOnItemRemoved auto
@@ -31,7 +38,7 @@ bool property playerTrackingFireWeapon auto
 bool property playerTrackingRadiationDamage auto
 bool property playerTrackingSleep auto
 bool property playerTrackingCripple auto
-
+bool property playerTrackingHealTeammate auto
 
 
 ;variables below for Mantella Target tracking
@@ -56,6 +63,7 @@ int property WeaponFiredCount auto
 ActorValue property HealthAV auto
 ActorValue property RadsAV auto
 float radiationToHealthRatio = 0.229
+Actor property CrosshairActor auto
 
 Function ResetEventSpamBlockers()
     EventFireWeaponSpamBlocker=false
@@ -74,24 +82,53 @@ Function StopConversations()
     ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
 EndFunction
 
+Function ToggleActivatePerk()
+    Actor PlayerRef = Game.GetPlayer()
+    If (PlayerRef.HasPerk(ActivatePerk))
+		PlayerRef.RemovePerk(ActivatePerk)
+	Else
+        PlayerRef.AddPerk(ActivatePerk, False)
+	EndIf
+EndFunction
+
 Event OnInit()
     reinitializeVariables()    
 EndEvent
 
+Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int Type)
+    ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
+    if bCrosshairOn
+        if Type==65 ;checks if type is actor
+            CrosshairActor= ObjectRef as actor
+        ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
+        ;debug.notification(" type is "+Type)
+        endif
+    endif
+Endfunction
 Function reinitializeVariables()
     ;change the below this is for debug only
-    textkeycode=89
-    RegisterForKey(textkeycode)
+    textkeycode=72
+    textAndVisionKeycode=71
+    gameEventkeycode=89
+    startConversationkeycode=72
+    reloadKeys()
     radiantEnabled = true
     radiantDistance = 20
     radiantFrequency = 10
     notificationsSubtitlesEnabled = true
+    allowVision = false
     allowAggro = false
     allowFollow = false
+    MenuEventSelector=0
     microphoneEnabled = true
     ConstantsScript.HTTP_PORT = 4999
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
+    RegisterForOnCrosshairRefChange()
+    Actor PlayerRef = Game.GetPlayer()
+    If !(PlayerRef.HasPerk(ActivatePerk))
+        PlayerRef.AddPerk(ActivatePerk, False)
+    Endif
 EndFunction
 
 Function togglePlayerEventTracking(bool bswitch)
@@ -108,6 +145,7 @@ Function togglePlayerEventTracking(bool bswitch)
     playerTrackingRadiationDamage=bswitch
     playerTrackingSleep = bswitch
     playerTrackingCripple = bswitch
+    playerTrackingHealTeammate = bswitch
 EndFunction
 
 Function toggleTargetEventTracking(bool bswitch)
@@ -130,6 +168,11 @@ EndFunction
 
 Function toggleAllowAggro(bool bswitch)
     allowAggro = bswitch
+    if bswitch
+        Debug.notification("NPC are now allowed to aggro")
+    else
+        Debug.notification("NPC are not allowed to aggro")
+    endif
 EndFunction
 
 Function toggleAllowFollow(bool bswitch)
@@ -138,6 +181,15 @@ EndFunction
 
 Function togglemicrophoneEnabled(bool bswitch)
     microphoneEnabled = bswitch
+    if bswitch
+        Debug.notification("Microphone is now ON")
+    else
+        Debug.notification("Microphone is now OFF")
+    endif
+EndFunction
+
+Function toggleAllowVision(bool bswitch)
+    allowVision = bswitch
 EndFunction
 
 Function listMenuState(String aMenu)
@@ -154,56 +206,151 @@ Function listMenuState(String aMenu)
         endif
     elseif aMenu=="Main_Settings"
         if notificationsSubtitlesEnabled==false
-            debug.notification("The dialogue subtittles are turned OFF")
+            debug.notification("Subtitles are OFF")
         else
-            debug.notification("The dialogue subtittles are turned ON")
+            debug.notification("Subtitles are ON")
         endif
-        if microphoneEnabled==false
-            debug.notification("The microphone is turned OFF. The dialogue hotkey DirectX scancode is "+textkeycode+".")
+        if !(Game.GetPlayer().HasPerk(ActivatePerk))
+            debug.notification("Alt conversation start option is OFF")
         else
-            debug.notification("The microphone is turned ON.")
+            debug.notification("Alt conversation start option is ON")
+        endif
+        if allowVision==false
+            debug.notification("Vision analysis is OFF")
+        else
+            debug.notification("Vision analysis is ON")
         endif
     elseif aMenu=="HTTP_Settings"
         debug.notification("The HTTP port is currently "+ConstantsScript.HTTP_PORT)
+    elseif aMenu=="Hotkeys"
+        if textkeycode!=0
+            Debug.notification("Current text response hotkey is "+textkeycode)
+        ElseIf (true)
+            Debug.notification("Current text response hotkey is unassigned")
+        endif
+        if gameEventkeycode!=0
+            Debug.notification("Current custom game event input hotkey is "+gameEventkeycode)
+        ElseIf (true)
+            Debug.notification("Current custom game event input hotkey is unassigned")
+        endif
+        if startConversationkeycode!=0
+            Debug.notification("Current start conversation hotkey is "+startConversationkeycode)
+        ElseIf (true)
+            Debug.notification("Current start conversation hotkey is unassigned")
+        endif
+        if startConversationkeycode!=0
+            Debug.notification("Current text response and vision hotkey is "+textAndVisionKeycode)
+        ElseIf (true)
+            Debug.notification("Current text response and vision hotkey is unassigned")
+        endif
+    elseif aMenu=="Events"
+        if playerTrackingOnItemAdded
+            Debug.notification("Player events are being tracked by Mantella")
+        else
+            Debug.notification("Player events are NOT being tracked by Mantella")
+        endif
+        if targetTrackingItemAdded
+            Debug.notification("NPCs events are being tracked by Mantella")
+        else
+            Debug.notification("NPCs events are NOT being tracked by Mantella")
+        endif
+        if allowCrosshairTracking
+            Debug.notification("F4SE crosshair tracking is ON")
+        else
+            Debug.notification("F4SE crosshair tracking is OFF")
+        endif
     endif
 EndFunction
 
 
 Function reloadKeys()
-    ;called at player load
-    setDialogueHotkey(textkeycode)
+    ;called at player load and when reinitializing variables
+    setDialogueHotkey(textkeycode, "Dialogue")
+    setDialogueHotkey(gameEventkeycode, "GameEvent")
+    setDialogueHotkey(startConversationkeycode,"StartConversation")
+    setDialogueHotkey(textAndVisionKeycode,"DialogueAndVision")
 Endfunction
 
 Event Onkeydown(int keycode)
-    if (keycode == textkeycode) && !SUP_F4SE.IsMenuModeActive()
-        if(conversation.IsRunning())
-            conversation.GetPlayerTextInput()
-        endIf
-        ; String playerResponse = "False"
-        ; playerResponse = SUP_F4SE.ReadStringFromFile("_mantella_text_input_enabled.txt",0,2) 
-        ; if playerResponse == "True" 
-        ;     ;Debug.Notification("Forcing Conversation Through Hotkey")
-        ;     OpenTextMenu()
-        ; endIf
+    if (keycode == textkeycode || keycode == startConversationkeycode) && !SUP_F4SE.IsMenuModeActive() 
+        if(conversation.IsRunning()) && (keycode == textkeycode)
+            conversation.GetPlayerTextInput("playerResponseTextEntry")
+        elseif(!conversation.IsRunning())
+            String actorName = CrosshairActor.GetDisplayName()
+            bool isTargetInConversation
+            Actor ActorRefInConversation 
+            ActorRefInConversation = conversation.GetActorInConversation(actorName)
+            if ActorRefInConversation
+                isTargetInConversation=true
+            endif
+            float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
+            if distanceFromConversationTarget<1500
+                ; if actor not already loaded or player is interrupting radiant dialogue
+                bool bIsPlayerInConversation = conversation.IsPlayerInConversation()
+                if !isTargetInConversation || bIsPlayerInConversation
+                    if bIsPlayerInConversation
+                        debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
+                    else 
+                        debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
+                    endif
+                    MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
+                    Utility.Wait(0.5)
+                endif
+            endif
+        Endif
+    ElseIf keycode == gameEventkeycode
+        conversation.GetPlayerTextInput("gameEventEntry")
     endif
 Endevent
 
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
     if (asMenuName== "PipboyMenu") && MenuEventSelector==1 && !abOpening ;This triggers if the player chooses to change the text input hotkey
-	    OpenHotkeyPrompt()
+	    OpenHotkeyPrompt("playerInputTextHotkey")
     elseif (asMenuName== "PipboyMenu") && MenuEventSelector==2 && !abOpening ;This triggers if the player chooses to stop all conversations
         StopConversations()
         debug.MessageBox("Conversations stopped. Restart Mantella.exe to complete the process.")
     elseif (asMenuName== "PipboyMenu") && MenuEventSelector==3 && !abOpening ;This triggers if the player chooses to change the HTTP port
         Open_HTTP_Port_Prompt()
+    elseif(asMenuName== "PipboyMenu") && MenuEventSelector==4 && !abOpening
+	    OpenHotkeyPrompt("gameEventHotkey")  
+    elseif(asMenuName== "PipboyMenu") && MenuEventSelector==5 && !abOpening
+	    OpenHotkeyPrompt("startConversationHotKey")  
+    elseif(asMenuName== "PipboyMenu") && MenuEventSelector==6 && !abOpening
+	    OpenHotkeyPrompt("playerInputTextAndVisionHotkey")     
     endif
 endEvent
 
-function setDialogueHotkey(int keycode)
-    unRegisterForKey(textkeycode)
-    textkeycode = keycode
-    RegisterForKey(textkeycode)
+function setDialogueHotkey(int keycode, string keyType)
+    if keyType=="Dialogue"
+        unRegisterForKey(textkeycode)
+        textkeycode = keycode
+        RegisterForKey(textkeycode)
+    elseif keyType=="GameEvent"
+        unRegisterForKey(gameEventkeycode)
+        gameEventkeycode = keycode
+        RegisterForKey(gameEventkeycode)
+    elseif keyType=="StartConversation"
+        unRegisterForKey(startConversationkeycode)
+        startConversationkeycode = keycode
+        RegisterForKey(startConversationkeycode)
+    elseif keyType=="DialogueAndVision"
+        unRegisterForKey(textAndVisionKeycode)
+        textAndVisionKeycode = keycode
+        RegisterForKey(textAndVisionKeycode)
+    endif
 endfunction
+
+Function RegisterForOnCrosshairRefChange()
+    ;disable for VR
+    RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
+    allowCrosshairTracking=true
+EndFunction
+
+Function UnRegisterForOnCrosshairRefChange()
+    ;disable for VR
+    UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
+    allowCrosshairTracking=false
+EndFunction
 
 function OpenTextMenu()
     TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
@@ -224,13 +371,29 @@ function OpenTextMenu()
 
 endfunction
 
-function OpenHotkeyPrompt()
-    
-    TIM:TIM.Open(1,"Enter the keycode for the dialogue hotkey","", 0, 3)
-    RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
-    RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-    UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    ;
+function OpenHotkeyPrompt(string entryType)
+    ;disable for VR
+    if entryType == "playerInputTextHotkey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    elseif entryType == "gameEventHotkey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the game event hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMGameEventHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    elseif entryType == "startConversationHotKey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the start converstion hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMStartConversationHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    elseif entryType == "playerInputTextAndVisionHotkey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue and vision hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMSetDialogueAndVisionHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    endif
     ; Function SetFrequency(string freq)
     ;   Debug.MessageBox("frequency will set at "+ freq)
     ;   UnRegisterForExternalEvent("TIM::Accept")
@@ -248,13 +411,36 @@ Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    setDialogueHotkey(keycode as int)
+    setDialogueHotkey(keycode as int, "Dialogue")
 EndFunction
-    
+
+Function TIMGameEventHotkeyInput(string keycode)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    setDialogueHotkey(keycode as int, "GameEvent")
+EndFunction
+
+Function TIMStartConversationHotkeyInput(string keycode)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    setDialogueHotkey(keycode as int, "StartConversation")
+EndFunction
+
+Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    allowVision=true
+    setDialogueHotkey(keycode as int, "DialogueAndVision")
+EndFunction
+
 Function TIMNoDialogueHotkeyInput(string keycode)
     ;Debug.notification("Text input cancelled")
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
+    
 EndFunction
 
 ; Function SetTextInput(string text)
@@ -312,6 +498,10 @@ Function TIM_No_Set_HTTP_Port(string keycode)
     ;Debug.notification("Text input cancelled")
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
+EndFunction
+
+Function GenerateMantellaVision()
+    ;to be implemented later
 EndFunction
 
 string function constructPlayerState()
