@@ -1,44 +1,48 @@
-FormKey: 055E78:Mantella.esp
+FormKey: 00D51D:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12392
-EditorID: MantellaEventTrackingSettings
+VersionControl: 12474
+EditorID: MantellaSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
 - 0x2000
 VirtualMachineAdapter:
   ScriptFragments:
     Script:
-      Name: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
+      Name: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
       Properties:
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
     Fragments:
-    - FragmentIndex: 2
+    - FragmentIndex: 5
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
-      FragmentName: Fragment_Terminal_02
+      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
+      FragmentName: Fragment_Terminal_05
+    - FragmentIndex: 6
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
+      FragmentName: Fragment_Terminal_06
     - FragmentIndex: 1
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
+      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
       FragmentName: Fragment_Terminal_01
     - FragmentIndex: 3
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
+      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
       FragmentName: Fragment_Terminal_03
     - FragmentIndex: 4
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaEventTrackingSe_07055E78
+      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
       FragmentName: Fragment_Terminal_04
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135
 HeaderText:
   TargetLanguage: English
-  Value: Mantella - Event Tracking Settings
+  Value: Mantella - Settings
 Name:
   TargetLanguage: English
-  Value: '[Settings] Mantella Event Tracking Settings'
+  Value: '[Settings] Mantella Settings'
 Model:
   File: Furniture\Terminals\TerminalWall01.nif
   Data: 0x0400000000000000000000000000000000000000
@@ -69,50 +73,44 @@ MarkerParameters:
 BodyTexts:
 - Text:
     TargetLanguage: English
-    Value: Choose an option
+    Value: Choose menu
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Turn player event tracking OFF
-  Type: DisplayText
-  ItemId: 3
-  DisplayText:
-    TargetLanguage: English
-    Value: >+
-      Player event tracking is turned OFF
-
-- ItemText:
-    TargetLanguage: English
-    Value: Turn player event tracking ON
-  Type: DisplayText
+    Value: Main Settings
+  Type: SubmenuTerminal
   ItemId: 1
-  DisplayText:
-    TargetLanguage: English
-    Value: >+
-      Player event tracking is turned ON
+  Submenu: 00D519:Mantella.esp
 - ItemText:
     TargetLanguage: English
-    Value: NPC event tracking OFF
-  Type: DisplayText
+    Value: Radiant Settings
+  Type: SubmenuTerminal
   ItemId: 2
-  DisplayText:
-    TargetLanguage: English
-    Value: >+
-      NPC event tracking is turned OFF
-
-
+  Submenu: 015DBF:Mantella.esp
 - ItemText:
     TargetLanguage: English
-    Value: NPC event tracking ON
-  Type: DisplayText
-  ItemId: 4
-  DisplayText:
+    Value: Event Tracking Settings
+  Type: SubmenuTerminal
+  ItemId: 3
+  Submenu: 055E78:Mantella.esp
+- ItemText:
     TargetLanguage: English
-    Value: >+
-      NPC event tracking is turned ON
-
-
-
+    Value: NPC Action Settings (Experimental)
+  Type: SubmenuTerminal
+  ItemId: 4
+  Submenu: 05E71A:Mantella.esp
+- ItemText:
+    TargetLanguage: English
+    Value: HTTP Settings
+  Type: SubmenuTerminal
+  ItemId: 5
+  Submenu: 08099C:Mantella.esp
+- ItemText:
+    TargetLanguage: English
+    Value: Hotkeys Settings (Desktop Only)
+  Type: SubmenuTerminal
+  ItemId: 6
+  Submenu: 084DEE:Mantella.esp
 MajorFlags:
 - 0x10
 - 0x2000

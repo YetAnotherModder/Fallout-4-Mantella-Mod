@@ -1,37 +1,33 @@
-FormKey: 00D51D:Mantella.esp
+FormKey: 015DBF:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12413
-EditorID: MantellaSettingsTerminal
+VersionControl: 12341
+EditorID: MantellaRadiantSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
 - 0x2000
 VirtualMachineAdapter:
   ScriptFragments:
     Script:
-      Name: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
+      Name: Fragments:Terminals:TERM_MantellaRadiantSettings_07015DBF
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaQuest
-        Object: 000F99:Mantella.esp
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
     Fragments:
-    - FragmentIndex: 5
+    - FragmentIndex: 2
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
-      FragmentName: Fragment_Terminal_05
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantSettings_07015DBF
+      FragmentName: Fragment_Terminal_02
     - FragmentIndex: 1
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
+      ScriptName: Fragments:Terminals:TERM_MantellaRadiantSettings_07015DBF
       FragmentName: Fragment_Terminal_01
-    - FragmentIndex: 4
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
-      FragmentName: Fragment_Terminal_04
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135
 HeaderText:
   TargetLanguage: English
-  Value: Mantella - Settings
+  Value: Mantella - Radiant Settings
 Name:
   TargetLanguage: English
   Value: '[Settings] Mantella Settings'
@@ -69,34 +65,49 @@ BodyTexts:
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Main Settings
-  Type: SubmenuTerminal
+    Value: Turn radiant Dialogue ON
+  Type: SubmenuForceRedraw
   ItemId: 1
-  Submenu: 00D519:Mantella.esp
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x728056
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 00D51E:Mantella.esp
+      ParameterOneNumber: 117495070
 - ItemText:
     TargetLanguage: English
-    Value: Radiant Settings
-  Type: SubmenuTerminal
+    Value: Turn radiant Dialogue OFF
+  Type: SubmenuForceRedraw
   ItemId: 2
-  Submenu: 015DBF:Mantella.esp
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x728056
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetGlobalValue
+      ParameterOneRecord: 00D51E:Mantella.esp
+      ParameterOneNumber: 117495070
 - ItemText:
     TargetLanguage: English
-    Value: Event Tracking Settings
+    Value: Set Radiant distance
   Type: SubmenuTerminal
   ItemId: 3
-  Submenu: 055E78:Mantella.esp
+  Submenu: 015DC2:Mantella.esp
 - ItemText:
     TargetLanguage: English
-    Value: NPC Action Settings (Experimental)
-  Type: SubmenuTerminal
-  ItemId: 4
-  Submenu: 05E71A:Mantella.esp
-- ItemText:
-    TargetLanguage: English
-    Value: HTTP Settings
+    Value: Set Radiant frequency
   Type: SubmenuTerminal
   ItemId: 5
-  Submenu: 08099C:Mantella.esp
+  Submenu: 01A213:Mantella.esp
+- ItemText:
+    TargetLanguage: English
+    Value: Back to main menu
+  Type: SubmenuTerminal
+  ItemId: 4
+  Submenu: 00D51D:Mantella.esp
 MajorFlags:
 - 0x10
 - 0x2000

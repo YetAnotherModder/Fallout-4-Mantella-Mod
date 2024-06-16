@@ -80,6 +80,7 @@ string property ACTION_NPC_FOLLOW = "mantella_npc_follow" auto
 string property KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX = "mantella_player_pos_x" auto
 string property KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY = "mantella_player_pos_y" auto
 string property KEY_CONTEXT_CUSTOMVALUES_PLAYERROT = "mantella_player_rot" auto
+string property KEY_CONTEXT_CUSTOMVALUES_VISION_READY = "mantella_vision_ready" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSX = "mantella_actor_pos_x" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSY = "mantella_actor_pos_y" auto
 

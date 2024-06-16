@@ -1,49 +1,34 @@
-FormKey: 00D519:Mantella.esp
+FormKey: 084DEE:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12413
-EditorID: MantellaMainSettingsTerminal
+VersionControl: 12474
+EditorID: MantellaHotkeysTerminal
 Fallout4MajorRecordFlags:
 - 0x10
 - 0x2000
 VirtualMachineAdapter:
   ScriptFragments:
     Script:
-      Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      Name: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
       Properties:
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
     Fragments:
-    - FragmentIndex: 7
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_07
-    - FragmentIndex: 5
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_05
     - FragmentIndex: 2
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      ScriptName: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
       FragmentName: Fragment_Terminal_02
     - FragmentIndex: 6
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      ScriptName: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
       FragmentName: Fragment_Terminal_06
-    - FragmentIndex: 8
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_08
     - FragmentIndex: 3
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      ScriptName: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
       FragmentName: Fragment_Terminal_03
     - FragmentIndex: 4
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      ScriptName: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
       FragmentName: Fragment_Terminal_04
 ObjectBounds:
   First: -18, -52, 86
@@ -88,7 +73,7 @@ BodyTexts:
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Set Dialogue Hotkey (desktop only)
+    Value: Set Text Response Hotkey
   ResponseText:
     TargetLanguage: English
     Value: Close the Pipboy to update the keycode.
@@ -96,15 +81,65 @@ MenuItems:
   ItemId: 3
   DisplayText:
     TargetLanguage: English
-    Value: 'Close menu to set the new hotkey (use decimal value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.'
+    Value: >+
+      Close menu to set the new hotkey for player text input. Default key is "H". Use decima Directx scancode value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work.
+- ItemText:
+    TargetLanguage: English
+    Value: Set Initiate Conversation Hotkey
+  ResponseText:
+    TargetLanguage: English
+    Value: Close the Pipboy to update the keycode.
+  Type: DisplayText
+  ItemId: 6
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      Close menu to set the new hotkey to start a conversation. Default key is "H". Use decimal Directx scancode value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.
+- ItemText:
+    TargetLanguage: English
+    Value: Set Game Event Hotkey
+  ResponseText:
+    TargetLanguage: English
+    Value: Close the Pipboy to update the keycode.
+  Type: DisplayText
+  ItemId: 2
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      Close menu to set the new hotkey to enter a custom game event input for the AI (LLM) to read. Default key is "Y". Use decima Directx scancode value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.
+
+
+      During a conversation, press the hotkey to add to type a text event in the game (e.g. "Piper heard a gunshot"). It's best to use a third person perspective to mesh with the game events that are automatically sent to the NPCs. You can do this multiple times in a row.
+
+          When you actually reply to the NPC, either by speaking in the mic or by typing a reply (default "H" key), all the game events will be sent along the reply to the AI. Note : the game event log will get cleared at the start of a new conversation and can only store up to 5 events at a time. After 5 events newer events will override the the older ones.
+- ItemText:
+    TargetLanguage: English
+    Value: WIP - Set Text/Vision Response Hotkey
+  ResponseText:
+    TargetLanguage: English
+    Value: Close the Pipboy to update the keycode.
+  Type: DisplayText
+  ItemId: 4
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      THIS IS A WORK IN PROGRESS : FEATURE NOT COMPLETED YET:
+
+      Close menu to set the new hotkey for player text input with vision. Default key is "G". Use decima Directx scancode value, ex: "g" = 71 or "y" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work (see Mantella Software's config.ini)
+
+
+      This key has the same function as the standard TextResponseHotkey but will additionnaly send a screenshot to the LLM for vision analysis. Please note that this will only work with specific LLMs (e.g. ChatGPT4-o.
+
+
+      If both text response and text vision are the same button then the text/vision hotkey will override the other one.
 - ItemText:
     TargetLanguage: English
     Value: Display keycode chart (DirectX scancodes)
   Type: DisplayText
-  ItemId: 1
+  ItemId: 5
   DisplayText:
     TargetLanguage: English
-    Value: >-
+    Value: >+
       Button          Dec
 
       BACKSPACE       8
@@ -310,60 +345,6 @@ MenuItems:
       Mouse4          259
 
       Mouse5          260
-- ItemText:
-    TargetLanguage: English
-    Value: Stop NPC subtitles bug
-  ResponseText:
-    TargetLanguage: English
-    Value: Close the Pipboy to complete.
-  Type: DisplayText
-  ItemId: 4
-  DisplayText:
-    TargetLanguage: English
-    Value: This will end all Mantella effects running on NPCs.
-- ItemText:
-    TargetLanguage: English
-    Value: Restore defaults settings
-  Type: DisplayText
-  ItemId: 2
-  DisplayText:
-    TargetLanguage: English
-    Value: 'Restoring settings to default. '
-- ItemText:
-    TargetLanguage: English
-    Value: Turn subtitles OFF
-  Type: DisplayText
-  ItemId: 5
-  DisplayText:
-    TargetLanguage: English
-    Value: Turning Mantella dialogue subtitles OFF
-- ItemText:
-    TargetLanguage: English
-    Value: Turn subtitles ON
-  Type: DisplayText
-  ItemId: 6
-  DisplayText:
-    TargetLanguage: English
-    Value: Turning Mantella dialogue subtitles ON
-- ItemText:
-    TargetLanguage: English
-    Value: Turn microphone OFF
-  Type: DisplayText
-  ItemId: 7
-  DisplayText:
-    TargetLanguage: English
-    Value: >+
-      Turning the microphone OFF. Use the dialogue hotkey to communicate with Mantella NPCs.
-- ItemText:
-    TargetLanguage: English
-    Value: Turn microphone ON
-  Type: DisplayText
-  ItemId: 8
-  DisplayText:
-    TargetLanguage: English
-    Value: >+
-      Turning the microphone ON. Adjust the audio threshold if there are communication issues.
-
 MajorFlags:
 - 0x10
 - 0x2000

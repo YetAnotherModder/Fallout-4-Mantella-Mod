@@ -1,5 +1,5 @@
 FormKey: 0090C7:Mantella.esp
-VersionControl: 12324
+VersionControl: 12484
 EditorID: MantellaSpell
 Name:
   TargetLanguage: English
@@ -13,4 +13,4 @@ TargetType: Touch
 Effects:
 - BaseEffect: 001735:Mantella.esp
   Data:
-    Duration: 10
+    Duration: 86400

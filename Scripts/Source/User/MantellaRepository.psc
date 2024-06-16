@@ -64,6 +64,15 @@ ActorValue property HealthAV auto
 ActorValue property RadsAV auto
 float radiationToHealthRatio = 0.229
 Actor property CrosshairActor auto
+int CleanupconversationTimer=2
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Game management functions and events   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Event OnInit()
+    reinitializeVariables()    
+EndEvent
 
 Function ResetEventSpamBlockers()
     EventFireWeaponSpamBlocker=false
@@ -71,9 +80,19 @@ Function ResetEventSpamBlockers()
     EventRadiationDamageSpamBlocker=false
 Endfunction
 
+Function reloadKeys()
+    ;called at player load and when reinitializing variables
+    setDialogueHotkey(textkeycode, "Dialogue")
+    setDialogueHotkey(gameEventkeycode, "GameEvent")
+    setDialogueHotkey(startConversationkeycode,"StartConversation")
+    setDialogueHotkey(textAndVisionKeycode,"DialogueAndVision")
+Endfunction
+
+
 Function StopConversations()
     If (conversation.IsRunning())
         conversation.EndConversation()
+        StartTimer(5,CleanupconversationTimer) ;Start a timmer to make second hard reset if conversation is still running after
     EndIf
     ; endFlagMantellaConversationOne = True
     ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
@@ -82,29 +101,18 @@ Function StopConversations()
     ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
 EndFunction
 
-Function ToggleActivatePerk()
-    Actor PlayerRef = Game.GetPlayer()
-    If (PlayerRef.HasPerk(ActivatePerk))
-		PlayerRef.RemovePerk(ActivatePerk)
-	Else
-        PlayerRef.AddPerk(ActivatePerk, False)
-	EndIf
-EndFunction
+Event Ontimer( int TimerID)
+    if TimerID==CleanupconversationTimer 
+        debug.notification("checking if conversation is still running")
+        if conversation.IsRunning() ;attempts to make a hard reset of the conversation if it's still going on for some reason
+             ;previous conversation detected, forcing conversation to end.
+             debug.notification("Previous conversation detected after request to end : Cleaning up.")
+             Conversation.CleanupConversation()
+         endif
+     endif
+ EndEvent
 
-Event OnInit()
-    reinitializeVariables()    
-EndEvent
 
-Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int Type)
-    ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
-    if bCrosshairOn
-        if Type==65 ;checks if type is actor
-            CrosshairActor= ObjectRef as actor
-        ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
-        ;debug.notification(" type is "+Type)
-        endif
-    endif
-Endfunction
 Function reinitializeVariables()
     ;change the below this is for debug only
     textkeycode=72
@@ -131,8 +139,17 @@ Function reinitializeVariables()
     Endif
 EndFunction
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Toggling functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Function togglePlayerEventTracking(bool bswitch)
     ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player event tracking is now ON")
+    else
+        Debug.notification("Player event tracking is now OFF")
+    endif
     playerTrackingOnItemAdded = bswitch
     playerTrackingOnItemRemoved = bswitch
     playerTrackingOnHit = bswitch
@@ -150,6 +167,11 @@ EndFunction
 
 Function toggleTargetEventTracking(bool bswitch)
     ;Target tracking variables below
+    if bswitch
+        Debug.notification("NPC in conversation  event tracking is now ON")
+    else
+        Debug.notification("NPCs in conversation event tracking is now OFF")
+    endif
     targetTrackingItemAdded = bswitch 
     targetTrackingItemRemoved = bswitch
     targetTrackingOnHit = bswitch
@@ -164,6 +186,11 @@ EndFunction
 
 Function toggleNotificationSubtitles(bool bswitch)
     notificationsSubtitlesEnabled = bswitch
+    if bswitch
+        Debug.notification("Subtitles enabled")
+    else
+        Debug.notification("Subtitles disabled")
+    endif
 EndFunction
 
 Function toggleAllowAggro(bool bswitch)
@@ -190,7 +217,27 @@ EndFunction
 
 Function toggleAllowVision(bool bswitch)
     allowVision = bswitch
+    if bswitch
+        Debug.notification("Vision analysis is now ON")
+    else
+        Debug.notification("Vision analysis is now OFF")
+    endif
 EndFunction
+
+Function ToggleActivatePerk()
+    Actor PlayerRef = Game.GetPlayer()
+    If (PlayerRef.HasPerk(ActivatePerk))
+		PlayerRef.RemovePerk(ActivatePerk)
+        Debug.notification("Alt conversation activation option is now ON")
+	Else
+        PlayerRef.AddPerk(ActivatePerk, False)
+        Debug.notification("Alt conversation activation option is now OFF")
+	EndIf
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Pipboy Management    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function listMenuState(String aMenu)
     if aMenu=="NPC_Actions"
@@ -262,53 +309,13 @@ Function listMenuState(String aMenu)
     endif
 EndFunction
 
-
-Function reloadKeys()
-    ;called at player load and when reinitializing variables
-    setDialogueHotkey(textkeycode, "Dialogue")
-    setDialogueHotkey(gameEventkeycode, "GameEvent")
-    setDialogueHotkey(startConversationkeycode,"StartConversation")
-    setDialogueHotkey(textAndVisionKeycode,"DialogueAndVision")
-Endfunction
-
-Event Onkeydown(int keycode)
-    if (keycode == textkeycode || keycode == startConversationkeycode) && !SUP_F4SE.IsMenuModeActive() 
-        if(conversation.IsRunning()) && (keycode == textkeycode)
-            conversation.GetPlayerTextInput("playerResponseTextEntry")
-        elseif(!conversation.IsRunning())
-            String actorName = CrosshairActor.GetDisplayName()
-            bool isTargetInConversation
-            Actor ActorRefInConversation 
-            ActorRefInConversation = conversation.GetActorInConversation(actorName)
-            if ActorRefInConversation
-                isTargetInConversation=true
-            endif
-            float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
-            if distanceFromConversationTarget<1500
-                ; if actor not already loaded or player is interrupting radiant dialogue
-                bool bIsPlayerInConversation = conversation.IsPlayerInConversation()
-                if !isTargetInConversation || bIsPlayerInConversation
-                    if bIsPlayerInConversation
-                        debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
-                    else 
-                        debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
-                    endif
-                    MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
-                    Utility.Wait(0.5)
-                endif
-            endif
-        Endif
-    ElseIf keycode == gameEventkeycode
-        conversation.GetPlayerTextInput("gameEventEntry")
-    endif
-Endevent
-
 Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
     if (asMenuName== "PipboyMenu") && MenuEventSelector==1 && !abOpening ;This triggers if the player chooses to change the text input hotkey
 	    OpenHotkeyPrompt("playerInputTextHotkey")
     elseif (asMenuName== "PipboyMenu") && MenuEventSelector==2 && !abOpening ;This triggers if the player chooses to stop all conversations
         StopConversations()
-        debug.MessageBox("Conversations stopped. Restart Mantella.exe to complete the process.")
+        debug.notification("Attempting to stop all conversations")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
     elseif (asMenuName== "PipboyMenu") && MenuEventSelector==3 && !abOpening ;This triggers if the player chooses to change the HTTP port
         Open_HTTP_Port_Prompt()
     elseif(asMenuName== "PipboyMenu") && MenuEventSelector==4 && !abOpening
@@ -319,6 +326,49 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
 	    OpenHotkeyPrompt("playerInputTextAndVisionHotkey")     
     endif
 endEvent
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Hotkey functions    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+Event Onkeydown(int keycode)
+    if !SUP_F4SE.IsMenuModeActive() 
+        if (keycode == textkeycode || keycode == startConversationkeycode)
+            if(conversation.IsRunning()) && (keycode == textkeycode)
+                conversation.GetPlayerTextInput("playerResponseTextEntry")
+            elseif(!conversation.IsRunning())
+                if CrosshairActor!=none
+                    String actorName = CrosshairActor.GetDisplayName()
+                    bool isTargetInConversation
+                    Actor ActorRefInConversation 
+                    ActorRefInConversation = conversation.GetActorInConversation(actorName)
+                    if ActorRefInConversation
+                        isTargetInConversation=true
+                    endif
+                    float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
+                    if distanceFromConversationTarget<1500
+                        ; if actor not already loaded or player is interrupting radiant dialogue
+                        bool bIsPlayerInConversation = conversation.IsPlayerInConversation()
+                        if !isTargetInConversation || bIsPlayerInConversation
+                            if bIsPlayerInConversation
+                                debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
+                            else 
+                                debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
+                            endif
+                            MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
+                            Utility.Wait(0.5)
+                        endif
+                    endif
+                endif
+            Endif
+        ElseIf keycode == gameEventkeycode
+            conversation.GetPlayerTextInput("gameEventEntry")
+        endif
+    endif
+Endevent
 
 function setDialogueHotkey(int keycode, string keyType)
     if keyType=="Dialogue"
@@ -340,6 +390,21 @@ function setDialogueHotkey(int keycode, string keyType)
     endif
 endfunction
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Crosshair functions    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int Type)
+    ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
+    if bCrosshairOn
+        if Type==65 ;checks if type is actor
+            CrosshairActor= ObjectRef as actor
+        ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
+        ;debug.notification(" type is "+Type)
+        endif
+    endif
+Endfunction
+
 Function RegisterForOnCrosshairRefChange()
     ;disable for VR
     RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
@@ -349,8 +414,15 @@ EndFunction
 Function UnRegisterForOnCrosshairRefChange()
     ;disable for VR
     UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
+    CrosshairActor=none
     allowCrosshairTracking=false
 EndFunction
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Textinput menu functions    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 function OpenTextMenu()
     TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
@@ -394,17 +466,7 @@ function OpenHotkeyPrompt(string entryType)
         RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
     endif
-    ; Function SetFrequency(string freq)
-    ;   Debug.MessageBox("frequency will set at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
-    ;
-    ; Function NoSetFrequency(string freq)
-    ;   Debug.MessageBox("input frequency was aborted at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
+
 endfunction
 
 Function TIMSetDialogueHotkeyInput(string keycode)
@@ -443,30 +505,6 @@ Function TIMNoDialogueHotkeyInput(string keycode)
     
 EndFunction
 
-; Function SetTextInput(string text)
-;     ;Debug.notification("This text input was entered "+ text)
-;     UnRegisterForExternalEvent("TIM::Accept")
-;     UnRegisterForExternalEvent("TIM::Cancel")
-;     textinput = text
-;     ProcessDialogue(textinput)
-; EndFunction
-    ;
-; Function NoTextInput(string text)
-;     ;Debug.notification("Text input cancelled")
-;     UnRegisterForExternalEvent("TIM::Accept")
-;     UnRegisterForExternalEvent("TIM::Cancel")
-;     textinput = ""
-; EndFunction
-
-; Function ProcessDialogue (string text)
-;     if text != ""
-;         writePlayerState()
-;         SUP_F4SE.WriteStringToFile("_mantella_text_input_enabled.txt", "False", 0)
-;         SUP_F4SE.WriteStringToFile("_mantella_text_input.txt", textinput, 0)
-;         ;Debug.notification("Wrote to file "+ textinput)
-;     endIf
-; EndFunction
-
 function Open_HTTP_Port_Prompt()
     
     TIM:TIM.Open(1,"Enter the HTTP port, use a value between 0 and 65535","", 0, 5)
@@ -474,17 +512,6 @@ function Open_HTTP_Port_Prompt()
     RegisterForExternalEvent("TIM::Cancel","TIM_No_Set_HTTP_Port")
     UnregisterForMenuOpenCloseEvent("PipboyMenu")
     ;
-    ; Function SetFrequency(string freq)
-    ;   Debug.MessageBox("frequency will set at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
-    ;
-    ; Function NoSetFrequency(string freq)
-    ;   Debug.MessageBox("input frequency was aborted at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
 endfunction
 
 Function TIM_Set_HTTP_Port(string HTTP_port)
@@ -500,9 +527,55 @@ Function TIM_No_Set_HTTP_Port(string keycode)
     UnRegisterForExternalEvent("TIM::Cancel")
 EndFunction
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Vision functions    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Function GenerateMantellaVision()
-    ;to be implemented later
+    if currentFO4version == "1.2.72.0"
+        if SteamIsOverlayEnabled() ;use steam screenshots if this is FO4 VR
+            SteamTriggerScreenshot()
+        else
+            debug.notification("Steam overlay needs to be enabled to use this function")
+        endif
+    else ;use default screenshots if this is FO4 desktop
+        SUP_F4SE.CaptureScreenshot("Mantella_Vision", 0)
+    endif
 EndFunction
+
+Function ScanCellForActors() ;to implement to give cues on NPC locations
+    Actor playerRef = Game.GetPlayer()
+    Actor[] ActorsInCell
+    String[] FilteredActorsInCellNames = new String[0]
+    Float[] FilteredActorsInCellDistanceFromPlayer = new Float[0]
+    ActorsInCell = SUP_F4SE.GetActorsInCell(playerRef.GetParentCell(), -1)
+    int i
+    int FilteredActorCount
+        While i < ActorsInCell.Length
+        Actor currentActor = ActorsInCell[i]
+        if playerRef.HasDetectionLOS (currentActor)
+            float currentDistance = playerRef.GetDistance(currentActor)
+            if currentActor.GetDisplayName()!="" && currentDistance<5000
+                FilteredActorsInCellNames.Add(currentActor.GetDisplayName())
+                FilteredActorsInCellDistanceFromPlayer.Add(currentDistance)
+                FilteredActorCount += 1
+            endif
+        endif
+        i += 1
+    EndWhile
+    int k
+    string actorList
+    string distancelist
+    While k < FilteredActorsInCellNames.Length
+        actorList += "Name : "+FilteredActorsInCellNames[k]+", distance : "+FilteredActorsInCellDistanceFromPlayer[k]+", "
+        k += 1
+    EndWhile
+Endfunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Player and NPC state reporting   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 string function constructPlayerState()
     String[] playerStateArray = new String[10]

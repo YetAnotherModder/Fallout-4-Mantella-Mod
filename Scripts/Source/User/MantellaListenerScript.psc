@@ -28,8 +28,13 @@ GlobalVariable property MantellaRadiantEnabled auto
 GlobalVariable property MantellaRadiantDistance auto
 GlobalVariable property MantellaRadiantFrequency auto
 int RadiantFrequencyTimerID=1
+int CleanupconversationTimer=2
 Float meterUnits = 78.74
 Worldspace PrewarWorldspace
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Initialization events and functions  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event OnInit ()
 	PrewarWorldspace = Game.GetFormFromFile(0x000A7FF4, "Fallout4.esm") as Worldspace
@@ -40,7 +45,6 @@ EndEvent
 Event OnPlayerTeleport()
 	TryToGiveItems()
 EndEvent
-
 
 Function TryToGiveItems()
 	Worldspace PlayerWorldspace = Game.GetPlayer().GetWorldspace()
@@ -56,21 +60,34 @@ Function TryToGiveItems()
 	endif
 EndFunction
 
-Float Function ConvertMeterToGameUnits(Float meter)
-    Return Meter * meterUnits
-EndFunction
-
-Float Function ConvertGameUnitsToMeter(Float gameUnits)
-    Return gameUnits / meterUnits
-EndFunction
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Events and functions at player load  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event OnPlayerLoadGame()
     LoadMantellaEvents()
 EndEvent
 
 Function LoadMantellaEvents()
-    string MantellaVersion="Mantella 0.8.3"
     
+    repository.reloadKeys()
+    registerForPlayerEvents()
+    ;Will clean up all all conversation loops if they're still occuring
+    ; repository.endFlagMantellaConversationOne = True    
+    If (conversation.IsRunning())    
+        conversation.conversationIsEnding=false  ;just here as a safety to prevent locking out the player out of initiating conversations
+        conversation.EndConversation();Should there still be a running conversation after a load, end it
+        StartTimer(5,CleanupconversationTimer) ;Start a timmer to make second hard reset if conversation is still running after
+    EndIf
+        Worldspace PlayerWorldspace = PlayerRef.GetWorldspace()
+    if(PlayerWorldspace != PrewarWorldspace && PlayerWorldspace != None)
+        StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
+    endif
+    CheckGameVersionForMantella()
+Endfunction
+
+Function CheckGameVersionForMantella()
+    string MantellaVersion="Mantella 0.9.0"
     if  !IsF4SEProperlyInstalled() 
         debug.messagebox("F4SE not properly installed, Mantella will not work correctly")
     endif
@@ -78,17 +95,6 @@ Function LoadMantellaEvents()
     currentSUPversion = GetSUPF4SEVersion()
     if currentSUPversion == 0
         debug.messagebox("SUP_F4SE not properly installed, Mantella will not work correctly")
-    endif
-    repository.reloadKeys()
-    registerForPlayerEvents()
-    ;Will clean up all all conversation loops if they're still occuring
-    ; repository.endFlagMantellaConversationOne = True    
-    If (conversation.IsRunning())        
-        conversation.EndConversation();Should there still be a running conversation after a load, end it
-    EndIf
-    Worldspace PlayerWorldspace = PlayerRef.GetWorldspace()
-    if(PlayerWorldspace != PrewarWorldspace && PlayerWorldspace != None)
-        StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
     endif
     repository.currentFO4version = Debug.GetVersionNumber()
     if repository.currentFO4version != "1.10.163.0" && repository.currentFO4version != "1.2.72.0"
@@ -99,6 +105,7 @@ Function LoadMantellaEvents()
         debug.notification("Currently running "+ MantellaVersion+" VR")
     endif
 Endfunction
+
 bool Function IsF4SEProperlyInstalled() 
     int major = F4SE.GetVersion()
     int minor = F4SE.GetVersionMinor()
@@ -121,51 +128,63 @@ Function registerForPlayerEvents()
         RegisterForRadiationDamageEvent(PlayerRef)
 Endfunction
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Timer management  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Event Ontimer( int TimerID)
    ;debug.notification("timer "+RadiantFrequencyTimerID+" finished counting from "+repository.radiantFrequency)
-   if TimerID==RadiantFrequencyTimerID
-      if MantellaRadiantEnabled.GetValue()==1.000
-        if !conversation.IsRunning()
-            ;MantellaActorList taken from this tutorial:
-            ;http://skyrimmw.weebly.com/skyrim-modding/detecting-nearby-actors-skyrim-modding-tutorial
-            MantellaActorList.start()
-            ; if both actors found
-            if (PotentialActor1.GetReference() as Actor) && (PotentialActor2.GetReference() as Actor)
-                Actor Actor1 = PotentialActor1.GetReference() as Actor
-                Actor Actor2 = PotentialActor2.GetReference() as Actor
+    if TimerID==RadiantFrequencyTimerID
+        if MantellaRadiantEnabled.GetValue()==1.000
+            if !conversation.IsRunning()
+                ;MantellaActorList taken from this tutorial:
+                ;http://skyrimmw.weebly.com/skyrim-modding/detecting-nearby-actors-skyrim-modding-tutorial
+                MantellaActorList.start()
+                ; if both actors found
+                if (PotentialActor1.GetReference() as Actor) && (PotentialActor2.GetReference() as Actor)
+                    Actor Actor1 = PotentialActor1.GetReference() as Actor
+                    Actor Actor2 = PotentialActor2.GetReference() as Actor
 
-                float distanceToClosestActor = game.getplayer().GetDistance(Actor1)
-                float maxDistance = ConvertMeterToGameUnits(repository.radiantDistance)
-                if distanceToClosestActor <= maxDistance
-                    String Actor1Name = Actor1.getdisplayname()
-                    String Actor2Name = Actor2.getdisplayname()
-                    float distanceBetweenActors = Actor1.GetDistance(Actor2)
+                    float distanceToClosestActor = game.getplayer().GetDistance(Actor1)
+                    float maxDistance = ConvertMeterToGameUnits(repository.radiantDistance)
+                    if distanceToClosestActor <= maxDistance
+                        String Actor1Name = Actor1.getdisplayname()
+                        String Actor2Name = Actor2.getdisplayname()
+                        float distanceBetweenActors = Actor1.GetDistance(Actor2)
 
-                    ;TODO: make distanceBetweenActors customisable
-                    if (distanceBetweenActors <= 1000)
-                        ;have spell casted on Actor 1 by Actor 2
-                        MantellaSpell.Cast(Actor2 as ObjectReference, Actor1 as ObjectReference)
+                        ;TODO: make distanceBetweenActors customisable
+                        if (distanceBetweenActors <= 1000)
+                            ;have spell casted on Actor 1 by Actor 2
+                            MantellaSpell.Cast(Actor2 as ObjectReference, Actor1 as ObjectReference)
+                        else
+                            ;TODO: make this notification optional
+                            ;Debug.Notification("Radiant dialogue attempted. No NPCs available")
+                        endIf
                     else
                         ;TODO: make this notification optional
-                        ;Debug.Notification("Radiant dialogue attempted. No NPCs available")
+                        ;Debug.Notification("Radiant dialogue attempted. NPCs too far away at " + ConvertGameUnitsToMeter(distanceToClosestActor) + " meters")
+                        ;Debug.Notification("Max distance set to " + repository.radiantDistance + "m in Mantella MCM")
                     endIf
                 else
-                    ;TODO: make this notification optional
-                    Debug.Notification("Radiant dialogue attempted. NPCs too far away at " + ConvertGameUnitsToMeter(distanceToClosestActor) + " meters")
-                    Debug.Notification("Max distance set to " + repository.radiantDistance + "m in Mantella MCM")
+                    ;Debug.Notification("Radiant dialogue attempted. No NPCs available")
                 endIf
-            else
-                Debug.Notification("Radiant dialogue attempted. No NPCs available")
+    
+                MantellaActorList.stop()
             endIf
- 
-             MantellaActorList.stop()
-         endIf
-     endIf
-
+        endIf
       StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
-   endif
+    elseif TimerID==CleanupconversationTimer 
+        if conversation.IsRunning() ;attempts to make a hard reset of the conversation if it's still going on for some reason
+            ;previous conversation detected, forcing conversation to end.
+            debug.notification("Previous conversation detected on load : Cleaning up.")
+            Conversation.CleanupConversation()
+        endif
+    endif
 EndEvent
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Game event listeners  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akSourceContainer)
     if Repository.playerTrackingOnItemAdded
@@ -188,7 +207,7 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
 EndEvent
 
 Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akDestContainer)
-    if Repository.playerTrackingOnItemRemoved && !akBaseItem.HasKeyword(AmmoKeyword)
+    if Repository.playerTrackingOnItemRemoved
         string destName = akDestContainer.getbaseobject().getname()
         if destName != "Power Armor" ;to prevent gameevent spam from the player exiting power armors 
             string itemName = akBaseItem.GetName()
@@ -198,14 +217,20 @@ Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemRefe
             else
                 if destName != "" 
                     itemDroppedMessage = "The player placed " + itemName + " in/on " + destName + "."
-                Else
+                    conversation.AddIngameEvent(itemDroppedMessage)
+                Elseif akBaseItem.HasKeyword(AmmoKeyword)
+                    ;filtering out ammo events to prevent spam and confusion for the LLM
+                else
                     itemDroppedMessage = "The player dropped " + itemName + "."
+                    conversation.AddIngameEvent(itemDroppedMessage)
                 endIf
             Endif
-            conversation.AddIngameEvent(itemDroppedMessage)
+            
         endif
     endif
 endEvent
+
+
 
 String lastHitSource = ""
 String lastAggressor = ""
@@ -318,7 +343,11 @@ Event OnPlayerFireWeapon(Form akBaseObject)
         string weaponName=akBaseObject.getname()
         if weaponName!="Mantella"
             if lastWeaponFired!=akBaseObject && !repository.EventFireWeaponSpamBlocker
-                conversation.AddIngameEvent("The player fired their "+akBaseObject.getname()+" weapon.")
+                if weaponName!=""
+                    conversation.AddIngameEvent("The player used their "+weaponName+" weapon.")
+                else
+                    conversation.AddIngameEvent("The player used an unarmed attack.")
+                endif
                 lastWeaponFired=akBaseObject
                 repository.WeaponFiredCount+=1
                 if repository.WeaponFiredCount>=3
@@ -390,3 +419,15 @@ Event OnPlayerHealTeammate(Actor akTeammate)
         conversation.AddIngameEvent(messageEvent)
     endif
 EndEvent
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Math functions  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Float Function ConvertMeterToGameUnits(Float meter)
+    Return Meter * meterUnits
+EndFunction
+
+Float Function ConvertGameUnitsToMeter(Float gameUnits)
+    Return gameUnits / meterUnits
+EndFunction

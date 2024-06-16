@@ -6,6 +6,8 @@ Import Utility
 Topic property MantellaDialogueLine auto
 MantellaRepository property repository auto
 MantellaConstants property mConsts auto
+Spell property MantellaSpell auto
+bool property conversationIsEnding auto
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
@@ -21,8 +23,11 @@ Form[] _actorsInConversation
 String[] _ingameEvents
 String[] _extraRequestActions
 bool _does_accept_player_input = false
+int DictionaryCleanTimer
+
 
 event OnInit()
+    DictionaryCleanTimer = 10
     _actorsInConversation = new Form[0]
     _ingameEvents = new String[0]
     _extraRequestActions = new String[0]
@@ -91,6 +96,7 @@ function ContinueConversation(int handle)
         RequestContinueConversation()
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_PLAYERTALK)
         If (repository.microphoneEnabled)
+            Debug.Notification("Listening...")
             sendRequestForVoiceTranscribe()
         Else
             Debug.Notification("Awaiting player text input...")
@@ -98,7 +104,13 @@ function ContinueConversation(int handle)
         EndIf
     elseIf (nextAction == mConsts.KEY_REQUESTTYPE_TTS)
         string transcribe = F4SE_HTTP.getString(handle, mConsts.KEY_TRANSCRIBE, "*Complete gibberish*")
+        if repository.allowVision
+            repository.GenerateMantellaVision()
+        endif
         sendRequestForPlayerInput(transcribe)
+        repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
+        Debug.Notification("Thinking...")
+        
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_ENDCONVERSATION)
         CleanupConversation()
     endIf
@@ -135,6 +147,9 @@ function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpekTo, fl
     ; MantellaSubtitles.SetInjectTopicAndSubtitleForSpeaker(actorSpeaking, MantellaDialogueLine, lineToSay)
     actorSpeaking.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
     actorSpeaking.SetLookAt(actorToSpekTo)
+    if repository.notificationsSubtitlesEnabled
+        debug.notification(actorSpeaking.GetDisplayName()+":"+lineToSay)
+    endif
     float durationAdjusted = duration - 0.5
     if(durationAdjusted < 0)
         durationAdjusted = 0
@@ -167,12 +182,34 @@ Function EndConversation()
 EndFunction
 
 Function CleanupConversation()
+    conversationIsEnding = true
     _does_accept_player_input = false
-    F4SE_HTTP.clearAllDictionaries()
+    DispelAllMantellaMagicEffectsFromActors()
+    StartTimer(4,DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     Debug.Notification("Conversation has ended!")  
     Stop()
 EndFunction
 
+
+Event Ontimer( int TimerID)
+    if TimerID==DictionaryCleanTimer
+        ;Spacing how the cleaning of dictionaries because the game crashes on some setups when it's called directly in CleanupConversation()
+        Debug.trace("Timer elapsed : Cleaning dictionnaries")
+        F4SE_HTTP.clearAllDictionaries() 
+        conversationIsEnding = false
+    Endif
+Endevent
+
+
+Function DispelAllMantellaMagicEffectsFromActors()
+    int i=0
+    
+    While i < _actorsInConversation.Length
+        Actor actorToDispel = _actorsInConversation[i] as actor
+        actorToDispel.DispelSpell(MantellaSpell)
+        i += 1
+    EndWhile
+Endfunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Handle player speaking    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -222,8 +259,13 @@ Function SetPlayerResponseTextInput(string text)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
+    if repository.allowVision
+        repository.GenerateMantellaVision()
+    endif
     sendRequestForPlayerInput(text)
     _does_accept_player_input = False
+    repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
+    Debug.Notification("Thinking...")
 EndFunction
 
 Function SetGameEventTextInput(string text)
@@ -254,7 +296,7 @@ Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions)
     int i = 0
     While i < actions.Length
         string extraAction = actions[i]
-        Debug.Notification("Recieved action " + extraAction + ". Sending out event!")
+        Debug.Notification("Received action " + extraAction + ". Sending out event!")
         TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak)
         i += 1
     EndWhile    
@@ -344,6 +386,18 @@ bool Function IsPlayerInConversation()
     return false    
 EndFunction
 
+Bool function IsActorInConversation(Actor ActorRef)      
+    int i = 0
+    While i < _actorsInConversation.Length
+        Actor currentActor = _actorsInConversation[i] as Actor
+        if currentActor == ActorRef
+            return true
+        endIf
+        i += 1
+    EndWhile
+    return false
+endFunction
+
 Function UpdateActorsArray(Actor[] actorsToUpdate)
     int i = 0    
     While i < actorsToUpdate.Length
@@ -431,6 +485,7 @@ int Function BuildCustomContextValues()
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, player.getpositionX())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, player.getpositionY())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, player.GetAngleZ())
+    F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, repository.allowVision)
     return handleCustomContextValues
 EndFunction
 
