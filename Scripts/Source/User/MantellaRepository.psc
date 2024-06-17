@@ -103,7 +103,7 @@ EndFunction
 
 Event Ontimer( int TimerID)
     if TimerID==CleanupconversationTimer 
-        debug.notification("checking if conversation is still running")
+        ;debug.notification("checking if conversation is still running")
         if conversation.IsRunning() ;attempts to make a hard reset of the conversation if it's still going on for some reason
              ;previous conversation detected, forcing conversation to end.
              debug.notification("Previous conversation detected after request to end : Cleaning up.")
@@ -544,7 +544,40 @@ Function GenerateMantellaVision()
     endif
 EndFunction
 
-Function ScanCellForActors() ;to implement to give cues on NPC locations
+Actor[] Function ScanCellForActors(bool filteredByPlayerLOS) 
+    Actor playerRef = Game.GetPlayer()
+    Actor[] ActorsInCell
+    Actor[] ActorsInCellProcessed
+    ActorsInCell = SUP_F4SE.GetActorsInCell(playerRef.GetParentCell(), -1)
+    if filteredByPlayerLOS
+        int i
+        int FilteredActorCount
+            While i < ActorsInCell.Length
+                Actor currentActor = ActorsInCell[i]
+                if playerRef.HasDetectionLOS (currentActor)
+                    float currentDistance = playerRef.GetDistance(currentActor)
+                    if currentActor.GetDisplayName()!="" && currentDistance<5000
+                        ActorsInCellProcessed.add(ActorsInCell[i])
+                    endif
+                endif
+                i += 1
+            EndWhile
+        ActorsInCell=ActorsInCellProcessed
+    endif
+    return ActorsInCell
+Endfunction
+
+Function DispelAllMantellaMagicEffectsFromActors(Actor[] ActorArray)
+    int i=0
+    While i < ActorArray.Length
+        Actor actorToDispel = ActorArray[i]
+        actorToDispel.DispelSpell(MantellaSpell)
+        i += 1
+    EndWhile
+Endfunction
+
+;/
+Function ScanCellForActors(bool filtered) ;to implement to give cues on NPC locations
     Actor playerRef = Game.GetPlayer()
     Actor[] ActorsInCell
     String[] FilteredActorsInCellNames = new String[0]
@@ -553,24 +586,28 @@ Function ScanCellForActors() ;to implement to give cues on NPC locations
     int i
     int FilteredActorCount
         While i < ActorsInCell.Length
-        Actor currentActor = ActorsInCell[i]
-        if playerRef.HasDetectionLOS (currentActor)
-            float currentDistance = playerRef.GetDistance(currentActor)
-            if currentActor.GetDisplayName()!="" && currentDistance<5000
-                FilteredActorsInCellNames.Add(currentActor.GetDisplayName())
-                FilteredActorsInCellDistanceFromPlayer.Add(currentDistance)
-                FilteredActorCount += 1
+            Actor currentActor = ActorsInCell[i]
+            if playerRef.HasDetectionLOS (currentActor)
+                float currentDistance = playerRef.GetDistance(currentActor)
+                if currentActor.GetDisplayName()!="" && currentDistance<5000
+                    FilteredActorsInCellNames.Add(currentActor.GetDisplayName())
+                    FilteredActorsInCellDistanceFromPlayer.Add(currentDistance)
+                    FilteredActorCount += 1
+                endif
             endif
-        endif
-        i += 1
-    EndWhile
+            i += 1
+        EndWhile
+Endfunction
+/;
+String function ConvertActorAndDistanceArrayToString(Actor[] ActorNamesArray, Float[] DistanceArray)
     int k
     string actorList
     string distancelist
-    While k < FilteredActorsInCellNames.Length
-        actorList += "Name : "+FilteredActorsInCellNames[k]+", distance : "+FilteredActorsInCellDistanceFromPlayer[k]+", "
+    While k < ActorNamesArray.Length
+        actorList += "Name : "+ActorNamesArray[k]+", distance : "+DistanceArray[k]+", "
         k += 1
     EndWhile
+    return actorList
 Endfunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

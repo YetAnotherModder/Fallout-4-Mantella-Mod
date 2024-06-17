@@ -31,6 +31,7 @@ int RadiantFrequencyTimerID=1
 int CleanupconversationTimer=2
 Float meterUnits = 78.74
 Worldspace PrewarWorldspace
+bool itemsGiven
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Initialization events and functions  ;
@@ -43,17 +44,24 @@ Event OnInit ()
 EndEvent
 
 Event OnPlayerTeleport()
-	TryToGiveItems()
+    if !itemsGiven
+	    TryToGiveItems()
+    endif
+    If !(conversation.IsRunning())
+        Actor[] ActorsInCell = repository.ScanCellForActors(false)
+        repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
+    endif
 EndEvent
 
 Function TryToGiveItems()
 	Worldspace PlayerWorldspace = Game.GetPlayer().GetWorldspace()
 	if(PlayerWorldspace == PrewarWorldspace || PlayerWorldspace == None)
-		RegisterForPlayerTeleport()
+		;RegisterForPlayerTeleport() ;not nessary to interact with this anymore as it's handled in LoadMantellaEvents()
 	else
-		UnregisterForPlayerTeleport()
+		;UnregisterForPlayerTeleport()  ;not nessary to interact with this anymore as it's handled in LoadMantellaEvents()
 		PlayerRef.AddItem(MantellaGun, 1, false)
         PlayerRef.AddItem(MantellaSettingsHolotape, 1, false)
+        itemsGiven=true
         Utility.Wait(0.5)
         ;debug.messagebox("OnInit : Starting timer "+RadiantFrequencyTimerID+" for "+repository.radiantFrequency)
         StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
@@ -74,7 +82,9 @@ Function LoadMantellaEvents()
     registerForPlayerEvents()
     ;Will clean up all all conversation loops if they're still occuring
     ; repository.endFlagMantellaConversationOne = True    
-    If (conversation.IsRunning())    
+    If (conversation.IsRunning())   
+        Actor[] ActorsInCell = repository.ScanCellForActors(false)
+        repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
         conversation.conversationIsEnding=false  ;just here as a safety to prevent locking out the player out of initiating conversations
         conversation.EndConversation();Should there still be a running conversation after a load, end it
         StartTimer(5,CleanupconversationTimer) ;Start a timmer to make second hard reset if conversation is still running after
@@ -126,6 +136,7 @@ Function registerForPlayerEvents()
         RegisterForHitEvent(PlayerRef)
         UnregisterForAllRadiationDamageEvents()
         RegisterForRadiationDamageEvent(PlayerRef)
+        RegisterForPlayerTeleport()
 Endfunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
