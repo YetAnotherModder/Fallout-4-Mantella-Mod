@@ -76,34 +76,6 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_Stage_0202_Item_00
-Function Fragment_Stage_0202_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
-Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
-kmyQuest.MenuEventSelector=3
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0203_Item_00
-Function Fragment_Stage_0203_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
-Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
-kmyQuest.MenuEventSelector=4
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
 ;BEGIN FRAGMENT Fragment_Stage_0301_Item_00
 Function Fragment_Stage_0301_Item_00()
 ;BEGIN AUTOCAST TYPE MantellaRepository
@@ -192,19 +164,6 @@ EndFunction
 
 ;BEGIN FRAGMENT Fragment_Stage_0307_Item_00
 Function Fragment_Stage_0307_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
-Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.ToggleActivatePerk()
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0305_Item_00
-Function Fragment_Stage_0305_Item_00()
 ;BEGIN AUTOCAST TYPE MantellaRepository
 Quest __temp = self as Quest
 MantellaRepository kmyQuest = __temp as MantellaRepository
@@ -319,32 +278,6 @@ MantellaRepository kmyQuest = __temp as MantellaRepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleAllowVision(true)
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0405_Item_00
-Function Fragment_Stage_0405_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
-Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.UnRegisterForOnCrosshairRefChange()
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0406_Item_00
-Function Fragment_Stage_0406_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
-Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.RegisterForOnCrosshairRefChange()
 Reset()
 ;END CODE
 EndFunction
@@ -524,32 +457,6 @@ MantellaRepository kmyQuest = __temp as MantellaRepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.SetVisionResolution("low")
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0602_Item_00
-Function Fragment_Stage_0602_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
-Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.listMenuState("Hotkeys")
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0603_Item_00
-Function Fragment_Stage_0603_Item_00()
-;BEGIN AUTOCAST TYPE MantellaRepository
-Quest __temp = self as Quest
-MantellaRepository kmyQuest = __temp as MantellaRepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.listMenuState("Events")
 Reset()
 ;END CODE
 EndFunction
