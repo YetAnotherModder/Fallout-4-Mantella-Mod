@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12444
+VersionControl: 12504
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -17,6 +17,14 @@ VirtualMachineAdapter:
         Name: MantellaRadiantEnabled
         Object: 00D51E:Mantella.esp
     Fragments:
+    - FragmentIndex: 8
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_08
+    - FragmentIndex: 7
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_07
     - FragmentIndex: 5
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -84,7 +92,7 @@ BodyTexts:
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Stop NPC subtitles bug
+    Value: 'DEBUG : Stop all conversations'
   ResponseText:
     TargetLanguage: English
     Value: Close the Pipboy to complete.
@@ -92,7 +100,7 @@ MenuItems:
   ItemId: 4
   DisplayText:
     TargetLanguage: English
-    Value: This will end all Mantella effects running on NPCs. Use this if you noticed that multiple NPCs are saying the same sentences in the subtitles.
+    Value: This will end all Mantella effects running on NPCs.
 - ItemText:
     TargetLanguage: English
     Value: Turn subtitles OFF
@@ -119,15 +127,15 @@ MenuItems:
     Value: The extra activation option for Mantella has been removed.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72B38B
+    Unknown1: 0x72DC04
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       RunOnType: Reference
       Reference: 000014:Fallout4.esm
       Function: HasPerk
-      ParameterOneRecord: 0780FC:Mantella.esp
-      ParameterOneNumber: 117932284
+      ParameterOneRecord: 084DED:Mantella.esp
+      ParameterOneNumber: 117984749
 - ItemText:
     TargetLanguage: English
     Value: Add conversation activation option
@@ -139,14 +147,33 @@ MenuItems:
       The extra activation option for Mantella has been added.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x72B38B
+    Unknown1: 0x72DC04
     Data:
       MutagenObjectType: FunctionConditionData
       RunOnType: Reference
       Reference: 000014:Fallout4.esm
       Function: HasPerk
-      ParameterOneRecord: 0780FC:Mantella.esp
-      ParameterOneNumber: 117932284
+      ParameterOneRecord: 084DED:Mantella.esp
+      ParameterOneNumber: 117984749
+- ItemText:
+    TargetLanguage: English
+    Value: Turn microphone OFF
+  Type: DisplayText
+  ItemId: 7
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      Turning the microphone OFF. Use the dialogue hotkey to communicate with Mantella NPCs.
+- ItemText:
+    TargetLanguage: English
+    Value: Turn microphone ON
+  Type: DisplayText
+  ItemId: 8
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      Turning the microphone ON. Adjust the audio threshold if there are communication issues.
+
 - ItemText:
     TargetLanguage: English
     Value: Restore defaults settings

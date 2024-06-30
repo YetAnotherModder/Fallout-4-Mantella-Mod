@@ -4,7 +4,7 @@ Scriptname Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519 Extends Ter
 ;BEGIN FRAGMENT Fragment_Terminal_01
 Function Fragment_Terminal_01(ObjectReference akTerminalRef)
 ;BEGIN CODE
-MantellaQuest.SetStage(305)
+MantellaQuest.SetStage(307)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -20,7 +20,7 @@ EndFunction
 ;BEGIN FRAGMENT Fragment_Terminal_03
 Function Fragment_Terminal_03(ObjectReference akTerminalRef)
 ;BEGIN CODE
-MantellaQuest.SetStage(305)
+MantellaQuest.SetStage(307)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -45,6 +45,22 @@ EndFunction
 Function Fragment_Terminal_06(ObjectReference akTerminalRef)
 ;BEGIN CODE
 MantellaQuest.SetStage(304)
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Terminal_07
+Function Fragment_Terminal_07(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(305)
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Terminal_08
+Function Fragment_Terminal_08(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(306)
 ;END CODE
 EndFunction
 ;END FRAGMENT

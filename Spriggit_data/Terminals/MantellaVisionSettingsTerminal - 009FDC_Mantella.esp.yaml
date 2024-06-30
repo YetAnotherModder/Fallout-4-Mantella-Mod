@@ -1,37 +1,33 @@
-FormKey: 00D51D:Mantella.esp
+FormKey: 009FDC:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12445
-EditorID: MantellaSettingsTerminal
+VersionControl: 12504
+EditorID: MantellaVisionSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
 - 0x2000
 VirtualMachineAdapter:
   ScriptFragments:
     Script:
-      Name: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
+      Name: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
       Properties:
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
     Fragments:
-    - FragmentIndex: 5
+    - FragmentIndex: 9
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
-      FragmentName: Fragment_Terminal_05
-    - FragmentIndex: 3
+      ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
+      FragmentName: Fragment_Terminal_09
+    - FragmentIndex: 10
       Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
-      FragmentName: Fragment_Terminal_03
-    - FragmentIndex: 4
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
-      FragmentName: Fragment_Terminal_04
+      ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
+      FragmentName: Fragment_Terminal_10
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135
 HeaderText:
   TargetLanguage: English
-  Value: Mantella - Settings
+  Value: Mantella - Vision Settings
 Name:
   TargetLanguage: English
   Value: '[Settings] Mantella Settings'
@@ -65,38 +61,34 @@ MarkerParameters:
 BodyTexts:
 - Text:
     TargetLanguage: English
-    Value: Choose menu
+    Value: Choose option
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Main Settings
+    Value: Turn auto vision analysis OFF
+  Type: DisplayText
+  ItemId: 9
+  DisplayText:
+    TargetLanguage: English
+    Value: Turn automatic vision analysis OFF.
+- ItemText:
+    TargetLanguage: English
+    Value: Turn auto Vision Analysis ON
+  Type: DisplayText
+  ItemId: 10
+  DisplayText:
+    TargetLanguage: English
+    Value: >+
+      Turn automatic vision analysis ON. An image of the player's field of view will be sent to the LLM after every reply. 
+
+
+      Requires specific ChatML compatible LLM capable of vision analysis (e.g. ChatGPT4-o). 
+- ItemText:
+    TargetLanguage: English
+    Value: Set image resolution (submenu)
   Type: SubmenuTerminal
   ItemId: 1
-  Submenu: 00D519:Mantella.esp
-- ItemText:
-    TargetLanguage: English
-    Value: Radiant Settings
-  Type: SubmenuTerminal
-  ItemId: 2
-  Submenu: 015DBF:Mantella.esp
-- ItemText:
-    TargetLanguage: English
-    Value: Event Tracking Settings
-  Type: SubmenuTerminal
-  ItemId: 3
-  Submenu: 055E78:Mantella.esp
-- ItemText:
-    TargetLanguage: English
-    Value: NPC Action Settings (Experimental)
-  Type: SubmenuTerminal
-  ItemId: 4
-  Submenu: 05E71A:Mantella.esp
-- ItemText:
-    TargetLanguage: English
-    Value: Hotkeys Settings (Desktop Only)
-  Type: SubmenuTerminal
-  ItemId: 5
-  Submenu: 073CAB:Mantella.esp
+  Submenu: 009FDD:Mantella.esp
 MajorFlags:
 - 0x10
 - 0x2000
