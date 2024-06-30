@@ -7,14 +7,14 @@ VirtualMachineAdapter:
   - Name: mantellaconversation
     Properties:
     - MutagenObjectType: ScriptObjectProperty
+      Name: repository
+      Object: 000F99:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
       Name: MantellaSpell
       Object: 0090C7:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: MantellaDialogueLine
       Object: 001ED1:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
-      Name: repository
-      Object: 000F99:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: mConsts
       Object: 066FBB:Mantella.esp
@@ -24,6 +24,6 @@ VirtualMachineAdapter:
   Script:
     Name: ''
 Data:
-  Unused: 229
+  Unused: 49
 UnusedConditions: []
 Aliases: []

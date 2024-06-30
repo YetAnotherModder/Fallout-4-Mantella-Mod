@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12474
+VersionControl: 12504
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -11,36 +11,24 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
     Fragments:
-    - FragmentIndex: 5
+    - FragmentIndex: 8
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_05
-    - FragmentIndex: 10
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_10
-    - FragmentIndex: 1
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_01
-    - FragmentIndex: 4
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_04
+      FragmentName: Fragment_Terminal_08
     - FragmentIndex: 7
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_07
-    - FragmentIndex: 9
+    - FragmentIndex: 5
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_09
+      FragmentName: Fragment_Terminal_05
     - FragmentIndex: 2
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -49,14 +37,18 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_06
+    - FragmentIndex: 1
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_01
     - FragmentIndex: 3
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_03
-    - FragmentIndex: 8
+    - FragmentIndex: 4
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_08
+      FragmentName: Fragment_Terminal_04
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135
@@ -135,7 +127,7 @@ MenuItems:
     Value: The extra activation option for Mantella has been removed.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x728056
+    Unknown1: 0x72DC04
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -155,7 +147,7 @@ MenuItems:
       The extra activation option for Mantella has been added.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x728056
+    Unknown1: 0x72DC04
     Data:
       MutagenObjectType: FunctionConditionData
       RunOnType: Reference
@@ -182,31 +174,6 @@ MenuItems:
     Value: >+
       Turning the microphone ON. Adjust the audio threshold if there are communication issues.
 
-- ItemText:
-    TargetLanguage: English
-    Value: Turns vision analysis OFF
-  Type: DisplayText
-  ItemId: 9
-  DisplayText:
-    TargetLanguage: English
-    Value: Turns vision analysis OFF
-- ItemText:
-    TargetLanguage: English
-    Value: 'WIP: Turn Vision Analysis ON'
-  Type: DisplayText
-  ItemId: 10
-  DisplayText:
-    TargetLanguage: English
-    Value: >+
-      THIS IS CURRENTLY A WORK IN PROGRESS:
-
-      Turn Vision Analysis ON. Requires specific ChatML compatible LLM capable of vision analysis (e.g. ChatGPT4-o). 
-
-
-      THIS OPTION IS CURRENTLY EXPENSIVE TO USE.
-
-
-      MO2 Users : You may need to toggle on the option for F4SE in MO2 : Create files in mod instead of overwrite.
 - ItemText:
     TargetLanguage: English
     Value: Restore defaults settings

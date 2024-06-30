@@ -29,6 +29,7 @@ event OnEffectStart(Actor target, Actor caster)
         ;Need to test these and move on their own function
         ActivateEventsFilters()
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
+        repository.hasPendingVisionCheck=false
         conversation.Start()
         conversation.StartConversation(actors)
     elseif conversation.conversationIsEnding ==true
@@ -97,7 +98,7 @@ Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemRefere
             Endif
             if itemName != ""
                 conversation.AddIngameEvent(itemPickedUpMessage) 
-                debug.notification(itemPickedUpMessage)
+                ;debug.notification(itemPickedUpMessage)
             endIf
         endif
     endif

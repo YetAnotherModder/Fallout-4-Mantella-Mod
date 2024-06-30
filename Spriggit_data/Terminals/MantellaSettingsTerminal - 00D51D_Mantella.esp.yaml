@@ -1,6 +1,6 @@
 FormKey: 00D51D:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12474
+VersionControl: 12504
 EditorID: MantellaSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -14,6 +14,10 @@ VirtualMachineAdapter:
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
     Fragments:
+    - FragmentIndex: 7
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
+      FragmentName: Fragment_Terminal_07
     - FragmentIndex: 5
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D
@@ -111,6 +115,12 @@ MenuItems:
   Type: SubmenuTerminal
   ItemId: 6
   Submenu: 084DEE:Mantella.esp
+- ItemText:
+    TargetLanguage: English
+    Value: Vision Settings
+  Type: SubmenuTerminal
+  ItemId: 7
+  Submenu: 009FDC:Mantella.esp
 MajorFlags:
 - 0x10
 - 0x2000

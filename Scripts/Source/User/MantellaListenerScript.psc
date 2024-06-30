@@ -189,6 +189,7 @@ Event Ontimer( int TimerID)
             ;previous conversation detected, forcing conversation to end.
             debug.notification("Previous conversation detected on load : Cleaning up.")
             Conversation.CleanupConversation()
+            conversation.conversationIsEnding = false
         endif
     endif
 EndEvent

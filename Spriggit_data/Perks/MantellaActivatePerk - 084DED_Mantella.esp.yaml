@@ -31,13 +31,13 @@ Effects:
     Conditions:
     - MutagenObjectType: ConditionFloat
       CompareOperator: NotEqualTo
-      Unknown1: 0x237752
+      Unknown1: 0x63D456
       ComparisonValue: 1
       Data:
         MutagenObjectType: FunctionConditionData
         Function: GetDead
     - MutagenObjectType: ConditionFloat
-      Unknown1: 0x237752
+      Unknown1: 0x63D456
       ComparisonValue: 1
       Data:
         MutagenObjectType: FunctionConditionData

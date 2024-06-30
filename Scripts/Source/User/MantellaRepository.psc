@@ -20,6 +20,8 @@ bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
 bool property allowVision auto
+bool property hasPendingVisionCheck auto
+string property visionResolution auto
 bool property allowAggro auto
 bool property allowFollow auto
 bool property allowCrosshairTracking auto
@@ -93,6 +95,7 @@ Function StopConversations()
     If (conversation.IsRunning())
         conversation.EndConversation()
         StartTimer(5,CleanupconversationTimer) ;Start a timmer to make second hard reset if conversation is still running after
+        conversation.conversationIsEnding = false
     EndIf
     ; endFlagMantellaConversationOne = True
     ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
@@ -125,6 +128,7 @@ Function reinitializeVariables()
     radiantFrequency = 10
     notificationsSubtitlesEnabled = true
     allowVision = false
+    visionResolution="auto"
     allowAggro = false
     allowFollow = false
     MenuEventSelector=0
@@ -137,10 +141,11 @@ Function reinitializeVariables()
     If !(PlayerRef.HasPerk(ActivatePerk))
         PlayerRef.AddPerk(ActivatePerk, False)
     Endif
+    conversation.conversationIsEnding = false
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;   Toggling functions   ;
+;   Toggling and setting functions   ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function togglePlayerEventTracking(bool bswitch)
@@ -235,6 +240,11 @@ Function ToggleActivatePerk()
 	EndIf
 EndFunction
 
+Function SetVisionResolution(string resolution)
+    visionResolution = resolution
+    Debug.notification("Vision resolution is now "+resolution)
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Pipboy Management    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -261,11 +271,6 @@ Function listMenuState(String aMenu)
             debug.notification("Alt conversation start option is OFF")
         else
             debug.notification("Alt conversation start option is ON")
-        endif
-        if allowVision==false
-            debug.notification("Vision analysis is OFF")
-        else
-            debug.notification("Vision analysis is ON")
         endif
     elseif aMenu=="HTTP_Settings"
         debug.notification("The HTTP port is currently "+ConstantsScript.HTTP_PORT)
@@ -306,6 +311,13 @@ Function listMenuState(String aMenu)
         else
             Debug.notification("F4SE crosshair tracking is OFF")
         endif
+    elseif aMenu=="Vision"
+        if allowVision==false
+            debug.notification("Vision analysis is OFF")
+        else
+            debug.notification("Vision analysis is ON")
+        endif
+        debug.notification("Vision resolution is set to "+visionResolution)
     endif
 EndFunction
 
@@ -533,6 +545,7 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function GenerateMantellaVision()
+    hasPendingVisionCheck=true
     if currentFO4version == "1.2.72.0"
         if SteamIsOverlayEnabled() ;use steam screenshots if this is FO4 VR
             SteamTriggerScreenshot()
@@ -543,6 +556,21 @@ Function GenerateMantellaVision()
         SUP_F4SE.CaptureScreenshot("Mantella_Vision", 0)
     endif
 EndFunction
+
+bool Function checkAndUpdateVisionPipeline()
+    ;automatically triggers to false to allow Camera and Spell to send the vision value only once per exchange.
+    if allowVision || hasPendingVisionCheck
+        hasPendingVisionCheck=false
+        return true
+    else
+        return false
+    endif
+EndFunction
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   NPC array management    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Actor[] Function ScanCellForActors(bool filteredByPlayerLOS) 
     Actor playerRef = Game.GetPlayer()

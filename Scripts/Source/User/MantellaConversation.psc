@@ -9,6 +9,7 @@ MantellaConstants property mConsts auto
 Spell property MantellaSpell auto
 bool property conversationIsEnding auto
 
+
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
 CustomEvent MantellaConversation_Action_mantella_npc_offended
@@ -23,11 +24,11 @@ Form[] _actorsInConversation
 String[] _ingameEvents
 String[] _extraRequestActions
 bool _does_accept_player_input = false
-int DictionaryCleanTimer
-
+bool _hasBeenStopped
+int _DictionaryCleanTimer
 
 event OnInit()
-    DictionaryCleanTimer = 10
+    _DictionaryCleanTimer = 10
     _actorsInConversation = new Form[0]
     _ingameEvents = new String[0]
     _extraRequestActions = new String[0]
@@ -43,6 +44,7 @@ endEvent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function StartConversation(Actor[] actorsToStartConversationWith)
+    _hasBeenStopped = false
     if(actorsToStartConversationWith.Length > 2)
         Debug.Notification("Can not start conversation. Conversation is already running.")
         return
@@ -63,7 +65,7 @@ function StartConversation(Actor[] actorsToStartConversationWith)
     AddCurrentActorsAndContext(handle)
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
     string address = "http://localhost:" + mConsts.HTTP_PORT + "/" + mConsts.HTTP_ROUTE_MAIN
-    Debug.Notification("Sent StartConversation http request to " + address)  
+    Debug.Trace("Sent StartConversation http request to " + address)  
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -117,16 +119,18 @@ function ContinueConversation(int handle)
 endFunction
 
 function RequestContinueConversation()
-    int handle = F4SE_HTTP.createDictionary()
-    F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_CONTINUECONVERSATION)
-    AddCurrentActorsAndContext(handle)
-    if(_extraRequestActions && _extraRequestActions.Length > 0)
-        Debug.Notification("_extraRequestActions contains items. Sending them along with continue!")
-        F4SE_HTTP.setStringArray(handle, mConsts.KEY_REQUEST_EXTRA_ACTIONS, _extraRequestActions)
-        ClearExtraRequestAction()
-        Debug.Notification("_extraRequestActions got cleared. Remaining items: " + _extraRequestActions.Length)
+    if _hasBeenStopped ==false
+        int handle = F4SE_HTTP.createDictionary()
+        F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_CONTINUECONVERSATION)
+        AddCurrentActorsAndContext(handle)
+        if(_extraRequestActions && _extraRequestActions.Length > 0)
+            Debug.Trace("_extraRequestActions contains items. Sending them along with continue!")
+            F4SE_HTTP.setStringArray(handle, mConsts.KEY_REQUEST_EXTRA_ACTIONS, _extraRequestActions)
+            ClearExtraRequestAction()
+            Debug.Trace("_extraRequestActions got cleared. Remaining items: " + _extraRequestActions.Length)
+        endif
+        F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
     endif
-    F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
 endFunction
 
 function ProcessNpcSpeak(int handle)
@@ -176,27 +180,27 @@ endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function EndConversation()
+    _hasBeenStopped=true
     int handle = F4SE_HTTP.createDictionary()
     F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE,mConsts.KEY_REQUESTTYPE_ENDCONVERSATION)
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
 EndFunction
 
 Function CleanupConversation()
+    repository.hasPendingVisionCheck=false
     conversationIsEnding = true
     _does_accept_player_input = false
     DispelAllMantellaMagicEffectsFromActors()
-    StartTimer(4,DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
-    Debug.Notification("Conversation has ended!")  
-    Stop()
+    StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
+    F4SE_HTTP.clearAllDictionaries() 
 EndFunction
 
 
 Event Ontimer( int TimerID)
-    if TimerID==DictionaryCleanTimer
-        ;Spacing how the cleaning of dictionaries because the game crashes on some setups when it's called directly in CleanupConversation()
-        Debug.trace("Timer elapsed : Cleaning dictionnaries")
-        F4SE_HTTP.clearAllDictionaries() 
-        conversationIsEnding = false
+    if TimerID==_DictionaryCleanTimer
+        ;Spacing how the cleaning of dictionaries and the Stop() function are called because the game crashes on some setups when it's called directly in CleanupConversation()
+        Debug.notification("Conversation has ended!") 
+        Stop()
     Endif
 Endevent
 
@@ -215,17 +219,19 @@ Endfunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function sendRequestForPlayerInput(string playerInput)
-    AddIngameEvent(repository.constructPlayerState())
-    int handle = F4SE_HTTP.createDictionary()
-    F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_PLAYERINPUT)
-    F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE_PLAYERINPUT, playerinput)
-    int[] handlesNpcs = BuildNpcsInConversationArray()
-    F4SE_HTTP.setNestedDictionariesArray(handle, mConsts.KEY_ACTORS, handlesNpcs)    
-    int handleContext = BuildContext()
-    F4SE_HTTP.setNestedDictionary(handle, mConsts.KEY_CONTEXT, handleContext)
+    if _hasBeenStopped==false
+        AddIngameEvent(repository.constructPlayerState())
+        int handle = F4SE_HTTP.createDictionary()
+        F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_PLAYERINPUT)
+        F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE_PLAYERINPUT, playerinput)
+        int[] handlesNpcs = BuildNpcsInConversationArray()
+        F4SE_HTTP.setNestedDictionariesArray(handle, mConsts.KEY_ACTORS, handlesNpcs)    
+        int handleContext = BuildContext()
+        F4SE_HTTP.setNestedDictionary(handle, mConsts.KEY_CONTEXT, handleContext)
 
-    ClearIngameEvent()    
-    F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
+        ClearIngameEvent()    
+        F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
+    endif
 endFunction
 
 function sendRequestForVoiceTranscribe()
@@ -296,7 +302,7 @@ Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions)
     int i = 0
     While i < actions.Length
         string extraAction = actions[i]
-        Debug.Notification("Received action " + extraAction + ". Sending out event!")
+        Debug.Trace("Received action " + extraAction + ". Sending out event!")
         TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak)
         i += 1
     EndWhile    
@@ -352,7 +358,7 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function TriggerReloadConversation()
-    Debug.Notification("OnReloadConversationActionReceived triggered")
+    Debug.Trace("OnReloadConversationActionReceived triggered")
     AddExtraRequestAction(mConsts.ACTION_RELOADCONVERSATION)
 endFunction
 
@@ -485,7 +491,8 @@ int Function BuildCustomContextValues()
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, player.getpositionX())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, player.getpositionY())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, player.GetAngleZ())
-    F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, repository.allowVision)
+    F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, repository.checkAndUpdateVisionPipeline())
+    F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RES, repository.visionResolution)
     return handleCustomContextValues
 EndFunction
 
