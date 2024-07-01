@@ -26,9 +26,12 @@ String[] _extraRequestActions
 bool _does_accept_player_input = false
 bool _hasBeenStopped
 int _DictionaryCleanTimer
+int _PlayerTextInputTimer
+string _PlayerTextInput
 
 event OnInit()
     _DictionaryCleanTimer = 10
+    _PlayerTextInputTimer = 11
     _actorsInConversation = new Form[0]
     _ingameEvents = new String[0]
     _extraRequestActions = new String[0]
@@ -196,13 +199,7 @@ Function CleanupConversation()
 EndFunction
 
 
-Event Ontimer( int TimerID)
-    if TimerID==_DictionaryCleanTimer
-        ;Spacing how the cleaning of dictionaries and the Stop() function are called because the game crashes on some setups when it's called directly in CleanupConversation()
-        Debug.notification("Conversation has ended!") 
-        Stop()
-    Endif
-Endevent
+
 
 
 Function DispelAllMantellaMagicEffectsFromActors()
@@ -214,6 +211,26 @@ Function DispelAllMantellaMagicEffectsFromActors()
         i += 1
     EndWhile
 Endfunction
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Timer Management    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Event Ontimer( int TimerID)
+    if TimerID==_DictionaryCleanTimer
+        ;Spacing how the cleaning of dictionaries and the Stop() function are called because the game crashes on some setups when it's called directly in CleanupConversation()
+        Debug.notification("Conversation has ended!") 
+        Stop()
+    ElseIf TimerID==_PlayerTextInputTimer
+        if repository.allowVision
+            repository.GenerateMantellaVision()
+        endif
+        sendRequestForPlayerInput(_PlayerTextInput)
+        _does_accept_player_input = False
+        repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
+        Debug.Notification("Thinking...")
+    Endif
+Endevent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Handle player speaking    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -265,13 +282,8 @@ Function SetPlayerResponseTextInput(string text)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    if repository.allowVision
-        repository.GenerateMantellaVision()
-    endif
-    sendRequestForPlayerInput(text)
-    _does_accept_player_input = False
-    repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
-    Debug.Notification("Thinking...")
+    _PlayerTextInput=text
+    StartTimer(0.3,_PlayerTextInputTimer)
 EndFunction
 
 Function SetGameEventTextInput(string text)
