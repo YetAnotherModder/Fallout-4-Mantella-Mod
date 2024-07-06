@@ -232,7 +232,7 @@ Event Ontimer( int TimerID)
         ;Spacing how the cleaning of dictionaries and the Stop() function are called because the game crashes on some setups when it's called directly in CleanupConversation()
         Debug.notification("Conversation has ended!") 
         Stop()
-    ElseIf TimerID==_PlayerTextInputTimer
+    ElseIf TimerID==_PlayerTextInputTimer ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
         if repository.allowVision
             repository.GenerateMantellaVision()
         endif
@@ -294,7 +294,14 @@ Function SetPlayerResponseTextInput(string text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
     _PlayerTextInput=text
-    StartTimer(0.3,_PlayerTextInputTimer)
+    if repository.allowVision
+        StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
+    else
+        sendRequestForPlayerInput(_PlayerTextInput)
+        _does_accept_player_input = False
+        repository.ResetEventSpamBlockers() ;reset spam blockers to allow the ListenerScript to pick up on those again
+        Debug.notification("Thinking...")
+    endif
 EndFunction
 
 Function SetGameEventTextInput(string text)

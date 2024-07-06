@@ -2,7 +2,7 @@ FormKey: 004C76:Mantella.esp
 VersionControl: 12363
 EditorID: MantellaActorList
 Data:
-  Unused: 177
+  Unused: 146
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -16,7 +16,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -26,7 +26,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -36,7 +36,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -46,7 +46,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -56,7 +56,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -66,7 +66,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -76,7 +76,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -86,7 +86,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -96,7 +96,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -106,7 +106,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -116,7 +116,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -126,7 +126,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -136,7 +136,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -146,7 +146,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -156,7 +156,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -166,7 +166,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -174,7 +174,7 @@ Aliases:
       ParameterOneRecord: 0EAFB6:Fallout4.esm
       ParameterOneNumber: 962486
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -183,21 +183,21 @@ Aliases:
       ParameterOneNumber: 79686
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsAlerted
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsInjured
   - MutagenObjectType: ConditionFloat
     CompareOperator: LessThan
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 10000
     Data:
       MutagenObjectType: FunctionConditionData
@@ -206,54 +206,54 @@ Aliases:
       ParameterOneNumber: 20
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsTalking
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsInScene
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsMoving
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsSneaking
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsFleeing
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsCommandedActor
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsInCombat
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -272,7 +272,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -282,7 +282,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -292,7 +292,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -302,7 +302,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -312,7 +312,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -322,7 +322,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -332,7 +332,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -342,7 +342,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -352,7 +352,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -362,7 +362,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -372,7 +372,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -382,7 +382,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -392,7 +392,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -402,7 +402,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -412,7 +412,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -422,7 +422,7 @@ Aliases:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -430,7 +430,7 @@ Aliases:
       ParameterOneRecord: 0EAFB6:Fallout4.esm
       ParameterOneNumber: 962486
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -439,21 +439,21 @@ Aliases:
       ParameterOneNumber: 79686
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsAlerted
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsInjured
   - MutagenObjectType: ConditionFloat
     CompareOperator: LessThan
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 10000
     Data:
       MutagenObjectType: FunctionConditionData
@@ -462,54 +462,54 @@ Aliases:
       ParameterOneNumber: 20
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsTalking
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsInScene
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsMoving
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsSneaking
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsFleeing
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsCommandedActor
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsInCombat
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x8A94B1
+    Unknown1: 0x1EB0A9
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData

@@ -1,0 +1,22 @@
+FormKey: 00D4FE:Mantella.esp
+VersionControl: 12518
+EditorID: MantellaActorIsInConvoMessage
+Description:
+  TargetLanguage: English
+  Value: Choose [Yes] to remove this NPC from the Mantella conversation, If you want to keep the conversation as is, choose [No].
+Name:
+  TargetLanguage: English
+  Value: Remove this NPC from the conversation?
+OwnerQuest: 000F99:Mantella.esp
+Flags:
+- MessageBox
+ShortTitle:
+  TargetLanguage: English
+  Value: Remove this NPC?
+MenuButtons:
+- Text:
+    TargetLanguage: English
+    Value: Yes.
+- Text:
+    TargetLanguage: English
+    Value: No.

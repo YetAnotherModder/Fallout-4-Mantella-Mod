@@ -6,20 +6,20 @@ VirtualMachineAdapter:
   - Name: MantellaRepository
     Properties:
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaSpell
-      Object: 0090C7:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
-      Name: conversation
-      Object: 066FBB:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
       Name: ActivatePerk
       Object: 084DED:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
+      Name: RadsAV
+      Object: 0002E1:Fallout4.esm
     - MutagenObjectType: ScriptObjectProperty
       Name: HealthAV
       Object: 0002D4:Fallout4.esm
     - MutagenObjectType: ScriptObjectProperty
-      Name: RadsAV
-      Object: 0002E1:Fallout4.esm
+      Name: conversation
+      Object: 066FBB:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
+      Name: MantellaSpell
+      Object: 0090C7:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: ConstantsScript
       Object: 066FBB:Mantella.esp
@@ -167,37 +167,11 @@ VirtualMachineAdapter:
     - Name: MantellaListenerScript
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaGun
-        Object: 001734:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantFrequency
-        Object: 015DC1:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: conversation
-        Object: 066FBB:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: PlayerRef
-        Object: 000014:Fallout4.esm
-      - MutagenObjectType: ScriptObjectProperty
-        Name: PotentialActor2
-        Object: 004C76:Mantella.esp
-        Alias: 1
+        Name: repository
+        Object: 000F99:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaSpell
         Object: 0090C7:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: AmmoKeyword
-        Object: 0F4AE8:Fallout4.esm
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaSettingsHolotape
-        Object: 00D51A:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantDistance
-        Object: 015DC0:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: PotentialActor1
-        Object: 004C76:Mantella.esp
-        Alias: 0
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaActorList
         Object: 004C76:Mantella.esp
@@ -205,8 +179,34 @@ VirtualMachineAdapter:
         Name: MantellaRadiantEnabled
         Object: 00D51E:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
-        Name: repository
-        Object: 000F99:Mantella.esp
+        Name: MantellaRadiantDistance
+        Object: 015DC0:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: AmmoKeyword
+        Object: 0F4AE8:Fallout4.esm
+      - MutagenObjectType: ScriptObjectProperty
+        Name: PlayerRef
+        Object: 000014:Fallout4.esm
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaSettingsHolotape
+        Object: 00D51A:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: PotentialActor1
+        Object: 004C76:Mantella.esp
+        Alias: 0
+      - MutagenObjectType: ScriptObjectProperty
+        Name: PotentialActor2
+        Object: 004C76:Mantella.esp
+        Alias: 1
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantFrequency
+        Object: 015DC1:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: conversation
+        Object: 066FBB:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaGun
+        Object: 001734:Mantella.esp
 Name:
   TargetLanguage: English
   Value: Mantella Quest
@@ -215,7 +215,7 @@ Data:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 167
+  Unused: 27
 UnusedConditions: []
 Stages:
 - {}
