@@ -80,7 +80,7 @@ BodyTexts:
     Value: Choose radiant frequency in seconds (Current:10)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x725B77
+    Unknown1: 0x7297C1
     ComparisonValue: 10
     Data:
       MutagenObjectType: FunctionConditionData
@@ -93,7 +93,7 @@ BodyTexts:
       Choose radiant frequency in seconds (Current:30)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x725B77
+    Unknown1: 0x7297C1
     ComparisonValue: 30
     Data:
       MutagenObjectType: FunctionConditionData
@@ -106,7 +106,7 @@ BodyTexts:
       Choose radiant frequency in seconds (Current:60)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x725B77
+    Unknown1: 0x7297C1
     ComparisonValue: 60
     Data:
       MutagenObjectType: FunctionConditionData
@@ -119,7 +119,7 @@ BodyTexts:
       Choose radiant frequency in seconds (Current:300)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x725B77
+    Unknown1: 0x7297C1
     ComparisonValue: 300
     Data:
       MutagenObjectType: FunctionConditionData
@@ -132,7 +132,7 @@ BodyTexts:
       Choose radiant frequency in seconds (Current:900)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x725B77
+    Unknown1: 0x7297C1
     ComparisonValue: 900
     Data:
       MutagenObjectType: FunctionConditionData
@@ -145,7 +145,7 @@ BodyTexts:
       Choose radiant frequency in seconds (Current:1800)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x725B77
+    Unknown1: 0x7297C1
     ComparisonValue: 1800
     Data:
       MutagenObjectType: FunctionConditionData

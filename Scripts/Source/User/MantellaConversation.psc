@@ -10,7 +10,7 @@ Spell property MantellaSpell auto
 bool property conversationIsEnding auto
 Faction Property MantellaConversationParticipantsFaction Auto
 FormList Property Participants auto
-
+Quest Property MantellaConversationParticipantsQuest auto
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
@@ -209,6 +209,9 @@ Function CleanupConversation()
     ClearIngameEvent() 
     _does_accept_player_input = false
     DispelAllMantellaMagicEffectsFromActors()
+    If (MantellaConversationParticipantsQuest.IsRunning())
+        MantellaConversationParticipantsQuest.Stop()
+    EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     F4SE_HTTP.clearAllDictionaries() 
 EndFunction
@@ -232,10 +235,8 @@ Event Ontimer( int TimerID)
         ;Spacing how the cleaning of dictionaries and the Stop() function are called because the game crashes on some setups when it's called directly in CleanupConversation()
         Debug.notification("Conversation has ended!") 
         Stop()
-    ElseIf TimerID==_PlayerTextInputTimer
-        if repository.allowVision
-            repository.GenerateMantellaVision()
-        endif
+    ElseIf TimerID==_PlayerTextInputTimer ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
+        repository.GenerateMantellaVision()
         sendRequestForPlayerInput(_PlayerTextInput)
         _does_accept_player_input = False
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
@@ -285,6 +286,10 @@ function GetPlayerTextInput(string entrytype)
         TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
         RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
         RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+    elseif entryType == "playerResponseTextAndVisionEntry"
+        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+        RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
+        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
     endif
 endFunction
 
@@ -294,6 +299,22 @@ Function SetPlayerResponseTextInput(string text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
     _PlayerTextInput=text
+    if repository.allowVision
+        StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
+    else
+        sendRequestForPlayerInput(_PlayerTextInput)
+        _does_accept_player_input = False
+        repository.ResetEventSpamBlockers() ;reset spam blockers to allow the ListenerScript to pick up on those again
+        Debug.notification("Thinking...")
+    endif
+EndFunction
+
+Function SetPlayerResponseTextAndVisionInput(string text)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    _PlayerTextInput = text
+    repository.hasPendingVisionCheck=true
     StartTimer(0.3,_PlayerTextInputTimer)
 EndFunction
 
@@ -434,12 +455,15 @@ Bool function IsActorInConversation(Actor ActorRef)
 endFunction
 
 Function CauseReassignmentOfParticipantAlias()
-    ; If (MantellaConversationParticipantsQuest.IsRunning())
-    ;     ;Debug.Notification("Stopping MantellaConversationParticipantsQuest")
-    ;     MantellaConversationParticipantsQuest.Stop()
-    ; EndIf
-    ; ;Debug.Notification("Starting MantellaConversationParticipantsQuest to asign QuestAlias")
-    ; MantellaConversationParticipantsQuest.Start()
+    ;This causes Mantella NPC to change AI packages so that they enter specific behavior (usually staying in place while the player talks to them) 
+    If (MantellaConversationParticipantsQuest.IsRunning())
+        ;Debug.Notification("Stopping MantellaConversationParticipantsQuest")
+        MantellaConversationParticipantsQuest.Stop()
+    EndIf
+    if repository.allowNPCsStayInPlace
+        ;Debug.Notification("Starting MantellaConversationParticipantsQuest to asign QuestAlias")
+        MantellaConversationParticipantsQuest.Start()
+    endif
 EndFunction
 
 Function AddActors(Actor[] actorsToAdd)
@@ -622,6 +646,7 @@ int Function BuildCustomContextValues()
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, player.GetAngleZ())
     F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, repository.checkAndUpdateVisionPipeline())
     F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RES, repository.visionResolution)
+    F4SE_HTTP.setInt(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE, repository.visionResize)
     return handleCustomContextValues
 EndFunction
 

@@ -1,6 +1,6 @@
 FormKey: 084DEE:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12474
+VersionControl: 12535
 EditorID: MantellaHotkeysTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -22,6 +22,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
       FragmentName: Fragment_Terminal_06
+    - FragmentIndex: 1
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
+      FragmentName: Fragment_Terminal_01
     - FragmentIndex: 3
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE
@@ -114,7 +118,7 @@ MenuItems:
           When you actually reply to the NPC, either by speaking in the mic or by typing a reply (default "H" key), all the game events will be sent along the reply to the AI. Note : the game event log will get cleared at the start of a new conversation and can only store up to 5 events at a time. After 5 events newer events will override the the older ones.
 - ItemText:
     TargetLanguage: English
-    Value: WIP - Set Text/Vision Response Hotkey
+    Value: ' Set Text/Vision Response Hotkey'
   ResponseText:
     TargetLanguage: English
     Value: Close the Pipboy to update the keycode.
@@ -123,15 +127,28 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: >+
-      THIS IS A WORK IN PROGRESS : FEATURE NOT COMPLETED YET:
-
-      Close menu to set the new hotkey for player text input with vision. Default key is "G". Use decima Directx scancode value, ex: "g" = 71 or "y" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work (see Mantella Software's config.ini)
+      Close menu to set the new hotkey for player text input with vision. Use the decimal Directx scancode value, ex: "g" = 71 or "y" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work (see Mantella Software's config.ini)
 
 
-      This key has the same function as the standard TextResponseHotkey but will additionnaly send a screenshot to the LLM for vision analysis. Please note that this will only work with specific LLMs (e.g. ChatGPT4-o.
+      This key has the same function as the standard TextResponseHotkey but will additionnaly send a screenshot to the LLM for vision analysis. Please note that this will only work with specific LLMs (e.g. ChatGPT4-o., or a local LLM using a mmproj file)
 
 
       If both text response and text vision are the same button then the text/vision hotkey will override the other one.
+- ItemText:
+    TargetLanguage: English
+    Value: Mantella Vision (screenshot) Hotkey
+  ResponseText:
+    TargetLanguage: English
+    Value: Close the Pipboy to update the keycode.
+  Type: DisplayText
+  ItemId: 1
+  DisplayText:
+    TargetLanguage: English
+    Value: >-
+      Close menu to set the new hotkey for Mantella Vison Screenshots. Use the decimal Directx scancode value, ex: "g" = 71 or "y" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work (see Mantella Software's config.ini)
+
+
+      Any screenshot taken with this hotkey will be sent to the LLM on your next reply.
 - ItemText:
     TargetLanguage: English
     Value: Display keycode chart (DirectX scancodes)

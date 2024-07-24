@@ -9,11 +9,12 @@ float localMenuTimer
 Float meterUnits = 78.74
 Actor property PlayerRef auto
 Message property MantellaStartConversationMessage auto
+Message property MantellaActorIsInConvoMessage auto
 Keyword Property AmmoKeyword Auto Const
 
-;####################################################
+;##############################################################
 ;#            Magic Effect Start and finish Event managers    #
-;####################################################
+;##############################################################
 
 
 event OnEffectStart(Actor target, Actor caster)
@@ -36,18 +37,9 @@ event OnEffectStart(Actor target, Actor caster)
         debug.notification("Conversation is currently ending,try again in a few seconds")
         self.dispel() ;remove the Mantella effect form the actor so they don't show up in the event listeners
     elseif conversation.IsActorInConversation(target)
-        debug.notification("Actor is already in conversation")
-        self.dispel() ;remove the Mantella effect form the actor so they don't show up in the event listeners
+        showAndResolveActorIsInConvoMessage(target)
     Elseif caster == playerRef  ;initiates a menu check
-        int aButton=MantellaStartConversationMessage.show()
-        if aButton==1 ;player chose no
-             self.dispel() ;remove the Mantella effect form the actor so they don't show up in the event listeners
-        elseif aButton==0 ;player chose yes
-            debug.notification("Adding "+target.getdisplayname()+" to conversation")
-            ;Need to test these and move on their own function
-            ActivateEventsFilters()
-            conversation.AddActorsToConversation(actors)
-        endif 
+        showAndResolveAddtoConversationMessage(target) 
     else ;will be used when radiant conversation are started
         conversation.AddActorsToConversation(actors)
     endIf
@@ -59,6 +51,36 @@ Event OnEffectFinish(Actor target, Actor caster)
     DeactivateEventsFilters()
 endEvent
 
+;####################################################
+;#         Message Handling Functions               #
+;####################################################
+
+function showAndResolveAddtoConversationMessage(Actor target)
+    int aButton=MantellaStartConversationMessage.show()
+    if aButton==1 ;player chose no
+         self.dispel() ;remove the Mantella effect form the actor so they don't show up in the event listeners
+    elseif aButton==0 ;player chose yes
+        debug.notification("Adding "+target.getdisplayname()+" to conversation")
+        ActivateEventsFilters()
+        Actor[] actorsToAdd = new Actor[1]
+        actorsToAdd[0] = target
+        conversation.AddActorsToConversation(actorsToAdd)
+    endif 
+Endfunction
+
+function showAndResolveActorIsInConvoMessage(Actor target)
+    int aButton=MantellaActorIsInConvoMessage.show()
+    if aButton==1 ;player chose no
+         ;do nothing
+    elseif aButton==0 ;player chose yes
+        debug.notification("Removing "+target.getdisplayname()+" from the conversation")
+        ;Need to test these and move on their own function
+        self.dispel() ;remove the Mantella effect form the actor so they don't show up in the event listeners
+        Actor[] actorsToRemove = new Actor[1]
+        actorsToRemove[0] = target
+        conversation.RemoveActorsFromConversation(actorsToRemove)
+    endif 
+Endfunction
 
 ;####################################################
 ;#                  Game Event filter Functions    #

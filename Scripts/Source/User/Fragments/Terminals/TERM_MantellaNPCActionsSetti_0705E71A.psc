@@ -33,6 +33,22 @@ MantellaQuest.SetStage(504)
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Terminal_05
+Function Fragment_Terminal_05(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(505)
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Terminal_06
+Function Fragment_Terminal_06(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(506)
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment
 
 Quest Property MantellaQuest Auto Const Mandatory

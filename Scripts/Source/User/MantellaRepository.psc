@@ -1,11 +1,14 @@
-Scriptname MantellaRepository extends Quest
+Scriptname MantellaRepository extends Quest Conditional
 Import SUP_F4SE
 Import TIM:TIM
 
+;keycode properties
 int property textkeycode auto
 int property textAndVisionKeycode auto
+int property MantellaVisionKeycode auto
 int property gameEventkeycode auto
 int property startConversationkeycode auto
+
 ; string property textinput auto
 int property MenuEventSelector auto
 MantellaConversation property conversation auto
@@ -14,15 +17,22 @@ MantellaConstants property ConstantsScript auto
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
 string property currentFO4version auto
+bool property isFO4VR auto Conditional
 bool property microphoneEnabled auto
 bool property radiantEnabled auto
 bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
+
+;vision parameters
 bool property allowVision auto
 bool property hasPendingVisionCheck auto
 string property visionResolution auto
+int property visionResize auto Conditional
+
+
 bool property allowAggro auto
+bool property allowNPCsStayInPlace auto Conditional
 bool property allowFollow auto
 bool property allowCrosshairTracking auto
 Spell property MantellaSpell auto
@@ -84,10 +94,11 @@ Endfunction
 
 Function reloadKeys()
     ;called at player load and when reinitializing variables
-    setDialogueHotkey(textkeycode, "Dialogue")
-    setDialogueHotkey(gameEventkeycode, "GameEvent")
-    setDialogueHotkey(startConversationkeycode,"StartConversation")
-    setDialogueHotkey(textAndVisionKeycode,"DialogueAndVision")
+    setHotkey(textkeycode, "Dialogue")
+    setHotkey(gameEventkeycode, "GameEvent")
+    setHotkey(startConversationkeycode,"StartConversation")
+    setHotkey(textAndVisionKeycode,"DialogueAndVision")
+    setHotkey(MantellaVisionKeycode,"MantellaVision")
 Endfunction
 
 
@@ -119,7 +130,6 @@ Event Ontimer( int TimerID)
 Function reinitializeVariables()
     ;change the below this is for debug only
     textkeycode=72
-    textAndVisionKeycode=71
     gameEventkeycode=89
     startConversationkeycode=72
     reloadKeys()
@@ -129,8 +139,10 @@ Function reinitializeVariables()
     notificationsSubtitlesEnabled = true
     allowVision = false
     visionResolution="auto"
+    visionResize=1024
     allowAggro = false
     allowFollow = false
+    allowNPCsStayInPlace = true
     MenuEventSelector=0
     microphoneEnabled = true
     ConstantsScript.HTTP_PORT = 4999
@@ -211,6 +223,10 @@ Function toggleAllowFollow(bool bswitch)
     allowFollow = bswitch
 EndFunction
 
+Function toggleAllowNPCsStayInPlace(bool bswitch)
+    allowNPCsStayInPlace = bswitch
+EndFunction
+
 Function togglemicrophoneEnabled(bool bswitch)
     microphoneEnabled = bswitch
     if bswitch
@@ -243,6 +259,11 @@ EndFunction
 Function SetVisionResolution(string resolution)
     visionResolution = resolution
     Debug.notification("Vision resolution is now "+resolution)
+EndFunction
+
+Function SetVisionResize(int resizeResolution)
+    visionResize = resizeResolution
+    Debug.notification("Vision images will now be resized to "+visionResize)
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -290,10 +311,15 @@ Function listMenuState(String aMenu)
         ElseIf (true)
             Debug.notification("Current start conversation hotkey is unassigned")
         endif
-        if startConversationkeycode!=0
+        if textAndVisionKeycode!=0
             Debug.notification("Current text response and vision hotkey is "+textAndVisionKeycode)
         ElseIf (true)
             Debug.notification("Current text response and vision hotkey is unassigned")
+        endif
+        if MantellaVisionKeycode!=0
+            Debug.notification("Current Mantella Vision (screenshot) hotkey is "+MantellaVisionKeycode)
+        ElseIf (true)
+            Debug.notification("Current Mantella Vision (screenshot) hotkey is unassigned")
         endif
     elseif aMenu=="Events"
         if playerTrackingOnItemAdded
@@ -318,6 +344,7 @@ Function listMenuState(String aMenu)
             debug.notification("Vision analysis is ON")
         endif
         debug.notification("Vision resolution is set to "+visionResolution)
+        debug.notification("Images will be resized to "+visionResize)
     endif
 EndFunction
 
@@ -336,6 +363,8 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
 	    OpenHotkeyPrompt("startConversationHotKey")  
     elseif(asMenuName== "PipboyMenu") && MenuEventSelector==6 && !abOpening
 	    OpenHotkeyPrompt("playerInputTextAndVisionHotkey")     
+    elseif(asMenuName== "PipboyMenu") && MenuEventSelector==7 && !abOpening
+	    OpenHotkeyPrompt("playerInputMantellaVisionHotkey")     
     endif
 endEvent
 
@@ -348,8 +377,13 @@ endEvent
 
 Event Onkeydown(int keycode)
     if !SUP_F4SE.IsMenuModeActive() 
-        if (keycode == textkeycode || keycode == startConversationkeycode)
-            if(conversation.IsRunning()) && (keycode == textkeycode)
+        if keycode == MantellaVisionKeycode
+            GenerateMantellaVision()
+        endif
+        if (keycode == textkeycode || keycode == startConversationkeycode || keycode == textAndVisionKeycode)
+            if(conversation.IsRunning()) && (keycode == textAndVisionKeycode )
+                conversation.GetPlayerTextInput("playerResponseTextAndVisionEntry")
+            elseif(conversation.IsRunning()) && (keycode == textkeycode )
                 conversation.GetPlayerTextInput("playerResponseTextEntry")
             elseif(!conversation.IsRunning())
                 if CrosshairActor!=none
@@ -382,7 +416,7 @@ Event Onkeydown(int keycode)
     endif
 Endevent
 
-function setDialogueHotkey(int keycode, string keyType)
+function setHotkey(int keycode, string keyType)
     if keyType=="Dialogue"
         unRegisterForKey(textkeycode)
         textkeycode = keycode
@@ -399,6 +433,10 @@ function setDialogueHotkey(int keycode, string keyType)
         unRegisterForKey(textAndVisionKeycode)
         textAndVisionKeycode = keycode
         RegisterForKey(textAndVisionKeycode)
+    elseif keyType=="MantellaVision"
+        unRegisterForKey(MantellaVisionKeycode)
+        MantellaVisionKeycode = keycode
+        RegisterForKey(MantellaVisionKeycode)
     endif
 endfunction
 
@@ -477,6 +515,11 @@ function OpenHotkeyPrompt(string entryType)
         RegisterForExternalEvent("TIM::Accept","TIMSetDialogueAndVisionHotkeyInput")
         RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    elseif entryType == "playerInputMantellaVisionHotkey"
+        TIM:TIM.Open(1,"Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey","", 0, 3)
+        RegisterForExternalEvent("TIM::Accept","TIMSetMantellaVisionHotkeyInput")
+        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
     endif
 
 endfunction
@@ -485,36 +528,41 @@ Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    setDialogueHotkey(keycode as int, "Dialogue")
+    setHotkey(keycode as int, "Dialogue")
 EndFunction
 
 Function TIMGameEventHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    setDialogueHotkey(keycode as int, "GameEvent")
+    setHotkey(keycode as int, "GameEvent")
 EndFunction
 
 Function TIMStartConversationHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    setDialogueHotkey(keycode as int, "StartConversation")
+    setHotkey(keycode as int, "StartConversation")
 EndFunction
 
 Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    allowVision=true
-    setDialogueHotkey(keycode as int, "DialogueAndVision")
+    setHotkey(keycode as int, "DialogueAndVision")
+EndFunction
+
+Function TIMSetMantellaVisionHotkeyInput(string keycode)
+    ;Debug.notification("This text input was entered "+ text)
+    UnRegisterForExternalEvent("TIM::Accept")
+    UnRegisterForExternalEvent("TIM::Cancel")
+    setHotkey(keycode as int, "MantellaVision")
 EndFunction
 
 Function TIMNoDialogueHotkeyInput(string keycode)
     ;Debug.notification("Text input cancelled")
     UnRegisterForExternalEvent("TIM::Accept")
     UnRegisterForExternalEvent("TIM::Cancel")
-    
 EndFunction
 
 function Open_HTTP_Port_Prompt()
@@ -546,7 +594,7 @@ EndFunction
 
 Function GenerateMantellaVision()
     hasPendingVisionCheck=true
-    if currentFO4version == "1.2.72.0"
+    if isFO4VR
         if SteamIsOverlayEnabled() ;use steam screenshots if this is FO4 VR
             SteamTriggerScreenshot()
         else

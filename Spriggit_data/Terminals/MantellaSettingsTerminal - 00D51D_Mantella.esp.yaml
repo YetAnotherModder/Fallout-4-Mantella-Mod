@@ -1,6 +1,6 @@
 FormKey: 00D51D:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12504
+VersionControl: 12535
 EditorID: MantellaSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -99,7 +99,7 @@ MenuItems:
   Submenu: 055E78:Mantella.esp
 - ItemText:
     TargetLanguage: English
-    Value: NPC Action Settings (Experimental)
+    Value: NPC Action Settings
   Type: SubmenuTerminal
   ItemId: 4
   Submenu: 05E71A:Mantella.esp

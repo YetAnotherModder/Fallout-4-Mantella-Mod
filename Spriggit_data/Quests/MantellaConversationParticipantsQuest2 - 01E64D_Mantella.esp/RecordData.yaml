@@ -1,0 +1,125 @@
+FormKey: 01E64D:Mantella.esp
+VersionControl: 12534
+EditorID: MantellaConversationParticipantsQuest2
+Data:
+  Flags:
+  - RepeatsConditions
+  Priority: 95
+  Unused: 44
+UnusedConditions: []
+Aliases:
+- MutagenObjectType: QuestReferenceAlias
+  ID: 2
+  Name: MantellaParticipant01
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  - CanApplyDataToNonAliasedRefs
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x886E43
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 004C58:Mantella.esp
+      ParameterOneNumber: 117460056
+  PackageData:
+  - 015DA7:Mantella.esp
+  - 011955:Mantella.esp
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 11
+  Name: MantellaParticipant02
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  - CanApplyDataToNonAliasedRefs
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x886E43
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 004C58:Mantella.esp
+      ParameterOneNumber: 117460056
+  PackageData:
+  - 015DA7:Mantella.esp
+  - 011955:Mantella.esp
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 12
+  Name: MantellaParticipant03
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  - CanApplyDataToNonAliasedRefs
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x886E43
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 004C58:Mantella.esp
+      ParameterOneNumber: 117460056
+  PackageData:
+  - 015DA7:Mantella.esp
+  - 011955:Mantella.esp
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 13
+  Name: MantellaParticipant04
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  - CanApplyDataToNonAliasedRefs
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x886E43
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 004C58:Mantella.esp
+      ParameterOneNumber: 117460056
+  PackageData:
+  - 015DA7:Mantella.esp
+  - 011955:Mantella.esp
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 14
+  Name: MantellaParticipant05
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  - CanApplyDataToNonAliasedRefs
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Unknown1: 0x886E43
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 004C58:Mantella.esp
+      ParameterOneNumber: 117460056
+  PackageData:
+  - 015DA7:Mantella.esp
+  - 011955:Mantella.esp
+  VoiceTypes: Null

@@ -112,6 +112,7 @@ Function CheckGameVersionForMantella()
     elseif repository.currentFO4version == "1.10.163.0"
         debug.notification("Currently running "+ MantellaVersion)
     elseif repository.currentFO4version == "1.2.72.0"
+        repository.isFO4VR = true
         debug.notification("Currently running "+ MantellaVersion+" VR")
     endif
 Endfunction

@@ -1,0 +1,106 @@
+FormKey: 011955:Mantella.esp
+VersionControl: 12533
+EditorID: MantellaGenericConversationPackage
+Flags:
+- AllowSwimming
+Type: Package
+PreferredSpeed: Run
+InteruptFlags:
+- ObserveCombatBehavior
+- GreetCorpseBehavior
+- ReactionToPlayerActions
+- AggroRadiusBehavior
+- WorldInteractions
+- 0x800
+- 0x1000
+- 0x2000
+- 0x4000
+- 0x8000
+ScheduleDayOfWeek: 255
+ScheduleHour: -1
+ScheduleMinute: -1
+Unknown3: 0x000000
+Conditions:
+- MutagenObjectType: ConditionFloat
+  CompareOperator: NotEqualTo
+  Unknown1: 0x7297C1
+  ComparisonValue: 1
+  Data:
+    MutagenObjectType: FunctionConditionData
+    Function: GetInFaction
+    ParameterOneRecord: 023C01:Fallout4.esm
+    ParameterOneNumber: 146433
+OwnerQuest: 01E64D:Mantella.esp
+DataInputVersion: 2
+Data:
+- Key: 10
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: StopMovement
+    Flags: []
+    Data: True
+- Key: 11
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: ActualSeconds
+    Flags:
+    - Public
+    Data: 5000
+- Key: 1
+  Value:
+    MutagenObjectType: APackageData
+    Name: Place to Travel
+    Flags:
+    - Public
+- Key: 3
+  Value:
+    MutagenObjectType: APackageData
+    Name: Prefer Preferred Path?
+    Flags:
+    - Public
+- Key: 4
+  Value:
+    MutagenObjectType: APackageData
+    Name: Headtrack Target
+    Flags:
+    - Public
+- Key: 6
+  Value:
+    MutagenObjectType: APackageData
+    Name: Rotate to Target?
+    Flags:
+    - Public
+- Key: 8
+  Value:
+    MutagenObjectType: APackageData
+    Name: Headtrack during Travel?
+    Flags:
+    - Public
+- Key: 13
+  Value:
+    MutagenObjectType: APackageData
+    Name: <none>
+    Flags:
+    - Public
+XnamMarker: 0x0E
+ProcedureTree:
+- BranchType: Sequence
+  Root:
+    BranchCount: 1
+  Unknown: []
+- BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+OnBegin:
+  Topics:
+  - MutagenObjectType: TopicReference
+OnEnd:
+  Topics:
+  - MutagenObjectType: TopicReference
+OnChange:
+  Topics:
+  - MutagenObjectType: TopicReference
