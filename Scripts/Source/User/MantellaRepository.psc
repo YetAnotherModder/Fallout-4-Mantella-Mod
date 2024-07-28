@@ -78,6 +78,11 @@ float radiationToHealthRatio = 0.229
 Actor property CrosshairActor auto
 int CleanupconversationTimer=2
 
+int property MasterIndex auto
+int property DialogIndex auto
+int Property VoiceIndex Auto
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Game management functions and events   ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -85,6 +90,16 @@ int CleanupconversationTimer=2
 Event OnInit()
     reinitializeVariables()    
 EndEvent
+
+Function nextDialogueIndex()
+    MasterIndex = masterIndex + 1
+    if MasterIndex >= 64
+        MasterIndex = 0
+    Endif
+
+    DialogIndex  = MasterIndex % 8
+    VoiceIndex =  MasterIndex / 8
+EndFunction
 
 Function ResetEventSpamBlockers()
     EventFireWeaponSpamBlocker=false
@@ -99,6 +114,7 @@ Function reloadKeys()
     setHotkey(startConversationkeycode,"StartConversation")
     setHotkey(textAndVisionKeycode,"DialogueAndVision")
     setHotkey(MantellaVisionKeycode,"MantellaVision")
+    RegisterForOnCrosshairRefChange()							; Re-enable if disabled
 Endfunction
 
 
@@ -154,6 +170,7 @@ Function reinitializeVariables()
         PlayerRef.AddPerk(ActivatePerk, False)
     Endif
     conversation.conversationIsEnding = false
+    DialogIndex = 0
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -449,8 +466,7 @@ Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int 
     if bCrosshairOn
         if Type==65 ;checks if type is actor
             CrosshairActor= ObjectRef as actor
-        ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
-        ;debug.notification(" type is "+Type)
+            ;debug.notification(" type is "+Type)
         endif
     endif
 Endfunction

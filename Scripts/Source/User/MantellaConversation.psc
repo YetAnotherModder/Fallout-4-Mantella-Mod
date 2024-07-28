@@ -31,6 +31,12 @@ int _DictionaryCleanTimer
 int _PlayerTextInputTimer
 string _PlayerTextInput
 
+FormList TopicList              ; Lists of Topics/TopicInfos to be cycled at every line
+FormList InfoList
+FormList VoiceList
+VoiceType MantellaVoice
+Actor lastSpeaker = none
+
 event OnInit()
     _DictionaryCleanTimer = 10
     _PlayerTextInputTimer = 11
@@ -41,7 +47,26 @@ event OnInit()
     ;mConsts.EVENT_ACTIONS + mConsts.ACTION_RELOADCONVERSATION <- Does not work in Fallout4. Needs to be a raw string 
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_reload_conversation")
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_end_conversation")
+
+    ; To force the game to play the actual wav files, and not a cached copy, we use a different TopicInfo/VoiceType every time
+    ; 8x TopicInfos and 8x VoiceTypes = 64 different combinations, which is enough to overload the cache and force the game to read from disk
+    TopicList = Game.GetFormFromFile(0x0002F7A9, "mantella.esp") as FormList 
+    InfoList = Game.GetFormFromFile(0x0002F7A8, "mantella.esp") as FormList 
+    VoiceList = Game.GetFormFromFile(0x0002F7AA, "mantella.esp") as FormList 
 endEvent
+
+string Function GetLIPfileName()
+    ; Returns the lip file name for the current topic
+    Int idx = repository.DialogIndex        ;Index in circular buffer of Topics/TopicInfos
+
+    TopicInfo dynTopicInfo  = InfoList.GetAt(idx) as TopicInfo
+
+    string strTopicInfo = dynTopicInfo
+    string InfoFormId = SUP_F4SE.StringRegexReplace(strTopicInfo, ".*info ([0-9A-F]+) on.*", "$1")
+
+    strTopicInfo  = "00" + SUP_F4SE.StringErase(InfoFormId, 0, 2) +"_1.lip"
+    return strTopicInfo
+EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;    Start new conversation   ;
@@ -145,22 +170,43 @@ function ProcessNpcSpeak(int handle)
     ;Debug.Notification("Transmitted speaker name: "+ speakerName)
     Actor speaker = GetActorInConversation(speakerName)
     ;Debug.Notification("Chosen Actor: "+ speaker.GetDisplayName())
+    Actor playerRef = Game.GetPlayer()
+
     if speaker != none
+        Actor spokenTo = GetActorSpokenTo(speaker)
+        MantellaVoice = VoiceList.GetAt(repository.VoiceIndex) as VoiceType
+        speaker.SetOverrideVoiceType(MantellaVoice)                          ;Force every line to 'MantellaVoice0X' X = 0-7
+ 
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
         float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
         string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)        
         RaiseActionEvent(speaker, lineToSpeak, actions)
-        NpcSpeak(speaker, lineToSpeak, Game.GetPlayer(), duration)
+        NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
+        speaker.SetOverrideVoiceType(none)
+        ;Utility.wait(1.0)
+        lastSpeaker = speaker
     endIf
 endFunction
 
 function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpekTo, float duration)
+    Actor playerRef = Game.GetPlayer()
+    bool isPlayerSpeaking = actorSpeaking == playerRef
+
     ; MantellaSubtitles.SetInjectTopicAndSubtitleForSpeaker(actorSpeaking, MantellaDialogueLine, lineToSay)
-    actorSpeaking.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
+    int DlgIdx = repository.DialogIndex
+    Topic tmpTopic = TopicList.GetAt(DlgIdx) as Topic
+
+     int ret = TopicInfoPatcher.PatchTopicInfo(tmpTopic, lineToSay)      ;Patch the in-memory text to the new value
+    if ret != 0
+        Debug.Notification("Patcher returned " + ret);                  ; Probably only if len>150
+    Endif
+    
+    repository.nextDialogueIndex()                                      ;Increment index in circular buffer
+    ;Debug.Notification(actorSpeaking.GetDisplayName() + " speaking to " + actorToSpekTo.GetDisplayName())
     actorSpeaking.SetLookAt(actorToSpekTo)
-    if repository.notificationsSubtitlesEnabled
-        debug.notification(actorSpeaking.GetDisplayName() +":"+lineToSay)
-    endif
+    
+    Utility.wait(1.0)													; Allow time for reading subtitles
+    actorSpeaking.Say(tmpTopic, abSpeakInPlayersHead=false)
     float durationAdjusted = duration - 0.5
     if(durationAdjusted < 0)
         durationAdjusted = 0
@@ -214,6 +260,7 @@ Function CleanupConversation()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     F4SE_HTTP.clearAllDictionaries() 
+    lastSpeaker = none
 EndFunction
 
 Function DispelAllMantellaMagicEffectsFromActors()
@@ -598,6 +645,23 @@ int[] function BuildNpcsInConversationArray()
     return actorHandles
 endFunction
 
+Actor Function GetActorSpokenTo(Actor speaker)
+    Actor spokenTo
+
+    If IsPlayerInConversation() && lastSpeaker != none      ; single and multi-NPCs. Either PC or NPC can talk first
+        spokenTo = lastSpeaker
+    Else                                                    ; Radiant conversation w/2 NPCs or new player convo w/ single NPC
+        If speaker == Participants.GetAt(0)
+            spokenTo = Participants.GetAt(1) as Actor
+        Else
+            spokenTo = Participants.GetAt(0) as Actor
+        EndIf
+    Endif
+
+    return spokenTo
+EndFunction
+
+
 int function buildActorSetting(Actor actorToBuild)    
     int handle = F4SE_HTTP.createDictionary()
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_ID, (actorToBuild.getactorbase() as form).getformid())
@@ -647,6 +711,8 @@ int Function BuildCustomContextValues()
     F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, repository.checkAndUpdateVisionPipeline())
     F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RES, repository.visionResolution)
     F4SE_HTTP.setInt(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE, repository.visionResize)
+    F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_LIPFILE, GetLIPfileName())
+    F4SE_HTTP.setInt(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VOICE_NUMBER, repository.VoiceIndex)
     return handleCustomContextValues
 EndFunction
 

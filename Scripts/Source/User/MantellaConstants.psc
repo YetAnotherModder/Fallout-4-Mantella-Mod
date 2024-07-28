@@ -86,4 +86,6 @@ string property KEY_CONTEXT_CUSTOMVALUES_VISION_RES = "mantella_vision_resolutio
 string property KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE = "mantella_vision_resize" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSX = "mantella_actor_pos_x" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSY = "mantella_actor_pos_y" auto
+string property KEY_CONTEXT_CUSTOMVALUES_LIPFILE = "mantella_lip_file" auto
+string  Property KEY_CONTEXT_CUSTOMVALUES_VOICE_NUMBER = "mantella_voice_number" Auto
 
