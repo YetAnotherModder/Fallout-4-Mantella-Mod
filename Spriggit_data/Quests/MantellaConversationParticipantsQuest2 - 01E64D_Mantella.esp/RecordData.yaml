@@ -5,7 +5,7 @@ Data:
   Flags:
   - RepeatsConditions
   Priority: 95
-  Unused: 44
+  Unused: 143
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -20,13 +20,13 @@ Aliases:
   - CanApplyDataToNonAliasedRefs
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x886E43
+    Unknown1: 0x000000
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 83905624
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -43,13 +43,13 @@ Aliases:
   - CanApplyDataToNonAliasedRefs
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x886E43
+    Unknown1: 0x000000
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 83905624
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -66,13 +66,13 @@ Aliases:
   - CanApplyDataToNonAliasedRefs
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x886E43
+    Unknown1: 0x000000
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 83905624
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -89,13 +89,13 @@ Aliases:
   - CanApplyDataToNonAliasedRefs
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x886E43
+    Unknown1: 0x000000
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 83905624
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -112,13 +112,13 @@ Aliases:
   - CanApplyDataToNonAliasedRefs
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x886E43
+    Unknown1: 0x000000
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 83905624
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp

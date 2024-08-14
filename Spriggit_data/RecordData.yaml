@@ -14,10 +14,6 @@ ModHeader:
     FileSize: 0
   - Master: DLCCoast.esm
     FileSize: 0
-  - Master: DLCworkshop02.esm
-    FileSize: 0
-  - Master: DLCworkshop03.esm
-    FileSize: 0
   - Master: DLCNukaWorld.esm
     FileSize: 0
   TransientTypes:

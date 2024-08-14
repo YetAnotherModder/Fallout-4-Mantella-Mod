@@ -90,15 +90,15 @@ MenuItems:
   Conditions:
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 512
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: 013AD0:Mantella.esp
-      ParameterTwoNumber: -1677641008
+      ParameterOneNumber: 83890073
+      ParameterTwoRecord: E380D0:Mantella.esp
+      ParameterTwoNumber: -320634672
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -112,15 +112,15 @@ MenuItems:
   Conditions:
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 1024
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: 013AC0:Mantella.esp
-      ParameterTwoNumber: -1677641024
+      ParameterOneNumber: 83890073
+      ParameterTwoRecord: E3EA70:Mantella.esp
+      ParameterTwoNumber: -320607632
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -134,15 +134,15 @@ MenuItems:
   Conditions:
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 1536
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: 013AB8:Mantella.esp
-      ParameterTwoNumber: -1677641032
+      ParameterOneNumber: 83890073
+      ParameterTwoRecord: E3EC40:Mantella.esp
+      ParameterTwoNumber: -320607168
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -157,15 +157,15 @@ MenuItems:
   Conditions:
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 2048
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: 013AB0:Mantella.esp
-      ParameterTwoNumber: -1677641040
+      ParameterOneNumber: 83890073
+      ParameterTwoRecord: E3EE20:Mantella.esp
+      ParameterTwoNumber: -320606688
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -180,15 +180,15 @@ MenuItems:
   Conditions:
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 2560
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: 013AA8:Mantella.esp
-      ParameterTwoNumber: -1677641048
+      ParameterOneNumber: 83890073
+      ParameterTwoRecord: E3F000:Mantella.esp
+      ParameterTwoNumber: -320606208
       ParameterTwoString: ::visionResize_var
 MajorFlags:
 - 0x10

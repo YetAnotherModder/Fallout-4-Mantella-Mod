@@ -86,6 +86,7 @@ Event OnInit()
     reinitializeVariables()    
 EndEvent
 
+
 Function ResetEventSpamBlockers()
     EventFireWeaponSpamBlocker=false
     WeaponFiredCount=0
@@ -99,13 +100,14 @@ Function reloadKeys()
     setHotkey(startConversationkeycode,"StartConversation")
     setHotkey(textAndVisionKeycode,"DialogueAndVision")
     setHotkey(MantellaVisionKeycode,"MantellaVision")
+    RegisterForOnCrosshairRefChange()							; Re-enable if disabled
 Endfunction
 
 
 Function StopConversations()
     If (conversation.IsRunning())
         conversation.EndConversation()
-        StartTimer(5,CleanupconversationTimer) ;Start a timmer to make second hard reset if conversation is still running after
+        StartTimer(5,CleanupconversationTimer)              ;Start a timer to make second hard reset if conversation is still running after
         conversation.conversationIsEnding = false
     EndIf
     ; endFlagMantellaConversationOne = True
@@ -374,7 +376,6 @@ endEvent
 ;   Hotkey functions    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 Event Onkeydown(int keycode)
     if !SUP_F4SE.IsMenuModeActive() 
         if keycode == MantellaVisionKeycode
@@ -391,6 +392,7 @@ Event Onkeydown(int keycode)
                     bool isTargetInConversation
                     Actor ActorRefInConversation 
                     ActorRefInConversation = conversation.GetActorInConversation(actorName)
+                    
                     if ActorRefInConversation
                         isTargetInConversation=true
                     endif
@@ -449,8 +451,7 @@ Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int 
     if bCrosshairOn
         if Type==65 ;checks if type is actor
             CrosshairActor= ObjectRef as actor
-        ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
-        ;debug.notification(" type is "+Type)
+            ;debug.notification(" type is "+Type)
         endif
     endif
 Endfunction

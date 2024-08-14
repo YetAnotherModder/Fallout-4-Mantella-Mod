@@ -31,6 +31,10 @@ int _DictionaryCleanTimer
 int _PlayerTextInputTimer
 string _PlayerTextInput
 
+VoiceType MantellaVoice
+Topic MantellaTopic
+Actor lastSpeaker = none
+
 event OnInit()
     _DictionaryCleanTimer = 10
     _PlayerTextInputTimer = 11
@@ -41,6 +45,9 @@ event OnInit()
     ;mConsts.EVENT_ACTIONS + mConsts.ACTION_RELOADCONVERSATION <- Does not work in Fallout4. Needs to be a raw string 
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_reload_conversation")
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_end_conversation")
+
+    MantellaTopic = Game.GetFormFromFile(0x01ED1, "mantella.esp") as Topic
+    MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
 endEvent
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -142,25 +149,37 @@ endFunction
 
 function ProcessNpcSpeak(int handle)
     string speakerName = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_SPEAKER, "Error: No speaker transmitted for action 'NPC talk'")
-    ;Debug.Notification("Transmitted speaker name: "+ speakerName)
     Actor speaker = GetActorInConversation(speakerName)
-    ;Debug.Notification("Chosen Actor: "+ speaker.GetDisplayName())
+  
     if speaker != none
+        Actor spokenTo = GetActorSpokenTo(speaker)
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
         float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
-        string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)        
+        string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)
+
         RaiseActionEvent(speaker, lineToSpeak, actions)
-        NpcSpeak(speaker, lineToSpeak, Game.GetPlayer(), duration)
+        NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
+        ;Utility.wait(1.0)
+        lastSpeaker = speaker
     endIf
 endFunction
 
-function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpekTo, float duration)
-    ; MantellaSubtitles.SetInjectTopicAndSubtitleForSpeaker(actorSpeaking, MantellaDialogueLine, lineToSay)
-    actorSpeaking.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
-    actorSpeaking.SetLookAt(actorToSpekTo)
-    if repository.notificationsSubtitlesEnabled
-        debug.notification(actorSpeaking.GetDisplayName() +":"+lineToSay)
-    endif
+function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpeakTo, float duration)
+    actorSpeaking.SetOverrideVoiceType(MantellaVoice)                       ;Force every line to 'MantellaVoice00'   
+ 
+    int ret = TopicInfoPatcher.PatchTopicInfo(MantellaTopic, lineToSay)          ;Patch the in-memory text to the new value
+    if ret != 0
+        Debug.Notification("Patcher returned " + ret);                      ; Probably only if len>150
+    Endif
+
+    ;Debug.Notification(actorSpeaking.GetDisplayName() + " speaking to " + actorToSpekTo.GetDisplayName())
+    actorSpeaking.SetLookAt(actorToSpeakTo)
+    
+    Utility.wait(1.0)													    ; Allow time for reading subtitles
+
+    actorSpeaking.Say(MantellaTopic, abSpeakInPlayersHead=false)
+    actorSpeaking.SetOverrideVoiceType(none)
+    
     float durationAdjusted = duration - 0.5
     if(durationAdjusted < 0)
         durationAdjusted = 0
@@ -214,6 +233,7 @@ Function CleanupConversation()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     F4SE_HTTP.clearAllDictionaries() 
+    lastSpeaker = none
 EndFunction
 
 Function DispelAllMantellaMagicEffectsFromActors()
@@ -373,7 +393,13 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
         SendCustomEvent("MantellaConversation_Action_mantella_npc_forgiven", kargs)
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_FOLLOW)
         SendCustomEvent("MantellaConversation_Action_mantella_npc_follow", kargs)
-    
+        Faction CompanionFaction = Game.GetForm(0x000023C01) as Faction
+        ;NPCs not yet available as companions have -1 faction rank
+        if repository.allowNPCsStayInPlace && repository.allowNPCsStayInPlace && !speaker.IsinFaction(CompanionFaction) || speaker.GetFactionRank(CompanionFaction) < 0
+            Debug.Notification(speaker.GetDisplayName() + " is following")
+            speaker.SetPlayerTeammate(true)
+            speaker.EvaluatePackage()
+        EndIf
     endIf
 endFunction
 
@@ -508,14 +534,25 @@ Function AddActors(Actor[] actorsToAdd)
     ;PrintActorsInConversation()
 EndFunction
 
+Function StopFollowing(Actor tmpActor)
+    Faction CompanionFaction = Game.GetForm(0x000023C01) as Faction
+    tmpActor.RemoveFromFaction(MantellaConversationParticipantsFaction)
+    if !tmpActor.IsinFaction(CompanionFaction) || tmpActor.GetFactionRank(CompanionFaction) < 0
+        tmpActor.SetPlayerTeammate(false)
+        ;speaker.EvaluatePackage()
+    EndIf
+
+EndFunction
+
 Function RemoveActors(Actor[] actorsToRemove)
     ;PrintActorsArray("Actors to remove: ",actorsToRemove)
     bool wasActorRemoved = false
     int i = 0
     While (i < actorsToRemove.Length)
-        If (Participants.HasForm(actorsToRemove[i]))
-            Participants.RemoveAddedForm(actorsToRemove[i])
-            actorsToRemove[i].RemoveFromFaction(MantellaConversationParticipantsFaction)
+        Actor tmpActor = actorsToRemove[i] as Actor
+        If (Participants.HasForm(tmpActor))
+            Participants.RemoveAddedForm(tmpActor)
+            StopFollowing(tmpActor)
             wasActorRemoved = true
         EndIf
         i += 1
@@ -531,7 +568,8 @@ EndFunction
 Function ClearParticipants()
     int i = 0
     While i < Participants.GetSize()
-        (Participants.GetAt(i) as Actor).RemoveFromFaction(MantellaConversationParticipantsFaction)
+        Actor tmpActor = Participants.GetAt(i) as Actor
+        StopFollowing(tmpActor)
         i += 1
     EndWhile
     Participants.Revert()
@@ -597,6 +635,23 @@ int[] function BuildNpcsInConversationArray()
     EndWhile
     return actorHandles
 endFunction
+
+Actor Function GetActorSpokenTo(Actor speaker)
+    Actor spokenTo
+
+    If IsPlayerInConversation() && lastSpeaker != none      ; single and multi-NPCs. Either PC or NPC can talk first
+        spokenTo = lastSpeaker
+    Else                                                    ; Radiant conversation w/2 NPCs or new player convo w/ single NPC
+        If speaker == Participants.GetAt(0)
+            spokenTo = Participants.GetAt(1) as Actor
+        Else
+            spokenTo = Participants.GetAt(0) as Actor
+        EndIf
+    Endif
+
+    return spokenTo
+EndFunction
+
 
 int function buildActorSetting(Actor actorToBuild)    
     int handle = F4SE_HTTP.createDictionary()

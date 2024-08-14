@@ -11,11 +11,11 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaRadiantDistance_07015DC2
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantDistance
-        Object: 015DC0:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantDistance
+        Object: 015DC0:Mantella.esp
     Fragments:
     - FragmentIndex: 5
       Unknown2: 1
@@ -82,50 +82,50 @@ BodyTexts:
     Value: 'Set distance  (in meters) (Current: 20)'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 20
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 83975616
 - Text:
     TargetLanguage: English
     Value: 'Set distance  (in meters) (Current: 10)'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 10
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 83975616
 - Text:
     TargetLanguage: English
     Value: 'Set distance  (in meters) (Current: 50)'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 50
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 83975616
 - Text:
     TargetLanguage: English
     Value: >+
       Set distance  (in meters) (Current: 100)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 100
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 83975616
 - Text:
     TargetLanguage: English
     Value: >+
@@ -133,13 +133,13 @@ BodyTexts:
 
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7297C1
+    Unknown1: 0x726072
     ComparisonValue: 150
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 83975616
 - Text:
     TargetLanguage: English
     Value: Set distance  (in meters)

@@ -25,18 +25,9 @@ ActorCellPersistentReferences:
   Location: 00805B:DLCNukaWorld.esm
   Grid: 32767, 32767
 ActorCellUniques:
-- Actor: 1D4CB5:Fallout4.esm
-  Ref: 187DB8:Fallout4.esm
-  Location: 1F1DFA:Fallout4.esm
 - Actor: 1D4CB6:Fallout4.esm
   Ref: 187DB9:Fallout4.esm
   Location: 1F1DFA:Fallout4.esm
-- Actor: 1D4CB7:Fallout4.esm
-  Ref: 187DBA:Fallout4.esm
-  Location: 1F1DFA:Fallout4.esm
-- Actor: 04863B:Fallout4.esm
-  Ref: 04863D:Fallout4.esm
-  Location: 04852B:Fallout4.esm
 - Actor: 0FD4C0:Fallout4.esm
   Ref: 0FD4C2:Fallout4.esm
   Location: 039D8E:Fallout4.esm
@@ -126,9 +117,7 @@ ActorCellUniques:
   Location: 00805D:DLCNukaWorld.esm
 ActorCellMarkerReference:
 - 00FF12:DLCRobot.esm
-- 187DB8:Fallout4.esm
 - 187DB9:Fallout4.esm
-- 187DBA:Fallout4.esm
 - 00FF12:DLCRobot.esm
 - 190527:Fallout4.esm
 - 190526:Fallout4.esm
@@ -138,10 +127,10 @@ ActorCellMarkerReference:
 ActorCellEnablePoint:
 - Actor: 00FF0F:DLCRobot.esm
   Ref: 00FF8A:DLCRobot.esm
-  Grid: -16278, -25856
+  Grid: 28979, -25856
 - Actor: 00FF83:DLCRobot.esm
   Ref: 00FF8A:DLCRobot.esm
-  Grid: -16278, -25856
+  Grid: 28979, -25856
 - Actor: 00FF0F:DLCRobot.esm
   Ref: 00FF8A:DLCRobot.esm
 - Actor: 00FF83:DLCRobot.esm
