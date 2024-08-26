@@ -645,9 +645,17 @@ int Function BuildCustomContextValues()
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, player.getpositionX())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, player.getpositionY())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, player.GetAngleZ())
-    F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, repository.checkAndUpdateVisionPipeline())
-    F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RES, repository.visionResolution)
-    F4SE_HTTP.setInt(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE, repository.visionResize)
+    bool isVisionReady = repository.checkAndUpdateVisionPipeline()
+    if isVisionReady
+        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, isVisionReady)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RES, repository.visionResolution)
+        F4SE_HTTP.setInt(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE, repository.visionResize)
+    endif
+    if repository.allowVisionHints && repository.ActorsInCellArray!=""
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_VISION_HINTSNAMEARRAY, repository.ActorsInCellArray)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_VISION_HINTSDISTANCEARRAY, repository.VisionDistanceArray)
+        repository.resetVisionHintsArrays()
+    endif
     return handleCustomContextValues
 EndFunction
 

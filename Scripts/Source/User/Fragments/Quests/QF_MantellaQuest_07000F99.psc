@@ -297,6 +297,32 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0409_Item_00
+Function Fragment_Stage_0409_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowVisionHints(true)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0410_Item_00
+Function Fragment_Stage_0410_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowVisionHints(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0501_Item_00
 Function Fragment_Stage_0501_Item_00()
 ;BEGIN AUTOCAST TYPE mantellarepository

@@ -1,6 +1,22 @@
 ;BEGIN FRAGMENT CODE - Do not edit anything between this and the end comment
 Scriptname Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC Extends Terminal Hidden Const
 
+;BEGIN FRAGMENT Fragment_Terminal_04
+Function Fragment_Terminal_04(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(409)
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Terminal_06
+Function Fragment_Terminal_06(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(410)
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Terminal_09
 Function Fragment_Terminal_09(ObjectReference akTerminalRef)
 ;BEGIN CODE

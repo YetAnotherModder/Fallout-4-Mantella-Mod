@@ -138,10 +138,10 @@ ActorCellMarkerReference:
 ActorCellEnablePoint:
 - Actor: 00FF0F:DLCRobot.esm
   Ref: 00FF8A:DLCRobot.esm
-  Grid: -16278, -25856
+  Grid: 3297, -25856
 - Actor: 00FF83:DLCRobot.esm
   Ref: 00FF8A:DLCRobot.esm
-  Grid: -16278, -25856
+  Grid: 3297, -25856
 - Actor: 00FF0F:DLCRobot.esm
   Ref: 00FF8A:DLCRobot.esm
 - Actor: 00FF83:DLCRobot.esm

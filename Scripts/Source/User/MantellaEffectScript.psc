@@ -31,6 +31,7 @@ event OnEffectStart(Actor target, Actor caster)
         ActivateEventsFilters()
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         repository.hasPendingVisionCheck=false
+        repository.resetVisionHintsArrays()
         conversation.Start()
         conversation.StartConversation(actors)
     elseif conversation.conversationIsEnding ==true

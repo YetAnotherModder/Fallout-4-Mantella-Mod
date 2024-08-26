@@ -25,10 +25,13 @@ float property radiantDistance auto
 float property radiantFrequency auto
 
 ;vision parameters
-bool property allowVision auto
+bool property allowVision auto Conditional
+bool property allowVisionHints auto Conditional
 bool property hasPendingVisionCheck auto
 string property visionResolution auto
 int property visionResize auto Conditional
+String property ActorsInCellArray auto
+String property VisionDistanceArray auto
 
 
 bool property allowAggro auto
@@ -138,6 +141,7 @@ Function reinitializeVariables()
     radiantFrequency = 10
     notificationsSubtitlesEnabled = true
     allowVision = false
+    allowVisionHints = true
     visionResolution="auto"
     visionResize=1024
     allowAggro = false
@@ -244,6 +248,16 @@ Function toggleAllowVision(bool bswitch)
         Debug.notification("Vision analysis is now OFF")
     endif
 EndFunction
+
+Function toggleAllowVisionHints(bool bswitch)
+    allowVisionHints = bswitch
+    if bswitch
+        Debug.notification("Vision hints are now ON")
+    else
+        Debug.notification("Vision hints are now OFF")
+    endif
+EndFunction
+
 
 Function ToggleActivatePerk()
     Actor PlayerRef = Game.GetPlayer()
@@ -603,6 +617,9 @@ Function GenerateMantellaVision()
     else ;use default screenshots if this is FO4 desktop
         SUP_F4SE.CaptureScreenshot("Mantella_Vision", 0)
     endif
+    if allowVisionHints
+        ScanCellForActors(true, true)
+    endif
 EndFunction
 
 bool Function checkAndUpdateVisionPipeline()
@@ -620,27 +637,70 @@ EndFunction
 ;   NPC array management    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Actor[] Function ScanCellForActors(bool filteredByPlayerLOS) 
+Actor[] Function ScanCellForActors(bool filteredByPlayerLOS, bool updateProperties) 
+    ;if filteredByPlayerLOS is turned on this only returns an array of actors visible to the player
+    ;if updateProperties is turned on it will fill the properties of ActorsInCellArray & currentDistanceArray with the scanned actors names and distances
+    ;if updateProperties is turned off it will return the values of the actors in array form
     Actor playerRef = Game.GetPlayer()
-    Actor[] ActorsInCell
-    Actor[] ActorsInCellProcessed
+    Actor[] ActorsInCellProcessed = new Actor[0]
+    Actor[] ActorsInCell = new Actor[0]
+    float[] currentDistanceArrayProcessed = new float[0]
     ActorsInCell = SUP_F4SE.GetActorsInCell(playerRef.GetParentCell(), -1)
     if filteredByPlayerLOS
         int i
-        int FilteredActorCount
-            While i < ActorsInCell.Length
-                Actor currentActor = ActorsInCell[i]
-                if playerRef.HasDetectionLOS (currentActor)
-                    float currentDistance = playerRef.GetDistance(currentActor)
-                    if currentActor.GetDisplayName()!="" && currentDistance<5000
-                        ActorsInCellProcessed.add(ActorsInCell[i])
-                    endif
+        While i < ActorsInCell.Length
+            Actor currentActor = ActorsInCell[i]
+            if playerRef.HasDetectionLOS (currentActor)
+                float currentDistance = playerRef.GetDistance(currentActor)
+                 if currentActor.GetDisplayName()!="" && currentDistance<5000 && currentActor != PlayerRef
+                    ActorsInCellProcessed.add(ActorsInCell[i])
+                    currentDistanceArrayProcessed.add(currentDistance)
                 endif
-                i += 1
-            EndWhile
-        ActorsInCell=ActorsInCellProcessed
+            endif
+            i += 1
+        EndWhile
     endif
-    return ActorsInCell
+    if updateProperties
+        ActorsInCellArray=ActorsArrayToString(ActorsInCellProcessed)
+        VisionDistanceArray = currentDistanceArrayToString(currentDistanceArrayProcessed)
+    else
+        return ActorsInCell
+    endif
+Endfunction
+
+String Function ActorsArrayToString (Actor[] ActorArray)
+    string StringOutput
+    int i = 0
+    string currentActorName =""
+    While i < ActorArray.Length
+        Actor currentActor = ActorArray[i]
+        currentActorName = currentActor.GetDisplayName()
+        StringOutput += "["+currentActorName+"]"
+        if i != (ActorArray.Length-1)
+            StringOutput += ","
+        endif
+        i += 1
+    EndWhile
+    return StringOutput
+Endfunction
+
+String Function currentDistanceArrayToString (Float[] currentDistanceArray)
+    string StringOutput
+    int i = 0
+    While i < currentDistanceArray.Length
+        float currentDistance = currentDistanceArray[i]
+        StringOutput += "["+currentDistance+"]"
+        if i != (currentDistanceArray.Length-1)
+            StringOutput += ","
+        endif
+        i += 1
+    EndWhile
+    return StringOutput
+Endfunction
+
+Function resetVisionHintsArrays()
+    ActorsInCellArray=""
+    VisionDistanceArray = ""
 Endfunction
 
 Function DispelAllMantellaMagicEffectsFromActors(Actor[] ActorArray)

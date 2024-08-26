@@ -23,7 +23,6 @@ Unknown3: 0x000000
 Conditions:
 - MutagenObjectType: ConditionFloat
   CompareOperator: NotEqualTo
-  Unknown1: 0x7297C1
   ComparisonValue: 1
   Data:
     MutagenObjectType: FunctionConditionData

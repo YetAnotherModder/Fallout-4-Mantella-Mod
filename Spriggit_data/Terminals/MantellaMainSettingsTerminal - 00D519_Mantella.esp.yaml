@@ -11,16 +11,16 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
     Fragments:
-    - FragmentIndex: 4
+    - FragmentIndex: 8
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_04
+      FragmentName: Fragment_Terminal_08
     - FragmentIndex: 7
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -45,10 +45,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_03
-    - FragmentIndex: 8
+    - FragmentIndex: 4
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_08
+      FragmentName: Fragment_Terminal_04
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135
@@ -127,7 +127,6 @@ MenuItems:
     Value: The extra activation option for Mantella has been removed.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7297C1
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -147,7 +146,6 @@ MenuItems:
       The extra activation option for Mantella has been added.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x7297C1
     Data:
       MutagenObjectType: FunctionConditionData
       RunOnType: Reference
