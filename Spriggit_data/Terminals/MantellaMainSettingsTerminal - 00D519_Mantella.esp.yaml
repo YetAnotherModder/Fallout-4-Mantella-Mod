@@ -127,7 +127,6 @@ MenuItems:
     Value: The extra activation option for Mantella has been removed.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -135,7 +134,7 @@ MenuItems:
       Reference: 000014:Fallout4.esm
       Function: HasPerk
       ParameterOneRecord: 084DED:Mantella.esp
-      ParameterOneNumber: 84430317
+      ParameterOneNumber: 17321453
 - ItemText:
     TargetLanguage: English
     Value: Add conversation activation option
@@ -147,14 +146,13 @@ MenuItems:
       The extra activation option for Mantella has been added.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     Data:
       MutagenObjectType: FunctionConditionData
       RunOnType: Reference
       Reference: 000014:Fallout4.esm
       Function: HasPerk
       ParameterOneRecord: 084DED:Mantella.esp
-      ParameterOneNumber: 84430317
+      ParameterOneNumber: 17321453
 - ItemText:
     TargetLanguage: English
     Value: Turn microphone OFF

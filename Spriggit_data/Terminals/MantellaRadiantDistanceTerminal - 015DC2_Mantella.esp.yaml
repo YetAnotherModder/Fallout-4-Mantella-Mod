@@ -82,50 +82,46 @@ BodyTexts:
     Value: 'Set distance  (in meters) (Current: 20)'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 20
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 83975616
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: 'Set distance  (in meters) (Current: 10)'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 10
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 83975616
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: 'Set distance  (in meters) (Current: 50)'
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 50
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 83975616
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: >+
       Set distance  (in meters) (Current: 100)
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 100
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 83975616
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: >+
@@ -133,13 +129,12 @@ BodyTexts:
 
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 150
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 83975616
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: Set distance  (in meters)

@@ -128,15 +128,14 @@ MenuItems:
     Value: NPCs will continue their current routine during a Mantella conversation. Companions will be allowed to sandbox during a Mantella conversation.
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 83890073
-      ParameterTwoRecord: E42A40:Mantella.esp
-      ParameterTwoNumber: -320591296
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 93C380:Mantella.esp
+      ParameterTwoNumber: 1720959872
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -149,15 +148,14 @@ MenuItems:
   Conditions:
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
-    Unknown1: 0x726072
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 83890073
-      ParameterTwoRecord: E42CE0:Mantella.esp
-      ParameterTwoNumber: -320590624
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 93C630:Mantella.esp
+      ParameterTwoNumber: 1720960560
       ParameterTwoString: ::allowNPCsStayInPlace_var
 MajorFlags:
 - 0x10

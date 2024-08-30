@@ -70,12 +70,11 @@ MenuItems:
   ItemId: 1
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 00D51E:Mantella.esp
-      ParameterOneNumber: 83940638
+      ParameterOneNumber: 16831774
 - ItemText:
     TargetLanguage: English
     Value: Turn radiant Dialogue OFF
@@ -83,13 +82,12 @@ MenuItems:
   ItemId: 2
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x726072
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 00D51E:Mantella.esp
-      ParameterOneNumber: 83940638
+      ParameterOneNumber: 16831774
 - ItemText:
     TargetLanguage: English
     Value: Set Radiant distance

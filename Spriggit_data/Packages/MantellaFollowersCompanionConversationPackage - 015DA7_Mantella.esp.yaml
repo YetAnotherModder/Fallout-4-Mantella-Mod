@@ -25,7 +25,6 @@ ScheduleMinute: -1
 Unknown3: 0x000000
 Conditions:
 - MutagenObjectType: ConditionFloat
-  Unknown1: 0x726072
   ComparisonValue: 1
   Data:
     MutagenObjectType: FunctionConditionData
@@ -300,20 +299,18 @@ ProcedureTree:
   - MutagenObjectType: ConditionGlobal
     Flags:
     - OR
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A107:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: E5A7C0:Mantella.esp
-      ParameterTwoNumber: -320493632
+      ParameterTwoRecord: 9520C0:Mantella.esp
+      ParameterTwoNumber: 1721049280
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     Flags:
     - OR
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A107:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -335,18 +332,16 @@ ProcedureTree:
 - BranchType: Stacked
   Conditions:
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: E5AA10:Mantella.esp
-      ParameterTwoNumber: -320493040
+      ParameterTwoRecord: 952310:Mantella.esp
+      ParameterTwoNumber: 1721049872
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -359,7 +354,6 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x90E5EC
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -367,18 +361,16 @@ ProcedureTree:
       ParameterOneRecord: 0AEF5E:Fallout4.esm
       ParameterOneNumber: 716638
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: E5ABB0:Mantella.esp
-      ParameterTwoNumber: -320492624
+      ParameterTwoRecord: 9524B0:Mantella.esp
+      ParameterTwoNumber: 1721050288
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -404,7 +396,6 @@ ProcedureTree:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x90E5EC
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -414,7 +405,6 @@ ProcedureTree:
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
-    Unknown1: 0x90E5EC
     Data:
       MutagenObjectType: FunctionConditionData
       Function: IsPlayerMovingIntoNewSpace
@@ -424,7 +414,6 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x90E5EC
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -432,18 +421,16 @@ ProcedureTree:
       Reference: 000014:Fallout4.esm
       Function: IsSneaking
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: E5AF90:Mantella.esp
-      ParameterTwoNumber: -320491632
+      ParameterTwoRecord: 952890:Mantella.esp
+      ParameterTwoNumber: 1721051280
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -467,18 +454,16 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: E5B1F0:Mantella.esp
-      ParameterTwoNumber: -320491024
+      ParameterTwoRecord: 952AF0:Mantella.esp
+      ParameterTwoNumber: 1721051888
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -486,7 +471,6 @@ ProcedureTree:
       ParameterOneRecord: 000344:Fallout4.esm
       ParameterOneNumber: 836
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A109:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -510,18 +494,16 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: E5B470:Mantella.esp
-      ParameterTwoNumber: -320490384
+      ParameterTwoRecord: 952D70:Mantella.esp
+      ParameterTwoNumber: 1721052528
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -529,7 +511,6 @@ ProcedureTree:
       ParameterOneRecord: 000344:Fallout4.esm
       ParameterOneNumber: 836
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A10A:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -553,18 +534,16 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: E5B6F0:Mantella.esp
-      ParameterTwoNumber: -320489744
+      ParameterTwoRecord: 952FF0:Mantella.esp
+      ParameterTwoNumber: 1721053168
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A106:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -572,7 +551,6 @@ ProcedureTree:
       ParameterOneRecord: 000344:Fallout4.esm
       ParameterOneNumber: 836
   - MutagenObjectType: ConditionGlobal
-    Unknown1: 0x90E5EC
     ComparisonValue: 02A10B:Fallout4.esm
     Data:
       MutagenObjectType: FunctionConditionData
@@ -600,14 +578,12 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x90E5EC
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetNumericPackageData
       ParameterOneRecord: 00003B:Fallout4.esm
       ParameterOneNumber: 59
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x90E5EC
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -625,7 +601,6 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x90E5EC
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
@@ -650,7 +625,6 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionFloat
-    Unknown1: 0x90E5EC
     Data:
       MutagenObjectType: FunctionConditionData
       RunOnType: Reference

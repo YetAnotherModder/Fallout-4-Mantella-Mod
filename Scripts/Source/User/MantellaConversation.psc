@@ -11,6 +11,7 @@ bool property conversationIsEnding auto
 Faction Property MantellaConversationParticipantsFaction Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
+bool Property UseSimpleTextField = true auto
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
@@ -33,7 +34,9 @@ string _PlayerTextInput
 
 VoiceType MantellaVoice
 Topic MantellaTopic
-Actor lastSpeaker = none
+Actor lastSpokenTo = none
+Actor lastNPCSpeaker = none
+Actor playerRef 
 
 event OnInit()
     _DictionaryCleanTimer = 10
@@ -48,7 +51,9 @@ event OnInit()
 
     MantellaTopic = Game.GetFormFromFile(0x01ED1, "mantella.esp") as Topic
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
+    playerRef = Game.GetPlayer()
 endEvent
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;    Start new conversation   ;
@@ -153,6 +158,7 @@ function ProcessNpcSpeak(int handle)
   
     if speaker != none
         Actor spokenTo = GetActorSpokenTo(speaker)
+
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
         float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
         string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)
@@ -160,7 +166,10 @@ function ProcessNpcSpeak(int handle)
         RaiseActionEvent(speaker, lineToSpeak, actions)
         NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
         ;Utility.wait(1.0)
-        lastSpeaker = speaker
+
+        if speaker != Game.GetPlayer()
+            lastNPCSpeaker = speaker
+        EndIf
     endIf
 endFunction
 
@@ -172,11 +181,10 @@ function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpeakTo, f
         Debug.Notification("Patcher returned " + ret);                      ; Probably only if len>150
     Endif
 
-    ;Debug.Notification(actorSpeaking.GetDisplayName() + " speaking to " + actorToSpekTo.GetDisplayName())
     actorSpeaking.SetLookAt(actorToSpeakTo)
+    AllSetLookAt(actorSpeaking)
     
     Utility.wait(1.0)													    ; Allow time for reading subtitles
-
     actorSpeaking.Say(MantellaTopic, abSpeakInPlayersHead=false)
     actorSpeaking.SetOverrideVoiceType(none)
     
@@ -233,7 +241,7 @@ Function CleanupConversation()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     F4SE_HTTP.clearAllDictionaries() 
-    lastSpeaker = none
+    lastNPCSpeaker = none
 EndFunction
 
 Function DispelAllMantellaMagicEffectsFromActors()
@@ -299,25 +307,45 @@ endFunction
 function GetPlayerTextInput(string entrytype)
     ;disable for VR
     if entryType == "playerResponseTextEntry" && _does_accept_player_input
-        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-        RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
-        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        if UseSimpleTextField
+            repository.GetTextInput(self as ScriptObject,"SetPlayerResponseTextInput","Enter Mantella text dialogue")
+            ;SimpleTextField.Open(self as ScriptObject, "SetPlayerResponseTextInput","Enter Mantella text dialogue")
+        Else
+            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
+            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        EndIf
     elseif entryType == "gameEventEntry"
-        TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
-        RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
-        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        if UseSimpleTextField
+            repository.GetTextInput(self as ScriptObject, "SetGameEventTextInput","Enter Mantella a new game event log")
+        Else
+            TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
+            RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
+            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        EndIf
     elseif entryType == "playerResponseTextAndVisionEntry"
-        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-        RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
-        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        if UseSimpleTextField
+            repository.GetTextInput(self as ScriptObject, "SetPlayerResponseTextAndVisionInput","Enter Mantella text dialogue")
+        Else
+            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
+            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+            EndIf
     endif
 endFunction
 
 Function SetPlayerResponseTextInput(string text)
     ;disable for VR
-    ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
+    If UseSimpleTextField
+        text = SUP_F4SE.StringRemoveWhiteSpace(text)
+        if SUP_F4SE.StringGetLength(text) == 0
+            return
+        Endif
+    Else
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+    EndIf
+
     _PlayerTextInput=text
     if repository.allowVision
         StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
@@ -331,8 +359,16 @@ EndFunction
 
 Function SetPlayerResponseTextAndVisionInput(string text)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
+    If UseSimpleTextField
+        text = SUP_F4SE.StringRemoveWhiteSpace(text)
+        if SUP_F4SE.StringGetLength(text) == 0
+            return
+        Endif
+    Else
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+    EndIf
+
     _PlayerTextInput = text
     repository.hasPendingVisionCheck=true
     StartTimer(0.3,_PlayerTextInputTimer)
@@ -341,8 +377,15 @@ EndFunction
 Function SetGameEventTextInput(string text)
     ;disable for VR
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
+    If UseSimpleTextField
+        text = SUP_F4SE.StringRemoveWhiteSpace(text)
+        if SUP_F4SE.StringGetLength(text) == 0
+            return
+        Endif
+    Else
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+    EndIf
     AddIngameEvent(text)
 EndFunction
 
@@ -636,11 +679,26 @@ int[] function BuildNpcsInConversationArray()
     return actorHandles
 endFunction
 
+Function AllSetLookAt(Actor speaker)                        ; make sure everybody in converstation is looking at speaker
+    int i = 0
+    While i < Participants.GetSize()
+        Actor tmpActor = Participants.GetAt(i) as Actor 
+        if speaker != tmpActor
+            tmpActor.SetLookAt(speaker)
+        EndIf
+        i += 1
+    EndWhile
+EndFunction
+
 Actor Function GetActorSpokenTo(Actor speaker)
     Actor spokenTo
 
-    If IsPlayerInConversation() && lastSpeaker != none      ; single and multi-NPCs. Either PC or NPC can talk first
-        spokenTo = lastSpeaker
+    If IsPlayerInConversation()                           ; single and multi-NPCs. Either PC or NPC can talk first
+        if speaker != Game.GetPlayer()
+            spokenTo  = Game.GetPlayer()
+        Else
+            spokenTo = lastNPCSpeaker
+        EndIf
     Else                                                    ; Radiant conversation w/2 NPCs or new player convo w/ single NPC
         If speaker == Participants.GetAt(0)
             spokenTo = Participants.GetAt(1) as Actor

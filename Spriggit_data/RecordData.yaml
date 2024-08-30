@@ -1,20 +1,12 @@
 SpriggitSource:
   PackageName: Spriggit.Yaml.Fallout4
-  Version: 0.25.0
+  Version: 0.26
 ModKey: Mantella.esp
 GameRelease: Fallout4
 ModHeader:
   Author: DEFAULT
   MasterReferences:
   - Master: Fallout4.esm
-    FileSize: 0
-  - Master: DLCRobot.esm
-    FileSize: 0
-  - Master: DLCworkshop01.esm
-    FileSize: 0
-  - Master: DLCCoast.esm
-    FileSize: 0
-  - Master: DLCNukaWorld.esm
     FileSize: 0
   TransientTypes:
   - FormType: 78
