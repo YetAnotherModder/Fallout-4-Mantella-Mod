@@ -1,6 +1,6 @@
 FormKey: 084DEE:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12535
+VersionControl: 12575
 EditorID: MantellaHotkeysTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -134,6 +134,16 @@ MenuItems:
 
 
       If both text response and text vision are the same button then the text/vision hotkey will override the other one.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 3F8CC8:Mantella.esp
+      ParameterTwoNumber: -1119908664
+      ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English
     Value: Mantella Vision (screenshot) Hotkey
@@ -149,6 +159,16 @@ MenuItems:
 
 
       Any screenshot taken with this hotkey will be sent to the LLM on your next reply.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 3F8940:Mantella.esp
+      ParameterTwoNumber: -1119909568
+      ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English
     Value: Display keycode chart (DirectX scancodes)

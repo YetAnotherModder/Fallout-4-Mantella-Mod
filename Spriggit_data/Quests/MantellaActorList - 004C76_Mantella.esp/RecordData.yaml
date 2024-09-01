@@ -1,8 +1,8 @@
 FormKey: 004C76:Mantella.esp
-VersionControl: 12363
+VersionControl: 12575
 EditorID: MantellaActorList
 Data:
-  Unused: 71
+  Unused: 169
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -20,98 +20,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 0A563A:Fallout4.esm
-      ParameterOneNumber: 677434
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 001129:DLCRobot.esm
-      ParameterOneNumber: 16781609
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 0027B9:DLCRobot.esm
-      ParameterOneNumber: 16787385
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 000C05:DLCworkshop01.esm
-      ParameterOneNumber: 33557509
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 033E79:DLCCoast.esm
-      ParameterOneNumber: 50544249
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 042EBB:DLCCoast.esm
-      ParameterOneNumber: 50605755
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
       ParameterOneRecord: 01A009:Fallout4.esm
       ParameterOneNumber: 106505
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 0BB7D9:Fallout4.esm
-      ParameterOneNumber: 767961
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 0E8D09:Fallout4.esm
-      ParameterOneNumber: 953609
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 10BD65:Fallout4.esm
-      ParameterOneNumber: 1097061
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 2261A4:Fallout4.esm
-      ParameterOneNumber: 2253220
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -128,8 +38,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 0359F4:Fallout4.esm
-      ParameterOneNumber: 219636
+      ParameterOneRecord: 2261A4:Fallout4.esm
+      ParameterOneNumber: 2253220
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -137,8 +47,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 11D83F:Fallout4.esm
-      ParameterOneNumber: 1169471
+      ParameterOneRecord: 10BD65:Fallout4.esm
+      ParameterOneNumber: 1097061
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -146,8 +56,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 0D8417:Fallout4.esm
-      ParameterOneNumber: 885783
+      ParameterOneRecord: 0E8D09:Fallout4.esm
+      ParameterOneNumber: 953609
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -158,12 +68,79 @@ Aliases:
       ParameterOneRecord: 0EAFB6:Fallout4.esm
       ParameterOneNumber: 962486
   - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
       ParameterOneRecord: 013746:Fallout4.esm
       ParameterOneNumber: 79686
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0359F4:Fallout4.esm
+      ParameterOneNumber: 219636
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 02CB72:Fallout4.esm
+      ParameterOneNumber: 183154
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 06D7B6:Fallout4.esm
+      ParameterOneNumber: 448438
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 10C3CE:Fallout4.esm
+      ParameterOneNumber: 1098702
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 013794:Fallout4.esm
+      ParameterOneNumber: 79764
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 0EAFB7:Fallout4.esm
+      ParameterOneNumber: 962487
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 02CB73:Fallout4.esm
+      ParameterOneNumber: 183155
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetSleeping
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
     ComparisonValue: 1
@@ -248,98 +225,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 0A563A:Fallout4.esm
-      ParameterOneNumber: 677434
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 0027B9:DLCRobot.esm
-      ParameterOneNumber: 16787385
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 001129:DLCRobot.esm
-      ParameterOneNumber: 16781609
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 000C05:DLCworkshop01.esm
-      ParameterOneNumber: 33557509
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 042EBB:DLCCoast.esm
-      ParameterOneNumber: 50605755
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 033E79:DLCCoast.esm
-      ParameterOneNumber: 50544249
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
       ParameterOneRecord: 01A009:Fallout4.esm
       ParameterOneNumber: 106505
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 0BB7D9:Fallout4.esm
-      ParameterOneNumber: 767961
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 0E8D09:Fallout4.esm
-      ParameterOneNumber: 953609
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 10BD65:Fallout4.esm
-      ParameterOneNumber: 1097061
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetIsRace
-      ParameterOneRecord: 2261A4:Fallout4.esm
-      ParameterOneNumber: 2253220
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -356,8 +243,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 0359F4:Fallout4.esm
-      ParameterOneNumber: 219636
+      ParameterOneRecord: 2261A4:Fallout4.esm
+      ParameterOneNumber: 2253220
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -365,8 +252,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 11D83F:Fallout4.esm
-      ParameterOneNumber: 1169471
+      ParameterOneRecord: 10BD65:Fallout4.esm
+      ParameterOneNumber: 1097061
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -374,8 +261,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 0D8417:Fallout4.esm
-      ParameterOneNumber: 885783
+      ParameterOneRecord: 0E8D09:Fallout4.esm
+      ParameterOneNumber: 953609
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -386,12 +273,79 @@ Aliases:
       ParameterOneRecord: 0EAFB6:Fallout4.esm
       ParameterOneNumber: 962486
   - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
       ParameterOneRecord: 013746:Fallout4.esm
       ParameterOneNumber: 79686
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsRace
+      ParameterOneRecord: 0359F4:Fallout4.esm
+      ParameterOneNumber: 219636
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 02CB72:Fallout4.esm
+      ParameterOneNumber: 183154
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 06D7B6:Fallout4.esm
+      ParameterOneNumber: 448438
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 013794:Fallout4.esm
+      ParameterOneNumber: 79764
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 10C3CE:Fallout4.esm
+      ParameterOneNumber: 1098702
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 0EAFB7:Fallout4.esm
+      ParameterOneNumber: 962487
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 02CB73:Fallout4.esm
+      ParameterOneNumber: 183155
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetSleeping
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
     ComparisonValue: 1

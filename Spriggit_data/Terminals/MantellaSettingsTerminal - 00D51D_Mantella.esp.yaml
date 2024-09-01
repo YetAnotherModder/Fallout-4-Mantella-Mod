@@ -1,6 +1,6 @@
 FormKey: 00D51D:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12535
+VersionControl: 12575
 EditorID: MantellaSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -121,6 +121,16 @@ MenuItems:
   Type: SubmenuTerminal
   ItemId: 7
   Submenu: 009FDC:Mantella.esp
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 3F8B48:Mantella.esp
+      ParameterTwoNumber: -1119909048
+      ParameterTwoString: ::hideVisionMenu_var
 MajorFlags:
 - 0x10
 - 0x2000

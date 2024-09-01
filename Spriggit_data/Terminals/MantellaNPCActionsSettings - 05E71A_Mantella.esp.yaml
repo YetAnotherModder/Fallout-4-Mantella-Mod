@@ -133,9 +133,9 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: BCFAD0:Mantella.esp
-      ParameterTwoNumber: -1564673328
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: DBFE98:Mantella.esp
+      ParameterTwoNumber: -1428423016
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -153,9 +153,9 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: BCFAC0:Mantella.esp
-      ParameterTwoNumber: -1564673344
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: DBFE90:Mantella.esp
+      ParameterTwoNumber: -1428423024
       ParameterTwoString: ::allowNPCsStayInPlace_var
 MajorFlags:
 - 0x10

@@ -8,18 +8,6 @@ ModHeader:
   MasterReferences:
   - Master: Fallout4.esm
     FileSize: 0
-  - Master: DLCRobot.esm
-    FileSize: 0
-  - Master: DLCworkshop01.esm
-    FileSize: 0
-  - Master: DLCCoast.esm
-    FileSize: 0
-  - Master: DLCworkshop02.esm
-    FileSize: 0
-  - Master: DLCworkshop03.esm
-    FileSize: 0
-  - Master: DLCNukaWorld.esm
-    FileSize: 0
   TransientTypes:
   - FormType: 78
     Links:

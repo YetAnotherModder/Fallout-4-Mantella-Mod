@@ -5,7 +5,7 @@ Data:
   Flags:
   - RepeatsConditions
   Priority: 95
-  Unused: 71
+  Unused: 169
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -25,7 +25,7 @@ Aliases:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 16796760
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -47,7 +47,7 @@ Aliases:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 16796760
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -69,7 +69,7 @@ Aliases:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 16796760
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -91,7 +91,7 @@ Aliases:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 16796760
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
@@ -113,7 +113,7 @@ Aliases:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
       ParameterOneRecord: 004C58:Mantella.esp
-      ParameterOneNumber: 117460056
+      ParameterOneNumber: 16796760
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp

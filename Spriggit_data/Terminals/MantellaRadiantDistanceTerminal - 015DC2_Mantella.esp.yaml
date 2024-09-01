@@ -87,7 +87,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: 'Set distance  (in meters) (Current: 10)'
@@ -98,7 +98,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: 'Set distance  (in meters) (Current: 50)'
@@ -109,7 +109,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: >+
@@ -121,7 +121,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: >+
@@ -134,7 +134,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC0:Mantella.esp
-      ParameterOneNumber: 117530048
+      ParameterOneNumber: 16866752
 - Text:
     TargetLanguage: English
     Value: Set distance  (in meters)

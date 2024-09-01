@@ -74,7 +74,7 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 00D51E:Mantella.esp
-      ParameterOneNumber: 117495070
+      ParameterOneNumber: 16831774
 - ItemText:
     TargetLanguage: English
     Value: Turn radiant Dialogue OFF
@@ -87,7 +87,7 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 00D51E:Mantella.esp
-      ParameterOneNumber: 117495070
+      ParameterOneNumber: 16831774
 - ItemText:
     TargetLanguage: English
     Value: Set Radiant distance

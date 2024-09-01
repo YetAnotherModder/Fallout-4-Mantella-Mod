@@ -1,5 +1,6 @@
 Scriptname MantellaRepository extends Quest Conditional
 Import SUP_F4SE
+Import SUP_F4SEVR
 Import TIM:TIM
 
 ;keycode properties
@@ -25,6 +26,7 @@ float property radiantDistance auto
 float property radiantFrequency auto
 
 ;vision parameters
+bool property hideVisionMenu auto Conditional
 bool property allowVision auto Conditional
 bool property allowVisionHints auto Conditional
 bool property hasPendingVisionCheck auto
@@ -132,6 +134,7 @@ Event Ontimer( int TimerID)
 
 Function reinitializeVariables()
     ;change the below this is for debug only
+    hideVisionMenu=true
     textkeycode=72
     gameEventkeycode=89
     startConversationkeycode=72
@@ -390,7 +393,8 @@ endEvent
 
 
 Event Onkeydown(int keycode)
-    if !SUP_F4SE.IsMenuModeActive() 
+    ;if !SUP_F4SE.IsMenuModeActive() 
+    if !Utility.IsInMenuMode()
         if keycode == MantellaVisionKeycode
             GenerateMantellaVision()
         endif
@@ -471,15 +475,19 @@ Endfunction
 
 Function RegisterForOnCrosshairRefChange()
     ;disable for VR
-    RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
-    allowCrosshairTracking=true
+    if !isFO4VR
+        SUP_F4SE.RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
+        allowCrosshairTracking=true
+    endif
 EndFunction
 
 Function UnRegisterForOnCrosshairRefChange()
     ;disable for VR
-    UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
-    CrosshairActor=none
-    allowCrosshairTracking=false
+    if !isFO4VR
+        SUP_F4SE.UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
+        CrosshairActor=none
+        allowCrosshairTracking=false
+    endif
 EndFunction
 
 
@@ -489,116 +497,137 @@ EndFunction
 
 
 function OpenTextMenu()
-    TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-    RegisterForExternalEvent("TIM::Accept","SetTextInput")
-    RegisterForExternalEvent("TIM::Cancel","NoTextInput")
-    ;
-    ; Function SetFrequency(string freq)
-    ;   Debug.MessageBox("frequency will set at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
-    ;
-    ; Function NoSetFrequency(string freq)
-    ;   Debug.MessageBox("input frequency was aborted at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
+    if !isFO4VR
+        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+        RegisterForExternalEvent("TIM::Accept","SetTextInput")
+        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        ;
+        ; Function SetFrequency(string freq)
+        ;   Debug.MessageBox("frequency will set at "+ freq)
+        ;   UnRegisterForExternalEvent("TIM::Accept")
+        ;   UnRegisterForExternalEvent("TIM::Cancel")
+        ; EndFunction
+        ;
+        ; Function NoSetFrequency(string freq)
+        ;   Debug.MessageBox("input frequency was aborted at "+ freq)
+        ;   UnRegisterForExternalEvent("TIM::Accept")
+        ;   UnRegisterForExternalEvent("TIM::Cancel")
+        ; EndFunction
+    endif
 
 endfunction
 
 function OpenHotkeyPrompt(string entryType)
     ;disable for VR
-    if entryType == "playerInputTextHotkey"
-        TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue hotkey","", 0, 3)
-        RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
-        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "gameEventHotkey"
-        TIM:TIM.Open(1,"Enter the DirectX Scancode for the game event hotkey","", 0, 3)
-        RegisterForExternalEvent("TIM::Accept","TIMGameEventHotkeyInput")
-        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "startConversationHotKey"
-        TIM:TIM.Open(1,"Enter the DirectX Scancode for the start converstion hotkey","", 0, 3)
-        RegisterForExternalEvent("TIM::Accept","TIMStartConversationHotkeyInput")
-        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "playerInputTextAndVisionHotkey"
-        TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue and vision hotkey","", 0, 3)
-        RegisterForExternalEvent("TIM::Accept","TIMSetDialogueAndVisionHotkeyInput")
-        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "playerInputMantellaVisionHotkey"
-        TIM:TIM.Open(1,"Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey","", 0, 3)
-        RegisterForExternalEvent("TIM::Accept","TIMSetMantellaVisionHotkeyInput")
-        RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    if !isFO4VR
+        if entryType == "playerInputTextHotkey"
+            TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue hotkey","", 0, 3)
+            RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
+            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "gameEventHotkey"
+            TIM:TIM.Open(1,"Enter the DirectX Scancode for the game event hotkey","", 0, 3)
+            RegisterForExternalEvent("TIM::Accept","TIMGameEventHotkeyInput")
+            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "startConversationHotKey"
+            TIM:TIM.Open(1,"Enter the DirectX Scancode for the start converstion hotkey","", 0, 3)
+            RegisterForExternalEvent("TIM::Accept","TIMStartConversationHotkeyInput")
+            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "playerInputTextAndVisionHotkey"
+            TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue and vision hotkey","", 0, 3)
+            RegisterForExternalEvent("TIM::Accept","TIMSetDialogueAndVisionHotkeyInput")
+            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "playerInputMantellaVisionHotkey"
+            TIM:TIM.Open(1,"Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey","", 0, 3)
+            RegisterForExternalEvent("TIM::Accept","TIMSetMantellaVisionHotkeyInput")
+            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        endif
     endif
 
 endfunction
 
 Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    setHotkey(keycode as int, "Dialogue")
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        setHotkey(keycode as int, "Dialogue")
+    endif
 EndFunction
 
 Function TIMGameEventHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    setHotkey(keycode as int, "GameEvent")
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        setHotkey(keycode as int, "GameEvent")
+    endif
 EndFunction
 
 Function TIMStartConversationHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    setHotkey(keycode as int, "StartConversation")
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        setHotkey(keycode as int, "StartConversation")
+    endif
 EndFunction
 
 Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    setHotkey(keycode as int, "DialogueAndVision")
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        setHotkey(keycode as int, "DialogueAndVision")
+    endif
 EndFunction
 
 Function TIMSetMantellaVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    setHotkey(keycode as int, "MantellaVision")
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        setHotkey(keycode as int, "MantellaVision")
+    endif
 EndFunction
 
 Function TIMNoDialogueHotkeyInput(string keycode)
     ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+    endif
 EndFunction
 
 function Open_HTTP_Port_Prompt()
-    
-    TIM:TIM.Open(1,"Enter the HTTP port, use a value between 0 and 65535","", 0, 5)
-    RegisterForExternalEvent("TIM::Accept","TIM_Set_HTTP_Port")
-    RegisterForExternalEvent("TIM::Cancel","TIM_No_Set_HTTP_Port")
-    UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    if !isFO4VR
+        TIM:TIM.Open(1,"Enter the HTTP port, use a value between 0 and 65535","", 0, 5)
+        RegisterForExternalEvent("TIM::Accept","TIM_Set_HTTP_Port")
+        RegisterForExternalEvent("TIM::Cancel","TIM_No_Set_HTTP_Port")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    endif
     ;
 endfunction
 
 Function TIM_Set_HTTP_Port(string HTTP_port)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    ConstantsScript.HTTP_PORT = (HTTP_port as int)
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        ConstantsScript.HTTP_PORT = (HTTP_port as int)
+    endif
 EndFunction
     
 Function TIM_No_Set_HTTP_Port(string keycode)
     ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
+    if !isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+    endif
 EndFunction
 
 
@@ -608,15 +637,7 @@ EndFunction
 
 Function GenerateMantellaVision()
     hasPendingVisionCheck=true
-    if isFO4VR
-        if SteamIsOverlayEnabled() ;use steam screenshots if this is FO4 VR
-            SteamTriggerScreenshot()
-        else
-            debug.notification("Steam overlay needs to be enabled to use this function")
-        endif
-    else ;use default screenshots if this is FO4 desktop
-        SUP_F4SE.CaptureScreenshot("Mantella_Vision", 0)
-    endif
+    SUPF4SEScreenshotMethodSelector()
     if allowVisionHints
         ScanCellForActors(true, true)
     endif
@@ -633,6 +654,8 @@ bool Function checkAndUpdateVisionPipeline()
 EndFunction
 
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   NPC array management    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -645,7 +668,7 @@ Actor[] Function ScanCellForActors(bool filteredByPlayerLOS, bool updateProperti
     Actor[] ActorsInCellProcessed = new Actor[0]
     Actor[] ActorsInCell = new Actor[0]
     float[] currentDistanceArrayProcessed = new float[0]
-    ActorsInCell = SUP_F4SE.GetActorsInCell(playerRef.GetParentCell(), -1)
+    ActorsInCell = SUP_F4SEScanCellMethodSelector(playerRef)
     if filteredByPlayerLOS
         int i
         While i < ActorsInCell.Length
@@ -839,4 +862,42 @@ float function getRadFactoredPercentHealth(actor currentActor)
     float radFactoredPercentHealth= currentActor.getvalue(HealthAV)/getRadFactoredMaxHealth(currentActor)
   
     return radFactoredPercentHealth
+endfunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SUP_F4SE & SUP_F4SEVR functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+int function ReturnSUPF4SEVersion()
+    int currentVersion
+    if isFO4VR
+        currentVersion=SUP_F4SEVR.GetSUPF4SEVersion() 
+    else
+        currentVersion=SUP_F4SE.GetSUPF4SEVersion() 
+    endif
+    return currentVersion
+endfunction
+
+
+function SUPF4SEScreenshotMethodSelector()
+    if isFO4VR
+        if SUP_F4SEVR.SteamIsOverlayEnabled() ;use steam screenshots if this is FO4 VR
+            SUP_F4SEVR.SteamTriggerScreenshot()
+        else
+            debug.notification("Steam overlay needs to be enabled to use this function")
+        endif
+    else ;use default screenshots if this is FO4 desktop
+        SUP_F4SE.CaptureScreenshot("Mantella_Vision", 0)
+    endif
+endfunction
+
+Actor[] function SUP_F4SEScanCellMethodSelector(actor playerRef)
+    Actor[] ActorsInCell = new Actor[0]
+    if isFO4VR
+        debug.notification("Hints not available on F4SE_VR")
+        ;The game will CTD if the function below is enabled.
+        ;ActorsInCell = SUP_F4SEVR.GetActorsInCell(playerRef.GetParentCell(), -1)
+    else
+        ActorsInCell = SUP_F4SE.GetActorsInCell(playerRef.GetParentCell(), -1)
+    endif
+    return ActorsInCell
 endfunction

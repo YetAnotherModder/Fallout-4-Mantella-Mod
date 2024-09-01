@@ -95,9 +95,9 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: BCFAB8:Mantella.esp
-      ParameterTwoNumber: -1564673352
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: DBFEC0:Mantella.esp
+      ParameterTwoNumber: -1428422976
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -116,9 +116,9 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: BCFAB0:Mantella.esp
-      ParameterTwoNumber: -1564673360
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: DBFEB8:Mantella.esp
+      ParameterTwoNumber: -1428422984
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -137,9 +137,9 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: BCFAA8:Mantella.esp
-      ParameterTwoNumber: -1564673368
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: DBFEB0:Mantella.esp
+      ParameterTwoNumber: -1428422992
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -159,9 +159,9 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: BCFAA0:Mantella.esp
-      ParameterTwoNumber: -1564673376
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: DBFEA8:Mantella.esp
+      ParameterTwoNumber: -1428423000
       ParameterTwoString: ::visionResize_var
 - ItemText:
     TargetLanguage: English
@@ -181,9 +181,9 @@ MenuItems:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 117444505
-      ParameterTwoRecord: BCFA98:Mantella.esp
-      ParameterTwoNumber: -1564673384
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: DBFEA0:Mantella.esp
+      ParameterTwoNumber: -1428423008
       ParameterTwoString: ::visionResize_var
 MajorFlags:
 - 0x10

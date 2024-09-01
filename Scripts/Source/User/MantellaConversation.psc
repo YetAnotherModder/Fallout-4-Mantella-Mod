@@ -278,60 +278,70 @@ endFunction
 
 function GetPlayerTextInput(string entrytype)
     ;disable for VR
-    if entryType == "playerResponseTextEntry" && _does_accept_player_input
-        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-        RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
-        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
-    elseif entryType == "gameEventEntry"
-        TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
-        RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
-        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
-    elseif entryType == "playerResponseTextAndVisionEntry"
-        TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-        RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
-        RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+    if !repository.isFO4VR
+        if entryType == "playerResponseTextEntry" && _does_accept_player_input
+            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
+            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        elseif entryType == "gameEventEntry"
+            TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
+            RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
+            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        elseif entryType == "playerResponseTextAndVisionEntry"
+            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
+            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+        endif
     endif
 endFunction
 
 Function SetPlayerResponseTextInput(string text)
     ;disable for VR
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    _PlayerTextInput=text
-    if repository.allowVision
-        StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
-    else
-        sendRequestForPlayerInput(_PlayerTextInput)
-        _does_accept_player_input = False
-        repository.ResetEventSpamBlockers() ;reset spam blockers to allow the ListenerScript to pick up on those again
-        Debug.notification("Thinking...")
+    if !repository.isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        _PlayerTextInput=text
+        if repository.allowVision
+            StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
+        else
+            sendRequestForPlayerInput(_PlayerTextInput)
+            _does_accept_player_input = False
+            repository.ResetEventSpamBlockers() ;reset spam blockers to allow the ListenerScript to pick up on those again
+            Debug.notification("Thinking...")
+        endif
     endif
 EndFunction
 
 Function SetPlayerResponseTextAndVisionInput(string text)
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    _PlayerTextInput = text
-    repository.hasPendingVisionCheck=true
-    StartTimer(0.3,_PlayerTextInputTimer)
+    if !repository.isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        _PlayerTextInput = text
+        repository.hasPendingVisionCheck=true
+        StartTimer(0.3,_PlayerTextInputTimer)
+    endif
 EndFunction
 
 Function SetGameEventTextInput(string text)
     ;disable for VR
     ;Debug.notification("This text input was entered "+ text)
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-    AddIngameEvent(text)
+    if !repository.isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+        AddIngameEvent(text)
+    endif
 EndFunction
 
     ;
 Function NoTextInput(string text)
     ;disable for VR
     ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
+    if !repository.isFO4VR
+        UnRegisterForExternalEvent("TIM::Accept")
+        UnRegisterForExternalEvent("TIM::Cancel")
+    endif
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

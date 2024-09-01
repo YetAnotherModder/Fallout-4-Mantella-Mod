@@ -85,7 +85,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC1:Mantella.esp
-      ParameterOneNumber: 117530049
+      ParameterOneNumber: 16866753
 - Text:
     TargetLanguage: English
     Value: >+
@@ -97,7 +97,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC1:Mantella.esp
-      ParameterOneNumber: 117530049
+      ParameterOneNumber: 16866753
 - Text:
     TargetLanguage: English
     Value: >+
@@ -109,7 +109,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC1:Mantella.esp
-      ParameterOneNumber: 117530049
+      ParameterOneNumber: 16866753
 - Text:
     TargetLanguage: English
     Value: >+
@@ -121,7 +121,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC1:Mantella.esp
-      ParameterOneNumber: 117530049
+      ParameterOneNumber: 16866753
 - Text:
     TargetLanguage: English
     Value: >+
@@ -133,7 +133,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC1:Mantella.esp
-      ParameterOneNumber: 117530049
+      ParameterOneNumber: 16866753
 - Text:
     TargetLanguage: English
     Value: >+
@@ -145,7 +145,7 @@ BodyTexts:
       MutagenObjectType: FunctionConditionData
       Function: GetGlobalValue
       ParameterOneRecord: 015DC1:Mantella.esp
-      ParameterOneNumber: 117530049
+      ParameterOneNumber: 16866753
 - Text:
     TargetLanguage: English
     Value: Choose radiant frequency in seconds
