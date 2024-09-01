@@ -106,6 +106,7 @@ Function reloadKeys()
     setHotkey(textAndVisionKeycode,"DialogueAndVision")
     setHotkey(MantellaVisionKeycode,"MantellaVision")
     RegisterForOnCrosshairRefChange()							; Re-enable if disabled
+    conversation.RestoreSettings()                              ; Make sure Game settings are restored after a load
 Endfunction
 
 
