@@ -373,6 +373,7 @@ mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.toggleAllowFollow(true)
+kmyQuest.toggleAllowNPCsStayInPlace(true)
 
 Reset()
 ;END CODE

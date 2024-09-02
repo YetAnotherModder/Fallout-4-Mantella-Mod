@@ -1,6 +1,18 @@
 FormKey: 011955:Mantella.esp
-VersionControl: 12533
+VersionControl: 12552
 EditorID: MantellaGenericConversationPackage
+VirtualMachineAdapter:
+  ScriptFragments:
+    Script:
+      Name: Fragments:Packages:PF_MantellaGenericConversati_05011955
+    OnBegin:
+      ExtraBindDataVersion: 1
+      ScriptName: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      FragmentName: Fragment_Begin
+    OnChange:
+      ExtraBindDataVersion: 1
+      ScriptName: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      FragmentName: Fragment_Change
 Flags:
 - AllowSwimming
 Type: Package
@@ -45,6 +57,36 @@ Data:
     Flags:
     - Public
     Data: 5000
+- Key: 14
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: Target
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetSpecificReference
+      Reference: 000014:Fallout4.esm
+- Key: 16
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: GoToLeadersGoal
+    Flags:
+    - Public
+- Key: 18
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: MinDist
+    Flags:
+    - Public
+    Data: 100
+- Key: 20
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: MaxDist
+    Flags:
+    - Public
+    Data: 1000
 - Key: 1
   Value:
     MutagenObjectType: APackageData
@@ -81,18 +123,42 @@ Data:
     Name: <none>
     Flags:
     - Public
-XnamMarker: 0x0E
+XnamMarker: 0x15
 ProcedureTree:
 - BranchType: Sequence
   Root:
-    BranchCount: 1
+    BranchCount: 2
+    Flags:
+    - RepeatWhenComplete
   Unknown: []
 - BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetPlayerTeammate
   ProcedureType: Wait
   Flags: []
   DataInputIndices:
   - 11
   - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetPlayerTeammate
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 14
+  - 18
+  - 20
+  - 16
+  - 255
+  - 255
   Unknown: []
 OnBegin:
   Topics:

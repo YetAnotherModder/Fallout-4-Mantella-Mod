@@ -25,6 +25,8 @@ event OnEffectStart(Actor target, Actor caster)
     if(!conversation.IsRunning())
         if  caster == playerRef 
             Debug.Notification("Starting conversation with "+target.getdisplayname())
+        Else
+            Debug.Notification(caster.GetDisplayName() + " is talking to " + target.GetDisplayName())
         endif
         ;Need to test these and move on their own function
         ActivateEventsFilters()

@@ -11,6 +11,8 @@ bool property conversationIsEnding auto
 Faction Property MantellaConversationParticipantsFaction Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
+bool Property UseSimpleTextField = true auto
+bool Property UseMantellaTopicDLL = false auto
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
@@ -31,6 +33,12 @@ int _DictionaryCleanTimer
 int _PlayerTextInputTimer
 string _PlayerTextInput
 
+VoiceType MantellaVoice
+Topic MantellaTopic
+Actor lastSpokenTo = none
+Actor lastNPCSpeaker = none
+Actor playerRef 
+
 event OnInit()
     _DictionaryCleanTimer = 10
     _PlayerTextInputTimer = 11
@@ -41,7 +49,13 @@ event OnInit()
     ;mConsts.EVENT_ACTIONS + mConsts.ACTION_RELOADCONVERSATION <- Does not work in Fallout4. Needs to be a raw string 
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_reload_conversation")
     ; RegisterForCustomEvent(self, "MantellaConversation_Action_mantella_end_conversation")
+
+    MantellaTopic = Game.GetFormFromFile(0x01ED1, "mantella.esp") as Topic
+    MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
+    playerRef = Game.GetPlayer()
+    SaveSettings()
 endEvent
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;    Start new conversation   ;
@@ -69,6 +83,7 @@ function StartConversation(Actor[] actorsToStartConversationWith)
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, mConsts.HTTP_ROUTE_MAIN)
     string address = "http://localhost:" + mConsts.HTTP_PORT + "/" + mConsts.HTTP_ROUTE_MAIN
     Debug.Trace("Sent StartConversation http request to " + address)  
+    ApplySettings() 
 endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -142,25 +157,55 @@ endFunction
 
 function ProcessNpcSpeak(int handle)
     string speakerName = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_SPEAKER, "Error: No speaker transmitted for action 'NPC talk'")
-    ;Debug.Notification("Transmitted speaker name: "+ speakerName)
     Actor speaker = GetActorInConversation(speakerName)
-    ;Debug.Notification("Chosen Actor: "+ speaker.GetDisplayName())
+  
     if speaker != none
+        Actor spokenTo = GetActorSpokenTo(speaker)
+
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
         float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
-        string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)        
+        string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)
+
         RaiseActionEvent(speaker, lineToSpeak, actions)
-        NpcSpeak(speaker, lineToSpeak, Game.GetPlayer(), duration)
+        NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
+        ;Utility.wait(1.0)
+
+        if speaker != Game.GetPlayer()
+            lastNPCSpeaker = speaker
+        EndIf
     endIf
 endFunction
 
-function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpekTo, float duration)
-    ; MantellaSubtitles.SetInjectTopicAndSubtitleForSpeaker(actorSpeaking, MantellaDialogueLine, lineToSay)
-    actorSpeaking.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
-    actorSpeaking.SetLookAt(actorToSpekTo)
-    if repository.notificationsSubtitlesEnabled
-        debug.notification(actorSpeaking.GetDisplayName() +":"+lineToSay)
+function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpeakTo, float duration)
+    ;********************************************
+    ;DELETE ONCE MANTELLA SOFTWARE GETS UPDATED WITH GITHUB COMMIT: Fallout: game engine now handling audio, lipsync and subtitles natively #405 
+    if  !UseMantellaTopicDLL
+        actorSpeaking.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
+        actorSpeaking.SetLookAt(actorToSpeakTo)
+        if repository.notificationsSubtitlesEnabled
+            debug.notification(actorSpeaking.GetDisplayName() +":"+lineToSay)
+        endif
+    else
+    ;********************************************
+        actorSpeaking.SetOverrideVoiceType(MantellaVoice)                       ;Force every line to 'MantellaVoice00'   
+    
+        int ret = TopicInfoPatcher.PatchTopicInfo(MantellaTopic, lineToSay)          ;Patch the in-memory text to the new value
+        if ret != 0
+            Debug.Notification("Patcher returned " + ret);                      ; Probably only if len>150
+        Endif
+
+        actorSpeaking.SetLookAt(actorToSpeakTo)
+        AllSetLookAt(actorSpeaking)
+        
+        Utility.wait(1.0)													    ; Allow time for reading subtitles
+        actorSpeaking.Say(MantellaTopic, abSpeakInPlayersHead=false)
+        actorSpeaking.SetOverrideVoiceType(none)
+    
+    ;************************************************
+    ;DELETE ONCE MANTELLA SOFTWARE GETS UPDATED WITH GITHUB COMMIT: Fallout: game engine now handling audio, lipsync and subtitles natively #405 
     endif
+    ;************************************************
+
     float durationAdjusted = duration - 0.5
     if(durationAdjusted < 0)
         durationAdjusted = 0
@@ -214,6 +259,8 @@ Function CleanupConversation()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     F4SE_HTTP.clearAllDictionaries() 
+    lastNPCSpeaker = none
+    RestoreSettings()
 EndFunction
 
 Function DispelAllMantellaMagicEffectsFromActors()
@@ -280,27 +327,49 @@ function GetPlayerTextInput(string entrytype)
     ;disable for VR
     if !repository.isFO4VR
         if entryType == "playerResponseTextEntry" && _does_accept_player_input
-            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
-            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+            if UseSimpleTextField
+                repository.GetTextInput(self as ScriptObject,"SetPlayerResponseTextInput","Enter Mantella text dialogue")
+                ;SimpleTextField.Open(self as ScriptObject, "SetPlayerResponseTextInput","Enter Mantella text dialogue")
+            Else
+                TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+                RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
+                RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+            EndIf
         elseif entryType == "gameEventEntry"
-            TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
-            RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
-            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+            if UseSimpleTextField
+                repository.GetTextInput(self as ScriptObject, "SetGameEventTextInput","Enter Mantella a new game event log")
+            Else
+                TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
+                RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
+                RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+            EndIf
         elseif entryType == "playerResponseTextAndVisionEntry"
-            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
-            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+            if UseSimpleTextField
+                repository.GetTextInput(self as ScriptObject, "SetPlayerResponseTextAndVisionInput","Enter Mantella text dialogue")
+            Else
+                TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
+                RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
+                RegisterForExternalEvent("TIM::Cancel","NoTextInput")
+                EndIf
         endif
     endif
 endFunction
 
 Function SetPlayerResponseTextInput(string text)
     ;disable for VR
-    ;Debug.notification("This text input was entered "+ text)
     if !repository.isFO4VR
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
+        If UseSimpleTextField
+            ;IF SUP_F4SE gets updated to NG, UNCOMMENT THIS
+            ;text = SUP_F4SE.StringRemoveWhiteSpace(text)
+            ;if SUP_F4SE.StringGetLength(text) == 0
+            if text=""
+                return
+            Endif
+        Else
+            UnRegisterForExternalEvent("TIM::Accept")
+            UnRegisterForExternalEvent("TIM::Cancel")
+        EndIf
+
         _PlayerTextInput=text
         if repository.allowVision
             StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
@@ -309,15 +378,23 @@ Function SetPlayerResponseTextInput(string text)
             _does_accept_player_input = False
             repository.ResetEventSpamBlockers() ;reset spam blockers to allow the ListenerScript to pick up on those again
             Debug.notification("Thinking...")
-        endif
+        Endif
     endif
 EndFunction
 
 Function SetPlayerResponseTextAndVisionInput(string text)
     ;Debug.notification("This text input was entered "+ text)
     if !repository.isFO4VR
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
+        If UseSimpleTextField
+            text = SUP_F4SE.StringRemoveWhiteSpace(text)
+            if SUP_F4SE.StringGetLength(text) == 0
+                return
+            Endif
+        Else
+            UnRegisterForExternalEvent("TIM::Accept")
+            UnRegisterForExternalEvent("TIM::Cancel")
+        EndIf
+
         _PlayerTextInput = text
         repository.hasPendingVisionCheck=true
         StartTimer(0.3,_PlayerTextInputTimer)
@@ -328,8 +405,15 @@ Function SetGameEventTextInput(string text)
     ;disable for VR
     ;Debug.notification("This text input was entered "+ text)
     if !repository.isFO4VR
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
+        If UseSimpleTextField
+            text = SUP_F4SE.StringRemoveWhiteSpace(text)
+            if SUP_F4SE.StringGetLength(text) == 0
+                return
+            Endif
+        Else
+            UnRegisterForExternalEvent("TIM::Accept")
+            UnRegisterForExternalEvent("TIM::Cancel")
+        EndIf
         AddIngameEvent(text)
     endif
 EndFunction
@@ -383,7 +467,13 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
         SendCustomEvent("MantellaConversation_Action_mantella_npc_forgiven", kargs)
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_FOLLOW)
         SendCustomEvent("MantellaConversation_Action_mantella_npc_follow", kargs)
-    
+        Faction CompanionFaction = Game.GetForm(0x000023C01) as Faction
+        ;NPCs not yet available as companions have -1 faction rank
+        if repository.allowNPCsStayInPlace && repository.allowNPCsStayInPlace && !speaker.IsinFaction(CompanionFaction) || speaker.GetFactionRank(CompanionFaction) < 0
+            Debug.Notification(speaker.GetDisplayName() + " is following")
+            speaker.SetPlayerTeammate(true)
+            speaker.EvaluatePackage()
+        EndIf
     endIf
 endFunction
 
@@ -518,14 +608,25 @@ Function AddActors(Actor[] actorsToAdd)
     ;PrintActorsInConversation()
 EndFunction
 
+Function StopFollowing(Actor tmpActor)
+    Faction CompanionFaction = Game.GetForm(0x000023C01) as Faction
+    tmpActor.RemoveFromFaction(MantellaConversationParticipantsFaction)
+    if !tmpActor.IsinFaction(CompanionFaction) || tmpActor.GetFactionRank(CompanionFaction) < 0
+        tmpActor.SetPlayerTeammate(false)
+        ;speaker.EvaluatePackage()
+    EndIf
+
+EndFunction
+
 Function RemoveActors(Actor[] actorsToRemove)
     ;PrintActorsArray("Actors to remove: ",actorsToRemove)
     bool wasActorRemoved = false
     int i = 0
     While (i < actorsToRemove.Length)
-        If (Participants.HasForm(actorsToRemove[i]))
-            Participants.RemoveAddedForm(actorsToRemove[i])
-            actorsToRemove[i].RemoveFromFaction(MantellaConversationParticipantsFaction)
+        Actor tmpActor = actorsToRemove[i] as Actor
+        If (Participants.HasForm(tmpActor))
+            Participants.RemoveAddedForm(tmpActor)
+            StopFollowing(tmpActor)
             wasActorRemoved = true
         EndIf
         i += 1
@@ -541,7 +642,8 @@ EndFunction
 Function ClearParticipants()
     int i = 0
     While i < Participants.GetSize()
-        (Participants.GetAt(i) as Actor).RemoveFromFaction(MantellaConversationParticipantsFaction)
+        Actor tmpActor = Participants.GetAt(i) as Actor
+        StopFollowing(tmpActor)
         i += 1
     EndWhile
     Participants.Revert()
@@ -607,6 +709,38 @@ int[] function BuildNpcsInConversationArray()
     EndWhile
     return actorHandles
 endFunction
+
+Function AllSetLookAt(Actor speaker)                        ; make sure everybody in converstation is looking at speaker
+    int i = 0
+    While i < Participants.GetSize()
+        Actor tmpActor = Participants.GetAt(i) as Actor 
+        if speaker != tmpActor
+            tmpActor.SetLookAt(speaker)
+        EndIf
+        i += 1
+    EndWhile
+EndFunction
+
+Actor Function GetActorSpokenTo(Actor speaker)
+    Actor spokenTo
+
+    If IsPlayerInConversation()                           ; single and multi-NPCs. Either PC or NPC can talk first
+        if speaker != Game.GetPlayer()
+            spokenTo  = Game.GetPlayer()
+        Else
+            spokenTo = lastNPCSpeaker
+        EndIf
+    Else                                                    ; Radiant conversation w/2 NPCs or new player convo w/ single NPC
+        If speaker == Participants.GetAt(0)
+            spokenTo = Participants.GetAt(1) as Actor
+        Else
+            spokenTo = Participants.GetAt(0) as Actor
+        EndIf
+    Endif
+
+    return spokenTo
+EndFunction
+
 
 int function buildActorSetting(Actor actorToBuild)    
     int handle = F4SE_HTTP.createDictionary()
@@ -678,3 +812,93 @@ int function GetCurrentHourOfDay()
 	int Hour = Math.Floor(Time) ; Get whole hour
 	return Hour
 endFunction
+
+; Functions to temporarly change some game settings
+; to prevent various NPCs from interrupting conversations in progress
+; variables taken from 'You talk too much' https://www.nexusmods.com/fallout4/mods/10570
+; Need to use SUP_F4SE storage here, as loading a game resets script variables,
+; possibly losing the saved GameSettings
+; All Game settings are reset when starting the game
+
+; Save the game's original GameSettings before we modify them at conversation start
+Function SaveSettings()
+    int SettingsSaved = 0
+
+    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+        SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+    EndIf
+
+    if SettingsSaved == 0
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAICommentWaitingForPlayerInput", Game.GetGameSettingFloat("fAICommentWaitingForPlayerInput"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversation", Game.GetGameSettingFloat("fAISocialchanceForConversation"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversationInterior", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMax", Game.GetGameSettingFloat("fAISocialTimerForConversationsMax"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMin", Game.GetGameSettingFloat("fAISocialTimerForConversationsMin"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversationInterior", Game.GetGameSettingFloat("fAISocialchanceForConversationInterior"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fCommentOnPlayerActionsTimer", Game.GetGameSettingFloat("fCommentOnPlayerActionsTimer"))
+        SUP_F4SE.ModLocalDataSetInt("MantellaConversation",  "iAISocialDistanceToTriggerEvent", Game.GetGameSettingInt("iAISocialDistanceToTriggerEvent"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversation", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversation"))
+        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAIMinGreetingDistance", Game.GetGameSettingFloat("fAIMinGreetingDistance"))
+
+        SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsSaved", 1)
+    Endif
+
+EndFunction
+
+; Apply Mantella settings to stop NPCs talking
+Function ApplySettings()
+    int SettingsSaved = 0
+
+    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+        SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+    EndIf
+
+    if SettingsSaved == 0
+        SaveSettings()
+    Endif
+
+    Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", 800.0)
+    Game.SetGameSettingFloat("fAISocialchanceForConversation", 1.0)
+    Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", 1.0)
+    Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", 800.0)
+    Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", 800.0)
+    Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", 1.0)
+    Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", 800.0)
+    Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", 1)
+    Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", 1.0)
+    Game.SetGameSettingFloat("fAIMinGreetingDistance", 1.0)
+
+    SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 1)
+EndFunction
+
+; Restore settings after conversation ends
+Function RestoreSettings()
+    int SettingsSaved = 0
+    int SettingsApplied = 0
+
+    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+        SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+    EndIf
+
+    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsApplied")
+        SettingsApplied = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsApplied")
+    EndIf
+
+    if !SettingsSaved
+        SaveSettings()
+    ElseIf SettingsApplied
+        Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAICommentWaitingForPlayerInput"))
+        Game.SetGameSettingFloat("fAISocialchanceForConversation", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversation"))
+        Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversationInterior"))
+        Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMax"))
+        Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMin"))
+        Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversationInterior"))
+        Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fCommentOnPlayerActionsTimer"))
+        Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "iAISocialDistanceToTriggerEvent"))
+        Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversation"))
+        Game.SetGameSettingFloat("fAIMinGreetingDistance", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAIMinGreetingDistance"))
+    EndIf
+    SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 0)
+EndFunction
+
+

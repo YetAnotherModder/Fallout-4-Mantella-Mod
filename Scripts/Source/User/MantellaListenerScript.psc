@@ -19,7 +19,7 @@ Weapon property MantellaGun auto
 Holotape property MantellaSettingsHolotape auto
 Quest Property MantellaActorList  Auto  
 ReferenceAlias Property PotentialActor1  Auto  
-ReferenceAlias Property PotentialActor2  Auto  
+ReferenceAlias Property PotentialActor2  Auto
 MantellaRepository property repository auto
 MantellaConversation property conversation auto
 Keyword Property AmmoKeyword Auto Const
@@ -153,11 +153,11 @@ Event Ontimer( int TimerID)
                 ;MantellaActorList taken from this tutorial:
                 ;http://skyrimmw.weebly.com/skyrim-modding/detecting-nearby-actors-skyrim-modding-tutorial
                 MantellaActorList.start()
-                ; if both actors found
-                if (PotentialActor1.GetReference() as Actor) && (PotentialActor2.GetReference() as Actor)
-                    Actor Actor1 = PotentialActor1.GetReference() as Actor
-                    Actor Actor2 = PotentialActor2.GetReference() as Actor
+                Actor Actor1 = PotentialActor1.GetReference() as Actor
+                Actor Actor2 = PotentialActor2.GetReference() as Actor
 
+            ; if both actors found
+                if (Actor1 && Actor2)
                     float distanceToClosestActor = game.getplayer().GetDistance(Actor1)
                     float maxDistance = ConvertMeterToGameUnits(repository.radiantDistance)
                     if distanceToClosestActor <= maxDistance
@@ -179,6 +179,7 @@ Event Ontimer( int TimerID)
                         ;Debug.Notification("Max distance set to " + repository.radiantDistance + "m in Mantella MCM")
                     endIf
                 else
+                    ;Debug.Notification("Actor1 " + Actor1.GetDisplayName() + " Actor2 " + Actor2.GetDisplayName())
                     ;Debug.Notification("Radiant dialogue attempted. No NPCs available")
                 endIf
     

@@ -1,8 +1,8 @@
 FormKey: 004C76:Mantella.esp
-VersionControl: 12575
+VersionControl: 12572
 EditorID: MantellaActorList
 Data:
-  Unused: 169
+  Unused: 81
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -138,9 +138,21 @@ Aliases:
       ParameterOneRecord: 02CB73:Fallout4.esm
       ParameterOneNumber: 183155
   - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: HasKeyword
+      ParameterOneRecord: 013794:Fallout4.esm
+      ParameterOneNumber: 79764
+  - MutagenObjectType: ConditionFloat
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetSleeping
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: GreaterThan
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: PlayerVisualDetection
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
     ComparisonValue: 1
@@ -346,6 +358,11 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetSleeping
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: GreaterThan
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: PlayerVisualDetection
   - MutagenObjectType: ConditionFloat
     CompareOperator: NotEqualTo
     ComparisonValue: 1
