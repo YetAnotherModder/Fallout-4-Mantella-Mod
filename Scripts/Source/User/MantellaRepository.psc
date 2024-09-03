@@ -22,7 +22,6 @@ int property currentSUPversion auto
 bool property isFO4VR auto Conditional
 bool property microphoneEnabled auto
 bool property radiantEnabled auto
-bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
 
@@ -146,7 +145,6 @@ Function reinitializeVariables()
     radiantEnabled = true
     radiantDistance = 20
     radiantFrequency = 10
-    notificationsSubtitlesEnabled = true
     allowVision = false
     allowVisionHints = true
     visionResolution="auto"
@@ -210,15 +208,6 @@ Function toggleTargetEventTracking(bool bswitch)
     targetTrackingOnGetUp = bswitch
     targetTrackingCompleteCommands = bswitch
     targetTrackingGiveCommands = bswitch
-EndFunction
-
-Function toggleNotificationSubtitles(bool bswitch)
-    notificationsSubtitlesEnabled = bswitch
-    if bswitch
-        Debug.notification("Subtitles enabled")
-    else
-        Debug.notification("Subtitles disabled")
-    endif
 EndFunction
 
 Function toggleAllowAggro(bool bswitch)
@@ -304,11 +293,6 @@ Function listMenuState(String aMenu)
             debug.notification("NPC follow is ON")
         endif
     elseif aMenu=="Main_Settings"
-        if notificationsSubtitlesEnabled==false
-            debug.notification("Subtitles are OFF")
-        else
-            debug.notification("Subtitles are ON")
-        endif
         if !(Game.GetPlayer().HasPerk(ActivatePerk))
             debug.notification("Alt conversation start option is OFF")
         else

@@ -128,8 +128,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 77BEE8:Mantella.esp
-      ParameterTwoNumber: -1401438488
+      ParameterTwoRecord: 167EE8:Mantella.esp
+      ParameterTwoNumber: -1391034648
       ParameterTwoString: ::hideVisionMenu_var
 MajorFlags:
 - 0x10

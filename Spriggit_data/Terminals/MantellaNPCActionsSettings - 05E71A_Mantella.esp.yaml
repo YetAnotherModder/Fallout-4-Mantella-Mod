@@ -134,8 +134,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 77BEB0:Mantella.esp
-      ParameterTwoNumber: -1401438544
+      ParameterTwoRecord: 167EB0:Mantella.esp
+      ParameterTwoNumber: -1391034704
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -154,8 +154,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 77BEA8:Mantella.esp
-      ParameterTwoNumber: -1401438552
+      ParameterTwoRecord: 167EA8:Mantella.esp
+      ParameterTwoNumber: -1391034712
       ParameterTwoString: ::allowNPCsStayInPlace_var
 MajorFlags:
 - 0x10
