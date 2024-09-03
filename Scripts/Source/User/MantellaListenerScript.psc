@@ -76,7 +76,7 @@ Event OnPlayerLoadGame()
 EndEvent
 
 Function LoadMantellaEvents()
-    
+    conversation.SetPlayerRef()
     repository.reloadKeys()
     registerForPlayerEvents()
     ;Will clean up all all conversation loops if they're still occuring
@@ -109,12 +109,11 @@ Function CheckGameVersionForMantella()
         repository.isFO4VR = true
         debug.notification("Currently running "+ MantellaVersion+" VR")
     endif
-    int currentSUPversion
-    currentSUPversion = repository.ReturnSUPF4SEVersion()
-    if currentSUPversion == 0
+    repository.currentSUPversion = repository.ReturnSUPF4SEVersion()
+    if repository.currentSUPversion == 0
         debug.messagebox("SUP_F4SE not properly installed, Mantella will not work correctly")
     else
-        debug.notification("Currently running SUP_F4SE "+currentSUPversion)
+        debug.notification("Currently running SUP_F4SE "+repository.currentSUPversion)
     endif
 Endfunction
 

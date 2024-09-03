@@ -18,6 +18,7 @@ MantellaConstants property ConstantsScript auto
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
 string property currentFO4version auto
+int property currentSUPversion auto
 bool property isFO4VR auto Conditional
 bool property microphoneEnabled auto
 bool property radiantEnabled auto
@@ -121,11 +122,6 @@ Function StopConversations()
         StartTimer(5,CleanupconversationTimer)              ;Start a timer to make second hard reset if conversation is still running after
         conversation.conversationIsEnding = false
     EndIf
-    ; endFlagMantellaConversationOne = True
-    ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
-    ; Utility.Wait(0.5)
-    ; endFlagMantellaConversationOne = False
-    ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
 EndFunction
 
 Event Ontimer( int TimerID)
@@ -554,8 +550,8 @@ Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
         If conversation.UseSimpleTextField
-            keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-            if SUP_F4SE.StringGetLength(keycode) == 0
+            keycode = SUPF4SEformatText(keycode)
+            if keycode == ""
                 return
             Endif
         Else
@@ -570,8 +566,9 @@ Function TIMGameEventHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
         If conversation.UseSimpleTextField
-            keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-            if SUP_F4SE.StringGetLength(keycode) == 0
+            keycode = SUPF4SEformatText(keycode)
+
+            if keycode == ""
                 return
             Endif
         Else
@@ -586,8 +583,8 @@ Function TIMStartConversationHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
         If conversation.UseSimpleTextField
-            keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-            if SUP_F4SE.StringGetLength(keycode) == 0
+            keycode = SUPF4SEformatText(keycode)
+            if keycode == ""
                 return
             Endif
         Else
@@ -602,8 +599,8 @@ Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR    
         If conversation.UseSimpleTextField
-            keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-            if SUP_F4SE.StringGetLength(keycode) == 0
+            keycode = SUPF4SEformatText(keycode)
+            if keycode == ""
                 return
             Endif
         Else
@@ -618,8 +615,8 @@ Function TIMSetMantellaVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR    
         If conversation.UseSimpleTextField
-            keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-            if SUP_F4SE.StringGetLength(keycode) == 0
+            keycode = SUPF4SEformatText(keycode)
+            if keycode == ""
                 return
             Endif
         Else
@@ -656,8 +653,8 @@ Function TIM_Set_HTTP_Port(string HTTP_port)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
         If conversation.UseSimpleTextField
-            HTTP_port = SUP_F4SE.StringRemoveWhiteSpace(HTTP_port)
-            if SUP_F4SE.StringGetLength(HTTP_port) == 0
+            HTTP_port = SUPF4SEformatText(HTTP_port)
+            if HTTP_port ==""
                 return
             Endif
         Else
@@ -974,3 +971,14 @@ Function GetTextInput(ScriptObject akReceiver, string asFunctionName, string asT
 EndFunction
 
 
+string function SUPF4SEformatText(string TextToFormat)
+    if currentSUPversion != 0
+        if !isFO4VR
+            TextToFormat = SUP_F4SE.StringRemoveWhiteSpace(TextToFormat)
+        else 
+            ;TextToFormat = SUP_F4SEVR.StringRemoveWhiteSpace(TextToFormat)  THIS ISN'T CURRENTLY IN SUP_F4SEVR library
+        endif
+    endif
+
+    return TextToFormat
+endfunction

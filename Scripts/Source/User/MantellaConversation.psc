@@ -1,6 +1,8 @@
 Scriptname MantellaConversation extends Quest hidden
 
 Import F4SE
+Import SUP_F4SE
+Import SUP_F4SEVR
 Import Utility
 
 Topic property MantellaDialogueLine auto
@@ -37,7 +39,7 @@ VoiceType MantellaVoice
 Topic MantellaTopic
 Actor lastSpokenTo = none
 Actor lastNPCSpeaker = none
-Actor playerRef 
+Actor property playerRef auto
 
 event OnInit()
     _DictionaryCleanTimer = 10
@@ -52,10 +54,9 @@ event OnInit()
 
     MantellaTopic = Game.GetFormFromFile(0x01ED1, "mantella.esp") as Topic
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
-    playerRef = Game.GetPlayer()
+    SetPlayerRef()
     SaveSettings()
 endEvent
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;    Start new conversation   ;
@@ -170,7 +171,7 @@ function ProcessNpcSpeak(int handle)
         NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
         ;Utility.wait(1.0)
 
-        if speaker != Game.GetPlayer()
+        if speaker != playerRef
             lastNPCSpeaker = speaker
         EndIf
     endIf
@@ -347,9 +348,7 @@ Function SetPlayerResponseTextInput(string text)
     ;disable for VR
     if !repository.isFO4VR
         If UseSimpleTextField
-            ;IF SUP_F4SE gets updated to NG, UNCOMMENT THIS
-            ;text = SUP_F4SE.StringRemoveWhiteSpace(text)
-            ;if SUP_F4SE.StringGetLength(text) == 0
+            text =repository.SUPF4SEformatText(text)
             if text==""
                 return
             Endif
@@ -374,8 +373,8 @@ Function SetPlayerResponseTextAndVisionInput(string text)
     ;Debug.notification("This text input was entered "+ text)
     if !repository.isFO4VR
         If UseSimpleTextField
-            text = SUP_F4SE.StringRemoveWhiteSpace(text)
-            if SUP_F4SE.StringGetLength(text) == 0
+            text =repository.SUPF4SEformatText(text)
+            if text == ""
                 return
             Endif
         Else
@@ -394,8 +393,8 @@ Function SetGameEventTextInput(string text)
     ;Debug.notification("This text input was entered "+ text)
     if !repository.isFO4VR
         If UseSimpleTextField
-            text = SUP_F4SE.StringRemoveWhiteSpace(text)
-            if SUP_F4SE.StringGetLength(text) == 0
+            text =repository.SUPF4SEformatText(text)
+            if text == ""
                 return
             Endif
         Else
@@ -519,10 +518,14 @@ endFunction
 ;            Utils            ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+function SetPlayerRef()
+    playerRef = playerRef
+endfunction
+
 bool Function IsPlayerInConversation()
     int i = 0
     While i < Participants.GetSize()
-        if (Participants.GetAt(i) == Game.GetPlayer())
+        if (Participants.GetAt(i) == playerRef)
             return true
         endif
         i += 1
@@ -568,7 +571,7 @@ Function AddActors(Actor[] actorsToAdd)
             int nameCount = 0
             int j = 0
             bool break = false
-            if (actorsToAdd[i] != game.getplayer()) ; ignore the player having the same name as an actor
+            if (actorsToAdd[i] != playerRef) ; ignore the player having the same name as an actor
                 While (j < Participants.GetSize()) && (break==false)
                     Actor currentActor = Participants.GetAt(j) as Actor
                     if (currentActor.GetDisplayName() == actorsToAdd[i].GetDisplayName())
@@ -713,8 +716,8 @@ Actor Function GetActorSpokenTo(Actor speaker)
     Actor spokenTo
 
     If IsPlayerInConversation()                           ; single and multi-NPCs. Either PC or NPC can talk first
-        if speaker != Game.GetPlayer()
-            spokenTo  = Game.GetPlayer()
+        if speaker != playerRef
+            spokenTo  = playerRef
         Else
             spokenTo = lastNPCSpeaker
         EndIf
@@ -735,13 +738,13 @@ int function buildActorSetting(Actor actorToBuild)
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_BASEID, (actorToBuild.getactorbase() as form).getformid())
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_REFID, (actorToBuild as form).getformid())
     F4SE_HTTP.setString(handle, mConsts.KEY_ACTOR_NAME, actorToBuild.GetDisplayName())
-    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISPLAYER, actorToBuild == game.getplayer())
+    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISPLAYER, actorToBuild == playerRef)
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_GENDER, actorToBuild.getleveledactorbase().getsex())
     F4SE_HTTP.setString(handle, mConsts.KEY_ACTOR_RACE, actorToBuild.getrace())
-    F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_RELATIONSHIPRANK, actorToBuild.getrelationshiprank(game.getplayer()))
+    F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_RELATIONSHIPRANK, actorToBuild.getrelationshiprank(playerRef))
     F4SE_HTTP.setString(handle, mConsts.KEY_ACTOR_VOICETYPE, actorToBuild.GetVoiceType())
     F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISINCOMBAT, actorToBuild.IsInCombat())    
-    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISENEMY, actorToBuild.getcombattarget() == game.GetPlayer())
+    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISENEMY, actorToBuild.getcombattarget() == playerRef)
     int customValuesHandle = BuildCustomActorValues(actorToBuild)
     F4SE_HTTP.setNestedDictionary(handle, mConsts.KEY_ACTOR_CUSTOMVALUES, customValuesHandle)  
     return handle
@@ -757,7 +760,7 @@ EndFunction
 int function BuildContext()
     int handle = F4SE_HTTP.createDictionary()
     String currLoc = ""
-    form currentLocation = game.getplayer().GetCurrentLocation() as Form
+    form currentLocation = playerRef.GetCurrentLocation() as Form
     if currentLocation
         currLoc = currentLocation.getName()
     Else
@@ -773,10 +776,9 @@ endFunction
 
 int Function BuildCustomContextValues()
     int handleCustomContextValues = F4SE_HTTP.createDictionary()
-    Actor player = game.getplayer()  
-    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, player.getpositionX())
-    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, player.getpositionY())
-    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, player.GetAngleZ())
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, playerRef.getpositionX())
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, playerRef.getpositionY())
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, playerRef.GetAngleZ())
     bool isVisionReady = repository.checkAndUpdateVisionPipeline()
     if isVisionReady
         F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, isVisionReady)
@@ -801,6 +803,12 @@ int function GetCurrentHourOfDay()
 	return Hour
 endFunction
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SUP_F4SE & SUP_F4SEVR functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ; Functions to temporarly change some game settings
 ; to prevent various NPCs from interrupting conversations in progress
 ; variables taken from 'You talk too much' https://www.nexusmods.com/fallout4/mods/10570
@@ -812,24 +820,48 @@ endFunction
 Function SaveSettings()
     int SettingsSaved = 0
 
-    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
-        SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
-    EndIf
-
-    if SettingsSaved == 0
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAICommentWaitingForPlayerInput", Game.GetGameSettingFloat("fAICommentWaitingForPlayerInput"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversation", Game.GetGameSettingFloat("fAISocialchanceForConversation"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversationInterior", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMax", Game.GetGameSettingFloat("fAISocialTimerForConversationsMax"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMin", Game.GetGameSettingFloat("fAISocialTimerForConversationsMin"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversationInterior", Game.GetGameSettingFloat("fAISocialchanceForConversationInterior"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fCommentOnPlayerActionsTimer", Game.GetGameSettingFloat("fCommentOnPlayerActionsTimer"))
-        SUP_F4SE.ModLocalDataSetInt("MantellaConversation",  "iAISocialDistanceToTriggerEvent", Game.GetGameSettingInt("iAISocialDistanceToTriggerEvent"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversation", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversation"))
-        SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAIMinGreetingDistance", Game.GetGameSettingFloat("fAIMinGreetingDistance"))
-
-        SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsSaved", 1)
-    Endif
+    
+    if repository.currentSUPversion != 0 
+        if repository.isFO4VR
+            if SUP_F4SEVR.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+                SettingsSaved = SUP_F4SEVR.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+            EndIf
+        
+            if SettingsSaved == 0
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAICommentWaitingForPlayerInput", Game.GetGameSettingFloat("fAICommentWaitingForPlayerInput"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversation", Game.GetGameSettingFloat("fAISocialchanceForConversation"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversationInterior", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMax", Game.GetGameSettingFloat("fAISocialTimerForConversationsMax"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMin", Game.GetGameSettingFloat("fAISocialTimerForConversationsMin"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversationInterior", Game.GetGameSettingFloat("fAISocialchanceForConversationInterior"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fCommentOnPlayerActionsTimer", Game.GetGameSettingFloat("fCommentOnPlayerActionsTimer"))
+                SUP_F4SEVR.ModLocalDataSetInt("MantellaConversation",  "iAISocialDistanceToTriggerEvent", Game.GetGameSettingInt("iAISocialDistanceToTriggerEvent"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversation", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversation"))
+                SUP_F4SEVR.ModLocalDataSetFloat("MantellaConversation",  "fAIMinGreetingDistance", Game.GetGameSettingFloat("fAIMinGreetingDistance"))
+        
+                SUP_F4SEVR.ModLocalDataSetInt("MantellaConversation", "SettingsSaved", 1)
+            Endif
+        else
+            if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+                SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+            EndIf
+        
+            if SettingsSaved == 0
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAICommentWaitingForPlayerInput", Game.GetGameSettingFloat("fAICommentWaitingForPlayerInput"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversation", Game.GetGameSettingFloat("fAISocialchanceForConversation"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversationInterior", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMax", Game.GetGameSettingFloat("fAISocialTimerForConversationsMax"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialTimerForConversationsMin", Game.GetGameSettingFloat("fAISocialTimerForConversationsMin"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialchanceForConversationInterior", Game.GetGameSettingFloat("fAISocialchanceForConversationInterior"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fCommentOnPlayerActionsTimer", Game.GetGameSettingFloat("fCommentOnPlayerActionsTimer"))
+                SUP_F4SE.ModLocalDataSetInt("MantellaConversation",  "iAISocialDistanceToTriggerEvent", Game.GetGameSettingInt("iAISocialDistanceToTriggerEvent"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAISocialRadiusToTriggerConversation", Game.GetGameSettingFloat("fAISocialRadiusToTriggerConversation"))
+                SUP_F4SE.ModLocalDataSetFloat("MantellaConversation",  "fAIMinGreetingDistance", Game.GetGameSettingFloat("fAIMinGreetingDistance"))
+        
+                SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsSaved", 1)
+            Endif
+        endif
+    endif
 
 EndFunction
 
@@ -837,56 +869,109 @@ EndFunction
 Function ApplySettings()
     int SettingsSaved = 0
 
-    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
-        SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
-    EndIf
+    if repository.currentSUPversion != 0 
+        if repository.isFO4VR
+            if SUP_F4SEVR.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+                SettingsSaved = SUP_F4SEVR.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+            EndIf
 
-    if SettingsSaved == 0
-        SaveSettings()
-    Endif
+            if SettingsSaved == 0
+                SaveSettings()
+            Endif
 
-    Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", 800.0)
-    Game.SetGameSettingFloat("fAISocialchanceForConversation", 1.0)
-    Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", 1.0)
-    Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", 800.0)
-    Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", 800.0)
-    Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", 1.0)
-    Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", 800.0)
-    Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", 1)
-    Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", 1.0)
-    Game.SetGameSettingFloat("fAIMinGreetingDistance", 1.0)
+            Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", 800.0)
+            Game.SetGameSettingFloat("fAISocialchanceForConversation", 1.0)
+            Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", 1.0)
+            Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", 800.0)
+            Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", 800.0)
+            Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", 1.0)
+            Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", 800.0)
+            Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", 1)
+            Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", 1.0)
+            Game.SetGameSettingFloat("fAIMinGreetingDistance", 1.0)
 
-    SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 1)
+            SUP_F4SEVR.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 1)
+        else
+            if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+                SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+            EndIf
+
+            if SettingsSaved == 0
+                SaveSettings()
+            Endif
+
+            Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", 800.0)
+            Game.SetGameSettingFloat("fAISocialchanceForConversation", 1.0)
+            Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", 1.0)
+            Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", 800.0)
+            Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", 800.0)
+            Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", 1.0)
+            Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", 800.0)
+            Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", 1)
+            Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", 1.0)
+            Game.SetGameSettingFloat("fAIMinGreetingDistance", 1.0)
+
+            SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 1)
+        endif
+    endif
 EndFunction
 
 ; Restore settings after conversation ends
 Function RestoreSettings()
     int SettingsSaved = 0
     int SettingsApplied = 0
+    if repository.currentSUPversion != 0 
+        if repository.isFO4VR
+            if SUP_F4SEVR.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+                SettingsSaved = SUP_F4SEVR.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+            EndIf
 
-    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
-        SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
-    EndIf
+            if SUP_F4SEVR.ModLocalDataExists("MantellaConversation", "SettingsApplied")
+                SettingsApplied = SUP_F4SEVR.ModLocalDataGetInt("MantellaConversation", "SettingsApplied")
+            EndIf
 
-    if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsApplied")
-        SettingsApplied = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsApplied")
-    EndIf
+            if !SettingsSaved
+                SaveSettings()
+            ElseIf SettingsApplied
+                Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAICommentWaitingForPlayerInput"))
+                Game.SetGameSettingFloat("fAISocialchanceForConversation", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversation"))
+                Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversationInterior"))
+                Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMax"))
+                Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMin"))
+                Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversationInterior"))
+                Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fCommentOnPlayerActionsTimer"))
+                Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", SUP_F4SEVR.ModLocalDataGetInt("MantellaConversation", "iAISocialDistanceToTriggerEvent"))
+                Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversation"))
+                Game.SetGameSettingFloat("fAIMinGreetingDistance", SUP_F4SEVR.ModLocalDataGetFloat("MantellaConversation", "fAIMinGreetingDistance"))
+            EndIf
+            SUP_F4SEVR.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 0)
+        Else
+            if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsSaved")
+                SettingsSaved = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsSaved")
+            EndIf
 
-    if !SettingsSaved
-        SaveSettings()
-    ElseIf SettingsApplied
-        Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAICommentWaitingForPlayerInput"))
-        Game.SetGameSettingFloat("fAISocialchanceForConversation", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversation"))
-        Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversationInterior"))
-        Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMax"))
-        Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMin"))
-        Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversationInterior"))
-        Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fCommentOnPlayerActionsTimer"))
-        Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "iAISocialDistanceToTriggerEvent"))
-        Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversation"))
-        Game.SetGameSettingFloat("fAIMinGreetingDistance", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAIMinGreetingDistance"))
-    EndIf
-    SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 0)
+            if SUP_F4SE.ModLocalDataExists("MantellaConversation", "SettingsApplied")
+                SettingsApplied = SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "SettingsApplied")
+            EndIf
+
+            if !SettingsSaved
+                SaveSettings()
+            ElseIf SettingsApplied
+                Game.SetGameSettingFloat("fAICommentWaitingForPlayerInput", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAICommentWaitingForPlayerInput"))
+                Game.SetGameSettingFloat("fAISocialchanceForConversation", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversation"))
+                Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversationInterior", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversationInterior"))
+                Game.SetGameSettingFloat("fAISocialTimerForConversationsMax", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMax"))
+                Game.SetGameSettingFloat("fAISocialTimerForConversationsMin", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialTimerForConversationsMin"))
+                Game.SetGameSettingFloat("fAISocialchanceForConversationInterior", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialchanceForConversationInterior"))
+                Game.SetGameSettingFloat("fCommentOnPlayerActionsTimer", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fCommentOnPlayerActionsTimer"))
+                Game.SetGameSettingInt("iAISocialDistanceToTriggerEvent", SUP_F4SE.ModLocalDataGetInt("MantellaConversation", "iAISocialDistanceToTriggerEvent"))
+                Game.SetGameSettingFloat("fAISocialRadiusToTriggerConversation", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAISocialRadiusToTriggerConversation"))
+                Game.SetGameSettingFloat("fAIMinGreetingDistance", SUP_F4SE.ModLocalDataGetFloat("MantellaConversation", "fAIMinGreetingDistance"))
+            EndIf
+            SUP_F4SE.ModLocalDataSetInt("MantellaConversation", "SettingsApplied", 0)
+        endif
+    endif
 EndFunction
+
 
 
