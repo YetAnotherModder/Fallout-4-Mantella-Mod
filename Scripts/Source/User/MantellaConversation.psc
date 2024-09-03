@@ -12,7 +12,7 @@ Faction Property MantellaConversationParticipantsFaction Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
 bool Property UseSimpleTextField = true auto
-bool Property UseMantellaTopicDLL = false auto
+
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
@@ -177,34 +177,22 @@ function ProcessNpcSpeak(int handle)
 endFunction
 
 function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpeakTo, float duration)
-    ;********************************************
-    ;DELETE ONCE MANTELLA SOFTWARE GETS UPDATED WITH GITHUB COMMIT: Fallout: game engine now handling audio, lipsync and subtitles natively #405 
-    if  !UseMantellaTopicDLL
-        actorSpeaking.Say(MantellaDialogueLine, abSpeakInPlayersHead=false)
-        actorSpeaking.SetLookAt(actorToSpeakTo)
-        if repository.notificationsSubtitlesEnabled
-            debug.notification(actorSpeaking.GetDisplayName() +":"+lineToSay)
-        endif
-    else
-    ;********************************************
-        actorSpeaking.SetOverrideVoiceType(MantellaVoice)                       ;Force every line to 'MantellaVoice00'   
     
-        int ret = TopicInfoPatcher.PatchTopicInfo(MantellaTopic, lineToSay)          ;Patch the in-memory text to the new value
-        if ret != 0
-            Debug.Notification("Patcher returned " + ret);                      ; Probably only if len>150
-        Endif
+    ;Force every line to 'MantellaVoice00'   
+    ;actorSpeaking.SetOverrideVoiceType(MantellaVoice)                       ;ONCE MANTELLA SOFTWARE GETS UPDATED WITH GITHUB COMMIT: Fallout: game engine now handling audio, lipsync and subtitles natively #405 
 
-        actorSpeaking.SetLookAt(actorToSpeakTo)
-        AllSetLookAt(actorSpeaking)
-        
-        Utility.wait(1.0)													    ; Allow time for reading subtitles
-        actorSpeaking.Say(MantellaTopic, abSpeakInPlayersHead=false)
-        actorSpeaking.SetOverrideVoiceType(none)
+    int ret = TopicInfoPatcher.PatchTopicInfo(MantellaTopic, lineToSay)          ;Patch the in-memory text to the new value
+    if ret != 0
+        Debug.Notification("Patcher returned " + ret);                      ; Probably only if len>150
+    Endif
+
+    actorSpeaking.SetLookAt(actorToSpeakTo)
+    AllSetLookAt(actorSpeaking)
     
-    ;************************************************
-    ;DELETE ONCE MANTELLA SOFTWARE GETS UPDATED WITH GITHUB COMMIT: Fallout: game engine now handling audio, lipsync and subtitles natively #405 
-    endif
-    ;************************************************
+    ;Allow time for reading subtitles
+    ;Utility.wait(1.0)													    ;ONCE MANTELLA SOFTWARE GETS UPDATED WITH GITHUB COMMIT: Fallout: game engine now handling audio, lipsync and subtitles natively #405 
+    actorSpeaking.Say(MantellaTopic, abSpeakInPlayersHead=false)
+    ;actorSpeaking.SetOverrideVoiceType(none)                               ;ONCE MANTELLA SOFTWARE GETS UPDATED WITH GITHUB COMMIT: Fallout: game engine now handling audio, lipsync and subtitles natively #405 
 
     float durationAdjusted = duration - 0.5
     if(durationAdjusted < 0)
@@ -362,7 +350,7 @@ Function SetPlayerResponseTextInput(string text)
             ;IF SUP_F4SE gets updated to NG, UNCOMMENT THIS
             ;text = SUP_F4SE.StringRemoveWhiteSpace(text)
             ;if SUP_F4SE.StringGetLength(text) == 0
-            if text=""
+            if text==""
                 return
             Endif
         Else
