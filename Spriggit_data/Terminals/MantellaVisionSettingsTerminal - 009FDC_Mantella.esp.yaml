@@ -1,6 +1,6 @@
 FormKey: 009FDC:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12569
+VersionControl: 12578
 EditorID: MantellaVisionSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -22,10 +22,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
       FragmentName: Fragment_Terminal_10
-    - FragmentIndex: 6
+    - FragmentIndex: 3
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
-      FragmentName: Fragment_Terminal_06
+      FragmentName: Fragment_Terminal_03
     - FragmentIndex: 4
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
@@ -87,8 +87,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: DBFEE8:Mantella.esp
-      ParameterTwoNumber: -1428422936
+      ParameterTwoRecord: 9B8EB0:Mantella.esp
+      ParameterTwoNumber: -1097101648
       ParameterTwoString: ::allowVision_var
 - ItemText:
     TargetLanguage: English
@@ -111,8 +111,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: DBFED8:Mantella.esp
-      ParameterTwoNumber: -1428422952
+      ParameterTwoRecord: 9B8E60:Mantella.esp
+      ParameterTwoNumber: -1097101728
       ParameterTwoString: ::allowVision_var
 - ItemText:
     TargetLanguage: English
@@ -130,7 +130,7 @@ MenuItems:
     TargetLanguage: English
     Value: Turn vision hints ON
   Type: DisplayText
-  ItemId: 4
+  ItemId: 3
   DisplayText:
     TargetLanguage: English
     Value: Turning this on will make Mantella Software attempt to give the names of the NPCs displayed in the screenshots sent to the LLM
@@ -143,18 +143,17 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: DBFED0:Mantella.esp
-      ParameterTwoNumber: -1428422960
+      ParameterTwoRecord: 9B8E70:Mantella.esp
+      ParameterTwoNumber: -1097101712
       ParameterTwoString: ::allowVisionHints_var
 - ItemText:
     TargetLanguage: English
     Value: Turn vision hints OFF
   Type: DisplayText
-  ItemId: 6
+  ItemId: 4
   DisplayText:
     TargetLanguage: English
-    Value: >+
-      Turning this off will make Mantella Software attempt to give the names of the NPCs displayed in the screenshots sent to the LLM
+    Value: Turning this off will make Mantella Software attempt to give the names of the NPCs displayed in the screenshots sent to the LLM
   Conditions:
   - MutagenObjectType: ConditionFloat
     ComparisonValue: 1
@@ -163,8 +162,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: DBFEC8:Mantella.esp
-      ParameterTwoNumber: -1428422968
+      ParameterTwoRecord: 9B8E40:Mantella.esp
+      ParameterTwoNumber: -1097101760
       ParameterTwoString: ::allowVisionHints_var
 MajorFlags:
 - 0x10

@@ -305,8 +305,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: 9520C0:Mantella.esp
-      ParameterTwoNumber: 1721049280
+      ParameterTwoRecord: 77BE48:Mantella.esp
+      ParameterTwoNumber: -1401438648
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     Flags:
@@ -338,8 +338,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: 952310:Mantella.esp
-      ParameterTwoNumber: 1721049872
+      ParameterTwoRecord: 77BE40:Mantella.esp
+      ParameterTwoNumber: -1401438656
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -367,8 +367,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: 9524B0:Mantella.esp
-      ParameterTwoNumber: 1721050288
+      ParameterTwoRecord: 77BE38:Mantella.esp
+      ParameterTwoNumber: -1401438664
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -427,8 +427,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: 952890:Mantella.esp
-      ParameterTwoNumber: 1721051280
+      ParameterTwoRecord: 77BE30:Mantella.esp
+      ParameterTwoNumber: -1401438672
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -460,8 +460,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: 952AF0:Mantella.esp
-      ParameterTwoNumber: 1721051888
+      ParameterTwoRecord: 77BE28:Mantella.esp
+      ParameterTwoNumber: -1401438680
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -500,8 +500,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: 952D70:Mantella.esp
-      ParameterTwoNumber: 1721052528
+      ParameterTwoRecord: 77BE20:Mantella.esp
+      ParameterTwoNumber: -1401438688
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -540,8 +540,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: 952FF0:Mantella.esp
-      ParameterTwoNumber: 1721053168
+      ParameterTwoRecord: 77BE18:Mantella.esp
+      ParameterTwoNumber: -1401438696
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm

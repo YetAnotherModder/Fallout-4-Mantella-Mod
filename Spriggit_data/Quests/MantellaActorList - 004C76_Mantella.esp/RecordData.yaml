@@ -1,8 +1,8 @@
 FormKey: 004C76:Mantella.esp
-VersionControl: 12572
+VersionControl: 12577
 EditorID: MantellaActorList
 Data:
-  Unused: 81
+  Unused: 66
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -38,8 +38,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 2261A4:Fallout4.esm
-      ParameterOneNumber: 2253220
+      ParameterOneRecord: 0E8D09:Fallout4.esm
+      ParameterOneNumber: 953609
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -56,8 +56,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetIsRace
-      ParameterOneRecord: 0E8D09:Fallout4.esm
-      ParameterOneNumber: 953609
+      ParameterOneRecord: 2261A4:Fallout4.esm
+      ParameterOneNumber: 2253220
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -137,13 +137,6 @@ Aliases:
       Function: HasKeyword
       ParameterOneRecord: 02CB73:Fallout4.esm
       ParameterOneNumber: 183155
-  - MutagenObjectType: ConditionFloat
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: HasKeyword
-      ParameterOneRecord: 013794:Fallout4.esm
-      ParameterOneNumber: 79764
   - MutagenObjectType: ConditionFloat
     Data:
       MutagenObjectType: FunctionConditionData
@@ -327,8 +320,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: HasKeyword
-      ParameterOneRecord: 013794:Fallout4.esm
-      ParameterOneNumber: 79764
+      ParameterOneRecord: 10C3CE:Fallout4.esm
+      ParameterOneNumber: 1098702
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
@@ -336,8 +329,8 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: HasKeyword
-      ParameterOneRecord: 10C3CE:Fallout4.esm
-      ParameterOneNumber: 1098702
+      ParameterOneRecord: 013794:Fallout4.esm
+      ParameterOneNumber: 79764
   - MutagenObjectType: ConditionFloat
     Flags:
     - OR
