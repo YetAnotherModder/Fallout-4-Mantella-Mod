@@ -11,11 +11,11 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantEnabled
-        Object: 00D51E:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantEnabled
+        Object: 00D51E:Mantella.esp
     Fragments:
     - FragmentIndex: 7
       Unknown2: 1
@@ -25,10 +25,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_02
-    - FragmentIndex: 8
+    - FragmentIndex: 4
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_08
+      FragmentName: Fragment_Terminal_04
     - FragmentIndex: 1
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -37,10 +37,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_03
-    - FragmentIndex: 4
+    - FragmentIndex: 8
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_04
+      FragmentName: Fragment_Terminal_08
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135

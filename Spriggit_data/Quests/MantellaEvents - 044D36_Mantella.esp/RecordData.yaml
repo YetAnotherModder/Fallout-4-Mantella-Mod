@@ -6,7 +6,7 @@ Data:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 150
+  Unused: 23
   Type: Misc
 Filter: MantellaEvents\
 UnusedConditions: []

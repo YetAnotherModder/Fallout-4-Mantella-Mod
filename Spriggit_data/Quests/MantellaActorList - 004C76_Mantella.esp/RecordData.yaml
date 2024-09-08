@@ -2,7 +2,7 @@ FormKey: 004C76:Mantella.esp
 VersionControl: 12577
 EditorID: MantellaActorList
 Data:
-  Unused: 150
+  Unused: 23
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias

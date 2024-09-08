@@ -5,7 +5,7 @@ Data:
   Flags:
   - RepeatsConditions
   Priority: 95
-  Unused: 150
+  Unused: 23
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
