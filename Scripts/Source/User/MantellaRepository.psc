@@ -664,7 +664,7 @@ EndFunction
 
 Function GenerateMantellaVision()
     hasPendingVisionCheck=true
-    SUPF4SEScreenshotMethodSelector()
+    TopicInfoPatcher.TakeScreenShot("Mantella_Vision.jpg", 0) 
     if allowVisionHints
         ScanCellForActors(true, true)
     endif
@@ -905,19 +905,6 @@ int function ReturnSUPF4SEVersion()
     return currentVersion
 endfunction
 
-
-function SUPF4SEScreenshotMethodSelector()
-    if isFO4VR
-        if SUP_F4SEVR.SteamIsOverlayEnabled() ;use steam screenshots if this is FO4 VR
-            SUP_F4SEVR.SteamTriggerScreenshot()
-        else
-            debug.notification("Steam overlay needs to be enabled to use this function")
-        endif
-    else ;use default screenshots if this is FO4 desktop
-        SUP_F4SE.CaptureScreenshot("Mantella_Vision", 0)
-    endif
-endfunction
-
 Actor[] function SUP_F4SEScanCellMethodSelector(actor playerRef)
     Actor[] ActorsInCell = new Actor[0]
     if isFO4VR
@@ -956,13 +943,6 @@ EndFunction
 
 
 string function SUPF4SEformatText(string TextToFormat)
-    if currentSUPversion != 0
-        if !isFO4VR
-            TextToFormat = SUP_F4SE.StringRemoveWhiteSpace(TextToFormat)
-        else 
-            ;TextToFormat = SUP_F4SEVR.StringRemoveWhiteSpace(TextToFormat)  THIS ISN'T CURRENTLY IN SUP_F4SEVR library
-        endif
-    endif
-
+    TextToFormat = TopicInfoPatcher.StringRemoveWhiteSpace(TextToFormat)
     return TextToFormat
 endfunction

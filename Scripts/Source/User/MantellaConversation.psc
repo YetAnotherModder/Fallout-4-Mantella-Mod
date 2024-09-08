@@ -519,7 +519,7 @@ endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function SetPlayerRef()
-    playerRef = playerRef
+    playerRef = game.getplayer()
 endfunction
 
 bool Function IsPlayerInConversation()
