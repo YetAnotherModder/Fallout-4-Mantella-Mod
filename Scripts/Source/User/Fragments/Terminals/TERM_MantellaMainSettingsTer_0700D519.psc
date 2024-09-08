@@ -33,22 +33,6 @@ MantellaQuest.SetStage(302)
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_Terminal_05
-Function Fragment_Terminal_05(ObjectReference akTerminalRef)
-;BEGIN CODE
-MantellaQuest.SetStage(303)
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Terminal_06
-Function Fragment_Terminal_06(ObjectReference akTerminalRef)
-;BEGIN CODE
-MantellaQuest.SetStage(304)
-;END CODE
-EndFunction
-;END FRAGMENT
-
 ;BEGIN FRAGMENT Fragment_Terminal_07
 Function Fragment_Terminal_07(ObjectReference akTerminalRef)
 ;BEGIN CODE

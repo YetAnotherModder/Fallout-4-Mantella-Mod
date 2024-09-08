@@ -120,34 +120,6 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_Stage_0303_Item_00
-Function Fragment_Stage_0303_Item_00()
-;BEGIN AUTOCAST TYPE mantellarepository
-Quest __temp = self as Quest
-mantellarepository kmyQuest = __temp as mantellarepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.toggleNotificationSubtitles(false)
-
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0304_Item_00
-Function Fragment_Stage_0304_Item_00()
-;BEGIN AUTOCAST TYPE mantellarepository
-Quest __temp = self as Quest
-mantellarepository kmyQuest = __temp as mantellarepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.toggleNotificationSubtitles(true)
-
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
 ;BEGIN FRAGMENT Fragment_Stage_0305_Item_00
 Function Fragment_Stage_0305_Item_00()
 ;BEGIN AUTOCAST TYPE mantellarepository

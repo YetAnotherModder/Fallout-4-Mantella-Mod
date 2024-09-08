@@ -14,6 +14,10 @@ int property startConversationkeycode auto
 int property MenuEventSelector auto
 MantellaConversation property conversation auto
 MantellaConstants property ConstantsScript auto
+Quest Property MantellaVisibleCollectionQuest Auto 
+RefCollectionAlias Property MantellaVisibleNPCRefCollection  Auto
+Quest Property MantellaNPCCollectionQuest Auto 
+RefCollectionAlias Property MantellaNPCCollection  Auto
 
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
@@ -76,7 +80,6 @@ bool property EventFireWeaponSpamBlocker auto
 bool property EventRadiationDamageSpamBlocker auto
 int property WeaponFiredCount auto
 
-
 ActorValue property HealthAV auto
 ActorValue property RadsAV auto
 float radiationToHealthRatio = 0.229
@@ -86,6 +89,7 @@ int CleanupconversationTimer=2
 ;Callback variables for SimpleTextField
 ScriptObject CBscript =  none
 string CBfunction
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -666,8 +670,8 @@ Function GenerateMantellaVision()
     hasPendingVisionCheck=true
     TopicInfoPatcher.TakeScreenShot("Mantella_Vision.jpg", 0) 
     if allowVisionHints
-        ScanCellForActors(true, true)
-    endif
+        ScanCellForActorsFilteredLOS()
+    endif   
 EndFunction
 
 bool Function checkAndUpdateVisionPipeline()
@@ -686,7 +690,43 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   NPC array management    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function ScanCellForActorsFilteredLOS() 
+    Actor playerRef = Game.GetPlayer()
+    Actor[] ActorsInCell = new Actor[0]
+    float[] currentDistanceArray = new float[0]
+    MantellaVisibleCollectionQuest.start()
+    int icount = MantellaVisibleNPCRefCollection.GetCount()
+    int iindex = 0
+    while (iindex < icount)
+        Actor Actori = MantellaVisibleNPCRefCollection.GetAt(iindex) as Actor
+        float currentDistance = playerRef.GetDistance(Actori)
+        if Actori.GetDisplayName()!="" && playerRef.HasDetectionLOS (Actori)
+            ActorsInCell.add(Actori)
+            currentDistanceArray.add(currentDistance)
+        endif
+        iindex = iindex + 1
+    endwhile
+    MantellaVisibleCollectionQuest.stop()
+    ActorsInCellArray=ActorsArrayToString(ActorsInCell)
+    VisionDistanceArray = currentDistanceArrayToString(currentDistanceArray)
+Endfunction
 
+Actor[] Function ScanAndReturnNearbyActors() 
+    Actor[] ActorsInCell = new Actor[0]
+    MantellaNPCCollectionQuest.start()
+    int icount = MantellaNPCCollection.GetCount()
+    int iindex = 0
+    while (iindex < icount)
+        Actor Actori = MantellaNPCCollection.GetAt(iindex) as Actor
+        ActorsInCell.add(Actori)
+        iindex = iindex + 1
+    endwhile
+    MantellaNPCCollectionQuest.stop()
+    return ActorsInCell
+Endfunction
+
+
+;/ DEPRECATED TO REMOVE SUP_F4SE DEPENDENCIES
 Actor[] Function ScanCellForActors(bool filteredByPlayerLOS, bool updateProperties) 
     ;if filteredByPlayerLOS is turned on this only returns an array of actors visible to the player
     ;if updateProperties is turned on it will fill the properties of ActorsInCellArray & currentDistanceArray with the scanned actors names and distances
@@ -717,6 +757,7 @@ Actor[] Function ScanCellForActors(bool filteredByPlayerLOS, bool updateProperti
         return ActorsInCell
     endif
 Endfunction
+/;
 
 String Function ActorsArrayToString (Actor[] ActorArray)
     string StringOutput
@@ -905,6 +946,7 @@ int function ReturnSUPF4SEVersion()
     return currentVersion
 endfunction
 
+;/ DEPRECATE REPLACED WITH ScanCellForActorsFilteredLOS()
 Actor[] function SUP_F4SEScanCellMethodSelector(actor playerRef)
     Actor[] ActorsInCell = new Actor[0]
     if isFO4VR
@@ -916,6 +958,7 @@ Actor[] function SUP_F4SEScanCellMethodSelector(actor playerRef)
     endif
     return ActorsInCell
 endfunction
+/;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   SimpleTextFieldfunctions   ;
