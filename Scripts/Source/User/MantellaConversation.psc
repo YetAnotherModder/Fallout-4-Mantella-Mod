@@ -13,6 +13,7 @@ bool property conversationIsEnding auto
 Faction Property MantellaConversationParticipantsFaction Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
+SPELL Property MantellaIsTalkingSpell Auto
 bool Property UseSimpleTextField = true auto
 
 
@@ -22,6 +23,8 @@ CustomEvent MantellaConversation_Action_mantella_remove_character
 CustomEvent MantellaConversation_Action_mantella_npc_offended
 CustomEvent MantellaConversation_Action_mantella_npc_forgiven
 CustomEvent MantellaConversation_Action_mantella_npc_follow
+CustomEvent MantellaConversation_Action_mantella_npc_inventory
+CustomEvent DelayedCustomEventTrigger
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;           Globals           ;
@@ -38,8 +41,14 @@ string _PlayerTextInput
 VoiceType MantellaVoice
 Topic MantellaTopic
 Actor lastSpokenTo = none
-Actor lastNPCSpeaker = none
+Actor _lastNpcToSpeak = none
 Actor property playerRef auto
+bool _isTalking = false
+
+int _delayedHandle
+string[] _delayedActionIdentifier
+actor[] _delayedSpeaker 
+string[] _delayedlineToSpeak
 
 event OnInit()
     _DictionaryCleanTimer = 10
@@ -63,6 +72,10 @@ endEvent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function StartConversation(Actor[] actorsToStartConversationWith)
+    _delayedHandle=0
+    _delayedActionIdentifier = new String[100]
+    _delayedSpeaker = new Actor[100]
+    _delayedlineToSpeak = new String[100]
     _hasBeenStopped = false
     if(actorsToStartConversationWith.Length > 2)
         Debug.Notification("Can not start conversation. Conversation is already running.")
@@ -162,7 +175,7 @@ function ProcessNpcSpeak(int handle)
   
     if speaker != none
         Actor spokenTo = GetActorSpokenTo(speaker)
-
+        WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak,-1)
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
         float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
         string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)
@@ -172,7 +185,7 @@ function ProcessNpcSpeak(int handle)
         ;Utility.wait(1.0)
 
         if speaker != playerRef
-            lastNPCSpeaker = speaker
+            _lastNpcToSpeak = speaker
         EndIf
     endIf
 endFunction
@@ -223,6 +236,13 @@ Actor function GetActorInConversation(string actorName)
     return none
 endFunction
 
+Function SetIsTalking(bool isTalking)
+    _isTalking = isTalking
+EndFunction
+
+bool Function GetIsTalking()
+    return _isTalking
+EndFunction
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -237,18 +257,20 @@ Function EndConversation()
 EndFunction
 
 Function CleanupConversation()
+    _delayedHandle=0
     repository.hasPendingVisionCheck=false
     conversationIsEnding = true
     ClearParticipants()
     ClearIngameEvent() 
     _does_accept_player_input = false
+    _isTalking = false
     DispelAllMantellaMagicEffectsFromActors()
     If (MantellaConversationParticipantsQuest.IsRunning())
         MantellaConversationParticipantsQuest.Stop()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     F4SE_HTTP.clearAllDictionaries() 
-    lastNPCSpeaker = none
+    _lastNpcToSpeak = none
     RestoreSettings()
 EndFunction
 
@@ -415,6 +437,43 @@ Function NoTextInput(string text)
     endif
 EndFunction
 
+function WaitForNpcToFinishSpeaking(Actor speaker, Actor lastNpcToSpeak, int handle)
+    ; if this is the start of the conversation there is no need to wait, so skip this function entirely
+    if lastNpcToSpeak != None
+        ; if the current NPC did not speak last in a multi-NPC conversation, 
+        ; wait for the last NPC to finish speaking to avoid interrupting
+        if speaker != lastNpcToSpeak 
+            WaitForSpecificNpcToFinishSpeaking(lastNpcToSpeak, handle)
+        endIf
+        ; wait for the current NPC to finish speaking before starting the next voiceline
+        WaitForSpecificNpcToFinishSpeaking(speaker, handle)
+    endIf
+endFunction
+
+function WaitForSpecificNpcToFinishSpeaking(Actor selectedNpc, int handle)
+    selectedNpc.AddSpell(MantellaIsTalkingSpell, False)
+   ; MantellaIsTalkingSpell.cast(selectedNpc as ObjectReference, selectedNpc as ObjectReference)
+    float waitTime = 0.01
+    float totalWaitTime = 0
+    Utility.Wait(2) ; allow time for _isTalking to be set
+    while _isTalking == true ; wait until the NPC has finished speaking
+        Utility.Wait(waitTime)
+        totalWaitTime += waitTime
+        if totalWaitTime > 10 ; note that this isn't really in seconds due to the overhead of the loop running
+            Debug.Notification("NPC speaking too long, ending wait...")
+            _isTalking = false
+        endIf
+    endWhile
+    ;selectedNpc.DispelSpell(MantellaIsTalkingSpell)
+    if handle>0
+        var[] kargs = new Var[1]
+        kargs[0]= _delayedHandle
+        SendCustomEvent("DelayedCustomEventTrigger", kargs )
+        UnregisterForCustomEvent(self, "DelayedCustomEventTrigger")
+        selectedNpc.RemoveSpell(MantellaIsTalkingSpell)
+    endif
+ endFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       Action handler        ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -427,11 +486,26 @@ Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions)
     int i = 0
     While i < actions.Length
         string extraAction = actions[i]
-        Debug.Trace("Received action " + extraAction + ". Sending out event!")
-        TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak)
+        if extraAction == mConsts.ACTION_NPC_INVENTORY
+            RegisterForCustomEvent(self, "DelayedCustomEventTrigger")
+            int delayedHandle = GenerateDelayedHandle()
+            _delayedActionIdentifier[delayedHandle] = extraAction
+            _delayedSpeaker[delayedHandle] = speaker
+            _delayedlineToSpeak[delayedHandle] =lineToSpeak
+            WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak, delayedHandle)
+        endif
+        if extraAction != mConsts.ACTION_NPC_INVENTORY
+            Debug.Trace("Received action " + extraAction + ". Sending out event!")
+            TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak)
+        endif
         i += 1
     EndWhile    
 EndFunction
+
+Event MantellaConversation.DelayedCustomEventTrigger (MantellaConversation akSender, var[] kargs)
+    int handle = kargs[0] as int
+    TriggerCorrectCustomEvent(_delayedActionIdentifier[handle], _delayedSpeaker[handle], _delayedlineToSpeak[handle])
+EndEvent
 
 Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, string lineToSpeak)
     Var[] kargs = new Var[2]
@@ -461,6 +535,14 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
             speaker.SetPlayerTeammate(true)
             speaker.EvaluatePackage()
         EndIf
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_INVENTORY)
+        if (speaker)
+            if repository.allowActionInventory
+                speaker.OpenInventory(true) 
+            else
+                Debug.Notification("Inventory action not enabled in the Mantella MCM.")
+            endif
+        endif
     endIf
 endFunction
 
@@ -517,6 +599,11 @@ endFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;            Utils            ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+int Function GenerateDelayedHandle()
+    _delayedHandle +=1
+    return _delayedHandle
+endfunction
 
 function SetPlayerRef()
     playerRef = game.getplayer()
@@ -719,7 +806,7 @@ Actor Function GetActorSpokenTo(Actor speaker)
         if speaker != playerRef
             spokenTo  = playerRef
         Else
-            spokenTo = lastNPCSpeaker
+            spokenTo = _lastNpcToSpeak
         EndIf
     Else                                                    ; Radiant conversation w/2 NPCs or new player convo w/ single NPC
         If speaker == Participants.GetAt(0)

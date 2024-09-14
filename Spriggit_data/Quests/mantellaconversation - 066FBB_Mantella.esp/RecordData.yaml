@@ -1,14 +1,19 @@
 FormKey: 066FBB:Mantella.esp
-VersionControl: 12533
+VersionControl: 12589
 EditorID: MantellaConversation
 VirtualMachineAdapter:
   Scripts:
-  - Name: MantellaConstants
   - Name: MantellaConversation
     Properties:
     - MutagenObjectType: ScriptObjectProperty
+      Name: MantellaConversationParticipantsFaction
+      Object: 004C58:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
       Name: repository
       Object: 000F99:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
+      Name: Participants
+      Object: 004C57:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: MantellaSpell
       Object: 0090C7:Mantella.esp
@@ -16,23 +21,21 @@ VirtualMachineAdapter:
       Name: MantellaDialogueLine
       Object: 001ED1:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: Participants
-      Object: 004C57:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
       Name: mConsts
       Object: 066FBB:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaConversationParticipantsFaction
-      Object: 004C58:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
       Name: MantellaConversationParticipantsQuest
       Object: 01E64D:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
+      Name: MantellaIsTalkingSpell
+      Object: 04B00A:Mantella.esp
+  - Name: MantellaConstants
   Versioning:
   - Break0
   ExtraBindDataVersion: 0
   Script:
     Name: ''
 Data:
-  Unused: 23
+  Unused: 95
 UnusedConditions: []
 Aliases: []

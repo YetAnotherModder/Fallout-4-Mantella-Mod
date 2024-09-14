@@ -40,9 +40,10 @@ String property ActorsInCellArray auto
 String property VisionDistanceArray auto
 
 
-bool property allowAggro auto
+bool property allowActionAggro auto
 bool property allowNPCsStayInPlace auto Conditional
 bool property allowFollow auto
+bool property allowActionInventory auto Conditional
 bool property allowCrosshairTracking auto
 Spell property MantellaSpell auto
 Perk property ActivatePerk auto
@@ -153,7 +154,8 @@ Function reinitializeVariables()
     allowVisionHints = true
     visionResolution="auto"
     visionResize=1024
-    allowAggro = false
+    allowActionAggro = false
+    allowActionInventory = false
     allowFollow = false
     allowNPCsStayInPlace = true
     MenuEventSelector=0
@@ -215,7 +217,7 @@ Function toggleTargetEventTracking(bool bswitch)
 EndFunction
 
 Function toggleAllowAggro(bool bswitch)
-    allowAggro = bswitch
+    allowActionAggro = bswitch
     if bswitch
         Debug.notification("NPC are now allowed to aggro")
     else
@@ -225,6 +227,10 @@ EndFunction
 
 Function toggleAllowFollow(bool bswitch)
     allowFollow = bswitch
+EndFunction
+
+Function toggleActionInventory(bool bswitch)
+    allowActionInventory = bswitch
 EndFunction
 
 Function toggleAllowNPCsStayInPlace(bool bswitch)
@@ -286,7 +292,7 @@ EndFunction
 
 Function listMenuState(String aMenu)
     if aMenu=="NPC_Actions"
-        if allowAggro==false
+        if allowActionAggro==false
             debug.notification("NPC aggro is OFF")
         else
             debug.notification("NPC aggro is ON")

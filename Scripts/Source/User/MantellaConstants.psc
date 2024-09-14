@@ -74,6 +74,7 @@ string property ACTION_REMOVECHARACTER = "mantella_remove_character" auto
 string property ACTION_NPC_OFFENDED = "mantella_npc_offended" auto
 string property ACTION_NPC_FORGIVEN = "mantella_npc_forgiven" auto
 string property ACTION_NPC_FOLLOW = "mantella_npc_follow" auto
+string property ACTION_NPC_INVENTORY = "mantella_npc_inventory" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Special Fallout4 values   ;
