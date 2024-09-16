@@ -13,7 +13,7 @@ Scriptname MantellaListenerScript extends ReferenceAlias
 ; ---------------------------------------------
 
 Import F4SE
-Import SUP_F4SE
+;Import SUP_F4SE
 Spell property MantellaSpell auto
 Actor property PlayerRef auto
 Weapon property MantellaGun auto
@@ -101,19 +101,23 @@ Function CheckGameVersionForMantella()
     if  !IsF4SEProperlyInstalled() 
         debug.messagebox("F4SE not properly installed, Mantella will not work correctly")
     endif
-    int currentSUPversion
-    currentSUPversion = GetSUPF4SEVersion()
-    if currentSUPversion == 0
-        debug.messagebox("SUP_F4SE not properly installed, Mantella will not work correctly")
-    endif
+    ; int currentSUPversion
+    ; currentSUPversion = GetSUPF4SEVersion()
+    ; if currentSUPversion == 0
+    ;     debug.messagebox("SUP_F4SE not properly installed, Mantella will not work correctly")
+    ; endif
     repository.currentFO4version = Debug.GetVersionNumber()
-    if repository.currentFO4version != "1.10.163.0" && repository.currentFO4version != "1.2.72.0"
-        debug.messagebox("The current FO4 version doesn't support Mantella.")
+    Debug.Notification("Version " + repository.currentFO4version)
+    repository.isFO4VR = false
+    if repository.currentFO4version == "1.10.984.0"
+        debug.notification("Currently running "+ MantellaVersion + " NG")
     elseif repository.currentFO4version == "1.10.163.0"
         debug.notification("Currently running "+ MantellaVersion)
     elseif repository.currentFO4version == "1.2.72.0"
         repository.isFO4VR = true
         debug.notification("Currently running "+ MantellaVersion+" VR")
+    else
+        debug.messagebox("The current FO4 version doesn't support Mantella.")
     endif
 Endfunction
 

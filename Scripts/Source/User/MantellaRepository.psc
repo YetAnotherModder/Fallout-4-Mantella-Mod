@@ -1,5 +1,5 @@
 Scriptname MantellaRepository extends Quest Conditional
-Import SUP_F4SE
+;Import SUP_F4SE
 Import TIM:TIM
 
 ;keycode properties
@@ -383,7 +383,20 @@ endEvent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event Onkeydown(int keycode)
-    if !SUP_F4SE.IsMenuModeActive() 
+    bool menuMode = TopicInfoPatcher.isMenuModeActive()
+
+    if keycode == 0x97 && !conversation._HttpPolling                ; 0x97 = Signal from F4SE_HTTP
+        int handle = F4SE_HTTP.GetHandle()
+
+        while handle >= 0
+            if handle >= 100000
+                conversation.OnHttpErrorReceived(handle - 100000)
+            Else
+                conversation.OnHttpReplyReceived(handle)
+            Endif
+            handle = F4SE_HTTP.GetHandle()
+        EndWhile
+    Elseif !menuMode
         if keycode == MantellaVisionKeycode
             GenerateMantellaVision()
         endif
@@ -458,13 +471,13 @@ Endfunction
 
 Function RegisterForOnCrosshairRefChange()
     ;disable for VR
-    RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
+    ;RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
     allowCrosshairTracking=true
 EndFunction
 
 Function UnRegisterForOnCrosshairRefChange()
     ;disable for VR
-    UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
+    ;UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
     CrosshairActor=none
     allowCrosshairTracking=false
 EndFunction
@@ -474,26 +487,6 @@ EndFunction
 ;   Textinput menu functions    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-function OpenTextMenu()
-    SimpleTextField.Open(conversation as Quest, "SetPlayerResponseTextInput","Enter response")
-    ; TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-    ; RegisterForExternalEvent("TIM::Accept","SetTextInput")
-    ; RegisterForExternalEvent("TIM::Cancel","NoTextInput")
-    
-    ; Function SetFrequency(string freq)
-    ;   Debug.MessageBox("frequency will set at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
-    ;
-    ; Function NoSetFrequency(string freq)
-    ;   Debug.MessageBox("input frequency was aborted at "+ freq)
-    ;   UnRegisterForExternalEvent("TIM::Accept")
-    ;   UnRegisterForExternalEvent("TIM::Cancel")
-    ; EndFunction
-
-endfunction
 
 function OpenHotkeyPrompt(string entryType)
     ;disable for VR
@@ -549,8 +542,8 @@ endfunction
 Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     If conversation.UseSimpleTextField
-        keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-        if SUP_F4SE.StringGetLength(keycode) == 0
+        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+        if keycode == ""
             return
         Endif
     Else
@@ -563,8 +556,8 @@ EndFunction
 Function TIMGameEventHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     If conversation.UseSimpleTextField
-        keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-        if SUP_F4SE.StringGetLength(keycode) == 0
+        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+        if keycode == ""
             return
         Endif
     Else
@@ -577,8 +570,8 @@ EndFunction
 Function TIMStartConversationHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     If conversation.UseSimpleTextField
-        keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-        if SUP_F4SE.StringGetLength(keycode) == 0
+        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+        if keycode == ""
             return
         Endif
     Else
@@ -591,8 +584,8 @@ EndFunction
 Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     If conversation.UseSimpleTextField
-        keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-        if SUP_F4SE.StringGetLength(keycode) == 0
+        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+        if keycode == ""
             return
         Endif
     Else
@@ -605,8 +598,8 @@ EndFunction
 Function TIMSetMantellaVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     If conversation.UseSimpleTextField
-        keycode = SUP_F4SE.StringRemoveWhiteSpace(keycode)
-        if SUP_F4SE.StringGetLength(keycode) == 0
+        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+        if keycode == ""
             return
         Endif
     Else
@@ -637,8 +630,8 @@ endfunction
 Function TIM_Set_HTTP_Port(string HTTP_port)
     ;Debug.notification("This text input was entered "+ text)
     If conversation.UseSimpleTextField
-        HTTP_port = SUP_F4SE.StringRemoveWhiteSpace(HTTP_port)
-        if SUP_F4SE.StringGetLength(HTTP_port) == 0
+        HTTP_port = TopicInfoPatcher.StringRemoveWhiteSpace(HTTP_port)
+        if HTTP_port == ""
             return
         Endif
     Else
@@ -661,15 +654,7 @@ EndFunction
 
 Function GenerateMantellaVision()
     hasPendingVisionCheck=true
-    if isFO4VR
-        if SteamIsOverlayEnabled() ;use steam screenshots if this is FO4 VR
-            SteamTriggerScreenshot()
-        else
-            debug.notification("Steam overlay needs to be enabled to use this function")
-        endif
-    else ;use default screenshots if this is FO4 desktop
-        SUP_F4SE.CaptureScreenshot("Mantella_Vision", 0)
-    endif
+    TopicInfoPatcher.TakeScreenShot("Mantela_vision.png", 3)
 EndFunction
 
 bool Function checkAndUpdateVisionPipeline()
