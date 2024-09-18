@@ -37,11 +37,10 @@ Topic MantellaTopic
 Actor lastSpokenTo = none
 Actor lastNPCSpeaker = none
 Actor playerRef 
-int _HttpTimeout
+int HttpTimeout
 int _HttpPollTimer = 12 const
-int _HttpCheckTimer = 13 const
-float _HttpPeriod = 0.2 const
-bool property _HttpPolling = false auto             ; polling mode, used by VR
+float HttpPeriod = 0.2
+bool property HttpPolling = false auto             ; polling mode, used by VR
 
 bool SettingsSaved = false
 bool SettingsApplied = false
@@ -67,8 +66,8 @@ endEvent
 Function OnLoadGame()
     Debug.OpenUserLog("MC")
     Debug.TraceUser("MC", "OnLoadGame" )
-    _HttpPolling = repository.isFO4VR
-    if !_HttpPolling
+    HttpPolling = repository.isFO4VR
+    if !HttpPolling
         RegisterForKey(0x97)
         Debug.Notification("Interrupt mode")
         Debug.TraceUser("MC", "Interrupt mode" )
@@ -280,10 +279,12 @@ Function DispelAllMantellaMagicEffectsFromActors()
     EndWhile
 Endfunction
 
-Function CheckForHttpReply()                        ; Retrieve messages from Mantella app, if available
+bool Function CheckForHttpReply()                   ; Retrieve messages from Mantella app, if available
     int handle = F4SE_HTTP.GetHandle()
+    bool gotOne =  false
     while handle != -1
         Debug.TraceUser("MC", "Got: " + handle)
+        gotOne = true
         if handle >= 100000                         ; Used to indicate error
             OnHttpErrorReceived(handle - 100000)
         Else
@@ -291,25 +292,29 @@ Function CheckForHttpReply()                        ; Retrieve messages from Man
         Endif
         handle = F4SE_HTTP.GetHandle()
     EndWhile
-
-    if _HttpPolling
-        _HttpTimeout -= 1
-        If _HttpTimeout > 0 
-            StartTimer(_HttpPeriod, _HttpPollTimer)
-        Else
-            Debug.TraceUser("MC", "HTTP Timeout")
-            Debug.Notification("HTTP Timeout")
-            CleanupConversation()
-        Endif
-    EndIf
+    return gotOne
 EndFunction
 
+; F4SE_HTTP signals us that data is ready by sending a 0x97 keycode
 Event OnKeyDown(int keycode)
     Debug.TraceUser("MC", "Conv. Key " + keycode)
-    if keycode == 0x97 && !_HttpPolling                ; 0x97 = Signal from F4SE_HTTP
-        CheckForHttpReply()
+    if keycode == 0x97 && !HttpPolling                ; 0x97 = Signal from F4SE_HTTP
+        if !CheckForHttpReply()                 ; Data should be ready but if not:
+            SetPolling()
+        EndIf        
     EndIf
 EndEvent
+
+Function SetPolling()                           ; Set timer for next message check
+    HttpTimeout -= 1
+    If HttpTimeout > 0 
+        StartTimer(HttpPeriod, _HttpPollTimer)
+    Else
+        Debug.TraceUser("MC", "HTTP Timeout")
+        Debug.Notification("HTTP Timeout")
+        CleanupConversation()
+    Endif
+EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Timer Management    ;
@@ -325,8 +330,10 @@ Event Ontimer( int TimerID)
         _does_accept_player_input = False
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         Debug.Notification("Thinking...")
-    ElseIf TimerID == _HttpPollTimer || TimerID == _HttpCheckTimer   ; Used with VR, need to poll for HTTP received data
-       CheckForHttpReply()
+    ElseIf TimerID == _HttpPollTimer    ; Used with VR, need to poll for HTTP received data
+        if !CheckForHttpReply()         ; Stop polling once we get a reply
+            SetPolling()
+        EndIf
     Endif
 Endevent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -770,15 +777,18 @@ EndFunction
 
 ; Send a request to Mantella app and setup polling if enabled
 Function sendHTTPRequest(int handle, string route, string request)
-    CheckForHttpReply()                                     ; Make sure we process any previous messages first
+    CheckForHttpReply()                       ; Make sure we process any previous messages first
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, route)
-    Debug.TraceUser("MC", "SendHTTP[" + handle + "] " + request)  
-    if _HttpPolling 
-        _HttpTimeout = 100                                   ; should be in config
-        StartTimer(_HttpPeriod, _HttpPollTimer)
+    Debug.TraceUser("MC", "SendHTTP[" + handle + "] " + request)
+
+    if HttpPolling                 ; Used for FO4VR
+        HttpTimeout = 100          ; should be in config
+        HttpPeriod = 0.2
     Else
-        StartTimer(0.5, _HttpCheckTimer)        ; First keycode event after register sometimes fails to activate, so check
+        HttpPeriod = 0.5           ; Secondary data check, sometimes signal keystroke gets lost :-(
+        HttpTimeout = 40
     EndIf
+    SetPolling()
 EndFunction
 
 int function buildActorSetting(Actor actorToBuild)    
