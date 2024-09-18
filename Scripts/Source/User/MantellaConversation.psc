@@ -38,34 +38,46 @@ Actor lastSpokenTo = none
 Actor lastNPCSpeaker = none
 Actor playerRef 
 int _HttpTimeout
-int _HttpTimer
+int _HttpPollTimer = 12 const
+int _HttpCheckTimer = 13 const
+float _HttpPeriod = 0.2 const
 bool property _HttpPolling = false auto             ; polling mode, used by VR
 
 bool SettingsSaved = false
+bool SettingsApplied = false
 
 event OnInit()
     _DictionaryCleanTimer = 10
     _PlayerTextInputTimer = 11
     _ingameEvents = new String[0]
     _extraRequestActions = new String[0]    
-    _HttpTimer = 12
     MantellaTopic = Game.GetFormFromFile(0x01ED1, "mantella.esp") as Topic
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
     playerRef = Game.GetPlayer()
+    Debug.OpenUserLog("MC")
+    Debug.TraceUser("MC", "OnInit " )
     SaveSettings()
     if !UI.isMenuRegistered(SimpleTextField.GetMenuName())
         SimpleTextField:Program.GetProgram().OnQuestInit()              ; Make sure SimpleTextField is initialized
     Endif
+    repository.microphoneEnabled = repository.isFO4VR
+endEvent
+
+;Get some important variables set before anything else starts
+Function OnLoadGame()
+    Debug.OpenUserLog("MC")
+    Debug.TraceUser("MC", "OnLoadGame" )
     _HttpPolling = repository.isFO4VR
     if !_HttpPolling
         RegisterForKey(0x97)
         Debug.Notification("Interrupt mode")
+        Debug.TraceUser("MC", "Interrupt mode" )
     Else
-        unRegisterForKey(0x97)
+        UnregisterForKey(0x97)
+        Debug.TraceUser("MC", "Polling mode" )
         Debug.Notification("Polling mode")
     EndIf
-    repository.microphoneEnabled = repository.isFO4VR
-endEvent
+EndFunction
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -91,7 +103,7 @@ function StartConversation(Actor[] actorsToStartConversationWith)
     int handle = F4SE_HTTP.createDictionary()
     F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_STARTCONVERSATION)
     AddCurrentActorsAndContext(handle)
-    sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN)
+    sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_STARTCONVERSATION)
     ApplySettings()
 endFunction
 
@@ -109,6 +121,7 @@ EndFunction
 
 function OnHttpReplyReceived(int typedDictionaryHandle)
     string replyType = F4SE_HTTP.getString(typedDictionaryHandle, mConsts.KEY_REPLYTYPE ,"error")
+    Debug.TraceUser("MC", "HTTP[" + typedDictionaryHandle + "]: "  + replyType)
     If (replyType != "error")
         ContinueConversation(typedDictionaryHandle)        
     Else
@@ -160,7 +173,7 @@ function RequestContinueConversation()
             ClearExtraRequestAction()
             Debug.Trace("_extraRequestActions got cleared. Remaining items: " + _extraRequestActions.Length)
         endif
-        sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN)
+        sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_CONTINUECONVERSATION)
     endif
 endFunction
 
@@ -238,7 +251,7 @@ Function EndConversation()
     _hasBeenStopped=true
     int handle = F4SE_HTTP.createDictionary()
     F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE,mConsts.KEY_REQUESTTYPE_ENDCONVERSATION)
-    sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN)
+    sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN,mConsts.KEY_REQUESTTYPE_ENDCONVERSATION)
 EndFunction
 
 Function CleanupConversation()
@@ -267,6 +280,36 @@ Function DispelAllMantellaMagicEffectsFromActors()
     EndWhile
 Endfunction
 
+Function CheckForHttpReply()                        ; Retrieve messages from Mantella app, if available
+    int handle = F4SE_HTTP.GetHandle()
+    while handle != -1
+        Debug.TraceUser("MC", "Got: " + handle)
+        if handle >= 100000                         ; Used to indicate error
+            OnHttpErrorReceived(handle - 100000)
+        Else
+            OnHttpReplyReceived(handle)
+        Endif
+        handle = F4SE_HTTP.GetHandle()
+    EndWhile
+
+    if _HttpPolling
+        _HttpTimeout -= 1
+        If _HttpTimeout > 0 
+            StartTimer(_HttpPeriod, _HttpPollTimer)
+        Else
+            Debug.TraceUser("MC", "HTTP Timeout")
+            Debug.Notification("HTTP Timeout")
+            CleanupConversation()
+        Endif
+    EndIf
+EndFunction
+
+Event OnKeyDown(int keycode)
+    Debug.TraceUser("MC", "Conv. Key " + keycode)
+    if keycode == 0x97 && !_HttpPolling                ; 0x97 = Signal from F4SE_HTTP
+        CheckForHttpReply()
+    EndIf
+EndEvent
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Timer Management    ;
@@ -282,23 +325,9 @@ Event Ontimer( int TimerID)
         _does_accept_player_input = False
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         Debug.Notification("Thinking...")
-	ElseIf TimerID == _HttpTimer                        ; Used with VR, need to poll for HTTP received data
-	    int handle = F4SE_HTTP.GetHandle()
-	    if handle != -1
-	        if handle >= 100000                         ; Used to indicate error
-	            OnHttpErrorReceived(handle - 100000)
-	        Else
-	            OnHttpReplyReceived(handle)
-	        Endif
-	    Else
-	        _HttpTimeout -= 1
-	        If _HttpTimeout > 0
-	            StartTimer(0.2, _HttpTimer)
-	        Else
-	            Debug.Notification("HTTP Timeout")
-	        Endif
-	    EndIf
-	Endif
+    ElseIf TimerID == _HttpPollTimer || TimerID == _HttpCheckTimer   ; Used with VR, need to poll for HTTP received data
+       CheckForHttpReply()
+    Endif
 Endevent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Handle player speaking    ;
@@ -316,7 +345,7 @@ function sendRequestForPlayerInput(string playerInput)
         F4SE_HTTP.setNestedDictionary(handle, mConsts.KEY_CONTEXT, handleContext)
 
         ClearIngameEvent()    
-        sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN)
+        sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_PLAYERINPUT)
         endif
 endFunction
 
@@ -330,7 +359,7 @@ function sendRequestForVoiceTranscribe()
         i += 1
     EndWhile
     F4SE_HTTP.setStringArray(handle, mConsts.KEY_INPUT_NAMESINCONVERSATION, namesInConversation)
-    sendHTTPRequest(handle,mConsts.HTTP_ROUTE_STT)
+    sendHTTPRequest(handle,mConsts.HTTP_ROUTE_STT, mConsts.KEY_REQUESTTYPE_TTS)
 endFunction
 
 function GetPlayerTextInput(string entrytype)
@@ -338,7 +367,6 @@ function GetPlayerTextInput(string entrytype)
     if entryType == "playerResponseTextEntry" && _does_accept_player_input
         if UseSimpleTextField
             repository.GetTextInput(self as ScriptObject,"SetPlayerResponseTextInput","Enter Mantella text dialogue")
-            ;SimpleTextField.Open(self as ScriptObject, "SetPlayerResponseTextInput","Enter Mantella text dialogue")
         Else
             TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
             RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
@@ -516,6 +544,7 @@ endFunction
 
 function OnHttpErrorReceived(int typedDictionaryHandle)
     string errorMessage = F4SE_HTTP.getString(typedDictionaryHandle, mConsts.HTTP_ERROR ,"error")
+    Debug.TraceUser("MC", "Http error " + errorMessage)
     If (errorMessage != "error")
         Debug.Notification("Received F4SE_HTTP error: " + errorMessage)        
         CleanupConversation()
@@ -739,13 +768,16 @@ Actor Function GetActorSpokenTo(Actor speaker)
     return spokenTo
 EndFunction
 
-Function sendHTTPRequest(int handle, string route)          ; Send a request to Mantella app and setup polling if enabled
+; Send a request to Mantella app and setup polling if enabled
+Function sendHTTPRequest(int handle, string route, string request)
+    CheckForHttpReply()                                     ; Make sure we process any previous messages first
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, route)
-    string address = "http://localhost:" + mConsts.HTTP_PORT + "/" + mConsts.HTTP_ROUTE_MAIN
-    Debug.Trace("Sent StartConversation http request to " + address)  
+    Debug.TraceUser("MC", "SendHTTP[" + handle + "] " + request)  
     if _HttpPolling 
         _HttpTimeout = 100                                   ; should be in config
-        StartTimer(0.2, _HttpTimer)
+        StartTimer(_HttpPeriod, _HttpPollTimer)
+    Else
+        StartTimer(0.5, _HttpCheckTimer)        ; First keycode event after register sometimes fails to activate, so check
     EndIf
 EndFunction
 
@@ -774,7 +806,7 @@ EndFunction
 
 int function BuildContext()
     int handle = F4SE_HTTP.createDictionary()
-    String currLoc = ""
+     String currLoc = ""
     form currentLocation = game.getplayer().GetCurrentLocation() as Form
     if currentLocation
         currLoc = currentLocation.getName()
@@ -819,14 +851,17 @@ endFunction
 
 ; Save the game's original GameSettings before we modify them at conversation start
 Function SaveSettings()
+    if !SettingsSaved
+        ; Debug.TraceUser("MC", "Saving")
 ;     TopicInfoPatcher.saveFloat("fAISocialTimerForConversationsMax")       ; Time to wait before NPC can trigger another conversation
 ;     TopicInfoPatcher.saveFloat("fAISocialTimerForConversationsMin")
 ;     TopicInfoPatcher.saveInt("iAISocialDistanceToTriggerEvent")
-    TopicInfoPatcher.saveFloat("fAIGreetingTimer")
-    TopicInfoPatcher.saveFloat("fAISocialchanceForConversation")      ; % of how likely a NPC will initiate a dialogue with another NPC
-    TopicInfoPatcher.saveFloat("fAIMinGreetingDistance")        ; How close NPC must be to attempt greeting
-    TopicInfoPatcher.saveFloat("fAIForceGreetingTimer")         ; How long NPC must wait before greeting again
-    SettingsSaved = true;
+        TopicInfoPatcher.saveFloat("fAIGreetingTimer")
+        TopicInfoPatcher.saveFloat("fAISocialchanceForConversation")      ; % of how likely a NPC will initiate a dialogue with another NPC
+        TopicInfoPatcher.saveFloat("fAIMinGreetingDistance")        ; How close NPC must be to attempt greeting
+        TopicInfoPatcher.saveFloat("fAIForceGreetingTimer")         ; How long NPC must wait before greeting again
+        SettingsSaved = true;
+    Endif
 EndFunction
 
 ; Apply Mantella settings to stop NPCs talking
@@ -834,10 +869,14 @@ Function ApplySettings()
     if !SettingsSaved
         SaveSettings()
     Endif
-    Game.SetGameSettingFloat("fAIGreetingTimer", 600.0)
-    Game.SetGameSettingFloat("fAISocialchanceForConversation", 1.0)        ; % of how likely a NPC will initiate a dialogue with another NPC
-    Game.SetGameSettingFloat("fAIMinGreetingDistance", 1.0)        ; How close NPC must be to attempt greeting
-    Game.SetGameSettingFloat("fAIForceGreetingTimer", 600.0)         ; How long NPC must wait before greeting again
+    if !SettingsApplied
+        ; Debug.TraceUser("MC", "Apply")
+        Game.SetGameSettingFloat("fAIGreetingTimer", 600.0)
+        Game.SetGameSettingFloat("fAISocialchanceForConversation", 1.0)        ; % of how likely a NPC will initiate a dialogue with another NPC
+        Game.SetGameSettingFloat("fAIMinGreetingDistance", 1.0)        ; How close NPC must be to attempt greeting
+        Game.SetGameSettingFloat("fAIForceGreetingTimer", 600.0)         ; How long NPC must wait before greeting again
+        SettingsApplied = true
+    EndIf
 EndFunction
 
 ; Restore settings after conversation ends
@@ -845,10 +884,14 @@ Function RestoreSettings()
     if !SettingsSaved
         SaveSettings()
     Endif
-    TopicInfoPatcher.restoreFloat("fAIGreetingTimer")
-    TopicInfoPatcher.restoreFloat("fAISocialchanceForConversation")      ; % of how likely a NPC will initiate a dialogue with another NPC
-    TopicInfoPatcher.restoreFloat("fAIMinGreetingDistance")        ; How close NPC must be to attempt greeting
-    TopicInfoPatcher.restoreFloat("fAIForceGreetingTimer")         ; How long NPC must wait before greeting again
+    if SettingsApplied
+        ; Debug.TraceUser("MC", "Restoring")
+        TopicInfoPatcher.restoreFloat("fAIGreetingTimer")
+        TopicInfoPatcher.restoreFloat("fAISocialchanceForConversation")      ; % of how likely a NPC will initiate a dialogue with another NPC
+        TopicInfoPatcher.restoreFloat("fAIMinGreetingDistance")        ; How close NPC must be to attempt greeting
+        TopicInfoPatcher.restoreFloat("fAIForceGreetingTimer")         ; How long NPC must wait before greeting again
+        SettingsApplied =  false
+    EndIf
 EndFunction
 
 

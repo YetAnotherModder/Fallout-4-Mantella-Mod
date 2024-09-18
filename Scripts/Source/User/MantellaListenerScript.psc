@@ -73,6 +73,7 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event OnPlayerLoadGame()
+    conversation.OnLoadGame()
     LoadMantellaEvents()
 EndEvent
 

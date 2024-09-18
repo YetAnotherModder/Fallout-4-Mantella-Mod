@@ -384,19 +384,8 @@ endEvent
 
 Event Onkeydown(int keycode)
     bool menuMode = TopicInfoPatcher.isMenuModeActive()
-
-    if keycode == 0x97 && !conversation._HttpPolling                ; 0x97 = Signal from F4SE_HTTP
-        int handle = F4SE_HTTP.GetHandle()
-
-        while handle >= 0
-            if handle >= 100000
-                conversation.OnHttpErrorReceived(handle - 100000)
-            Else
-                conversation.OnHttpReplyReceived(handle)
-            Endif
-            handle = F4SE_HTTP.GetHandle()
-        EndWhile
-    Elseif !menuMode
+    ;Debug.TraceUser("MC", "OnKeyDown " + keycode)
+    if !menuMode
         if keycode == MantellaVisionKeycode
             GenerateMantellaVision()
         endif
@@ -845,10 +834,12 @@ endfunction
 Function TextInputCB(string text)
     var[] _args = new var[1]
     _args[0] = text
+    ;Debug.TraceUser("MC", "TextInput CB: " + CBScript + ":" + CBfunction)
     CBscript.CallFunctionNoWait(CBfunction,_args)
 EndFunction
 
 Function GetTextInput(ScriptObject akReceiver, string asFunctionName, string asTitle = "", string asText = "")
+    ;Debug.TraceUser("MC", "GetTextInput " + asTitle)
     CBscript = akReceiver
     CBfunction = asFunctionName
     SimpleTextField.Open(self as ScriptObject, "TextInputCB", asTitle, asText)   
