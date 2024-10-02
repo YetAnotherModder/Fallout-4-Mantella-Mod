@@ -1,6 +1,6 @@
 FormKey: 05E71A:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12589
+VersionControl: 12609
 EditorID: MantellaNPCActionsSettings
 Fallout4MajorRecordFlags:
 - 0x10
@@ -14,18 +14,30 @@ VirtualMachineAdapter:
         Name: MantellaQuest
         Object: 000F99:Mantella.esp
     Fragments:
-    - FragmentIndex: 8
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
-      FragmentName: Fragment_Terminal_08
-    - FragmentIndex: 7
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
-      FragmentName: Fragment_Terminal_07
     - FragmentIndex: 5
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
       FragmentName: Fragment_Terminal_05
+    - FragmentIndex: 10
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_10
+    - FragmentIndex: 1
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_01
+    - FragmentIndex: 4
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_04
+    - FragmentIndex: 7
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_07
+    - FragmentIndex: 9
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
+      FragmentName: Fragment_Terminal_09
     - FragmentIndex: 2
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
@@ -34,18 +46,14 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
       FragmentName: Fragment_Terminal_06
-    - FragmentIndex: 1
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
-      FragmentName: Fragment_Terminal_01
     - FragmentIndex: 3
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
       FragmentName: Fragment_Terminal_03
-    - FragmentIndex: 4
+    - FragmentIndex: 8
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaNPCActionsSetti_0705E71A
-      FragmentName: Fragment_Terminal_04
+      FragmentName: Fragment_Terminal_08
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135
@@ -142,8 +150,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 6BFE20:Mantella.esp
-      ParameterTwoNumber: 1047264800
+      ParameterTwoRecord: E88950:Mantella.esp
+      ParameterTwoNumber: 1021872464
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -162,8 +170,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 6BFAF8:Mantella.esp
-      ParameterTwoNumber: 1047263992
+      ParameterTwoRecord: E88980:Mantella.esp
+      ParameterTwoNumber: 1021872512
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -181,8 +189,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 6BFC18:Mantella.esp
-      ParameterTwoNumber: 1047264280
+      ParameterTwoRecord: E88888:Mantella.esp
+      ParameterTwoNumber: 1021872264
       ParameterTwoString: ::allowActionInventory_var
 - ItemText:
     TargetLanguage: English
@@ -203,9 +211,46 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 6BFAC0:Mantella.esp
-      ParameterTwoNumber: 1047263936
+      ParameterTwoRecord: E88C40:Mantella.esp
+      ParameterTwoNumber: 1021873216
       ParameterTwoString: ::allowActionInventory_var
+- ItemText:
+    TargetLanguage: English
+    Value: Turn Allow NPC Function Calling OFF
+  Type: DisplayText
+  ItemId: 9
+  DisplayText:
+    TargetLanguage: English
+    Value: 'NPC Function Calling is turned OFF. NPC will now take dynamic actions through Mantella (warning: this will increase token use on your LLM service)'
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: E88738:Mantella.esp
+      ParameterTwoNumber: 1021871928
+      ParameterTwoString: ::allowFunctionCalling_var
+- ItemText:
+    TargetLanguage: English
+    Value: Turn Allow NPC Function Calling OFF
+  Type: DisplayText
+  ItemId: 10
+  DisplayText:
+    TargetLanguage: English
+    Value: NPC Function Calling is turned ON.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: E88A90:Mantella.esp
+      ParameterTwoNumber: 1021872784
+      ParameterTwoString: ::allowFunctionCalling_var
 MajorFlags:
 - 0x10
 - 0x2000

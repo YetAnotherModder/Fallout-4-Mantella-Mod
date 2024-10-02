@@ -31,6 +31,8 @@ int CleanupconversationTimer=2
 Float meterUnits = 78.74
 Worldspace PrewarWorldspace
 bool itemsGiven
+Quest Property MantellaNPCCollectionQuest Auto 
+RefCollectionAlias Property MantellaNPCCollection  Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Initialization events and functions  ;
@@ -47,7 +49,7 @@ Event OnPlayerTeleport()
 	    TryToGiveItems()
     endif
     If !(conversation.IsRunning())
-        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors()
+        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection)
         repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
     endif
 EndEvent
@@ -82,7 +84,7 @@ Function LoadMantellaEvents()
     ;Will clean up all all conversation loops if they're still occuring
     ; repository.endFlagMantellaConversationOne = True    
     If (conversation.IsRunning())   
-        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors()
+        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection)
         repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
         conversation.conversationIsEnding=false  ;just here as a safety to prevent locking out the player out of initiating conversations
         conversation.EndConversation();Should there still be a running conversation after a load, end it

@@ -1,6 +1,6 @@
-FormKey: 048A0A:Mantella.esp
-VersionControl: 12584
-EditorID: MantellaVisibleCollectionQuest
+FormKey: 04B7A6:Mantella.esp
+VersionControl: 12597
+EditorID: MantellaFunctionNPCCollectionQuest
 Data:
   Unused: 221
 UnusedConditions: []
@@ -9,7 +9,7 @@ Aliases:
   Collection:
   - MaxInitialFillCount: 10
 - MutagenObjectType: QuestReferenceAlias
-  Name: MantellaVisibleNPCRefCollection
+  Name: MantellaFunctionNPCCollection
   Flags:
   - Optional
   - MatchingRefInLoadedArea

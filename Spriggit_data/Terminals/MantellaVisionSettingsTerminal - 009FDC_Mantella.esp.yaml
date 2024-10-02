@@ -87,8 +87,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 96BE90:Mantella.esp
-      ParameterTwoNumber: 748076688
+      ParameterTwoRecord: 04BE88:Mantella.esp
+      ParameterTwoNumber: 755285640
       ParameterTwoString: ::allowVision_var
 - ItemText:
     TargetLanguage: English
@@ -111,8 +111,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 96BE88:Mantella.esp
-      ParameterTwoNumber: 748076680
+      ParameterTwoRecord: 04BE80:Mantella.esp
+      ParameterTwoNumber: 755285632
       ParameterTwoString: ::allowVision_var
 - ItemText:
     TargetLanguage: English
@@ -143,8 +143,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 96BE80:Mantella.esp
-      ParameterTwoNumber: 748076672
+      ParameterTwoRecord: 04BE78:Mantella.esp
+      ParameterTwoNumber: 755285624
       ParameterTwoString: ::allowVisionHints_var
 - ItemText:
     TargetLanguage: English
@@ -162,8 +162,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 96BE78:Mantella.esp
-      ParameterTwoNumber: 748076664
+      ParameterTwoRecord: 04BE70:Mantella.esp
+      ParameterTwoNumber: 755285616
       ParameterTwoString: ::allowVisionHints_var
 MajorFlags:
 - 0x10

@@ -11,10 +11,12 @@ MantellaConstants property mConsts auto
 Spell property MantellaSpell auto
 bool property conversationIsEnding auto
 Faction Property MantellaConversationParticipantsFaction Auto
+Faction Property MantellaFunctionTargetFaction Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
 SPELL Property MantellaIsTalkingSpell Auto
 bool Property UseSimpleTextField = true auto
+
 
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
@@ -38,11 +40,13 @@ int _DictionaryCleanTimer
 int _PlayerTextInputTimer
 string _PlayerTextInput
 
+
 VoiceType MantellaVoice
 Topic MantellaTopic
 Actor lastSpokenTo = none
 Actor _lastNpcToSpeak = none
 Actor property playerRef auto
+Actor CurrentFunctionTargetNPC
 bool _isTalking = false
 
 int _delayedHandle
@@ -65,6 +69,7 @@ event OnInit()
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
     SetPlayerRef()
     SaveSettings()
+    repository.AIPackageMoveToNPCIsActivated=false
 endEvent
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -145,6 +150,10 @@ function ContinueConversation(int handle)
         if repository.allowVision
             repository.GenerateMantellaVision()
         endif
+        if repository.allowFunctionCalling
+            repository.resetFunctionInferenceNPCArrays()
+            repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
+        endif
         sendRequestForPlayerInput(transcribe)
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         Debug.Notification("Thinking...")
@@ -175,12 +184,12 @@ function ProcessNpcSpeak(int handle)
   
     if speaker != none
         Actor spokenTo = GetActorSpokenTo(speaker)
-        WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak,-1)
+        ;WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak,-1)
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
         float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
         string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)
 
-        RaiseActionEvent(speaker, lineToSpeak, actions)
+        RaiseActionEvent(speaker, lineToSpeak, actions, handle)
         NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
         ;Utility.wait(1.0)
 
@@ -380,6 +389,10 @@ Function SetPlayerResponseTextInput(string text)
         EndIf
 
         _PlayerTextInput=text
+        if repository.allowFunctionCalling
+            repository.resetFunctionInferenceNPCArrays()
+            repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
+        endif
         if repository.allowVision
             StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
         else
@@ -478,7 +491,7 @@ function WaitForSpecificNpcToFinishSpeaking(Actor selectedNpc, int handle)
 ;       Action handler        ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions)
+Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions, int handle)
     if(!actions || actions.Length == 0)
         return ;dont send out an action event if there are no actions to act upon
     endIf
@@ -496,7 +509,7 @@ Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions)
         endif
         if extraAction != mConsts.ACTION_NPC_INVENTORY
             Debug.Trace("Received action " + extraAction + ". Sending out event!")
-            TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak)
+            TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak, handle)
         endif
         i += 1
     EndWhile    
@@ -504,10 +517,10 @@ EndFunction
 
 Event MantellaConversation.DelayedCustomEventTrigger (MantellaConversation akSender, var[] kargs)
     int handle = kargs[0] as int
-    TriggerCorrectCustomEvent(_delayedActionIdentifier[handle], _delayedSpeaker[handle], _delayedlineToSpeak[handle])
+    TriggerCorrectCustomEvent(_delayedActionIdentifier[handle], _delayedSpeaker[handle], _delayedlineToSpeak[handle],-1)
 EndEvent
 
-Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, string lineToSpeak)
+Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, string lineToSpeak, int handle)
     Var[] kargs = new Var[2]
     kargs[0] = speaker
     kargs[1] = lineToSpeak
@@ -543,8 +556,28 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
                 Debug.Notification("Inventory action not enabled in the Mantella MCM.")
             endif
         endif
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_MOVETO_NPC)
+        string[] targetIDs= RetrieveTargetIDFunctionInferenceValues(handle)
+        actor targetNPC = repository.getActorFromArray(targetIDs[0],repository.MantellaFunctionInferenceActorList)
+        if targetNPC
+            repository.AIPackageMoveToNPCIsActivated=true
+            if CurrentFunctionTargetNPC
+                CurrentFunctionTargetNPC.RemoveFromFaction(MantellaFunctionTargetFaction)
+            endif
+            CurrentFunctionTargetNPC=targetNPC
+            CurrentFunctionTargetNPC.AddToFaction(MantellaFunctionTargetFaction)
+            CauseReassignmentOfParticipantAlias()
+            debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is moving towards "+CurrentFunctionTargetNPC.GetDisplayName())
+        endif
     endIf
 endFunction
+
+
+
+string[] Function RetrieveTargetIDFunctionInferenceValues(int handle)
+    string[] targetIDs = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_TARGET_IDS)
+    return targetIDs
+EndFunction
 
 Function AddExtraRequestAction(string extraAction)
     if(!_extraRequestActions)
@@ -638,7 +671,7 @@ Function CauseReassignmentOfParticipantAlias()
         ;Debug.Notification("Stopping MantellaConversationParticipantsQuest")
         MantellaConversationParticipantsQuest.Stop()
     EndIf
-    if repository.allowNPCsStayInPlace
+    if repository.allowNPCsStayInPlace || repository.allowFunctionCalling
         ;Debug.Notification("Starting MantellaConversationParticipantsQuest to asign QuestAlias")
         MantellaConversationParticipantsQuest.Start()
     endif
@@ -877,6 +910,12 @@ int Function BuildCustomContextValues()
         F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_VISION_HINTSDISTANCEARRAY, repository.VisionDistanceArray)
         repository.resetVisionHintsArrays()
     endif
+    if repository.allowFunctionCalling && repository.MantellaFunctionInferenceActorNamesList
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES, repository.MantellaFunctionInferenceActorNamesList)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES, repository.MantellaFunctionInferenceActorDistanceList)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCIDS, repository.MantellaFunctionInferenceActorIDsList)
+    endif
+
     return handleCustomContextValues
 EndFunction
 

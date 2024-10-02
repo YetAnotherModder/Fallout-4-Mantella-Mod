@@ -19,6 +19,7 @@ RefCollectionAlias Property MantellaVisibleNPCRefCollection  Auto
 Quest Property MantellaNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaNPCCollection  Auto
 
+
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
 string property currentFO4version auto
@@ -38,6 +39,17 @@ string property visionResolution auto
 int property visionResize auto Conditional
 String property ActorsInCellArray auto
 String property VisionDistanceArray auto
+
+;function calling parameters
+bool property hideFunctionMenu auto Conditional
+bool property allowFunctionCalling auto Conditional
+Quest Property MantellaFunctionNPCCollectionQuest Auto 
+RefCollectionAlias Property MantellaFunctionNPCCollection  Auto
+Actor[] Property MantellaFunctionInferenceActorList  Auto
+String Property MantellaFunctionInferenceActorNamesList  Auto
+String Property MantellaFunctionInferenceActorDistanceList  Auto
+String Property MantellaFunctionInferenceActorIDsList  Auto
+bool property AIPackageMoveToNPCIsActivated auto Conditional
 
 
 bool property allowActionAggro auto
@@ -152,6 +164,7 @@ Function reinitializeVariables()
     radiantFrequency = 10
     allowVision = false
     allowVisionHints = true
+    allowFunctionCalling = false
     visionResolution="auto"
     visionResize=1024
     allowActionAggro = false
@@ -252,6 +265,19 @@ Function toggleAllowVision(bool bswitch)
         Debug.notification("Vision analysis is now ON")
     else
         Debug.notification("Vision analysis is now OFF")
+    endif
+EndFunction
+
+Function toggleAllowFunctionCalling(bool bswitch)
+    allowFunctionCalling = bswitch
+    if allowFunctionCalling
+        ;toggle NPC Stay in Place as well since function calling depends on it.
+        toggleAllowNPCsStayInPlace(true)  
+    endif
+    if bswitch
+        Debug.notification("Function Calling is now ON")
+    else
+        Debug.notification("Function Calling is now OFF")
     endif
 EndFunction
 
@@ -717,19 +743,41 @@ Function ScanCellForActorsFilteredLOS()
     VisionDistanceArray = currentDistanceArrayToString(currentDistanceArray)
 Endfunction
 
-Actor[] Function ScanAndReturnNearbyActors() 
+Actor[] Function ScanAndReturnNearbyActors(quest QuestForScan, RefCollectionAlias RefCollectionToUse) 
     Actor[] ActorsInCell = new Actor[0]
-    MantellaNPCCollectionQuest.start()
-    int icount = MantellaNPCCollection.GetCount()
+    QuestForScan.start()
+    int icount = RefCollectionToUse.GetCount()
     int iindex = 0
     while (iindex < icount)
-        Actor Actori = MantellaNPCCollection.GetAt(iindex) as Actor
+        Actor Actori = RefCollectionToUse.GetAt(iindex) as Actor
         ActorsInCell.add(Actori)
         iindex = iindex + 1
     endwhile
-    MantellaNPCCollectionQuest.stop()
+    QuestForScan.stop()
     return ActorsInCell
 Endfunction
+
+Function UpdateFunctionInferenceNPCArrays(Actor[] ActorArray) 
+    actor playerRef = game.GetPlayer()
+    Float[] currentDistanceArray = new Float[0]
+    String[] currentFormIDArray = new String[0]
+    int icount = ActorArray.Length
+    int iindex = 0
+    MantellaFunctionInferenceActorList = new Actor[0]
+    while (iindex < icount)
+        Actor Actori = ActorArray[iindex]
+        float currentDistance = playerRef.GetDistance(Actori)
+        string currentFormID = Actori.GetFormID() as string
+        MantellaFunctionInferenceActorList.add(Actori)
+        currentDistanceArray.add(currentDistance)
+        currentFormIDArray.add(currentFormID)
+        iindex = iindex + 1
+    endwhile
+    MantellaFunctionInferenceActorNamesList=ActorsArrayToString(MantellaFunctionInferenceActorList)
+    MantellaFunctionInferenceActorDistanceList = currentDistanceArrayToString(currentDistanceArray)
+    MantellaFunctionInferenceActorIDsList = ActorsArrayToFormIDString(MantellaFunctionInferenceActorList)
+Endfunction
+
 
 
 ;/ DEPRECATED TO REMOVE SUP_F4SE DEPENDENCIES
@@ -795,10 +843,46 @@ String Function currentDistanceArrayToString (Float[] currentDistanceArray)
     return StringOutput
 Endfunction
 
+String Function ActorsArrayToFormIDString (Actor[] ActorArray)
+    string StringOutput
+    int i = 0
+    string currentActorFormID =""
+    While i < ActorArray.Length
+        Actor currentActor = ActorArray[i]
+        currentActorFormID = currentActor.GetFormID()
+        StringOutput += "["+currentActorFormID+"]"
+        if i != (ActorArray.Length-1)
+            StringOutput += ","
+        endif
+        i += 1
+    EndWhile
+    return StringOutput
+Endfunction
+
 Function resetVisionHintsArrays()
     ActorsInCellArray=""
     VisionDistanceArray = ""
 Endfunction
+
+Function resetFunctionInferenceNPCArrays()
+    MantellaFunctionInferenceActorNamesList=""
+    MantellaFunctionInferenceActorDistanceList=""
+    MantellaFunctionInferenceActorIDsList=""
+Endfunction
+
+Actor Function getActorFromArray(string targetID, actor[] actorarray)
+    int i = 0
+    int convertedTargetID = targetID as int
+    While i < actorarray.Length
+        Actor currentActor = actorarray[i]
+        if currentActor.GetFormID() == convertedTargetID
+            return currentActor
+        endIf
+        i += 1
+    EndWhile
+    return none
+Endfunction
+
 
 Function DispelAllMantellaMagicEffectsFromActors(Actor[] ActorArray)
     int i=0
@@ -995,3 +1079,14 @@ string function SUPF4SEformatText(string TextToFormat)
     TextToFormat = TopicInfoPatcher.StringRemoveWhiteSpace(TextToFormat)
     return TextToFormat
 endfunction
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   LLM Function Calling Functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Actor[] Function GetFunctionInferenceActorList ()  
+    return ScanAndReturnNearbyActors(MantellaFunctionNPCCollectionQuest ,MantellaFunctionNPCCollection)
+Endfunction 
+
+

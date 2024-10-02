@@ -75,6 +75,7 @@ string property ACTION_NPC_OFFENDED = "mantella_npc_offended" auto
 string property ACTION_NPC_FORGIVEN = "mantella_npc_forgiven" auto
 string property ACTION_NPC_FOLLOW = "mantella_npc_follow" auto
 string property ACTION_NPC_INVENTORY = "mantella_npc_inventory" auto
+string property ACTION_NPC_MOVETO_NPC = "mantella_move_character_near_npc" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Special Fallout4 values   ;
@@ -91,3 +92,17 @@ string property KEY_ACTOR_CUSTOMVALUES_VISION_HINTSDISTANCEARRAY = "mantella_vis
 string property KEY_ACTOR_CUSTOMVALUES_POSX = "mantella_actor_pos_x" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSY = "mantella_actor_pos_y" auto
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;       Functions Inference Value (MantellaMod -> Mantella Software)      ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;; OUPUT ('Mantella Mod -> Mantella Software') ;;;;;;;;;;;;;
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES = "mantella_function_npc_display_names" auto
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES = "mantella_function_npc_distances" auto
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCIDS = "mantella_function_npc_ids" auto
+
+;;;;;;;;;;; INPUT ('Mantella Mod <- Mantella Software') ;;;;;;;;;;;;;
+
+string property FUNCTION_DATA_TARGET_IDS = "mantella_function_data_target_ids" auto
+string property FUNCTION_DATA_TARGET_NAMES = "mantella_function_data_target_names"auto
