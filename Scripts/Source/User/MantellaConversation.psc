@@ -801,7 +801,16 @@ EndFunction
 
 int function buildActorSetting(Actor actorToBuild)    
     int handle = F4SE_HTTP.createDictionary()
+    int baseID = (actorToBuild.getactorbase() as form).getformid()
+    int refID = (actorToBuild as form).getformid()
+    
+    ;Debug.TraceUser("MC", "Actor base: " + baseID + "Ref: " + refID)
+
+    F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_BASEID, (actorToBuild.getactorbase() as form).getformid())
+    F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_REFID, (actorToBuild as form).getformid())
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_ID, (actorToBuild.getactorbase() as form).getformid())
+    ;F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_BASEID, (actorToBuild.getactorbase() as form).getformid())
+    ;F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_REFID, (actorToBuild.getactorbase() as form).getformid())
     F4SE_HTTP.setString(handle, mConsts.KEY_ACTOR_NAME, actorToBuild.GetDisplayName())
     F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISPLAYER, actorToBuild == game.getplayer())
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_GENDER, actorToBuild.getleveledactorbase().getsex())

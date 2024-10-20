@@ -1,6 +1,5 @@
 Scriptname MantellaRepository extends Quest Conditional
 ;Import SUP_F4SE
-Import TIM:TIM
 
 ;keycode properties
 int property textkeycode auto
@@ -480,49 +479,19 @@ EndFunction
 function OpenHotkeyPrompt(string entryType)
     ;disable for VR
     if entryType == "playerInputTextHotkey"
-        if conversation.UseSimpleTextField
-            SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueHotkeyInput","Enter the DirectX Scancode for the dialogue hotkey")
-        Else
-            TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue hotkey","", 0, 3)
-            RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
-            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        EndIf
+        SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueHotkeyInput","Enter the DirectX Scancode for the dialogue hotkey")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
     elseif entryType == "gameEventHotkey"
-        if conversation.UseSimpleTextField
-            SimpleTextField.Open(self as ScriptObject, "TIMGameEventHotkeyInput","Enter the DirectX Scancode for the game event hotkey")
-        Else
-            TIM:TIM.Open(1,"Enter the DirectX Scancode for the game event hotkey","", 0, 3)
-            RegisterForExternalEvent("TIM::Accept","TIMGameEventHotkeyInput")
-            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        EndIf
+        SimpleTextField.Open(self as ScriptObject, "TIMGameEventHotkeyInput","Enter the DirectX Scancode for the game event hotkey")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
     elseif entryType == "startConversationHotKey"
-        if conversation.UseSimpleTextField
-            SimpleTextField.Open(self as ScriptObject, "TIMStartConversationHotkeyInput","Enter the DirectX Scancode for the start converstion hotkey")
-        Else
-            TIM:TIM.Open(1,"Enter the DirectX Scancode for the start converstion hotkey","", 0, 3)
-            RegisterForExternalEvent("TIM::Accept","TIMStartConversationHotkeyInput")
-            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        EndIf
+        SimpleTextField.Open(self as ScriptObject, "TIMStartConversationHotkeyInput","Enter the DirectX Scancode for the start converstion hotkey")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
     elseif entryType == "playerInputTextAndVisionHotkey"
-        if conversation.UseSimpleTextField
-            SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueAndVisionHotkeyInput","Enter the DirectX Scancode for the dialogue and vision hotkey")
-        Else
-            TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue and vision hotkey","", 0, 3)
-            RegisterForExternalEvent("TIM::Accept","TIMSetDialogueAndVisionHotkeyInput")
-            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        EndIf
+        SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueAndVisionHotkeyInput","Enter the DirectX Scancode for the dialogue and vision hotkey")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
     elseif entryType == "playerInputMantellaVisionHotkey"
-        if conversation.UseSimpleTextField
-            SimpleTextField.Open(self as ScriptObject, "TIMSetMantellaVisionHotkeyInput","Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey")
-        Else
-            TIM:TIM.Open(1,"Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey","", 0, 3)
-            RegisterForExternalEvent("TIM::Accept","TIMSetMantellaVisionHotkeyInput")
-            RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-        EndIf
+        SimpleTextField.Open(self as ScriptObject, "TIMSetMantellaVisionHotkeyInput","Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
     endif
 
@@ -530,112 +499,63 @@ endfunction
 
 Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    If conversation.UseSimpleTextField
-        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-        if keycode == ""
-            return
-        Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
+    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+    if keycode == ""
+        return
+    Endif
     setHotkey(keycode as int, "Dialogue")
 EndFunction
 
 Function TIMGameEventHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    If conversation.UseSimpleTextField
-        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-        if keycode == ""
-            return
-        Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
+    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+    if keycode == ""
+        return
+    Endif
     setHotkey(keycode as int, "GameEvent")
 EndFunction
 
 Function TIMStartConversationHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    If conversation.UseSimpleTextField
-        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-        if keycode == ""
-            return
-        Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
+    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+    if keycode == ""
+        return
+    Endif
     setHotkey(keycode as int, "StartConversation")
 EndFunction
 
 Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    If conversation.UseSimpleTextField
-        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-        if keycode == ""
-            return
-        Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
+    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+    if keycode == ""
+        return
+    Endif
     setHotkey(keycode as int, "DialogueAndVision")
 EndFunction
 
 Function TIMSetMantellaVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    If conversation.UseSimpleTextField
-        keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-        if keycode == ""
-            return
-        Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
+    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
+    if keycode == ""
+        return
+    Endif
     setHotkey(keycode as int, "MantellaVision")
 EndFunction
 
-Function TIMNoDialogueHotkeyInput(string keycode)
-    ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-EndFunction
-
 function Open_HTTP_Port_Prompt()
-    if conversation.UseSimpleTextField
-        SimpleTextField.Open(self as ScriptObject, "TIM_Set_HTTP_Port","Enter the HTTP port, use a value between 0 and 65535")
-    Else
-        TIM:TIM.Open(1,"Enter the HTTP port, use a value between 0 and 65535","", 0, 5)
-        RegisterForExternalEvent("TIM::Accept","TIM_Set_HTTP_Port")
-        RegisterForExternalEvent("TIM::Cancel","TIM_No_Set_HTTP_Port")
-    Endif
+    SimpleTextField.Open(self as ScriptObject, "TIM_Set_HTTP_Port","Enter the HTTP port, use a value between 0 and 65535")
     UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    ;
 endfunction
 
 Function TIM_Set_HTTP_Port(string HTTP_port)
     ;Debug.notification("This text input was entered "+ text)
-    If conversation.UseSimpleTextField
-        HTTP_port = TopicInfoPatcher.StringRemoveWhiteSpace(HTTP_port)
-        if HTTP_port == ""
-            return
-        Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
+    HTTP_port = TopicInfoPatcher.StringRemoveWhiteSpace(HTTP_port)
+    if HTTP_port == ""
+        return
     Endif
     ConstantsScript.HTTP_PORT = (HTTP_port as int)
 EndFunction
     
-Function TIM_No_Set_HTTP_Port(string keycode)
-    ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-EndFunction
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Vision functions    ;
