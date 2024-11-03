@@ -1,11 +1,11 @@
 FormKey: 01E64D:Mantella.esp
-VersionControl: 12605
+VersionControl: 12642
 EditorID: MantellaConversationParticipantsQuest2
 Data:
   Flags:
   - RepeatsConditions
   Priority: 95
-  Unused: 221
+  Unused: 241
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -27,6 +27,8 @@ Aliases:
       ParameterOneRecord: 004C58:Mantella.esp
       ParameterOneNumber: 16796760
   PackageData:
+  - 0529A6:Mantella.esp
+  - 04FC0A:Mantella.esp
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
   VoiceTypes: Null
@@ -133,4 +135,107 @@ Aliases:
       Function: GetInFaction
       ParameterOneRecord: 04BF41:Mantella.esp
       ParameterOneNumber: 17088321
+  VoiceTypes: Null
+- MutagenObjectType: QuestCollectionAlias
+  Collection:
+  - AliasID: 16
+    MaxInitialFillCount: 20
+- MutagenObjectType: QuestReferenceAlias
+  ID: 16
+  Name: MantellaFunctionItemRefColl
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: LessThan
+    ComparisonValue: 1500
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetDistance
+      ParameterOneRecord: 000014:Fallout4.esm
+      ParameterOneNumber: 20
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 000014:Fallout4.esm
+      ParameterOneNumber: 20
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 000001:Fallout4.esm
+      ParameterOneNumber: 1
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 000005:Fallout4.esm
+      ParameterOneNumber: 5
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 00000C:Fallout4.esm
+      ParameterOneNumber: 12
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 000007:Fallout4.esm
+      ParameterOneNumber: 7
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 00006E:Fallout4.esm
+      ParameterOneNumber: 110
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 000036:Fallout4.esm
+      ParameterOneNumber: 54
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 000002:Fallout4.esm
+      ParameterOneNumber: 2
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetIsObjectType
+      ParameterOneRecord: 000053:Fallout4.esm
+      ParameterOneNumber: 83
   VoiceTypes: Null

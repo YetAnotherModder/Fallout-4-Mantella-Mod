@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12578
+VersionControl: 12634
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -138,6 +138,17 @@ MenuItems:
     TargetLanguage: English
     Value: >+
       Turning the microphone OFF. Use the dialogue hotkey to communicate with Mantella NPCs.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3E28:Mantella.esp
+      ParameterTwoNumber: 785268264
+      ParameterTwoString: ::microphoneEnabled_var
 - ItemText:
     TargetLanguage: English
     Value: Turn microphone ON
@@ -148,6 +159,16 @@ MenuItems:
     Value: >+
       Turning the microphone ON. Adjust the audio threshold if there are communication issues.
 
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3E20:Mantella.esp
+      ParameterTwoNumber: 785268256
+      ParameterTwoString: ::microphoneEnabled_var
 - ItemText:
     TargetLanguage: English
     Value: Restore defaults settings

@@ -1,6 +1,6 @@
 FormKey: 055E78:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12474
+VersionControl: 12634
 EditorID: MantellaEventTrackingSettings
 Fallout4MajorRecordFlags:
 - 0x10
@@ -81,7 +81,13 @@ BodyTexts:
 MenuItems:
 - ItemText:
     TargetLanguage: English
-    Value: Turn player event tracking OFF
+    Value: Player Event Tracking Submenu
+  Type: SubmenuTerminal
+  ItemId: 7
+  Submenu: 0512D6:Mantella.esp
+- ItemText:
+    TargetLanguage: English
+    Value: Turn all player events tracking OFF
   Type: DisplayText
   ItemId: 3
   DisplayText:
@@ -91,7 +97,7 @@ MenuItems:
 
 - ItemText:
     TargetLanguage: English
-    Value: Turn player event tracking ON
+    Value: Turn all player events tracking ON
   Type: DisplayText
   ItemId: 1
   DisplayText:
@@ -100,7 +106,7 @@ MenuItems:
       Player event tracking is turned ON
 - ItemText:
     TargetLanguage: English
-    Value: NPC event tracking OFF
+    Value: Turn all NPC events tracking OFF
   Type: DisplayText
   ItemId: 2
   DisplayText:
@@ -111,7 +117,7 @@ MenuItems:
 
 - ItemText:
     TargetLanguage: English
-    Value: NPC event tracking ON
+    Value: Turn all NPC events tracking ON
   Type: DisplayText
   ItemId: 4
   DisplayText:
@@ -129,6 +135,17 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: F4SE Crosshair Tracking tracking is turned OFF.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3EB8:Mantella.esp
+      ParameterTwoNumber: 785268408
+      ParameterTwoString: ::allowCrosshairTracking_var
 - ItemText:
     TargetLanguage: English
     Value: F4SE Crosshair Tracking ON (desktop only)
@@ -137,6 +154,16 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: F4SE Crosshair Tracking tracking is turned ON.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3EB0:Mantella.esp
+      ParameterTwoNumber: 785268400
+      ParameterTwoString: ::allowCrosshairTracking_var
 MajorFlags:
 - 0x10
 - 0x2000

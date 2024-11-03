@@ -25,13 +25,13 @@ bool property endFlagMantellaConversationOne auto
 string property currentFO4version auto
 int property currentSUPversion auto
 bool property isFO4VR auto Conditional
-bool property microphoneEnabled auto
+bool property microphoneEnabled auto Conditional
 bool property radiantEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
 
 ;vision parameters
-bool property hideVisionMenu auto Conditional
+bool property hideVisionMenu=true auto Conditional
 bool property allowVision auto Conditional
 bool property allowVisionHints auto Conditional
 bool property hasPendingVisionCheck auto
@@ -41,7 +41,7 @@ String property ActorsInCellArray auto
 String property VisionDistanceArray auto
 
 ;function calling parameters
-bool property hideFunctionMenu auto Conditional
+bool property hideFunctionMenu=true auto Conditional
 bool property allowFunctionCalling auto Conditional
 Quest Property MantellaFunctionNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaFunctionNPCCollection  Auto
@@ -49,30 +49,38 @@ Actor[] Property MantellaFunctionInferenceActorList  Auto
 String Property MantellaFunctionInferenceActorNamesList  Auto
 String Property MantellaFunctionInferenceActorDistanceList  Auto
 String Property MantellaFunctionInferenceActorIDsList  Auto
-bool property AIPackageMoveToNPCIsActivated auto Conditional
+int property NPCAIPackageSelector auto Conditional
+;NPCAIPackageSelector values
+;0 = wait
+;1 = follow
+;2 = attack
+;3 = loot
+;4 = use item (item must be specified below)
+int property NPCAIItemToUseSelector=1 auto
+;1 = stimpak
 
 
-bool property allowActionAggro auto
+bool property allowActionAggro auto Conditional
 bool property allowNPCsStayInPlace auto Conditional
-bool property allowFollow auto
+bool property allowFollow auto Conditional
 bool property allowActionInventory auto Conditional
-bool property allowCrosshairTracking auto
+bool property allowCrosshairTracking auto Conditional
 Spell property MantellaSpell auto
 Perk property ActivatePerk auto
 ;variables below for Player game event tracking
-bool property playerTrackingOnItemAdded auto
-bool property playerTrackingOnItemRemoved auto
-bool property playerTrackingOnHit auto
-bool property playerTrackingOnLocationChange auto
-bool property playerTrackingOnObjectEquipped auto
-bool property playerTrackingOnObjectUnequipped auto
-bool property playerTrackingOnSit auto
-bool property playerTrackingOnGetUp auto
-bool property playerTrackingFireWeapon auto
-bool property playerTrackingRadiationDamage auto
-bool property playerTrackingSleep auto
-bool property playerTrackingCripple auto
-bool property playerTrackingHealTeammate auto
+bool property playerTrackingOnItemAdded auto Conditional
+bool property playerTrackingOnItemRemoved auto Conditional
+bool property playerTrackingOnHit auto Conditional
+bool property playerTrackingOnLocationChange auto Conditional
+bool property playerTrackingOnObjectEquipped auto Conditional
+bool property playerTrackingOnObjectUnequipped auto Conditional
+bool property playerTrackingOnSit auto Conditional
+bool property playerTrackingOnGetUp auto Conditional
+bool property playerTrackingFireWeapon auto Conditional
+bool property playerTrackingRadiationDamage auto Conditional
+bool property playerTrackingSleep auto Conditional
+bool property playerTrackingCripple auto Conditional
+bool property playerTrackingHealTeammate auto Conditional
 
 
 ;variables below for Mantella Target tracking
@@ -93,6 +101,16 @@ bool property EventFireWeaponSpamBlocker auto
 bool property EventRadiationDamageSpamBlocker auto
 int property WeaponFiredCount auto
 
+
+;player Variables
+float property PlayerRadFactoredHealth auto
+float property PlayerRadiationPercent auto
+
+;item variables
+int property StimpackCount auto
+int property RadAwayCount auto
+
+;misc Variabales
 ActorValue property HealthAV auto
 ActorValue property RadsAV auto
 float radiationToHealthRatio = 0.229
@@ -154,7 +172,6 @@ Event Ontimer( int TimerID)
 
 Function reinitializeVariables()
     ;change the below this is for debug only
-    hideVisionMenu=true
     textkeycode=72
     gameEventkeycode=89
     startConversationkeycode=72
@@ -210,6 +227,112 @@ Function togglePlayerEventTracking(bool bswitch)
     playerTrackingHealTeammate = bswitch
 EndFunction
 
+Function togglePlayerItemEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player item pickup/drop event tracking is now ON")
+    else
+        Debug.notification("Player item pickup/drop event tracking is now OFF")
+    endif
+    playerTrackingOnItemAdded = bswitch
+    playerTrackingOnItemRemoved = bswitch
+EndFunction
+
+Function togglePlayerHitEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player getting hit event tracking is now ON")
+    else
+        Debug.notification("Player getting hit event tracking is now OFF")
+    endif
+    playerTrackingOnHit = bswitch
+EndFunction
+
+Function togglePlayerLocationChangeEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player location change event tracking is now ON")
+    else
+        Debug.notification("Player location change event tracking is now OFF")
+    endif
+    playerTrackingOnLocationChange = bswitch
+EndFunction
+
+Function togglePlayerEquipEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player item equip/unequip event tracking is now ON")
+    else
+        Debug.notification("Player item equip/unequip event tracking is now OFF")
+    endif
+    playerTrackingOnObjectEquipped = bswitch
+    playerTrackingOnObjectUnequipped = bswitch
+EndFunction
+
+Function togglePlayerSitEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player sitting or using workbenches event tracking is now ON")
+    else
+        Debug.notification("Player sitting or using workbenches event tracking is now OFF")
+    endif
+    playerTrackingOnSit = bswitch
+    playerTrackingOnGetUp = bswitch
+EndFunction
+
+Function togglePlayerWeaponFireEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player using their weapon or melee event tracking is now ON")
+    else
+        Debug.notification("Player using their weapon or melee event tracking is now OFF")
+    endif
+    playerTrackingFireWeapon = bswitch
+EndFunction
+
+Function togglePlayerRadiationDmgEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player taking radiation damage event tracking is now ON")
+    else
+        Debug.notification("Player taking radiation damage event tracking is now OFF")
+    endif
+    playerTrackingRadiationDamage=bswitch
+EndFunction
+
+Function togglePlayerSleepEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player sleeping event tracking is now ON")
+    else
+        Debug.notification("Player sleeping event tracking is now OFF")
+    endif
+    playerTrackingSleep = bswitch
+EndFunction
+
+Function togglePlayerCrippleEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player getting crippled event tracking is now ON")
+    else
+        Debug.notification("Player getting crippled event tracking is now OFF")
+    endif
+    playerTrackingCripple = bswitch
+EndFunction
+
+Function togglePlayerHealTeammateEventTracking(bool bswitch)
+    ;Player tracking variables below
+    if bswitch
+        Debug.notification("Player healing teammates event tracking is now ON")
+    else
+        Debug.notification("Player healing teammates event tracking is now OFF")
+    endif
+    playerTrackingHealTeammate = bswitch
+EndFunction
+
+    
+
+
 Function toggleTargetEventTracking(bool bswitch)
     ;Target tracking variables below
     if bswitch
@@ -232,9 +355,9 @@ EndFunction
 Function toggleAllowAggro(bool bswitch)
     allowActionAggro = bswitch
     if bswitch
-        Debug.notification("NPC are now allowed to aggro")
+        Debug.notification("NPCs are now allowed to aggro")
     else
-        Debug.notification("NPC are not allowed to aggro")
+        Debug.notification("NPCs are not allowed to aggro")
     endif
 EndFunction
 
@@ -317,18 +440,7 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function listMenuState(String aMenu)
-    if aMenu=="NPC_Actions"
-        if allowActionAggro==false
-            debug.notification("NPC aggro is OFF")
-        else
-            debug.notification("NPC aggro is ON")
-        endif
-        if allowFollow==false
-            debug.notification("NPC follow is OFF")
-        else
-            debug.notification("NPC follow is ON")
-        endif
-    elseif aMenu=="Main_Settings"
+    if aMenu=="Main_Settings"
         if !(Game.GetPlayer().HasPerk(ActivatePerk))
             debug.notification("Alt conversation start option is OFF")
         else
@@ -373,17 +485,7 @@ Function listMenuState(String aMenu)
         else
             Debug.notification("NPCs events are NOT being tracked by Mantella")
         endif
-        if allowCrosshairTracking
-            Debug.notification("F4SE crosshair tracking is ON")
-        else
-            Debug.notification("F4SE crosshair tracking is OFF")
-        endif
     elseif aMenu=="Vision"
-        if allowVision==false
-            debug.notification("Vision analysis is OFF")
-        else
-            debug.notification("Vision analysis is ON")
-        endif
         debug.notification("Vision resolution is set to "+visionResolution)
         debug.notification("Images will be resized to "+visionResize)
     endif
@@ -743,9 +845,10 @@ Function ScanCellForActorsFilteredLOS()
     VisionDistanceArray = currentDistanceArrayToString(currentDistanceArray)
 Endfunction
 
-Actor[] Function ScanAndReturnNearbyActors(quest QuestForScan, RefCollectionAlias RefCollectionToUse) 
+Actor[] Function ScanAndReturnNearbyActors(quest QuestForScan, RefCollectionAlias RefCollectionToUse, bool addPlayerToo) 
     Actor[] ActorsInCell = new Actor[0]
     QuestForScan.start()
+    Utility.Wait(0.1)
     int icount = RefCollectionToUse.GetCount()
     int iindex = 0
     while (iindex < icount)
@@ -753,6 +856,9 @@ Actor[] Function ScanAndReturnNearbyActors(quest QuestForScan, RefCollectionAlia
         ActorsInCell.add(Actori)
         iindex = iindex + 1
     endwhile
+    if addPlayerToo
+        ActorsInCell.add(game.getplayer() as Actor)
+    endif
     QuestForScan.stop()
     return ActorsInCell
 Endfunction
@@ -893,6 +999,15 @@ Function DispelAllMantellaMagicEffectsFromActors(Actor[] ActorArray)
     EndWhile
 Endfunction
 
+Function RemoveFactionFromActors(Actor[] ActorArray, faction FactionToRemove)
+    ;This function is mostly used to remove NPCs from the MantellaFunctionTargetFaction 
+    int i=0
+    While i < ActorArray.Length
+        Actor actorToDispel = ActorArray[i]
+        actorToDispel.RemoveFromFaction(FactionToRemove)
+        i += 1
+    EndWhile
+Endfunction
 ;/
 Function ScanCellForActors(bool filtered) ;to implement to give cues on NPC locations
     Actor playerRef = Game.GetPlayer()
@@ -952,23 +1067,26 @@ string function constructPlayerState()
         playerStateArray[playerStatePositiveCount]="bleeding out"  
         playerStatePositiveCount+=1
     endif
-    if 0.9 > getRadFactoredPercentHealth(playerRef) && getRadFactoredPercentHealth(playerRef) >= 0.7
+    PlayerRadFactoredHealth = getRadFactoredPercentHealth(playerRef)
+    PlayerRadiationPercent = getRadPercent(playerRef)
+
+    if 0.9 > PlayerRadFactoredHealth && PlayerRadFactoredHealth >= 0.7
         playerStateArray[playerStatePositiveCount]="lightly wounded"  
         playerStatePositiveCount+=1
-    ElseIf 0.7 > getRadFactoredPercentHealth(playerRef) && getRadFactoredPercentHealth(playerRef) >= 0.4
+    ElseIf 0.7 > PlayerRadFactoredHealth && PlayerRadFactoredHealth >= 0.4
         playerStateArray[playerStatePositiveCount]="moderately wounded" 
         playerStatePositiveCount+=1
-    ElseIf 0.4 > getRadFactoredPercentHealth(playerRef) 
+    ElseIf 0.4 > PlayerRadFactoredHealth 
         playerStateArray[playerStatePositiveCount]="heavily wounded" 
         playerStatePositiveCount+=1
     endif
-    if getRadPercent(playerRef) > 0.05 && getRadPercent(playerRef) <= 0.3
+    if PlayerRadiationPercent > 0.05 && PlayerRadiationPercent <= 0.3
         playerStateArray[playerStatePositiveCount]="lightly irradiated"  
         playerStatePositiveCount+=1
-    ElseIf getRadPercent(playerRef) > 0.3 && getRadPercent(playerRef) <= 0.6
+    ElseIf PlayerRadiationPercent > 0.3 && PlayerRadiationPercent <= 0.6
         playerStateArray[playerStatePositiveCount]="moderately irradiated" 
         playerStatePositiveCount+=1
-    ElseIf 0.6 < getRadPercent(playerRef) 
+    ElseIf 0.6 < PlayerRadiationPercent 
         playerStateArray[playerStatePositiveCount]="heavily irradiated" 
         playerStatePositiveCount+=1
     endif
@@ -1085,8 +1203,8 @@ endfunction
 ;   LLM Function Calling Functions   ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Actor[] Function GetFunctionInferenceActorList ()  
-    return ScanAndReturnNearbyActors(MantellaFunctionNPCCollectionQuest ,MantellaFunctionNPCCollection)
+Actor[] Function GetFunctionInferenceActorList()  
+    return ScanAndReturnNearbyActors(MantellaFunctionNPCCollectionQuest ,MantellaFunctionNPCCollection, true)
 Endfunction 
 
 

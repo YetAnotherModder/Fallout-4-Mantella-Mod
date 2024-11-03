@@ -33,6 +33,7 @@ Worldspace PrewarWorldspace
 bool itemsGiven
 Quest Property MantellaNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaNPCCollection  Auto
+Faction Property MantellaFunctionTargetFaction Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Initialization events and functions  ;
@@ -49,8 +50,9 @@ Event OnPlayerTeleport()
 	    TryToGiveItems()
     endif
     If !(conversation.IsRunning())
-        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection)
+        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection, false)
         repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
+        repository.RemoveFactionFromActors(ActorsInCell,MantellaFunctionTargetFaction)
     endif
 EndEvent
 
@@ -84,8 +86,9 @@ Function LoadMantellaEvents()
     ;Will clean up all all conversation loops if they're still occuring
     ; repository.endFlagMantellaConversationOne = True    
     If (conversation.IsRunning())   
-        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection)
+        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection, false)
         repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
+        repository.RemoveFactionFromActors(ActorsInCell,MantellaFunctionTargetFaction)
         conversation.conversationIsEnding=false  ;just here as a safety to prevent locking out the player out of initiating conversations
         conversation.EndConversation();Should there still be a running conversation after a load, end it
         StartTimer(5,CleanupconversationTimer) ;Start a timmer to make second hard reset if conversation is still running after

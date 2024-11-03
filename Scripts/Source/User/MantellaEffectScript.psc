@@ -10,6 +10,7 @@ Actor property PlayerRef auto
 Message property MantellaStartConversationMessage auto
 Message property MantellaActorIsInConvoMessage auto
 Keyword Property AmmoKeyword Auto Const
+Spell Property MantellaIsUsingItem auto ;Used to track if a NPC is using attempting to use spell that is used a signal to signal that the NPC is using an item
 
 ;##############################################################
 ;#            Magic Effect Start and finish Event managers    #
@@ -107,7 +108,7 @@ EndFunction
 
 ;test
 Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akSourceContainer)
-    if Repository.targetTrackingItemAdded
+    if Repository.targetTrackingItemAdded && akBaseItem!=MantellaIsUsingItem
         string sourceName = akSourceContainer.getbaseobject().getname()
         if sourceName != "Power Armor" ;to prevent gameevent spam from the NPCs entering power armors 
             String selfName = self.GetTargetActor().getdisplayname()
@@ -130,7 +131,7 @@ EndEvent
 
 
 Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akDestContainer)
-    if Repository.targetTrackingItemRemoved
+    if Repository.targetTrackingItemRemoved && akBaseItem!=MantellaIsUsingItem
         string destName = akDestContainer.getbaseobject().getname()
         if destName != "Power Armor" ;to prevent gameevent spam from the NPC exiting power armors 
             String selfName = self.GetTargetActor().getdisplayname()
@@ -178,7 +179,18 @@ endEvent
 
 
 Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
-    if repository.targetTrackingOnObjectEquipped
+    if akBaseObject == MantellaIsUsingItem && repository.NPCAIPackageSelector==4
+        ;If MantellaIsUsingItem  gets equipped by an NPC (will happen through the AI package) then the NPC gets shifted to waiting mode and activates the spell (the spell has to be activated through script because it will only get stuck in 'preparing to cast' mode forever if called through the AI package.
+        ;Once it's done the spell gets added and removed. It can't be removed directly because the game will consider it a 'temp' value since the NPC never truly gained the spell ingame.
+        repository.NPCAIPackageSelector=0
+        conversation.CauseReassignmentOfParticipantAlias()
+        self.GetTargetActor().AddSpell(MantellaIsUsingItem)
+        MantellaIsUsingItem.cast(self.GetTargetActor())
+        self.GetTargetActor().UnequipItem(MantellaIsUsingItem, false, false)
+        self.GetTargetActor().RemoveSpell(MantellaIsUsingItem)
+        self.GetTargetActor().RemoveItem(MantellaIsUsingItem,-1)
+    endif
+    if repository.targetTrackingOnObjectEquipped  && akBaseObject!=MantellaIsUsingItem
         String selfName = self.GetTargetActor().getdisplayname()
         string itemEquipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" equipped " + itemEquipped)
@@ -186,9 +198,8 @@ Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
     endif
 endEvent
 
-
 Event OnItemUnequipped(Form akBaseObject, ObjectReference akReference)
-    if repository.targetTrackingOnObjectUnequipped
+    if repository.targetTrackingOnObjectUnequipped && akBaseObject!=MantellaIsUsingItem
         String selfName = self.GetTargetActor().getdisplayname()
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" unequipped " + itemUnequipped)

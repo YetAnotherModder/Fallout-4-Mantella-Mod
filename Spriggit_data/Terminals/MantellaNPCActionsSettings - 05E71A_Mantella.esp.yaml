@@ -1,6 +1,6 @@
 FormKey: 05E71A:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12609
+VersionControl: 12634
 EditorID: MantellaNPCActionsSettings
 Fallout4MajorRecordFlags:
 - 0x10
@@ -110,6 +110,17 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: NPC aggro is turned OFF
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3EA8:Mantella.esp
+      ParameterTwoNumber: 785268392
+      ParameterTwoString: ::allowActionAggro_var
 - ItemText:
     TargetLanguage: English
     Value: Turn NPC aggro ON
@@ -118,6 +129,16 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: NPC aggro is turned ON. Make sure your Fallout 4 prompt in the Mantella config.ini has the 'Offended:' and 'Forgiven:'   instructions enabled (remove the semi-colon in front of the line to enable the instruction).
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3EA0:Mantella.esp
+      ParameterTwoNumber: 785268384
+      ParameterTwoString: ::allowActionAggro_var
 - ItemText:
     TargetLanguage: English
     Value: Turn NPC follow OFF
@@ -126,6 +147,17 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: NPC follow is turned OFF
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3E98:Mantella.esp
+      ParameterTwoNumber: 785268376
+      ParameterTwoString: ::allowFollow_var
 - ItemText:
     TargetLanguage: English
     Value: Turn NPC follow ON
@@ -134,6 +166,16 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: NPC follow is turned ON. (Implies Stay in place) Make sure your Fallout 4 prompt in the Mantella config.ini has the 'Follow:'  instruction enabled (remove the semi-colon in front of the line to enable the instruction).
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3E90:Mantella.esp
+      ParameterTwoNumber: 785268368
+      ParameterTwoString: ::allowFollow_var
 - ItemText:
     TargetLanguage: English
     Value: Turn NPC stay in place OFF
@@ -150,8 +192,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: E88950:Mantella.esp
-      ParameterTwoNumber: 1021872464
+      ParameterTwoRecord: CE3E88:Mantella.esp
+      ParameterTwoNumber: 785268360
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -170,8 +212,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: E88980:Mantella.esp
-      ParameterTwoNumber: 1021872512
+      ParameterTwoRecord: CE3E80:Mantella.esp
+      ParameterTwoNumber: 785268352
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -189,8 +231,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: E88888:Mantella.esp
-      ParameterTwoNumber: 1021872264
+      ParameterTwoRecord: CE3E78:Mantella.esp
+      ParameterTwoNumber: 785268344
       ParameterTwoString: ::allowActionInventory_var
 - ItemText:
     TargetLanguage: English
@@ -211,8 +253,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: E88C40:Mantella.esp
-      ParameterTwoNumber: 1021873216
+      ParameterTwoRecord: CE3E70:Mantella.esp
+      ParameterTwoNumber: 785268336
       ParameterTwoString: ::allowActionInventory_var
 - ItemText:
     TargetLanguage: English
@@ -230,12 +272,12 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: E88738:Mantella.esp
-      ParameterTwoNumber: 1021871928
+      ParameterTwoRecord: CE3E68:Mantella.esp
+      ParameterTwoNumber: 785268328
       ParameterTwoString: ::allowFunctionCalling_var
 - ItemText:
     TargetLanguage: English
-    Value: Turn Allow NPC Function Calling OFF
+    Value: Turn Allow NPC Function Calling ON
   Type: DisplayText
   ItemId: 10
   DisplayText:
@@ -248,8 +290,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: E88A90:Mantella.esp
-      ParameterTwoNumber: 1021872784
+      ParameterTwoRecord: CE3E60:Mantella.esp
+      ParameterTwoNumber: 785268320
       ParameterTwoString: ::allowFunctionCalling_var
 MajorFlags:
 - 0x10

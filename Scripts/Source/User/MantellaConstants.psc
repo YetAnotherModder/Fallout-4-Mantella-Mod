@@ -76,6 +76,9 @@ string property ACTION_NPC_FORGIVEN = "mantella_npc_forgiven" auto
 string property ACTION_NPC_FOLLOW = "mantella_npc_follow" auto
 string property ACTION_NPC_INVENTORY = "mantella_npc_inventory" auto
 string property ACTION_NPC_MOVETO_NPC = "mantella_move_character_near_npc" auto
+string property ACTION_MAKE_NPC_WAIT = "mantella_make_npc_wait" auto
+string property ACTION_NPC_ATTACK_OTHER_NPC = "mantella_npc_attack_other_npc" auto
+string property ACTION_NPC_LOOT_ITEMS = "mantella_npc_loot_items" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Special Fallout4 values   ;
@@ -84,6 +87,8 @@ string property ACTION_NPC_MOVETO_NPC = "mantella_move_character_near_npc" auto
 string property KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX = "mantella_player_pos_x" auto
 string property KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY = "mantella_player_pos_y" auto
 string property KEY_CONTEXT_CUSTOMVALUES_PLAYERROT = "mantella_player_rot" auto
+string property KEY_CONTEXT_CUSTOMVALUES_PLAYERHEALTH = "mantella_player_health_percent" auto
+string property KEY_CONTEXT_CUSTOMVALUES_PLAYERRAD = "mantella_player_rad_percent" auto
 string property KEY_CONTEXT_CUSTOMVALUES_VISION_READY = "mantella_vision_ready" auto
 string property KEY_CONTEXT_CUSTOMVALUES_VISION_RES = "mantella_vision_resolution" auto
 string property KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE = "mantella_vision_resize" auto
@@ -91,6 +96,7 @@ string property KEY_ACTOR_CUSTOMVALUES_VISION_HINTSNAMEARRAY = "mantella_vision_
 string property KEY_ACTOR_CUSTOMVALUES_VISION_HINTSDISTANCEARRAY = "mantella_vision_hints_distance" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSX = "mantella_actor_pos_x" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSY = "mantella_actor_pos_y" auto
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

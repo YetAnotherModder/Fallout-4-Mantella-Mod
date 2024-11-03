@@ -1,0 +1,333 @@
+FormKey: 0529A6:Mantella.esp
+VersionControl: 12642
+EditorID: MantellaNPCIsUsingItemPackage
+Type: Package
+PreferredSpeed: Run
+InteruptFlags:
+- HellosToPlayer
+- RandomConversations
+- ObserveCombatBehavior
+- GreetCorpseBehavior
+- ReactionToPlayerActions
+- FriendlyFireComments
+- AggroRadiusBehavior
+- AllowIdleChatter
+- 0x100
+- WorldInteractions
+- OffForImportantScene
+- 0x800
+- 0x1000
+- 0x2000
+- 0x4000
+- 0x8000
+ScheduleDayOfWeek: 255
+ScheduleHour: -1
+ScheduleMinute: -1
+Unknown3: 0x000000
+Conditions:
+- MutagenObjectType: ConditionFloat
+  ComparisonValue: 4
+  Data:
+    MutagenObjectType: FunctionConditionData
+    Function: GetVMQuestVariable
+    ParameterOneRecord: 000F99:Mantella.esp
+    ParameterOneNumber: 16781209
+    ParameterTwoRecord: C77B30:Mantella.esp
+    ParameterTwoNumber: 1086815024
+    ParameterTwoString: ::NPCAIPackageSelector_var
+DataInputVersion: 2
+Data:
+- Key: 0
+  Value:
+    MutagenObjectType: PackageDataLocation
+    Name: Location
+    Flags:
+    - Public
+    Location:
+      Target:
+        MutagenObjectType: LocationFallback
+        Type: NearEditorLocation
+- Key: 41
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: RideHorseIfPossible
+    Flags: []
+- Key: 42
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: PreferPreferredPath
+    Flags:
+    - Public
+    Data: True
+- Key: 44
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: IgnoreHeading
+    Flags: []
+- Key: 43
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: SoftRadius
+    Flags: []
+- Key: 1
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: SpellToCast
+    Flags:
+    - Public
+    Target:
+      MutagenObjectType: PackageTargetObjectID
+      Reference: 0529A2:Mantella.esp
+- Key: 2
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: Target
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetSelf
+- Key: 8
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: Hold When Blocked?
+    Flags:
+    - Public
+- Key: 22
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: CastTimeMin
+    Flags:
+    - Public
+- Key: 24
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: CastTimeMax
+    Flags:
+    - Public
+- Key: 26
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: CooldownTimeMin
+    Flags:
+    - Public
+- Key: 28
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: CooldownTimeMax
+    Flags:
+    - Public
+- Key: 31
+  Value:
+    MutagenObjectType: PackageDataInt
+    Name: NumToCastMin
+    Flags:
+    - Public
+    Data: 1
+- Key: 34
+  Value:
+    MutagenObjectType: PackageDataInt
+    Name: NumToCastMax
+    Flags:
+    - Public
+    Data: 1
+- Key: 36
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: DualCast
+    Flags:
+    - Public
+- Key: 45
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: Player
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetSpecificReference
+      Reference: 000014:Fallout4.esm
+- Key: 47
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: MinRadiusFollow
+    Flags:
+    - Public
+    Data: 5
+- Key: 48
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: MaxRadiusFollow
+    Flags:
+    - Public
+    Data: 50
+- Key: 50
+  Value:
+    MutagenObjectType: PackageDataFloat
+    Name: WaitInSeconds
+    Flags:
+    - Public
+    Data: 4
+- Key: 52
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: True
+    Flags:
+    - Public
+    Data: True
+- Key: 54
+  Value:
+    MutagenObjectType: PackageDataBool
+    Name: False
+    Flags:
+    - Public
+- Key: 3
+  Value:
+    MutagenObjectType: APackageData
+    Name: Always Hit?
+    Flags:
+    - Public
+- Key: 4
+  Value:
+    MutagenObjectType: APackageData
+    Name: Head-track the Target?
+    Flags:
+    - Public
+- Key: 5
+  Value:
+    MutagenObjectType: APackageData
+    Name: Volley Fire?
+    Flags:
+    - Public
+- Key: 6
+  Value:
+    MutagenObjectType: APackageData
+    Name: Crouch Reload?
+    Flags:
+    - Public
+- Key: 7
+  Value:
+    MutagenObjectType: APackageData
+    Name: Do No Damage?
+    Flags:
+    - Public
+- Key: 9
+  Value:
+    MutagenObjectType: APackageData
+    Name: Volley Wait Min
+    Flags:
+    - Public
+- Key: 10
+  Value:
+    MutagenObjectType: APackageData
+    Name: Volley Wait Max
+    Flags:
+    - Public
+- Key: 11
+  Value:
+    MutagenObjectType: APackageData
+    Name: Volleys To Fire
+    Flags:
+    - Public
+- Key: 12
+  Value:
+    MutagenObjectType: APackageData
+    Name: Volley Shots Min
+    Flags:
+    - Public
+- Key: 13
+  Value:
+    MutagenObjectType: APackageData
+    Name: Volley Shots Max
+    Flags:
+    - Public
+- Key: 15
+  Value:
+    MutagenObjectType: APackageData
+    Name: Allow Combat to Start?
+    Flags:
+    - Public
+- Key: 16
+  Value:
+    MutagenObjectType: APackageData
+    Name: Aim Without Firing?
+    Flags:
+    - Public
+- Key: 17
+  Value:
+    MutagenObjectType: APackageData
+    Name: DEPRECATED Always Power Attack?
+    Flags: []
+- Key: 19
+  Value:
+    MutagenObjectType: APackageData
+    Name: Block Percent
+    Flags:
+    - Public
+- Key: 20
+  Value:
+    MutagenObjectType: APackageData
+    Name: Power Attack Percent
+    Flags:
+    - Public
+XnamMarker: 0x37
+ProcedureTree:
+- BranchType: Sequence
+  Root:
+    BranchCount: 3
+  Unknown: []
+- BranchType: Procedure
+  ProcedureType: Travel
+  Flags: []
+  DataInputIndices:
+  - 45
+  - 54
+  - 52
+  - 54
+  - 54
+  Unknown: []
+- BranchType: Simultaneous
+  Root:
+    BranchCount: 2
+  Unknown: []
+- BranchType: Procedure
+  ProcedureType: UseMagic
+  Flags:
+  - SuccessCompletesPackage
+  DataInputIndices:
+  - 0
+  - 1
+  - 2
+  - 8
+  - 22
+  - 24
+  - 26
+  - 28
+  - 31
+  - 34
+  - 36
+  Unknown: []
+- BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 50
+  - 41
+  Unknown: []
+- BranchType: Procedure
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 45
+  - 47
+  - 48
+  Unknown: []
+OnBegin:
+  Topics:
+  - MutagenObjectType: TopicReference
+OnEnd:
+  Topics:
+  - MutagenObjectType: TopicReference
+OnChange:
+  Topics:
+  - MutagenObjectType: TopicReference

@@ -18,7 +18,6 @@ SPELL Property MantellaIsTalkingSpell Auto
 bool Property UseSimpleTextField = true auto
 
 
-
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
 CustomEvent MantellaConversation_Action_mantella_remove_character
@@ -54,6 +53,13 @@ string[] _delayedActionIdentifier
 actor[] _delayedSpeaker 
 string[] _delayedlineToSpeak
 
+;AI PackageManagement variables, used to track the position of an actor and reset their AI package in case they get stuck in the same place
+int RestartLootTimer = 1
+float StoredActorPositionX
+float StoredActorPositionY
+float StoredActorPositionZ
+Actor trackedPositionActor
+
 event OnInit()
     _DictionaryCleanTimer = 10
     _PlayerTextInputTimer = 11
@@ -69,7 +75,7 @@ event OnInit()
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
     SetPlayerRef()
     SaveSettings()
-    repository.AIPackageMoveToNPCIsActivated=false
+    repository.NPCAIPackageSelector=0
 endEvent
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -267,6 +273,7 @@ EndFunction
 
 Function CleanupConversation()
     _delayedHandle=0
+    repository.NPCAIPackageSelector=0
     repository.hasPendingVisionCheck=false
     conversationIsEnding = true
     ClearParticipants()
@@ -274,6 +281,7 @@ Function CleanupConversation()
     _does_accept_player_input = false
     _isTalking = false
     DispelAllMantellaMagicEffectsFromActors()
+    RemoveAllParticipantsFromFaction(MantellaFunctionTargetFaction)
     If (MantellaConversationParticipantsQuest.IsRunning())
         MantellaConversationParticipantsQuest.Stop()
     EndIf  
@@ -293,6 +301,16 @@ Function DispelAllMantellaMagicEffectsFromActors()
     EndWhile
 Endfunction
 
+Function RemoveAllParticipantsFromFaction(faction factionToRemove)
+    int i=0
+    
+    While i < Participants.GetSize()
+        Actor actorToRemove = Participants.GetAt(i) as actor
+        actorToRemove.RemoveFromFaction(factionToRemove)
+        i += 1
+    EndWhile
+Endfunction
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Timer Management    ;
@@ -308,6 +326,24 @@ Event Ontimer( int TimerID)
         _does_accept_player_input = False
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         Debug.Notification("Thinking...")
+    elseif TimerID==RestartLootTimer && repository.NPCAIPackageSelector==3
+        If trackedPositionActor.IsOverEncumbered()
+            debug.notification(trackedPositionActor.GetDisplayName()+" cannot scavenge anymore because they are overemcumbered.") 
+        EndIf
+        float currentPositionX = trackedPositionActor.getpositionX()
+        float currentPositionY = trackedPositionActor.getpositionY()
+        float currentPositionZ = trackedPositionActor.getpositionZ()      
+        if currentPositionX==StoredActorPositionX && currentPositionY==StoredActorPositionY &&  currentPositionZ==StoredActorPositionZ
+            StoredActorPositionX=currentPositionX
+            StoredActorPositionY=currentPositionY
+            StoredActorPositionZ=currentPositionZ
+            CauseReassignmentOfParticipantAlias()
+        Else
+            StoredActorPositionX=currentPositionX
+            StoredActorPositionY=currentPositionY
+            StoredActorPositionZ=currentPositionZ
+        endif
+        StartTimer(4,RestartLootTimer) 
     Endif
 Endevent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -557,22 +593,64 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
             endif
         endif
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_MOVETO_NPC)
+        debug.notification("Move to NPC action identifier recognized")
         string[] targetIDs= RetrieveTargetIDFunctionInferenceValues(handle)
+        debug.notification("Target IDs array fetched "+targetIDs)
         actor targetNPC = repository.getActorFromArray(targetIDs[0],repository.MantellaFunctionInferenceActorList)
         if targetNPC
-            repository.AIPackageMoveToNPCIsActivated=true
-            if CurrentFunctionTargetNPC
-                CurrentFunctionTargetNPC.RemoveFromFaction(MantellaFunctionTargetFaction)
-            endif
+            RemoveAllParticipantsFromFaction(MantellaFunctionTargetFaction)
             CurrentFunctionTargetNPC=targetNPC
-            CurrentFunctionTargetNPC.AddToFaction(MantellaFunctionTargetFaction)
+            If (CurrentFunctionTargetNPC==playerRef)
+                speaker.SetPlayerTeammate(true)
+                speaker.EvaluatePackage()
+                repository.NPCAIPackageSelector=0
+            else
+                CurrentFunctionTargetNPC.AddToFaction(MantellaFunctionTargetFaction)
+                repository.NPCAIPackageSelector=1
+            EndIf
             CauseReassignmentOfParticipantAlias()
             debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is moving towards "+CurrentFunctionTargetNPC.GetDisplayName())
         endif
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_ATTACK_OTHER_NPC)
+        debug.notification("Attack NPC action identifier recognized")
+        string[] targetIDs= RetrieveTargetIDFunctionInferenceValues(handle)
+        debug.notification("Target IDs array fetched "+targetIDs)
+        actor targetNPC = repository.getActorFromArray(targetIDs[0],repository.MantellaFunctionInferenceActorList)
+        if targetNPC
+            repository.NPCAIPackageSelector=2
+            RemoveAllParticipantsFromFaction(MantellaFunctionTargetFaction)
+            CurrentFunctionTargetNPC=targetNPC
+            CurrentFunctionTargetNPC.AddToFaction(MantellaFunctionTargetFaction)
+            CauseReassignmentOfParticipantAlias()
+            debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is attacking "+CurrentFunctionTargetNPC.GetDisplayName())
+        endif
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_LOOT_ITEMS)
+        if speaker.IsOverEncumbered()
+            debug.notification(speaker.GetDisplayName()+" cannot scavenge for you because they are overemcumbered.") 
+            return
+        endif
+        debug.notification(speaker.GetDisplayName()+" will scavenge for you.")
+        string[] item_type_to_loot = RetrieveTargetIDFunctionInferenceValues(handle)
+        repository.NPCAIPackageSelector=3
+        CauseReassignmentOfParticipantAlias()
+        trackedPositionActor=speaker
+        StoredActorPositionX = trackedPositionActor.getpositionX()
+        StoredActorPositionY = trackedPositionActor.getpositionY()
+        StoredActorPositionZ = trackedPositionActor.getpositionZ()
+        StartTimer(4,RestartLootTimer)
+    ElseIf (actionIdentifier == mConsts.ACTION_MAKE_NPC_WAIT)
+        repository.NPCAIPackageSelector=0
+        debug.notification(speaker.GetDisplayName()+" will wait")
+        CauseReassignmentOfParticipantAlias()
     endIf
 endFunction
 
-
+Event Package.OnChange(package akSender, Actor akActor)
+    if repository.NPCAIPackageSelector==3
+        Debug.Trace("Package ended on " + akActor )
+        CauseReassignmentOfParticipantAlias()
+    endif
+EndEvent
 
 string[] Function RetrieveTargetIDFunctionInferenceValues(int handle)
     string[] targetIDs = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_TARGET_IDS)
@@ -899,6 +977,8 @@ int Function BuildCustomContextValues()
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, playerRef.getpositionX())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, playerRef.getpositionY())
     F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, playerRef.GetAngleZ())
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERHEALTH, repository.PlayerRadFactoredHealth)
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERRAD, repository.PlayerRadiationPercent)
     bool isVisionReady = repository.checkAndUpdateVisionPipeline()
     if isVisionReady
         F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, isVisionReady)

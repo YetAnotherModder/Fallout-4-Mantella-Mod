@@ -1,17 +1,17 @@
-FormKey: 011955:Mantella.esp
-VersionControl: 12628
-EditorID: MantellaGenericConversationPackage
+FormKey: 04FC0A:Mantella.esp
+VersionControl: 12635
+EditorID: MantellaInfinteLootPackage
 VirtualMachineAdapter:
   ScriptFragments:
     Script:
-      Name: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      Name: Fragments:Packages:PF__0104FC0A
     OnBegin:
       ExtraBindDataVersion: 1
-      ScriptName: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      ScriptName: Fragments:Packages:PF__0104FC0A
       FragmentName: Fragment_Begin
     OnChange:
       ExtraBindDataVersion: 1
-      ScriptName: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      ScriptName: Fragments:Packages:PF__0104FC0A
       FragmentName: Fragment_Change
 Flags:
 - AllowSwimming
@@ -33,6 +33,16 @@ ScheduleHour: -1
 ScheduleMinute: -1
 Unknown3: 0x000000
 Conditions:
+- MutagenObjectType: ConditionFloat
+  ComparisonValue: 3
+  Data:
+    MutagenObjectType: FunctionConditionData
+    Function: GetVMQuestVariable
+    ParameterOneRecord: 000F99:Mantella.esp
+    ParameterOneNumber: 16781209
+    ParameterTwoRecord: CE3D30:Mantella.esp
+    ParameterTwoNumber: 785268016
+    ParameterTwoString: ::NPCAIPackageSelector_var
 - MutagenObjectType: ConditionFloat
   CompareOperator: NotEqualTo
   ComparisonValue: 1
@@ -56,7 +66,7 @@ Data:
     Name: ActualSeconds
     Flags:
     - Public
-    Data: 5000
+    Data: 5
 - Key: 14
   Value:
     MutagenObjectType: PackageDataTarget
@@ -251,70 +261,16 @@ XnamMarker: 0x2B
 ProcedureTree:
 - BranchType: Sequence
   Root:
-    BranchCount: 5
+    BranchCount: 12
     Flags:
     - RepeatWhenComplete
   Unknown: []
-- BranchType: Procedure
+- BranchType: Simultaneous
   Conditions:
   - MutagenObjectType: ConditionFloat
-    ComparisonValue: 2
     Data:
       MutagenObjectType: FunctionConditionData
-      Function: GetVMQuestVariable
-      ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D70:Mantella.esp
-      ParameterTwoNumber: 785268080
-      ParameterTwoString: ::NPCAIPackageSelector_var
-  ProcedureType: UseWeapon
-  Flags: []
-  DataInputIndices:
-  - 255
-  - 22
-  - 21
-  - 27
-  - 255
-  - 27
-  - 25
-  - 27
-  - 25
-  - 11
-  - 11
-  - 23
-  - 23
-  - 23
-  - 25
-  - 27
-  - 27
-  - 255
-  - 255
-  - 255
-  Unknown: []
-- BranchType: Procedure
-  Conditions:
-  - MutagenObjectType: ConditionFloat
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetVMQuestVariable
-      ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D48:Mantella.esp
-      ParameterTwoNumber: 785268040
-      ParameterTwoString: ::NPCAIPackageSelector_var
-  ProcedureType: Follow
-  Flags: []
-  DataInputIndices:
-  - 21
-  - 18
-  - 20
-  - 255
-  - 255
-  - 255
-  Unknown: []
-- BranchType: Sequence
-  Conditions:
+      Function: IsOverEncumbered
   - MutagenObjectType: ConditionFloat
     ComparisonValue: 3
     Data:
@@ -322,13 +278,11 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D40:Mantella.esp
-      ParameterTwoNumber: 785268032
+      ParameterTwoRecord: CE3D28:Mantella.esp
+      ParameterTwoNumber: 785268008
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
-    BranchCount: 12
-    Flags:
-    - RepeatWhenComplete
+    BranchCount: 3
   Unknown: []
 - BranchType: Procedure
   ProcedureType: Find
@@ -347,6 +301,24 @@ ProcedureTree:
     Unknown: 0x010000
   Unknown: []
 - BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3D20:Mantella.esp
+      ParameterTwoNumber: 785268000
+      ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
   DataInputIndices:
@@ -360,6 +332,47 @@ ProcedureTree:
     - PreferredSpeed
     PreferredSpeed: Run
     Unknown: 0x010000
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3D18:Mantella.esp
+      ParameterTwoNumber: 785267992
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  ProcedureType: Acquire
+  Flags: []
+  DataInputIndices:
+  - 31
+  - 39
+  - 27
+  - 27
+  - 27
+  FlagsOverride:
+    SetFlags:
+    - PreferredSpeed
+    PreferredSpeed: Run
+    Unknown: 0x010000
+  Unknown: []
+- BranchType: Simultaneous
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3D10:Mantella.esp
+      ParameterTwoNumber: 785267984
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  Root:
+    BranchCount: 2
   Unknown: []
 - BranchType: Procedure
   ProcedureType: Find
@@ -378,6 +391,24 @@ ProcedureTree:
     Unknown: 0x010000
   Unknown: []
 - BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3D08:Mantella.esp
+      ParameterTwoNumber: 785267976
+      ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
   DataInputIndices:
@@ -391,6 +422,21 @@ ProcedureTree:
     - PreferredSpeed
     PreferredSpeed: Run
     Unknown: 0x010000
+  Unknown: []
+- BranchType: Simultaneous
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3D00:Mantella.esp
+      ParameterTwoNumber: 785267968
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  Root:
+    BranchCount: 2
   Unknown: []
 - BranchType: Procedure
   ProcedureType: Find
@@ -409,6 +455,24 @@ ProcedureTree:
     Unknown: 0x010000
   Unknown: []
 - BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3CF8:Mantella.esp
+      ParameterTwoNumber: 785267960
+      ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
   DataInputIndices:
@@ -422,6 +486,21 @@ ProcedureTree:
     - PreferredSpeed
     PreferredSpeed: Run
     Unknown: 0x010000
+  Unknown: []
+- BranchType: Simultaneous
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3CF0:Mantella.esp
+      ParameterTwoNumber: 785267952
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  Root:
+    BranchCount: 2
   Unknown: []
 - BranchType: Procedure
   ProcedureType: Find
@@ -440,6 +519,24 @@ ProcedureTree:
     Unknown: 0x010000
   Unknown: []
 - BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3CE8:Mantella.esp
+      ParameterTwoNumber: 785267944
+      ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
   DataInputIndices:
@@ -453,6 +550,21 @@ ProcedureTree:
     - PreferredSpeed
     PreferredSpeed: Run
     Unknown: 0x010000
+  Unknown: []
+- BranchType: Simultaneous
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3CE0:Mantella.esp
+      ParameterTwoNumber: 785267936
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  Root:
+    BranchCount: 2
   Unknown: []
 - BranchType: Procedure
   ProcedureType: Find
@@ -471,6 +583,24 @@ ProcedureTree:
     Unknown: 0x010000
   Unknown: []
 - BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3CD8:Mantella.esp
+      ParameterTwoNumber: 785267928
+      ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
   DataInputIndices:
@@ -484,6 +614,21 @@ ProcedureTree:
     - PreferredSpeed
     PreferredSpeed: Run
     Unknown: 0x010000
+  Unknown: []
+- BranchType: Simultaneous
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3CD0:Mantella.esp
+      ParameterTwoNumber: 785267920
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  Root:
+    BranchCount: 2
   Unknown: []
 - BranchType: Procedure
   ProcedureType: Find
@@ -502,6 +647,24 @@ ProcedureTree:
     Unknown: 0x010000
   Unknown: []
 - BranchType: Procedure
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: CE3CC8:Mantella.esp
+      ParameterTwoNumber: 785267912
+      ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
   DataInputIndices:
@@ -515,48 +678,6 @@ ProcedureTree:
     - PreferredSpeed
     PreferredSpeed: Run
     Unknown: 0x010000
-  Unknown: []
-- BranchType: Procedure
-  Conditions:
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetPlayerTeammate
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetVMQuestVariable
-      ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D38:Mantella.esp
-      ParameterTwoNumber: 785268024
-      ParameterTwoString: ::NPCAIPackageSelector_var
-  ProcedureType: Wait
-  Flags: []
-  DataInputIndices:
-  - 11
-  - 10
-  Unknown: []
-- BranchType: Procedure
-  Conditions:
-  - MutagenObjectType: ConditionFloat
-    ComparisonValue: 1
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetPlayerTeammate
-  ProcedureType: Follow
-  Flags: []
-  DataInputIndices:
-  - 14
-  - 18
-  - 20
-  - 16
-  - 255
-  - 255
   Unknown: []
 OnBegin:
   Topics:
