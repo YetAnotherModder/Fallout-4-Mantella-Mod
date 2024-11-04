@@ -9,9 +9,13 @@ MantellaConstants property mConsts auto
 Spell property MantellaSpell auto
 bool property conversationIsEnding auto
 Faction Property MantellaConversationParticipantsFaction Auto
+Faction Property MantellaFunctionTargetFaction Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
+SPELL Property MantellaIsTalkingSpell Auto
 bool Property UseSimpleTextField = true auto
+
+
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
 CustomEvent MantellaConversation_Action_mantella_end_conversation
@@ -19,6 +23,8 @@ CustomEvent MantellaConversation_Action_mantella_remove_character
 CustomEvent MantellaConversation_Action_mantella_npc_offended
 CustomEvent MantellaConversation_Action_mantella_npc_forgiven
 CustomEvent MantellaConversation_Action_mantella_npc_follow
+CustomEvent MantellaConversation_Action_mantella_npc_inventory
+CustomEvent DelayedCustomEventTrigger
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;           Globals           ;
@@ -32,16 +38,24 @@ int _DictionaryCleanTimer
 int _PlayerTextInputTimer
 string _PlayerTextInput
 
+
 VoiceType MantellaVoice
 Topic MantellaTopic
 Actor lastSpokenTo = none
-Actor lastNPCSpeaker = none
-Actor playerRef 
+Actor _lastNpcToSpeak = none
+Actor property playerRef auto
+Actor CurrentFunctionTargetNPC
+bool _isTalking = false
 int HttpTimeout
 int _HttpPollTimer = 12 const
 float HttpPeriod = 0.2
 bool property HttpPolling = false auto             ; polling mode, used by VR
 bool PollTimerActive
+
+int _delayedHandle
+string[] _delayedActionIdentifier
+actor[] _delayedSpeaker 
+string[] _delayedlineToSpeak
 
 bool SettingsSaved = false
 bool SettingsApplied = false
@@ -51,16 +65,19 @@ event OnInit()
     _PlayerTextInputTimer = 11
     _ingameEvents = new String[0]
     _extraRequestActions = new String[0]    
+    ;RegisterForExternalEvent("OnHttpReplyReceived","OnHttpReplyReceived")
+    ;RegisterForExternalEvent("OnHttpErrorReceived","OnHttpErrorReceived")
     MantellaTopic = Game.GetFormFromFile(0x01ED1, "mantella.esp") as Topic
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
-    playerRef = Game.GetPlayer()
+    SetPlayerRef()
     Debug.OpenUserLog("MC")
     Debug.TraceUser("MC", "OnInit " )
     SaveSettings()
+    repository.AIPackageMoveToNPCIsActivated=false
     if !UI.isMenuRegistered(SimpleTextField.GetMenuName())
         SimpleTextField:Program.GetProgram().OnQuestInit()              ; Make sure SimpleTextField is initialized
     Endif
-    repository.microphoneEnabled = repository.isFO4VR
+    ;repository.microphoneEnabled = repository.isFO4VR
 endEvent
 
 ;Get some important variables set before anything else starts
@@ -85,6 +102,10 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function StartConversation(Actor[] actorsToStartConversationWith)
+    _delayedHandle=0
+    _delayedActionIdentifier = new String[100]
+    _delayedSpeaker = new Actor[100]
+    _delayedlineToSpeak = new String[100]
     _hasBeenStopped = false
     if(actorsToStartConversationWith.Length > 2)
         Debug.Notification("Can not start conversation. Conversation is already running.")
@@ -142,6 +163,10 @@ function ContinueConversation(int handle)
         if repository.allowVision
             repository.GenerateMantellaVision()
         endif
+        if repository.allowFunctionCalling
+            repository.resetFunctionInferenceNPCArrays()
+            repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
+        endif
         sendRequestForPlayerInput(transcribe)
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         Debug.Notification("Thinking...")
@@ -172,17 +197,17 @@ function ProcessNpcSpeak(int handle)
   
     if speaker != none
         Actor spokenTo = GetActorSpokenTo(speaker)
-
+        ;WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak,-1)
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
         float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
         string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)
 
-        RaiseActionEvent(speaker, lineToSpeak, actions)
+        RaiseActionEvent(speaker, lineToSpeak, actions, handle)
         NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
         ;Utility.wait(1.0)
 
-        if speaker != Game.GetPlayer()
-            lastNPCSpeaker = speaker
+        if speaker != playerRef
+            _lastNpcToSpeak = speaker
         EndIf
     endIf
 endFunction
@@ -198,7 +223,6 @@ function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpeakTo, f
     actorSpeaking.SetLookAt(actorToSpeakTo)
     AllSetLookAt(actorSpeaking)
     
-    Utility.wait(1.0)													    ; Allow time for reading subtitles
     actorSpeaking.Say(MantellaTopic, abSpeakInPlayersHead=false)
     actorSpeaking.SetOverrideVoiceType(none)
     
@@ -230,6 +254,13 @@ Actor function GetActorInConversation(string actorName)
     return none
 endFunction
 
+Function SetIsTalking(bool isTalking)
+    _isTalking = isTalking
+EndFunction
+
+bool Function GetIsTalking()
+    return _isTalking
+EndFunction
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -244,18 +275,20 @@ Function EndConversation()
 EndFunction
 
 Function CleanupConversation()
+    _delayedHandle=0
     repository.hasPendingVisionCheck=false
     conversationIsEnding = true
     ClearParticipants()
     ClearIngameEvent() 
     _does_accept_player_input = false
+    _isTalking = false
     DispelAllMantellaMagicEffectsFromActors()
     If (MantellaConversationParticipantsQuest.IsRunning())
         MantellaConversationParticipantsQuest.Stop()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
     F4SE_HTTP.clearAllDictionaries() 
-    lastNPCSpeaker = none
+    _lastNpcToSpeak = none
     RestoreSettings()
 EndFunction
 
@@ -394,101 +427,111 @@ endFunction
 
 function GetPlayerTextInput(string entrytype)
     ;disable for VR
-    if entryType == "playerResponseTextEntry" && _does_accept_player_input
-        if UseSimpleTextField
+    if !repository.isFO4VR
+        if entryType == "playerResponseTextEntry" && _does_accept_player_input
             repository.GetTextInput(self as ScriptObject,"SetPlayerResponseTextInput","Enter Mantella text dialogue")
-        Else
-            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextInput")
-            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
-        EndIf
-    elseif entryType == "gameEventEntry"
-        if UseSimpleTextField
+        elseif entryType == "gameEventEntry"
             repository.GetTextInput(self as ScriptObject, "SetGameEventTextInput","Enter Mantella a new game event log")
-        Else
-            TIM:TIM.Open(1,"Enter Mantella a new game event log","", 2, 250)
-            RegisterForExternalEvent("TIM::Accept","SetGameEventTextInput")
-            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
-        EndIf
-    elseif entryType == "playerResponseTextAndVisionEntry"
-        if UseSimpleTextField
+        elseif entryType == "playerResponseTextAndVisionEntry"
             repository.GetTextInput(self as ScriptObject, "SetPlayerResponseTextAndVisionInput","Enter Mantella text dialogue")
-        Else
-            TIM:TIM.Open(1,"Enter Mantella text dialogue","", 2, 250)
-            RegisterForExternalEvent("TIM::Accept","SetPlayerResponseTextAndVisionInput")
-            RegisterForExternalEvent("TIM::Cancel","NoTextInput")
-            EndIf
+        endif
     endif
 endFunction
 
 Function SetPlayerResponseTextInput(string text)
     ;disable for VR
-    If UseSimpleTextField
+    if !repository.isFO4VR
         text = TopicInfoPatcher.StringRemoveWhiteSpace(text)
         if text == ""
             return
         Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
 
-    _PlayerTextInput=text
-    if repository.allowVision
-        StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
-    else
-        sendRequestForPlayerInput(_PlayerTextInput)
-        _does_accept_player_input = False
-        repository.ResetEventSpamBlockers() ;reset spam blockers to allow the ListenerScript to pick up on those again
-        Debug.notification("Thinking...")
+        _PlayerTextInput=text
+        if repository.allowFunctionCalling
+            repository.resetFunctionInferenceNPCArrays()
+            repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
+        endif
+        if repository.allowVision
+            StartTimer(0.3,_PlayerTextInputTimer) ;Spacing out the GenerateMantellaVision() to avoid taking a screenshot of the interface
+        else
+            sendRequestForPlayerInput(_PlayerTextInput)
+            _does_accept_player_input = False
+            repository.ResetEventSpamBlockers() ;reset spam blockers to allow the ListenerScript to pick up on those again
+            Debug.notification("Thinking...")
+        Endif
     endif
 EndFunction
 
 Function SetPlayerResponseTextAndVisionInput(string text)
     ;Debug.notification("This text input was entered "+ text)
-    If UseSimpleTextField
+    if !repository.isFO4VR
         text = TopicInfoPatcher.StringRemoveWhiteSpace(text)
         if text == ""
             return
         Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
 
-    _PlayerTextInput = text
-    repository.hasPendingVisionCheck=true
-    StartTimer(0.3,_PlayerTextInputTimer)
+        _PlayerTextInput = text
+        repository.hasPendingVisionCheck=true
+        StartTimer(0.3,_PlayerTextInputTimer)
+    endif
 EndFunction
 
 Function SetGameEventTextInput(string text)
     ;disable for VR
     ;Debug.notification("This text input was entered "+ text)
-    If UseSimpleTextField
+    if !repository.isFO4VR
         text = TopicInfoPatcher.StringRemoveWhiteSpace(text)
         if text == ""
             return
         Endif
-    Else
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    EndIf
-    AddIngameEvent(text)
+        AddIngameEvent(text)
+    endif
 EndFunction
 
     ;
-Function NoTextInput(string text)
-    ;disable for VR
-    ;Debug.notification("Text input cancelled")
-    UnRegisterForExternalEvent("TIM::Accept")
-    UnRegisterForExternalEvent("TIM::Cancel")
-EndFunction
+
+function WaitForNpcToFinishSpeaking(Actor speaker, Actor lastNpcToSpeak, int handle)
+    ; if this is the start of the conversation there is no need to wait, so skip this function entirely
+    if lastNpcToSpeak != None
+        ; if the current NPC did not speak last in a multi-NPC conversation, 
+        ; wait for the last NPC to finish speaking to avoid interrupting
+        if speaker != lastNpcToSpeak 
+            WaitForSpecificNpcToFinishSpeaking(lastNpcToSpeak, handle)
+        endIf
+        ; wait for the current NPC to finish speaking before starting the next voiceline
+        WaitForSpecificNpcToFinishSpeaking(speaker, handle)
+    endIf
+endFunction
+
+function WaitForSpecificNpcToFinishSpeaking(Actor selectedNpc, int handle)
+    selectedNpc.AddSpell(MantellaIsTalkingSpell, False)
+   ; MantellaIsTalkingSpell.cast(selectedNpc as ObjectReference, selectedNpc as ObjectReference)
+    float waitTime = 0.01
+    float totalWaitTime = 0
+    Utility.Wait(2) ; allow time for _isTalking to be set
+    while _isTalking == true ; wait until the NPC has finished speaking
+        Utility.Wait(waitTime)
+        totalWaitTime += waitTime
+        if totalWaitTime > 10 ; note that this isn't really in seconds due to the overhead of the loop running
+            Debug.Notification("NPC speaking too long, ending wait...")
+            _isTalking = false
+        endIf
+    endWhile
+    ;selectedNpc.DispelSpell(MantellaIsTalkingSpell)
+    if handle>0
+        var[] kargs = new Var[1]
+        kargs[0]= _delayedHandle
+        SendCustomEvent("DelayedCustomEventTrigger", kargs )
+        UnregisterForCustomEvent(self, "DelayedCustomEventTrigger")
+        selectedNpc.RemoveSpell(MantellaIsTalkingSpell)
+    endif
+ endFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       Action handler        ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions)
+Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions, int handle)
     if(!actions || actions.Length == 0)
         return ;dont send out an action event if there are no actions to act upon
     endIf
@@ -496,13 +539,28 @@ Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions)
     int i = 0
     While i < actions.Length
         string extraAction = actions[i]
+        if extraAction == mConsts.ACTION_NPC_INVENTORY
+            RegisterForCustomEvent(self, "DelayedCustomEventTrigger")
+            int delayedHandle = GenerateDelayedHandle()
+            _delayedActionIdentifier[delayedHandle] = extraAction
+            _delayedSpeaker[delayedHandle] = speaker
+            _delayedlineToSpeak[delayedHandle] =lineToSpeak
+            WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak, delayedHandle)
+        endif
+        if extraAction != mConsts.ACTION_NPC_INVENTORY
         Debug.Trace("Received action " + extraAction + ". Sending out event!")
-        TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak)
+            TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak, handle)
+        endif
         i += 1
     EndWhile    
 EndFunction
 
-Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, string lineToSpeak)
+Event MantellaConversation.DelayedCustomEventTrigger (MantellaConversation akSender, var[] kargs)
+    int handle = kargs[0] as int
+    TriggerCorrectCustomEvent(_delayedActionIdentifier[handle], _delayedSpeaker[handle], _delayedlineToSpeak[handle],-1)
+EndEvent
+
+Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, string lineToSpeak, int handle)
     Var[] kargs = new Var[2]
     kargs[0] = speaker
     kargs[1] = lineToSpeak
@@ -530,8 +588,36 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
             speaker.SetPlayerTeammate(true)
             speaker.EvaluatePackage()
         EndIf
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_INVENTORY)
+        if (speaker)
+            if repository.allowActionInventory
+                speaker.OpenInventory(true) 
+            else
+                Debug.Notification("Inventory action not enabled in the Mantella MCM.")
+            endif
+        endif
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_MOVETO_NPC)
+        string[] targetIDs= RetrieveTargetIDFunctionInferenceValues(handle)
+        actor targetNPC = repository.getActorFromArray(targetIDs[0],repository.MantellaFunctionInferenceActorList)
+        if targetNPC
+            repository.AIPackageMoveToNPCIsActivated=true
+            if CurrentFunctionTargetNPC
+                CurrentFunctionTargetNPC.RemoveFromFaction(MantellaFunctionTargetFaction)
+            endif
+            CurrentFunctionTargetNPC=targetNPC
+            CurrentFunctionTargetNPC.AddToFaction(MantellaFunctionTargetFaction)
+            CauseReassignmentOfParticipantAlias()
+            debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is moving towards "+CurrentFunctionTargetNPC.GetDisplayName())
+        endif
     endIf
 endFunction
+
+
+
+string[] Function RetrieveTargetIDFunctionInferenceValues(int handle)
+    string[] targetIDs = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_TARGET_IDS)
+    return targetIDs
+EndFunction
 
 Function AddExtraRequestAction(string extraAction)
     if(!_extraRequestActions)
@@ -588,10 +674,19 @@ endFunction
 ;            Utils            ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+int Function GenerateDelayedHandle()
+    _delayedHandle +=1
+    return _delayedHandle
+endfunction
+
+function SetPlayerRef()
+    playerRef = game.getplayer()
+endfunction
+
 bool Function IsPlayerInConversation()
     int i = 0
     While i < Participants.GetSize()
-        if (Participants.GetAt(i) == Game.GetPlayer())
+        if (Participants.GetAt(i) == playerRef)
             return true
         endif
         i += 1
@@ -617,7 +712,7 @@ Function CauseReassignmentOfParticipantAlias()
         ;Debug.Notification("Stopping MantellaConversationParticipantsQuest")
         MantellaConversationParticipantsQuest.Stop()
     EndIf
-    if repository.allowNPCsStayInPlace
+    if repository.allowNPCsStayInPlace || repository.allowFunctionCalling
         ;Debug.Notification("Starting MantellaConversationParticipantsQuest to asign QuestAlias")
         MantellaConversationParticipantsQuest.Start()
     endif
@@ -637,7 +732,7 @@ Function AddActors(Actor[] actorsToAdd)
             int nameCount = 0
             int j = 0
             bool break = false
-            if (actorsToAdd[i] != game.getplayer()) ; ignore the player having the same name as an actor
+            if (actorsToAdd[i] != playerRef) ; ignore the player having the same name as an actor
                 While (j < Participants.GetSize()) && (break==false)
                     Actor currentActor = Participants.GetAt(j) as Actor
                     if (currentActor.GetDisplayName() == actorsToAdd[i].GetDisplayName())
@@ -782,10 +877,10 @@ Actor Function GetActorSpokenTo(Actor speaker)
     Actor spokenTo
 
     If IsPlayerInConversation()                           ; single and multi-NPCs. Either PC or NPC can talk first
-        if speaker != Game.GetPlayer()
-            spokenTo  = Game.GetPlayer()
+        if speaker != playerRef
+            spokenTo  = playerRef
         Else
-            spokenTo = lastNPCSpeaker
+            spokenTo = _lastNpcToSpeak
         EndIf
     Else                                                    ; Radiant conversation w/2 NPCs or new player convo w/ single NPC
         If speaker == Participants.GetAt(0)
@@ -801,24 +896,16 @@ EndFunction
 
 int function buildActorSetting(Actor actorToBuild)    
     int handle = F4SE_HTTP.createDictionary()
-    int baseID = (actorToBuild.getactorbase() as form).getformid()
-    int refID = (actorToBuild as form).getformid()
-    
-    ;Debug.TraceUser("MC", "Actor base: " + baseID + "Ref: " + refID)
-
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_BASEID, (actorToBuild.getactorbase() as form).getformid())
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_REFID, (actorToBuild as form).getformid())
-    F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_ID, (actorToBuild.getactorbase() as form).getformid())
-    ;F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_BASEID, (actorToBuild.getactorbase() as form).getformid())
-    ;F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_REFID, (actorToBuild.getactorbase() as form).getformid())
     F4SE_HTTP.setString(handle, mConsts.KEY_ACTOR_NAME, actorToBuild.GetDisplayName())
-    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISPLAYER, actorToBuild == game.getplayer())
+    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISPLAYER, actorToBuild == playerRef)
     F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_GENDER, actorToBuild.getleveledactorbase().getsex())
     F4SE_HTTP.setString(handle, mConsts.KEY_ACTOR_RACE, actorToBuild.getrace())
-    F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_RELATIONSHIPRANK, actorToBuild.getrelationshiprank(game.getplayer()))
+    F4SE_HTTP.setInt(handle, mConsts.KEY_ACTOR_RELATIONSHIPRANK, actorToBuild.getrelationshiprank(playerRef))
     F4SE_HTTP.setString(handle, mConsts.KEY_ACTOR_VOICETYPE, actorToBuild.GetVoiceType())
     F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISINCOMBAT, actorToBuild.IsInCombat())    
-    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISENEMY, actorToBuild.getcombattarget() == game.GetPlayer())
+    F4SE_HTTP.setBool(handle, mConsts.KEY_ACTOR_ISENEMY, actorToBuild.getcombattarget() == playerRef)
     int customValuesHandle = BuildCustomActorValues(actorToBuild)
     F4SE_HTTP.setNestedDictionary(handle, mConsts.KEY_ACTOR_CUSTOMVALUES, customValuesHandle)  
     return handle
@@ -834,7 +921,7 @@ EndFunction
 int function BuildContext()
     int handle = F4SE_HTTP.createDictionary()
      String currLoc = ""
-    form currentLocation = game.getplayer().GetCurrentLocation() as Form
+    form currentLocation = playerRef.GetCurrentLocation() as Form
     if currentLocation
         currLoc = currentLocation.getName()
     Else
@@ -850,13 +937,26 @@ endFunction
 
 int Function BuildCustomContextValues()
     int handleCustomContextValues = F4SE_HTTP.createDictionary()
-    Actor player = game.getplayer()  
-    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, player.getpositionX())
-    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, player.getpositionY())
-    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, player.GetAngleZ())
-    F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, repository.checkAndUpdateVisionPipeline())
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSX, playerRef.getpositionX())
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERPOSY, playerRef.getpositionY())
+    F4SE_HTTP.setFloat(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_PLAYERROT, playerRef.GetAngleZ())
+    bool isVisionReady = repository.checkAndUpdateVisionPipeline()
+    if isVisionReady
+        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_READY, isVisionReady)
     F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RES, repository.visionResolution)
     F4SE_HTTP.setInt(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE, repository.visionResize)
+    endif
+    if repository.allowVisionHints && repository.ActorsInCellArray!=""
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_VISION_HINTSNAMEARRAY, repository.ActorsInCellArray)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_VISION_HINTSDISTANCEARRAY, repository.VisionDistanceArray)
+        repository.resetVisionHintsArrays()
+    endif
+    if repository.allowFunctionCalling && repository.MantellaFunctionInferenceActorNamesList
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES, repository.MantellaFunctionInferenceActorNamesList)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES, repository.MantellaFunctionInferenceActorDistanceList)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCIDS, repository.MantellaFunctionInferenceActorIDsList)
+    endif
+
     return handleCustomContextValues
 EndFunction
 
@@ -869,6 +969,12 @@ int function GetCurrentHourOfDay()
 	int Hour = Math.Floor(Time) ; Get whole hour
 	return Hour
 endFunction
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SUP_F4SE & SUP_F4SEVR functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ; Functions to temporarly change some game settings
 ; to prevent various NPCs from interrupting conversations in progress

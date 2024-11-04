@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12504
+VersionControl: 12578
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -11,32 +11,24 @@ VirtualMachineAdapter:
       Name: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaQuest
-        Object: 000F99:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaRadiantEnabled
         Object: 00D51E:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaQuest
+        Object: 000F99:Mantella.esp
     Fragments:
-    - FragmentIndex: 8
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_08
     - FragmentIndex: 7
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_07
-    - FragmentIndex: 5
-      Unknown2: 1
-      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_05
     - FragmentIndex: 2
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_02
-    - FragmentIndex: 6
+    - FragmentIndex: 8
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
-      FragmentName: Fragment_Terminal_06
+      FragmentName: Fragment_Terminal_08
     - FragmentIndex: 1
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -101,22 +93,6 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: This will end all Mantella effects running on NPCs.
-- ItemText:
-    TargetLanguage: English
-    Value: Turn subtitles OFF
-  Type: DisplayText
-  ItemId: 5
-  DisplayText:
-    TargetLanguage: English
-    Value: Turning Mantella dialogue subtitles OFF
-- ItemText:
-    TargetLanguage: English
-    Value: Turn subtitles ON
-  Type: DisplayText
-  ItemId: 6
-  DisplayText:
-    TargetLanguage: English
-    Value: Turning Mantella dialogue subtitles ON
 - ItemText:
     TargetLanguage: English
     Value: Remove conversation activation option

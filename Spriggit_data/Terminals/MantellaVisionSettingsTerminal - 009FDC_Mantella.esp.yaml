@@ -1,6 +1,6 @@
 FormKey: 009FDC:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12535
+VersionControl: 12578
 EditorID: MantellaVisionSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -22,6 +22,14 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
       FragmentName: Fragment_Terminal_10
+    - FragmentIndex: 3
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
+      FragmentName: Fragment_Terminal_03
+    - FragmentIndex: 4
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaVisionSettingsT_07009FDC
+      FragmentName: Fragment_Terminal_04
 ObjectBounds:
   First: -18, -52, 86
   Second: 21, 0, 135
@@ -71,6 +79,17 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: Turn automatic vision analysis OFF.
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 04BE88:Mantella.esp
+      ParameterTwoNumber: 755285640
+      ParameterTwoString: ::allowVision_var
 - ItemText:
     TargetLanguage: English
     Value: Turn auto Vision Analysis ON
@@ -83,6 +102,18 @@ MenuItems:
 
 
       Requires specific ChatML compatible LLM capable of vision analysis (e.g. ChatGPT4-o). 
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 04BE80:Mantella.esp
+      ParameterTwoNumber: 755285632
+      ParameterTwoString: ::allowVision_var
 - ItemText:
     TargetLanguage: English
     Value: Set image resolution (submenu)
@@ -95,6 +126,45 @@ MenuItems:
   Type: SubmenuTerminal
   ItemId: 2
   Submenu: 026EEF:Mantella.esp
+- ItemText:
+    TargetLanguage: English
+    Value: Turn vision hints ON
+  Type: DisplayText
+  ItemId: 3
+  DisplayText:
+    TargetLanguage: English
+    Value: Turning this on will make Mantella Software attempt to give the names of the NPCs displayed in the screenshots sent to the LLM
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 04BE78:Mantella.esp
+      ParameterTwoNumber: 755285624
+      ParameterTwoString: ::allowVisionHints_var
+- ItemText:
+    TargetLanguage: English
+    Value: Turn vision hints OFF
+  Type: DisplayText
+  ItemId: 4
+  DisplayText:
+    TargetLanguage: English
+    Value: Turning this off will make Mantella Software attempt to give the names of the NPCs displayed in the screenshots sent to the LLM
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 04BE70:Mantella.esp
+      ParameterTwoNumber: 755285616
+      ParameterTwoString: ::allowVisionHints_var
 MajorFlags:
 - 0x10
 - 0x2000

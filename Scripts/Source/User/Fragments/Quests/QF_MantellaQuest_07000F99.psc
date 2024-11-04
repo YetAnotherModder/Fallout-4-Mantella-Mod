@@ -120,34 +120,6 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_Stage_0303_Item_00
-Function Fragment_Stage_0303_Item_00()
-;BEGIN AUTOCAST TYPE mantellarepository
-Quest __temp = self as Quest
-mantellarepository kmyQuest = __temp as mantellarepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.toggleNotificationSubtitles(false)
-
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_Stage_0304_Item_00
-Function Fragment_Stage_0304_Item_00()
-;BEGIN AUTOCAST TYPE mantellarepository
-Quest __temp = self as Quest
-mantellarepository kmyQuest = __temp as mantellarepository
-;END AUTOCAST
-;BEGIN CODE
-kmyQuest.toggleNotificationSubtitles(true)
-
-Reset()
-;END CODE
-EndFunction
-;END FRAGMENT
-
 ;BEGIN FRAGMENT Fragment_Stage_0305_Item_00
 Function Fragment_Stage_0305_Item_00()
 ;BEGIN AUTOCAST TYPE mantellarepository
@@ -297,6 +269,32 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0409_Item_00
+Function Fragment_Stage_0409_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowVisionHints(true)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0410_Item_00
+Function Fragment_Stage_0410_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowVisionHints(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0501_Item_00
 Function Fragment_Stage_0501_Item_00()
 ;BEGIN AUTOCAST TYPE mantellarepository
@@ -377,6 +375,58 @@ mantellarepository kmyQuest = __temp as mantellarepository
 ;BEGIN CODE
 kmyQuest.toggleAllowNPCsStayInPlace(true)
 
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0507_Item_00
+Function Fragment_Stage_0507_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleActionInventory(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0508_Item_00
+Function Fragment_Stage_0508_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleActionInventory(true)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0509_Item_00
+Function Fragment_Stage_0509_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowFunctionCalling(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0510_Item_00
+Function Fragment_Stage_0510_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.toggleAllowFunctionCalling(true)
 Reset()
 ;END CODE
 EndFunction

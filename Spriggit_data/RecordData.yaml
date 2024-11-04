@@ -1,6 +1,6 @@
 SpriggitSource:
   PackageName: Spriggit.Yaml.Fallout4
-  Version: 0.26
+  Version: 0.30
 ModKey: Mantella.esp
 GameRelease: Fallout4
 ModHeader:

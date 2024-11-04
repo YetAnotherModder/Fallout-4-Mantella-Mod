@@ -1,0 +1,10 @@
+FormKey: 04BF41:Mantella.esp
+VersionControl: 12605
+EditorID: MantellaFunctionTargetFaction
+CrimeValues:
+  Arrest: True
+  AttackOnSight: True
+VendorValues:
+  EndHour: 24
+  BuysStolenItems: True
+  BuysNonStolenItems: True

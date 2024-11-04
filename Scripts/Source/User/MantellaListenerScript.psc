@@ -13,7 +13,6 @@ Scriptname MantellaListenerScript extends ReferenceAlias
 ; ---------------------------------------------
 
 Import F4SE
-;Import SUP_F4SE
 Spell property MantellaSpell auto
 Actor property PlayerRef auto
 Weapon property MantellaGun auto
@@ -32,6 +31,8 @@ int CleanupconversationTimer=2
 Float meterUnits = 78.74
 Worldspace PrewarWorldspace
 bool itemsGiven
+Quest Property MantellaNPCCollectionQuest Auto 
+RefCollectionAlias Property MantellaNPCCollection  Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Initialization events and functions  ;
@@ -48,7 +49,7 @@ Event OnPlayerTeleport()
 	    TryToGiveItems()
     endif
     If !(conversation.IsRunning())
-        Actor[] ActorsInCell = repository.ScanCellForActors(false)
+        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection)
         repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
     endif
 EndEvent
@@ -73,18 +74,18 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event OnPlayerLoadGame()
-    conversation.OnLoadGame()
     LoadMantellaEvents()
+    conversation.OnLoadGame()
 EndEvent
 
 Function LoadMantellaEvents()
-    
+    conversation.SetPlayerRef()
     repository.reloadKeys()
     registerForPlayerEvents()
     ;Will clean up all all conversation loops if they're still occuring
     ; repository.endFlagMantellaConversationOne = True    
     If (conversation.IsRunning())   
-        Actor[] ActorsInCell = repository.ScanCellForActors(false)
+        Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection)
         repository.DispelAllMantellaMagicEffectsFromActors(ActorsInCell)
         conversation.conversationIsEnding=false  ;just here as a safety to prevent locking out the player out of initiating conversations
         conversation.EndConversation();Should there still be a running conversation after a load, end it
@@ -102,11 +103,6 @@ Function CheckGameVersionForMantella()
     if  !IsF4SEProperlyInstalled() 
         debug.messagebox("F4SE not properly installed, Mantella will not work correctly")
     endif
-    ; int currentSUPversion
-    ; currentSUPversion = GetSUPF4SEVersion()
-    ; if currentSUPversion == 0
-    ;     debug.messagebox("SUP_F4SE not properly installed, Mantella will not work correctly")
-    ; endif
     repository.currentFO4version = Debug.GetVersionNumber()
     Debug.Notification("Version " + repository.currentFO4version)
     repository.isFO4VR = false

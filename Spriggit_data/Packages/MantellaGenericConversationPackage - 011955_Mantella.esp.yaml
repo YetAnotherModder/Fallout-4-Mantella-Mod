@@ -1,5 +1,5 @@
 FormKey: 011955:Mantella.esp
-VersionControl: 12552
+VersionControl: 12605
 EditorID: MantellaGenericConversationPackage
 VirtualMachineAdapter:
   ScriptFragments:
@@ -87,6 +87,16 @@ Data:
     Flags:
     - Public
     Data: 1000
+- Key: 21
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: FunctionTarget
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetAlias
+      Alias: 15
 - Key: 1
   Value:
     MutagenObjectType: APackageData
@@ -123,16 +133,47 @@ Data:
     Name: <none>
     Flags:
     - Public
-XnamMarker: 0x15
+XnamMarker: 0x16
 ProcedureTree:
 - BranchType: Sequence
   Root:
-    BranchCount: 2
+    BranchCount: 3
     Flags:
     - RepeatWhenComplete
   Unknown: []
 - BranchType: Procedure
   Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 04BE00:Mantella.esp
+      ParameterTwoNumber: 755285504
+      ParameterTwoString: ::AIPackageMoveToNPCIsActivated_var
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 21
+  - 18
+  - 20
+  - 255
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 04BDF8:Mantella.esp
+      ParameterTwoNumber: 755285496
+      ParameterTwoString: ::AIPackageMoveToNPCIsActivated_var
   - MutagenObjectType: ConditionFloat
     Data:
       MutagenObjectType: FunctionConditionData
@@ -145,6 +186,15 @@ ProcedureTree:
   Unknown: []
 - BranchType: Procedure
   Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 04BDF0:Mantella.esp
+      ParameterTwoNumber: 755285488
+      ParameterTwoString: ::AIPackageMoveToNPCIsActivated_var
   - MutagenObjectType: ConditionFloat
     ComparisonValue: 1
     Data:

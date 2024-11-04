@@ -1,11 +1,11 @@
 FormKey: 01E64D:Mantella.esp
-VersionControl: 12534
+VersionControl: 12605
 EditorID: MantellaConversationParticipantsQuest2
 Data:
   Flags:
   - RepeatsConditions
   Priority: 95
-  Unused: 81
+  Unused: 221
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -117,4 +117,20 @@ Aliases:
   PackageData:
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 15
+  Name: MantellaFunctionTarget01
+  Flags:
+  - Optional
+  - AllowReserved
+  - MatchingRefClosest
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
   VoiceTypes: Null

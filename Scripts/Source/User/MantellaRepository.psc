@@ -1,5 +1,5 @@
 Scriptname MantellaRepository extends Quest Conditional
-;Import SUP_F4SE
+
 
 ;keycode properties
 int property textkeycode auto
@@ -12,27 +12,48 @@ int property startConversationkeycode auto
 int property MenuEventSelector auto
 MantellaConversation property conversation auto
 MantellaConstants property ConstantsScript auto
+Quest Property MantellaVisibleCollectionQuest Auto 
+RefCollectionAlias Property MantellaVisibleNPCRefCollection  Auto
+Quest Property MantellaNPCCollectionQuest Auto 
+RefCollectionAlias Property MantellaNPCCollection  Auto
+
 
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
 string property currentFO4version auto
+int property currentSUPversion auto
 bool property isFO4VR auto Conditional
 bool property microphoneEnabled auto
 bool property radiantEnabled auto
-bool property notificationsSubtitlesEnabled auto
 float property radiantDistance auto
 float property radiantFrequency auto
 
 ;vision parameters
-bool property allowVision auto
+bool property hideVisionMenu auto Conditional
+bool property allowVision auto Conditional
+bool property allowVisionHints auto Conditional
 bool property hasPendingVisionCheck auto
 string property visionResolution auto
 int property visionResize auto Conditional
+String property ActorsInCellArray auto
+String property VisionDistanceArray auto
+
+;function calling parameters
+bool property hideFunctionMenu auto Conditional
+bool property allowFunctionCalling auto Conditional
+Quest Property MantellaFunctionNPCCollectionQuest Auto 
+RefCollectionAlias Property MantellaFunctionNPCCollection  Auto
+Actor[] Property MantellaFunctionInferenceActorList  Auto
+String Property MantellaFunctionInferenceActorNamesList  Auto
+String Property MantellaFunctionInferenceActorDistanceList  Auto
+String Property MantellaFunctionInferenceActorIDsList  Auto
+bool property AIPackageMoveToNPCIsActivated auto Conditional
 
 
-bool property allowAggro auto
+bool property allowActionAggro auto
 bool property allowNPCsStayInPlace auto Conditional
 bool property allowFollow auto
+bool property allowActionInventory auto Conditional
 bool property allowCrosshairTracking auto
 Spell property MantellaSpell auto
 Perk property ActivatePerk auto
@@ -70,7 +91,6 @@ bool property EventFireWeaponSpamBlocker auto
 bool property EventRadiationDamageSpamBlocker auto
 int property WeaponFiredCount auto
 
-
 ActorValue property HealthAV auto
 ActorValue property RadsAV auto
 float radiationToHealthRatio = 0.229
@@ -80,6 +100,7 @@ int CleanupconversationTimer=2
 ;Callback variables for SimpleTextField
 ScriptObject CBscript =  none
 string CBfunction
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -115,11 +136,6 @@ Function StopConversations()
         StartTimer(5,CleanupconversationTimer)              ;Start a timer to make second hard reset if conversation is still running after
         conversation.conversationIsEnding = false
     EndIf
-    ; endFlagMantellaConversationOne = True
-    ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "True", 0)
-    ; Utility.Wait(0.5)
-    ; endFlagMantellaConversationOne = False
-    ; SUP_F4SE.WriteStringToFile("_mantella_end_conversation.txt", "False", 0)
 EndFunction
 
 Event Ontimer( int TimerID)
@@ -136,6 +152,7 @@ Event Ontimer( int TimerID)
 
 Function reinitializeVariables()
     ;change the below this is for debug only
+    hideVisionMenu=true
     textkeycode=72
     gameEventkeycode=89
     startConversationkeycode=72
@@ -143,11 +160,13 @@ Function reinitializeVariables()
     radiantEnabled = true
     radiantDistance = 20
     radiantFrequency = 10
-    notificationsSubtitlesEnabled = true
     allowVision = false
+    allowVisionHints = true
+    allowFunctionCalling = false
     visionResolution="auto"
     visionResize=1024
-    allowAggro = false
+    allowActionAggro = false
+    allowActionInventory = false
     allowFollow = false
     allowNPCsStayInPlace = true
     MenuEventSelector=0
@@ -208,17 +227,8 @@ Function toggleTargetEventTracking(bool bswitch)
     targetTrackingGiveCommands = bswitch
 EndFunction
 
-Function toggleNotificationSubtitles(bool bswitch)
-    notificationsSubtitlesEnabled = bswitch
-    if bswitch
-        Debug.notification("Subtitles enabled")
-    else
-        Debug.notification("Subtitles disabled")
-    endif
-EndFunction
-
 Function toggleAllowAggro(bool bswitch)
-    allowAggro = bswitch
+    allowActionAggro = bswitch
     if bswitch
         Debug.notification("NPC are now allowed to aggro")
     else
@@ -228,6 +238,10 @@ EndFunction
 
 Function toggleAllowFollow(bool bswitch)
     allowFollow = bswitch
+EndFunction
+
+Function toggleActionInventory(bool bswitch)
+    allowActionInventory = bswitch
 EndFunction
 
 Function toggleAllowNPCsStayInPlace(bool bswitch)
@@ -251,6 +265,29 @@ Function toggleAllowVision(bool bswitch)
         Debug.notification("Vision analysis is now OFF")
     endif
 EndFunction
+
+Function toggleAllowFunctionCalling(bool bswitch)
+    allowFunctionCalling = bswitch
+    if allowFunctionCalling
+        ;toggle NPC Stay in Place as well since function calling depends on it.
+        toggleAllowNPCsStayInPlace(true)  
+    endif
+    if bswitch
+        Debug.notification("Function Calling is now ON")
+    else
+        Debug.notification("Function Calling is now OFF")
+    endif
+EndFunction
+
+Function toggleAllowVisionHints(bool bswitch)
+    allowVisionHints = bswitch
+    if bswitch
+        Debug.notification("Vision hints are now ON")
+    else
+        Debug.notification("Vision hints are now OFF")
+    endif
+EndFunction
+
 
 Function ToggleActivatePerk()
     Actor PlayerRef = Game.GetPlayer()
@@ -279,7 +316,7 @@ EndFunction
 
 Function listMenuState(String aMenu)
     if aMenu=="NPC_Actions"
-        if allowAggro==false
+        if allowActionAggro==false
             debug.notification("NPC aggro is OFF")
         else
             debug.notification("NPC aggro is ON")
@@ -290,11 +327,6 @@ Function listMenuState(String aMenu)
             debug.notification("NPC follow is ON")
         endif
     elseif aMenu=="Main_Settings"
-        if notificationsSubtitlesEnabled==false
-            debug.notification("Subtitles are OFF")
-        else
-            debug.notification("Subtitles are ON")
-        endif
         if !(Game.GetPlayer().HasPerk(ActivatePerk))
             debug.notification("Alt conversation start option is OFF")
         else
@@ -397,24 +429,33 @@ Event Onkeydown(int keycode)
                 conversation.GetPlayerTextInput("gameEventEntry")
             EndIf
         Endif
-        if CrosshairActor!=none && keycode == startConversationkeycode
-            String actorName = CrosshairActor.GetDisplayName()
-            bool isTargetInConversation = conversation.IsActorInConversation(CrosshairActor)
-            float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
 
-            if distanceFromConversationTarget<1500
-                ; if actor not already loaded or player is interrupting radiant dialogue
-                bool bIsPlayerInConversation = conversation.IsPlayerInConversation()
-                
-                if !isTargetInConversation
-                    debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
-                    MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
-                ElseIf !bIsPlayerInConversation
-                    debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
-                    MantellaSpell.cast(CrosshairActor, Game.GetPlayer())
+        if keycode == startConversationkeycode
+            ;Need to use an array here, as returning a scalar sometimes fails!?
+            Actor [] alist = TopicInfoPatcher.GetLastCrossHairActor()
+            CrosshairActor = alist[0]
+            Debug.Notification("Actor: " + crosshairActor.GetDisplayName())
+
+            if CrosshairActor != none
+                String actorName = CrosshairActor.GetDisplayName()
+                bool isTargetInConversation = conversation.IsActorInConversation(CrosshairActor)
+                float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
+
+                if distanceFromConversationTarget<1500
+                    ; if actor not already loaded or player is interrupting radiant dialogue
+                    bool bIsPlayerInConversation = conversation.IsPlayerInConversation()
+                    
+                    if !isTargetInConversation
+                        debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
+                        MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
+                    ElseIf !bIsPlayerInConversation
+                        debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
+                        MantellaSpell.cast(CrosshairActor, Game.GetPlayer())
+                    endif
+                    Utility.Wait(0.5)
+
                 endif
-                Utility.Wait(0.5)
-            endif
+            EndIf
         Endif
     EndIf
 Endevent
@@ -478,82 +519,99 @@ EndFunction
 
 function OpenHotkeyPrompt(string entryType)
     ;disable for VR
-    if entryType == "playerInputTextHotkey"
-        SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueHotkeyInput","Enter the DirectX Scancode for the dialogue hotkey")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "gameEventHotkey"
-        SimpleTextField.Open(self as ScriptObject, "TIMGameEventHotkeyInput","Enter the DirectX Scancode for the game event hotkey")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "startConversationHotKey"
-        SimpleTextField.Open(self as ScriptObject, "TIMStartConversationHotkeyInput","Enter the DirectX Scancode for the start converstion hotkey")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "playerInputTextAndVisionHotkey"
-        SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueAndVisionHotkeyInput","Enter the DirectX Scancode for the dialogue and vision hotkey")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    elseif entryType == "playerInputMantellaVisionHotkey"
-        SimpleTextField.Open(self as ScriptObject, "TIMSetMantellaVisionHotkeyInput","Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey")
-        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    if !isFO4VR
+        if entryType == "playerInputTextHotkey"
+            SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueHotkeyInput","Enter the DirectX Scancode for the dialogue hotkey")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "gameEventHotkey"
+            SimpleTextField.Open(self as ScriptObject, "TIMGameEventHotkeyInput","Enter the DirectX Scancode for the game event hotkey")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "startConversationHotKey"
+            SimpleTextField.Open(self as ScriptObject, "TIMStartConversationHotkeyInput","Enter the DirectX Scancode for the start converstion hotkey")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "playerInputTextAndVisionHotkey"
+            SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueAndVisionHotkeyInput","Enter the DirectX Scancode for the dialogue and vision hotkey")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        elseif entryType == "playerInputMantellaVisionHotkey"
+            SimpleTextField.Open(self as ScriptObject, "TIMSetMantellaVisionHotkeyInput","Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey")
+            UnregisterForMenuOpenCloseEvent("PipboyMenu")
+        Endif
     endif
 
 endfunction
 
 Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-    if keycode == ""
-        return
-    Endif
-    setHotkey(keycode as int, "Dialogue")
+    if !isFO4VR
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
+        setHotkey(keycode as int, "Dialogue")
+    endif
 EndFunction
 
 Function TIMGameEventHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-    if keycode == ""
-        return
-    Endif
+    if !isFO4VR
+        keycode = SUPF4SEformatText(keycode)
+
+        if keycode == ""
+            return
+        Endif
     setHotkey(keycode as int, "GameEvent")
+    endif
 EndFunction
 
 Function TIMStartConversationHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-    if keycode == ""
-        return
-    Endif
-    setHotkey(keycode as int, "StartConversation")
+    if !isFO4VR
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
+        setHotkey(keycode as int, "StartConversation")
+    endif
 EndFunction
 
 Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-    if keycode == ""
-        return
-    Endif
-    setHotkey(keycode as int, "DialogueAndVision")
+    if !isFO4VR    
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
+        setHotkey(keycode as int, "DialogueAndVision")
+    endif
 EndFunction
 
 Function TIMSetMantellaVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
-    keycode = TopicInfoPatcher.StringRemoveWhiteSpace(keycode)
-    if keycode == ""
-        return
-    Endif
-    setHotkey(keycode as int, "MantellaVision")
+    if !isFO4VR    
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
+        setHotkey(keycode as int, "MantellaVision")
+    endif
 EndFunction
 
 function Open_HTTP_Port_Prompt()
-    SimpleTextField.Open(self as ScriptObject, "TIM_Set_HTTP_Port","Enter the HTTP port, use a value between 0 and 65535")
-    UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    if !isFO4VR
+        SimpleTextField.Open(self as ScriptObject, "TIM_Set_HTTP_Port","Enter the HTTP port, use a value between 0 and 65535")
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
+    EndIf
 endfunction
 
 Function TIM_Set_HTTP_Port(string HTTP_port)
     ;Debug.notification("This text input was entered "+ text)
-    HTTP_port = TopicInfoPatcher.StringRemoveWhiteSpace(HTTP_port)
-    if HTTP_port == ""
-        return
-    Endif
-    ConstantsScript.HTTP_PORT = (HTTP_port as int)
+    if !isFO4VR
+        HTTP_port = SUPF4SEformatText(HTTP_port)
+        if HTTP_port ==""
+            return
+        Endif
+        ConstantsScript.HTTP_PORT = (HTTP_port as int)
+    endif
 EndFunction
     
 
@@ -563,7 +621,10 @@ EndFunction
 
 Function GenerateMantellaVision()
     hasPendingVisionCheck=true
-    TopicInfoPatcher.TakeScreenShot("Mantela_vision.png", 3)
+    TopicInfoPatcher.TakeScreenShot("Mantella_Vision.jpg", 0) 
+    if allowVisionHints
+        ScanCellForActorsFilteredLOS()
+    endif   
 EndFunction
 
 bool Function checkAndUpdateVisionPipeline()
@@ -577,32 +638,172 @@ bool Function checkAndUpdateVisionPipeline()
 EndFunction
 
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   NPC array management    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-Actor[] Function ScanCellForActors(bool filteredByPlayerLOS) 
+Function ScanCellForActorsFilteredLOS() 
     Actor playerRef = Game.GetPlayer()
-    Actor[] ActorsInCell
-    Actor[] ActorsInCellProcessed
-    ActorsInCell = SUP_F4SE.GetActorsInCell(playerRef.GetParentCell(), -1)
+    Actor[] ActorsInCell = new Actor[0]
+    float[] currentDistanceArray = new float[0]
+    MantellaVisibleCollectionQuest.start()
+    int icount = MantellaVisibleNPCRefCollection.GetCount()
+    int iindex = 0
+    while (iindex < icount)
+        Actor Actori = MantellaVisibleNPCRefCollection.GetAt(iindex) as Actor
+        float currentDistance = playerRef.GetDistance(Actori)
+        if Actori.GetDisplayName()!="" && playerRef.HasDetectionLOS (Actori)
+            ActorsInCell.add(Actori)
+            currentDistanceArray.add(currentDistance)
+        endif
+        iindex = iindex + 1
+    endwhile
+    MantellaVisibleCollectionQuest.stop()
+    ActorsInCellArray=ActorsArrayToString(ActorsInCell)
+    VisionDistanceArray = currentDistanceArrayToString(currentDistanceArray)
+Endfunction
+
+Actor[] Function ScanAndReturnNearbyActors(quest QuestForScan, RefCollectionAlias RefCollectionToUse) 
+    Actor[] ActorsInCell = new Actor[0]
+    QuestForScan.start()
+    int icount = RefCollectionToUse.GetCount()
+    int iindex = 0
+    while (iindex < icount)
+        Actor Actori = RefCollectionToUse.GetAt(iindex) as Actor
+        ActorsInCell.add(Actori)
+        iindex = iindex + 1
+    endwhile
+    QuestForScan.stop()
+    return ActorsInCell
+Endfunction
+
+Function UpdateFunctionInferenceNPCArrays(Actor[] ActorArray) 
+    actor playerRef = game.GetPlayer()
+    Float[] currentDistanceArray = new Float[0]
+    String[] currentFormIDArray = new String[0]
+    int icount = ActorArray.Length
+    int iindex = 0
+    MantellaFunctionInferenceActorList = new Actor[0]
+    while (iindex < icount)
+        Actor Actori = ActorArray[iindex]
+        float currentDistance = playerRef.GetDistance(Actori)
+        string currentFormID = Actori.GetFormID() as string
+        MantellaFunctionInferenceActorList.add(Actori)
+        currentDistanceArray.add(currentDistance)
+        currentFormIDArray.add(currentFormID)
+        iindex = iindex + 1
+    endwhile
+    MantellaFunctionInferenceActorNamesList=ActorsArrayToString(MantellaFunctionInferenceActorList)
+    MantellaFunctionInferenceActorDistanceList = currentDistanceArrayToString(currentDistanceArray)
+    MantellaFunctionInferenceActorIDsList = ActorsArrayToFormIDString(MantellaFunctionInferenceActorList)
+Endfunction
+
+
+
+;/ DEPRECATED TO REMOVE SUP_F4SE DEPENDENCIES
+Actor[] Function ScanCellForActors(bool filteredByPlayerLOS, bool updateProperties) 
+    ;if filteredByPlayerLOS is turned on this only returns an array of actors visible to the player
+    ;if updateProperties is turned on it will fill the properties of ActorsInCellArray & currentDistanceArray with the scanned actors names and distances
+    ;if updateProperties is turned off it will return the values of the actors in array form
+    Actor playerRef = Game.GetPlayer()
+    Actor[] ActorsInCellProcessed = new Actor[0]
+    Actor[] ActorsInCell = new Actor[0]
+    float[] currentDistanceArrayProcessed = new float[0]
+    ActorsInCell = SUP_F4SEScanCellMethodSelector(playerRef)
     if filteredByPlayerLOS
         int i
-        int FilteredActorCount
             While i < ActorsInCell.Length
                 Actor currentActor = ActorsInCell[i]
                 if playerRef.HasDetectionLOS (currentActor)
                     float currentDistance = playerRef.GetDistance(currentActor)
-                    if currentActor.GetDisplayName()!="" && currentDistance<5000
+                 if currentActor.GetDisplayName()!="" && currentDistance<5000 && currentActor != PlayerRef
                         ActorsInCellProcessed.add(ActorsInCell[i])
+                    currentDistanceArrayProcessed.add(currentDistance)
                     endif
                 endif
                 i += 1
             EndWhile
-        ActorsInCell=ActorsInCellProcessed
     endif
+    if updateProperties
+        ActorsInCellArray=ActorsArrayToString(ActorsInCellProcessed)
+        VisionDistanceArray = currentDistanceArrayToString(currentDistanceArrayProcessed)
+    else
     return ActorsInCell
+    endif
 Endfunction
+/;
+
+String Function ActorsArrayToString (Actor[] ActorArray)
+    string StringOutput
+    int i = 0
+    string currentActorName =""
+    While i < ActorArray.Length
+        Actor currentActor = ActorArray[i]
+        currentActorName = currentActor.GetDisplayName()
+        StringOutput += "["+currentActorName+"]"
+        if i != (ActorArray.Length-1)
+            StringOutput += ","
+        endif
+        i += 1
+    EndWhile
+    return StringOutput
+Endfunction
+
+String Function currentDistanceArrayToString (Float[] currentDistanceArray)
+    string StringOutput
+    int i = 0
+    While i < currentDistanceArray.Length
+        float currentDistance = currentDistanceArray[i]
+        StringOutput += "["+currentDistance+"]"
+        if i != (currentDistanceArray.Length-1)
+            StringOutput += ","
+        endif
+        i += 1
+    EndWhile
+    return StringOutput
+Endfunction
+
+String Function ActorsArrayToFormIDString (Actor[] ActorArray)
+    string StringOutput
+    int i = 0
+    string currentActorFormID =""
+    While i < ActorArray.Length
+        Actor currentActor = ActorArray[i]
+        currentActorFormID = currentActor.GetFormID()
+        StringOutput += "["+currentActorFormID+"]"
+        if i != (ActorArray.Length-1)
+            StringOutput += ","
+        endif
+        i += 1
+    EndWhile
+    return StringOutput
+Endfunction
+
+Function resetVisionHintsArrays()
+    ActorsInCellArray=""
+    VisionDistanceArray = ""
+Endfunction
+
+Function resetFunctionInferenceNPCArrays()
+    MantellaFunctionInferenceActorNamesList=""
+    MantellaFunctionInferenceActorDistanceList=""
+    MantellaFunctionInferenceActorIDsList=""
+Endfunction
+
+Actor Function getActorFromArray(string targetID, actor[] actorarray)
+    int i = 0
+    int convertedTargetID = targetID as int
+    While i < actorarray.Length
+        Actor currentActor = actorarray[i]
+        if currentActor.GetFormID() == convertedTargetID
+            return currentActor
+        endIf
+        i += 1
+    EndWhile
+    return none
+Endfunction
+
 
 Function DispelAllMantellaMagicEffectsFromActors(Actor[] ActorArray)
     int i=0
@@ -764,5 +965,20 @@ Function GetTextInput(ScriptObject akReceiver, string asFunctionName, string asT
     CBfunction = asFunctionName
     SimpleTextField.Open(self as ScriptObject, "TextInputCB", asTitle, asText)   
 EndFunction
+
+string function SUPF4SEformatText(string TextToFormat)
+    TextToFormat = TopicInfoPatcher.StringRemoveWhiteSpace(TextToFormat)
+    return TextToFormat
+endfunction
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   LLM Function Calling Functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Actor[] Function GetFunctionInferenceActorList ()  
+    return ScanAndReturnNearbyActors(MantellaFunctionNPCCollectionQuest ,MantellaFunctionNPCCollection)
+Endfunction 
 
 

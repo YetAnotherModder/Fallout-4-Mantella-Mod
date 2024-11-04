@@ -1,0 +1,28 @@
+FormKey: 04B7A6:Mantella.esp
+VersionControl: 12597
+EditorID: MantellaFunctionNPCCollectionQuest
+Data:
+  Unused: 221
+UnusedConditions: []
+Aliases:
+- MutagenObjectType: QuestCollectionAlias
+  Collection:
+  - MaxInitialFillCount: 10
+- MutagenObjectType: QuestReferenceAlias
+  Name: MantellaFunctionNPCCollection
+  Flags:
+  - Optional
+  - MatchingRefInLoadedArea
+  - AllowReserved
+  - MatchingRefClosest
+  - MatchingRefForActorsOnly
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: LessThanOrEqualTo
+    ComparisonValue: 5000
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetDistance
+      ParameterOneRecord: 000014:Fallout4.esm
+      ParameterOneNumber: 20
+  VoiceTypes: Null

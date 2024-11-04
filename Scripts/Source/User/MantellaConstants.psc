@@ -32,7 +32,8 @@ string property KEY_REPLYTYPE_ENDCONVERSATION = "mantella_end_conversation" auto
 
 ;Actors
 string property KEY_ACTORS = "mantella_actors" auto
-string property KEY_ACTOR_ID = "mantella_actor_id" auto
+string property KEY_ACTOR_BASEID = "mantella_actor_baseid" auto
+string property KEY_ACTOR_REFID = "mantella_actor_refid" auto
 string property KEY_ACTOR_NAME = "mantella_actor_name" auto
 string property KEY_ACTOR_GENDER = "mantella_actor_gender" auto
 string property KEY_ACTOR_RACE = "mantella_actor_race" auto
@@ -73,6 +74,8 @@ string property ACTION_REMOVECHARACTER = "mantella_remove_character" auto
 string property ACTION_NPC_OFFENDED = "mantella_npc_offended" auto
 string property ACTION_NPC_FORGIVEN = "mantella_npc_forgiven" auto
 string property ACTION_NPC_FOLLOW = "mantella_npc_follow" auto
+string property ACTION_NPC_INVENTORY = "mantella_npc_inventory" auto
+string property ACTION_NPC_MOVETO_NPC = "mantella_move_character_near_npc" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Special Fallout4 values   ;
@@ -84,6 +87,22 @@ string property KEY_CONTEXT_CUSTOMVALUES_PLAYERROT = "mantella_player_rot" auto
 string property KEY_CONTEXT_CUSTOMVALUES_VISION_READY = "mantella_vision_ready" auto
 string property KEY_CONTEXT_CUSTOMVALUES_VISION_RES = "mantella_vision_resolution" auto
 string property KEY_CONTEXT_CUSTOMVALUES_VISION_RESIZE = "mantella_vision_resize" auto
+string property KEY_ACTOR_CUSTOMVALUES_VISION_HINTSNAMEARRAY = "mantella_vision_hints_names" auto
+string property KEY_ACTOR_CUSTOMVALUES_VISION_HINTSDISTANCEARRAY = "mantella_vision_hints_distance" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSX = "mantella_actor_pos_x" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSY = "mantella_actor_pos_y" auto
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;       Functions Inference Value (MantellaMod -> Mantella Software)      ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;; OUPUT ('Mantella Mod -> Mantella Software') ;;;;;;;;;;;;;
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES = "mantella_function_npc_display_names" auto
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES = "mantella_function_npc_distances" auto
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCIDS = "mantella_function_npc_ids" auto
+
+;;;;;;;;;;; INPUT ('Mantella Mod <- Mantella Software') ;;;;;;;;;;;;;
+
+string property FUNCTION_DATA_TARGET_IDS = "mantella_function_data_target_ids" auto
+string property FUNCTION_DATA_TARGET_NAMES = "mantella_function_data_target_names"auto
