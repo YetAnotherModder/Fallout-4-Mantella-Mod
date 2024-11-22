@@ -65,13 +65,9 @@ event OnInit()
     _PlayerTextInputTimer = 11
     _ingameEvents = new String[0]
     _extraRequestActions = new String[0]    
-    ;RegisterForExternalEvent("OnHttpReplyReceived","OnHttpReplyReceived")
-    ;RegisterForExternalEvent("OnHttpErrorReceived","OnHttpErrorReceived")
     MantellaTopic = Game.GetFormFromFile(0x01ED1, "mantella.esp") as Topic
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
     SetPlayerRef()
-    Debug.OpenUserLog("MC")
-    Debug.TraceUser("MC", "OnInit " )
     SaveSettings()
     repository.AIPackageMoveToNPCIsActivated=false
     if !UI.isMenuRegistered(SimpleTextField.GetMenuName())
@@ -82,16 +78,12 @@ endEvent
 
 ;Get some important variables set before anything else starts
 Function OnLoadGame()
-    ;Debug.OpenUserLog("MC")
-    ;Debug.TraceUser("MC", "OnLoadGame" )
     HttpPolling = repository.isFO4VR
     if !HttpPolling
         RegisterForKey(0x97)
         Debug.Notification("Interrupt mode")
-        Debug.TraceUser("MC", "Interrupt mode" )
     Else
         UnregisterForKey(0x97)
-        Debug.TraceUser("MC", "Polling mode" )
         Debug.Notification("Polling mode")
     EndIf
 EndFunction
@@ -182,10 +174,10 @@ function RequestContinueConversation()
         F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_CONTINUECONVERSATION)
         AddCurrentActorsAndContext(handle)
         if(_extraRequestActions && _extraRequestActions.Length > 0)
-            Debug.Trace("_extraRequestActions contains items. Sending them along with continue!")
+            ;Debug.Trace("_extraRequestActions contains items. Sending them along with continue!")
             F4SE_HTTP.setStringArray(handle, mConsts.KEY_REQUEST_EXTRA_ACTIONS, _extraRequestActions)
             ClearExtraRequestAction()
-            Debug.Trace("_extraRequestActions got cleared. Remaining items: " + _extraRequestActions.Length)
+            ;Debug.Trace("_extraRequestActions got cleared. Remaining items: " + _extraRequestActions.Length)
         endif
         sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_CONTINUECONVERSATION)
     endif
@@ -304,7 +296,6 @@ Endfunction
 
 function OnHttpReplyReceived(int typedDictionaryHandle)
     string replyType = F4SE_HTTP.getString(typedDictionaryHandle, mConsts.KEY_REPLYTYPE ,"error")
-    ;Debug.TraceUser("MC", "RecvHTTP[" + typedDictionaryHandle + "]: "  + replyType)
     If (replyType != "error")
         ContinueConversation(typedDictionaryHandle)        
     Else
@@ -317,7 +308,6 @@ endFunction
 ; Send a request to Mantella app and setup polling if enabled
 Function sendHTTPRequest(int handle, string route, string request)
     F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, route)
-    ;Debug.TraceUser("MC", "SendHTTP[" + handle + "] " + request)
 
     ; Set two minute timeout, enough for LLM retries
     if HttpPolling                 ; Used for FO4VR
@@ -348,14 +338,11 @@ EndFunction
 
 Function SetPolling()                           ; Set timer for next message check
     HttpTimeout -= 1
-    ;Debug.TraceUser("MC", "SetPolling Timeout " + HttpTimeout)
     PollTimerActive = true
     If HttpTimeout > 0 
-        ;Debug.TraceUser("MC", "SetPolling StartTimer active= " + PollTimerActive)
         CancelTimer(_HttpPollTimer)
         StartTimer(HttpPeriod, _HttpPollTimer)
     Else
-        ;Debug.TraceUser("MC", "SetPolling HTTP Timeout")
         Debug.Notification("HTTP Timeout")
         CleanupConversation()
     Endif
@@ -363,7 +350,6 @@ EndFunction
 
 ; F4SE_HTTP signals us that data is ready by sending a 0x97 keycode
 Event OnKeyDown(int keycode)
-    ;Debug.TraceUser("MC", "OnKeyDown " + keycode)
     if keycode == 0x97 && !HttpPolling                ; 0x97 = Signal from F4SE_HTTP
         int gotData = CheckForHttpReply()
     EndIf
@@ -387,7 +373,6 @@ Event Ontimer( int TimerID)
         if PollTimerActive
             int gotData = CheckForHttpReply()
             ;if gotData != -1
-                ;Debug.TraceUser("MC", "Timer Handle[" + gotData + "]")
             ;Endif
         Endif
     Endif
@@ -463,7 +448,6 @@ Function SetPlayerResponseTextInput(string text)
 EndFunction
 
 Function SetPlayerResponseTextAndVisionInput(string text)
-    ;Debug.notification("This text input was entered "+ text)
     if !repository.isFO4VR
         text = TopicInfoPatcher.StringRemoveWhiteSpace(text)
         if text == ""
@@ -478,7 +462,6 @@ EndFunction
 
 Function SetGameEventTextInput(string text)
     ;disable for VR
-    ;Debug.notification("This text input was entered "+ text)
     if !repository.isFO4VR
         text = TopicInfoPatcher.StringRemoveWhiteSpace(text)
         if text == ""
@@ -548,7 +531,6 @@ Function RaiseActionEvent(Actor speaker, string lineToSpeak, string[] actions, i
             WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak, delayedHandle)
         endif
         if extraAction != mConsts.ACTION_NPC_INVENTORY
-        Debug.Trace("Received action " + extraAction + ". Sending out event!")
             TriggerCorrectCustomEvent(extraAction, speaker, lineToSpeak, handle)
         endif
         i += 1
@@ -650,7 +632,6 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function TriggerReloadConversation()
-    ;Debug.Trace("OnReloadConversationActionReceived triggered")
     AddExtraRequestAction(mConsts.ACTION_RELOADCONVERSATION)
 endFunction
 
@@ -660,7 +641,6 @@ endFunction
 
 function OnHttpErrorReceived(int typedDictionaryHandle)
     string errorMessage = F4SE_HTTP.getString(typedDictionaryHandle, mConsts.HTTP_ERROR ,"error")
-    Debug.TraceUser("MC", "Http error " + errorMessage)
     If (errorMessage != "error")
         Debug.Notification("Received F4SE_HTTP error: " + errorMessage)        
         CleanupConversation()
@@ -709,11 +689,9 @@ endFunction
 Function CauseReassignmentOfParticipantAlias()
     ;This causes Mantella NPC to change AI packages so that they enter specific behavior (usually staying in place while the player talks to them) 
     If (MantellaConversationParticipantsQuest.IsRunning())
-        ;Debug.Notification("Stopping MantellaConversationParticipantsQuest")
         MantellaConversationParticipantsQuest.Stop()
     EndIf
     if repository.allowNPCsStayInPlace || repository.allowFunctionCalling
-        ;Debug.Notification("Starting MantellaConversationParticipantsQuest to asign QuestAlias")
         MantellaConversationParticipantsQuest.Start()
     endif
 EndFunction
@@ -985,7 +963,6 @@ endFunction
 ; Save the game's original GameSettings before we modify them at conversation start
 Function SaveSettings()
     if !SettingsSaved
-        ; Debug.TraceUser("MC", "Saving")
 ;     TopicInfoPatcher.saveFloat("fAISocialTimerForConversationsMax")       ; Time to wait before NPC can trigger another conversation
 ;     TopicInfoPatcher.saveFloat("fAISocialTimerForConversationsMin")
 ;     TopicInfoPatcher.saveInt("iAISocialDistanceToTriggerEvent")
@@ -1003,7 +980,6 @@ Function ApplySettings()
         SaveSettings()
     Endif
     if !SettingsApplied
-        ; Debug.TraceUser("MC", "Apply")
         Game.SetGameSettingFloat("fAIGreetingTimer", 600.0)
         Game.SetGameSettingFloat("fAISocialchanceForConversation", 1.0)        ; % of how likely a NPC will initiate a dialogue with another NPC
         Game.SetGameSettingFloat("fAIMinGreetingDistance", 1.0)        ; How close NPC must be to attempt greeting
@@ -1018,7 +994,6 @@ Function RestoreSettings()
         SaveSettings()
     Endif
     if SettingsApplied
-        ; Debug.TraceUser("MC", "Restoring")
         TopicInfoPatcher.restoreFloat("fAIGreetingTimer")
         TopicInfoPatcher.restoreFloat("fAISocialchanceForConversation")      ; % of how likely a NPC will initiate a dialogue with another NPC
         TopicInfoPatcher.restoreFloat("fAIMinGreetingDistance")        ; How close NPC must be to attempt greeting

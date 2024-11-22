@@ -21,7 +21,6 @@ RefCollectionAlias Property MantellaNPCCollection  Auto
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
 string property currentFO4version auto
-int property currentSUPversion auto
 bool property isFO4VR auto Conditional
 bool property microphoneEnabled auto
 bool property radiantEnabled auto
@@ -125,7 +124,6 @@ Function reloadKeys()
     setHotkey(startConversationkeycode,"StartConversation")
     setHotkey(textAndVisionKeycode,"DialogueAndVision")
     setHotkey(MantellaVisionKeycode,"MantellaVision")
-    RegisterForOnCrosshairRefChange()							; Re-enable if disabled
     conversation.RestoreSettings()                              ; Make sure Game settings are restored after a load
 Endfunction
 
@@ -174,7 +172,6 @@ Function reinitializeVariables()
     ConstantsScript.HTTP_PORT = 4999
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
-    RegisterForOnCrosshairRefChange()
     Actor PlayerRef = Game.GetPlayer()
     If !(PlayerRef.HasPerk(ActivatePerk))
         PlayerRef.AddPerk(ActivatePerk, False)
@@ -415,7 +412,6 @@ endEvent
 
 Event Onkeydown(int keycode)
     bool menuMode = TopicInfoPatcher.isMenuModeActive()
-    ;Debug.TraceUser("MC", "OnKeyDown " + keycode)
     if !menuMode
         if keycode == MantellaVisionKeycode
             GenerateMantellaVision()
@@ -434,7 +430,6 @@ Event Onkeydown(int keycode)
             ;Need to use an array here, as returning a scalar sometimes fails!?
             Actor [] alist = TopicInfoPatcher.GetLastCrossHairActor()
             CrosshairActor = alist[0]
-            Debug.Notification("Actor: " + crosshairActor.GetDisplayName())
 
             if CrosshairActor != none
                 String actorName = CrosshairActor.GetDisplayName()
@@ -483,34 +478,6 @@ function setHotkey(int keycode, string keyType)
         RegisterForKey(MantellaVisionKeycode)
     endif
 endfunction
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;   Crosshair functions    ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int Type)
-    ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
-    if bCrosshairOn
-        if Type==65 ;checks if type is actor
-            CrosshairActor= ObjectRef as actor
-            ;debug.notification(" type is "+Type)
-        endif
-    endif
-Endfunction
-
-Function RegisterForOnCrosshairRefChange()
-    ;disable for VR
-    ;RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
-    allowCrosshairTracking=true
-EndFunction
-
-Function UnRegisterForOnCrosshairRefChange()
-    ;disable for VR
-    ;UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
-    CrosshairActor=none
-    allowCrosshairTracking=false
-EndFunction
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Textinput menu functions    ;
@@ -955,12 +922,10 @@ endfunction
 Function TextInputCB(string text)
     var[] _args = new var[1]
     _args[0] = text
-    ;Debug.TraceUser("MC", "TextInput CB: " + CBScript + ":" + CBfunction)
     CBscript.CallFunctionNoWait(CBfunction,_args)
 EndFunction
 
 Function GetTextInput(ScriptObject akReceiver, string asFunctionName, string asTitle = "", string asText = "")
-    ;Debug.TraceUser("MC", "GetTextInput " + asTitle)
     CBscript = akReceiver
     CBfunction = asFunctionName
     SimpleTextField.Open(self as ScriptObject, "TextInputCB", asTitle, asText)   
