@@ -418,10 +418,10 @@ Function ToggleActivatePerk()
     Actor PlayerRef = Game.GetPlayer()
     If (PlayerRef.HasPerk(ActivatePerk))
 		PlayerRef.RemovePerk(ActivatePerk)
-        Debug.notification("Alt conversation activation option is now ON")
+        Debug.notification("Alt conversation activation option is now OFF")
 	Else
         PlayerRef.AddPerk(ActivatePerk, False)
-        Debug.notification("Alt conversation activation option is now OFF")
+        Debug.notification("Alt conversation activation option is now ON")
 	EndIf
 EndFunction
 
