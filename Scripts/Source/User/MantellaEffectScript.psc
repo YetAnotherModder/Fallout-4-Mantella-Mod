@@ -365,5 +365,3 @@ Event OnHit(ObjectReference akTarget, ObjectReference akAggressor, Form akSource
      RegisterForHitEvent(self.GetTargetActor())
  EndEvent
 
-
-

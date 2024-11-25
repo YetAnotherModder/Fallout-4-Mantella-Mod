@@ -1,7 +1,5 @@
 Scriptname MantellaRepository extends Quest Conditional
-Import SUP_F4SE
-Import SUP_F4SEVR
-Import TIM:TIM
+
 
 ;keycode properties
 int property textkeycode auto
@@ -23,7 +21,6 @@ RefCollectionAlias Property MantellaNPCCollection  Auto
 ;endFlagMantellaConversationOne exists to prevent conversation loops from getting stuck on NPCs if Mantella crashes or interactions gets out of sync
 bool property endFlagMantellaConversationOne auto
 string property currentFO4version auto
-int property currentSUPversion auto
 bool property isFO4VR auto Conditional
 bool property microphoneEnabled auto Conditional
 bool property radiantEnabled auto
@@ -145,7 +142,6 @@ Function reloadKeys()
     setHotkey(startConversationkeycode,"StartConversation")
     setHotkey(textAndVisionKeycode,"DialogueAndVision")
     setHotkey(MantellaVisionKeycode,"MantellaVision")
-    RegisterForOnCrosshairRefChange()							; Re-enable if disabled
     conversation.RestoreSettings()                              ; Make sure Game settings are restored after a load
 Endfunction
 
@@ -193,7 +189,6 @@ Function reinitializeVariables()
     ConstantsScript.HTTP_PORT = 4999
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
-    RegisterForOnCrosshairRefChange()
     Actor PlayerRef = Game.GetPlayer()
     If !(PlayerRef.HasPerk(ActivatePerk))
         PlayerRef.AddPerk(ActivatePerk, False)
@@ -518,8 +513,8 @@ endEvent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event Onkeydown(int keycode)
-    ;if !SUP_F4SE.IsMenuModeActive() 
-    if !Utility.IsInMenuMode()
+    bool menuMode = TopicInfoPatcher.isMenuModeActive()
+    if !menuMode
         if keycode == MantellaVisionKeycode
             GenerateMantellaVision()
         endif
@@ -532,24 +527,32 @@ Event Onkeydown(int keycode)
                 conversation.GetPlayerTextInput("gameEventEntry")
             EndIf
         Endif
-        if CrosshairActor!=none && keycode == startConversationkeycode
-            String actorName = CrosshairActor.GetDisplayName()
-            bool isTargetInConversation = conversation.IsActorInConversation(CrosshairActor)
-            float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
 
-            if distanceFromConversationTarget<1500
-                ; if actor not already loaded or player is interrupting radiant dialogue
-                bool bIsPlayerInConversation = conversation.IsPlayerInConversation()
-                
-                if !isTargetInConversation
-                    debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
-                    MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
-                ElseIf !bIsPlayerInConversation
-                    debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
-                    MantellaSpell.cast(CrosshairActor, Game.GetPlayer())
+        if keycode == startConversationkeycode
+            ;Need to use an array here, as returning a scalar sometimes fails!?
+            Actor [] alist = TopicInfoPatcher.GetLastCrossHairActor()
+            CrosshairActor = alist[0]
+
+            if CrosshairActor != none
+                String actorName = CrosshairActor.GetDisplayName()
+                bool isTargetInConversation = conversation.IsActorInConversation(CrosshairActor)
+                float distanceFromConversationTarget = Game.GetPlayer().GetDistance(CrosshairActor)
+
+                if distanceFromConversationTarget<1500
+                    ; if actor not already loaded or player is interrupting radiant dialogue
+                    bool bIsPlayerInConversation = conversation.IsPlayerInConversation()
+                    
+                    if !isTargetInConversation
+                        debug.notification("Attempting to start conversation with "+CrosshairActor.GetDisplayName())
+                        MantellaSpell.cast(Game.GetPlayer(), CrosshairActor)
+                    ElseIf !bIsPlayerInConversation
+                        debug.notification("Adding player to radiant conversation with "+CrosshairActor.GetDisplayName())
+                        MantellaSpell.cast(CrosshairActor, Game.GetPlayer())
+                    endif
+                    Utility.Wait(0.5)
+
                 endif
-                Utility.Wait(0.5)
-            endif
+            EndIf
         Endif
     EndIf
 Endevent
@@ -579,38 +582,6 @@ function setHotkey(int keycode, string keyType)
 endfunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;   Crosshair functions    ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-Function CrosshairRefCallback(bool bCrosshairOn, ObjectReference ObjectRef, int Type)
-    ;debug.notification("Object ref is "+ObjectRef.getdisplayname())
-    if bCrosshairOn
-        if Type==65 ;checks if type is actor
-            CrosshairActor= ObjectRef as actor
-            ;debug.notification(" type is "+Type)
-        endif
-    endif
-Endfunction
-
-Function RegisterForOnCrosshairRefChange()
-    ;disable for VR
-    if !isFO4VR
-        SUP_F4SE.RegisterForSUPEvent("OnCrosshairRefChange", self as Form, "MantellaRepository", "CrosshairRefCallback",true,true,false, 0) 
-        allowCrosshairTracking=true
-    endif
-EndFunction
-
-Function UnRegisterForOnCrosshairRefChange()
-    ;disable for VR
-    if !isFO4VR
-        SUP_F4SE.UnregisterForAllSUPEvents("OnCrosshairRefChange", self as Form,true, "MantellaRepository", "CrosshairRefCallback")
-        CrosshairActor=none
-        allowCrosshairTracking=false
-    endif
-EndFunction
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Textinput menu functions    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -619,49 +590,19 @@ function OpenHotkeyPrompt(string entryType)
     ;disable for VR
     if !isFO4VR
         if entryType == "playerInputTextHotkey"
-            if conversation.UseSimpleTextField
-                SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueHotkeyInput","Enter the DirectX Scancode for the dialogue hotkey")
-            Else
-                TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue hotkey","", 0, 3)
-                RegisterForExternalEvent("TIM::Accept","TIMSetDialogueHotkeyInput")
-                RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-            EndIf
+            SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueHotkeyInput","Enter the DirectX Scancode for the dialogue hotkey")
             UnregisterForMenuOpenCloseEvent("PipboyMenu")
         elseif entryType == "gameEventHotkey"
-            if conversation.UseSimpleTextField
-                SimpleTextField.Open(self as ScriptObject, "TIMGameEventHotkeyInput","Enter the DirectX Scancode for the game event hotkey")
-            Else
-                TIM:TIM.Open(1,"Enter the DirectX Scancode for the game event hotkey","", 0, 3)
-                RegisterForExternalEvent("TIM::Accept","TIMGameEventHotkeyInput")
-                RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-            EndIf
+            SimpleTextField.Open(self as ScriptObject, "TIMGameEventHotkeyInput","Enter the DirectX Scancode for the game event hotkey")
             UnregisterForMenuOpenCloseEvent("PipboyMenu")
         elseif entryType == "startConversationHotKey"
-            if conversation.UseSimpleTextField
-                SimpleTextField.Open(self as ScriptObject, "TIMStartConversationHotkeyInput","Enter the DirectX Scancode for the start converstion hotkey")
-            Else
-                TIM:TIM.Open(1,"Enter the DirectX Scancode for the start converstion hotkey","", 0, 3)
-                RegisterForExternalEvent("TIM::Accept","TIMStartConversationHotkeyInput")
-                RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-            EndIf
+            SimpleTextField.Open(self as ScriptObject, "TIMStartConversationHotkeyInput","Enter the DirectX Scancode for the start converstion hotkey")
             UnregisterForMenuOpenCloseEvent("PipboyMenu")
         elseif entryType == "playerInputTextAndVisionHotkey"
-            if conversation.UseSimpleTextField
-                SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueAndVisionHotkeyInput","Enter the DirectX Scancode for the dialogue and vision hotkey")
-            Else
-                TIM:TIM.Open(1,"Enter the DirectX Scancode for the dialogue and vision hotkey","", 0, 3)
-                RegisterForExternalEvent("TIM::Accept","TIMSetDialogueAndVisionHotkeyInput")
-                RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-            EndIf
+            SimpleTextField.Open(self as ScriptObject, "TIMSetDialogueAndVisionHotkeyInput","Enter the DirectX Scancode for the dialogue and vision hotkey")
             UnregisterForMenuOpenCloseEvent("PipboyMenu")
         elseif entryType == "playerInputMantellaVisionHotkey"
-            if conversation.UseSimpleTextField
-                SimpleTextField.Open(self as ScriptObject, "TIMSetMantellaVisionHotkeyInput","Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey")
-            Else
-                TIM:TIM.Open(1,"Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey","", 0, 3)
-                RegisterForExternalEvent("TIM::Accept","TIMSetMantellaVisionHotkeyInput")
-                RegisterForExternalEvent("TIM::Cancel","TIMNoDialogueHotkeyInput")
-            EndIf
+            SimpleTextField.Open(self as ScriptObject, "TIMSetMantellaVisionHotkeyInput","Enter the DirectX Scancode for the Mantella Vision (screenshot) hotkey")
             UnregisterForMenuOpenCloseEvent("PipboyMenu")
         Endif
     endif
@@ -671,15 +612,10 @@ endfunction
 Function TIMSetDialogueHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
-        If conversation.UseSimpleTextField
-            keycode = SUPF4SEformatText(keycode)
-            if keycode == ""
-                return
-            Endif
-        Else
-            UnRegisterForExternalEvent("TIM::Accept")
-            UnRegisterForExternalEvent("TIM::Cancel")
-        EndIf
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
         setHotkey(keycode as int, "Dialogue")
     endif
 EndFunction
@@ -687,32 +623,22 @@ EndFunction
 Function TIMGameEventHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
-        If conversation.UseSimpleTextField
-            keycode = SUPF4SEformatText(keycode)
+        keycode = SUPF4SEformatText(keycode)
 
-            if keycode == ""
-                return
-            Endif
-        Else
-            UnRegisterForExternalEvent("TIM::Accept")
-            UnRegisterForExternalEvent("TIM::Cancel")
-        EndIf
-        setHotkey(keycode as int, "GameEvent")
+        if keycode == ""
+            return
+        Endif
+    setHotkey(keycode as int, "GameEvent")
     endif
 EndFunction
 
 Function TIMStartConversationHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
-        If conversation.UseSimpleTextField
-            keycode = SUPF4SEformatText(keycode)
-            if keycode == ""
-                return
-            Endif
-        Else
-            UnRegisterForExternalEvent("TIM::Accept")
-            UnRegisterForExternalEvent("TIM::Cancel")
-        EndIf
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
         setHotkey(keycode as int, "StartConversation")
     endif
 EndFunction
@@ -720,15 +646,10 @@ EndFunction
 Function TIMSetDialogueAndVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR    
-        If conversation.UseSimpleTextField
-            keycode = SUPF4SEformatText(keycode)
-            if keycode == ""
-                return
-            Endif
-        Else
-            UnRegisterForExternalEvent("TIM::Accept")
-            UnRegisterForExternalEvent("TIM::Cancel")
-        EndIf
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
         setHotkey(keycode as int, "DialogueAndVision")
     endif
 EndFunction
@@ -736,65 +657,32 @@ EndFunction
 Function TIMSetMantellaVisionHotkeyInput(string keycode)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR    
-        If conversation.UseSimpleTextField
-            keycode = SUPF4SEformatText(keycode)
-            if keycode == ""
-                return
-            Endif
-        Else
-            UnRegisterForExternalEvent("TIM::Accept")
-            UnRegisterForExternalEvent("TIM::Cancel")
-        EndIf
+        keycode = SUPF4SEformatText(keycode)
+        if keycode == ""
+            return
+        Endif
         setHotkey(keycode as int, "MantellaVision")
-    endif
-EndFunction
-
-Function TIMNoDialogueHotkeyInput(string keycode)
-    ;Debug.notification("Text input cancelled")
-    if !isFO4VR
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
     endif
 EndFunction
 
 function Open_HTTP_Port_Prompt()
     if !isFO4VR
-        if conversation.UseSimpleTextField
-            SimpleTextField.Open(self as ScriptObject, "TIM_Set_HTTP_Port","Enter the HTTP port, use a value between 0 and 65535")
-        Else
-            TIM:TIM.Open(1,"Enter the HTTP port, use a value between 0 and 65535","", 0, 5)
-            RegisterForExternalEvent("TIM::Accept","TIM_Set_HTTP_Port")
-            RegisterForExternalEvent("TIM::Cancel","TIM_No_Set_HTTP_Port")
-        Endif
+        SimpleTextField.Open(self as ScriptObject, "TIM_Set_HTTP_Port","Enter the HTTP port, use a value between 0 and 65535")
         UnregisterForMenuOpenCloseEvent("PipboyMenu")
-    endif
-    ;
+    EndIf
 endfunction
 
 Function TIM_Set_HTTP_Port(string HTTP_port)
     ;Debug.notification("This text input was entered "+ text)
     if !isFO4VR
-        If conversation.UseSimpleTextField
-            HTTP_port = SUPF4SEformatText(HTTP_port)
-            if HTTP_port ==""
-                return
-            Endif
-        Else
-            UnRegisterForExternalEvent("TIM::Accept")
-            UnRegisterForExternalEvent("TIM::Cancel")
+        HTTP_port = SUPF4SEformatText(HTTP_port)
+        if HTTP_port ==""
+            return
         Endif
         ConstantsScript.HTTP_PORT = (HTTP_port as int)
     endif
 EndFunction
     
-Function TIM_No_Set_HTTP_Port(string keycode)
-    ;Debug.notification("Text input cancelled")
-    if !isFO4VR
-        UnRegisterForExternalEvent("TIM::Accept")
-        UnRegisterForExternalEvent("TIM::Cancel")
-    endif
-EndFunction
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Vision functions    ;
@@ -898,23 +786,23 @@ Actor[] Function ScanCellForActors(bool filteredByPlayerLOS, bool updateProperti
     ActorsInCell = SUP_F4SEScanCellMethodSelector(playerRef)
     if filteredByPlayerLOS
         int i
-        While i < ActorsInCell.Length
-            Actor currentActor = ActorsInCell[i]
-            if playerRef.HasDetectionLOS (currentActor)
-                float currentDistance = playerRef.GetDistance(currentActor)
+            While i < ActorsInCell.Length
+                Actor currentActor = ActorsInCell[i]
+                if playerRef.HasDetectionLOS (currentActor)
+                    float currentDistance = playerRef.GetDistance(currentActor)
                  if currentActor.GetDisplayName()!="" && currentDistance<5000 && currentActor != PlayerRef
-                    ActorsInCellProcessed.add(ActorsInCell[i])
+                        ActorsInCellProcessed.add(ActorsInCell[i])
                     currentDistanceArrayProcessed.add(currentDistance)
+                    endif
                 endif
-            endif
-            i += 1
-        EndWhile
+                i += 1
+            EndWhile
     endif
     if updateProperties
         ActorsInCellArray=ActorsArrayToString(ActorsInCellProcessed)
         VisionDistanceArray = currentDistanceArrayToString(currentDistanceArrayProcessed)
     else
-        return ActorsInCell
+    return ActorsInCell
     endif
 Endfunction
 /;
@@ -1141,37 +1029,6 @@ float function getRadFactoredPercentHealth(actor currentActor)
 endfunction
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;   SUP_F4SE & SUP_F4SEVR functions   ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-int function ReturnSUPF4SEVersion()
-    int currentVersion
-    if isFO4VR
-        currentVersion=SUP_F4SEVR.GetSUPF4SEVersion() 
-    else
-        currentVersion=SUP_F4SE.GetSUPF4SEVersion() 
-    endif
-    return currentVersion
-endfunction
-
-;/ DEPRECATE REPLACED WITH ScanCellForActorsFilteredLOS()
-Actor[] function SUP_F4SEScanCellMethodSelector(actor playerRef)
-    Actor[] ActorsInCell = new Actor[0]
-    if isFO4VR
-        debug.notification("Hints not available on F4SE_VR")
-        ;The game will CTD if the function below is enabled.
-        ;ActorsInCell = SUP_F4SEVR.GetActorsInCell(playerRef.GetParentCell(), -1)
-    else
-        ActorsInCell = SUP_F4SE.GetActorsInCell(playerRef.GetParentCell(), -1)
-    endif
-    return ActorsInCell
-endfunction
-/;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;   SimpleTextFieldfunctions   ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;Proxy functions for calling the SimpleTextField dialog
 ;The code handling the callback would occasionaly get confused
 ;When calling back to MantellaConversation because
@@ -1192,11 +1049,11 @@ Function GetTextInput(ScriptObject akReceiver, string asFunctionName, string asT
     SimpleTextField.Open(self as ScriptObject, "TextInputCB", asTitle, asText)   
 EndFunction
 
-
 string function SUPF4SEformatText(string TextToFormat)
     TextToFormat = TopicInfoPatcher.StringRemoveWhiteSpace(TextToFormat)
     return TextToFormat
 endfunction
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

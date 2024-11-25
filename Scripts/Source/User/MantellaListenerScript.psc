@@ -77,6 +77,7 @@ EndFunction
 
 Event OnPlayerLoadGame()
     LoadMantellaEvents()
+    conversation.OnLoadGame()
 EndEvent
 
 Function LoadMantellaEvents()
@@ -106,19 +107,17 @@ Function CheckGameVersionForMantella()
         debug.messagebox("F4SE not properly installed, Mantella will not work correctly")
     endif
     repository.currentFO4version = Debug.GetVersionNumber()
-    if repository.currentFO4version != "1.10.163.0" && repository.currentFO4version != "1.2.72.0"
-        debug.messagebox("The current FO4 version doesn't support Mantella.")
+    Debug.Notification("Version " + repository.currentFO4version)
+    repository.isFO4VR = false
+    if repository.currentFO4version == "1.10.984.0"
+        debug.notification("Currently running "+ MantellaVersion + " NG")
     elseif repository.currentFO4version == "1.10.163.0"
         debug.notification("Currently running "+ MantellaVersion)
     elseif repository.currentFO4version == "1.2.72.0"
         repository.isFO4VR = true
         debug.notification("Currently running "+ MantellaVersion+" VR")
-    endif
-    repository.currentSUPversion = repository.ReturnSUPF4SEVersion()
-    if repository.currentSUPversion == 0
-        debug.messagebox("SUP_F4SE not properly installed, Mantella will not work correctly")
     else
-        debug.notification("Currently running SUP_F4SE "+repository.currentSUPversion)
+        debug.messagebox("The current FO4 version doesn't support Mantella.")
     endif
 Endfunction
 
