@@ -50,6 +50,7 @@ int _HttpPollTimer = 12 const
 float HttpPeriod = 0.2
 bool property HttpPolling = false auto             ; polling mode, used by VR
 bool PollTimerActive
+bool _shouldRespond = true
 
 int _delayedHandle
 string[] _delayedActionIdentifier
@@ -100,26 +101,36 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 function StartConversation(Actor[] actorsToStartConversationWith)
-    _delayedHandle=0
-    _delayedActionIdentifier = new String[100]
-    _delayedSpeaker = new Actor[100]
-    _delayedlineToSpeak = new String[100]
-    _hasBeenStopped = false
     if(actorsToStartConversationWith.Length > 2)
         Debug.Notification("Can not start conversation. Conversation is already running.")
         return
-    endIf
-
-    _ingameEvents = new string[0]
-    _extraRequestActions = new string[0]
-    AddActors(actorsToStartConversationWith)
-
-    if(actorsToStartConversationWith.Length < 2)
+    elseIf(actorsToStartConversationWith.Length < 2)
         Debug.Notification("Not enough characters to start a conversation")
         return
     endIf
 
     int handle = F4SE_HTTP.createDictionary()
+    F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_INIT)
+    ; send request to initialize Mantella settings (set LLM connection, start up TTS service, load character_df etc) 
+    ; while waiting for actor info and context to be prepared below
+    sendHTTPRequest(handle, mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_INIT)
+
+    _delayedHandle=0
+    _delayedActionIdentifier = new String[100]
+    _delayedSpeaker = new Actor[100]
+    _delayedlineToSpeak = new String[100]
+    _hasBeenStopped = false
+    _ingameEvents = new string[0]
+    _extraRequestActions = new string[0]
+
+    AddActors(actorsToStartConversationWith)
+
+    if repository.microphoneEnabled
+        F4SE_HTTP.setString(handle, mConsts.KEY_INPUTTYPE, mConsts.KEY_INPUTTYPE_MIC)
+    Else
+        F4SE_HTTP.setString(handle, mConsts.KEY_INPUTTYPE, mConsts.KEY_INPUTTYPE_TEXT)
+    endIf
+
     F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_STARTCONVERSATION)
     AddCurrentActorsAndContext(handle)
     sendHTTPRequest(handle,mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_STARTCONVERSATION)
@@ -314,7 +325,10 @@ Endfunction
 
 function OnHttpReplyReceived(int typedDictionaryHandle)
     string replyType = F4SE_HTTP.getString(typedDictionaryHandle, mConsts.KEY_REPLYTYPE ,"error")
-    If (replyType != "error")
+    IF replyType == mConsts.KEY_REPLYTTYPE_INITCOMPLETED
+        _shouldRespond = false
+    ElseIf (replyType != "error")
+        _shouldRespond = true
         ContinueConversation(typedDictionaryHandle)        
     Else
         string errorMessage = F4SE_HTTP.getString(typedDictionaryHandle, "mantella_message","Error: Could not retrieve error message")
@@ -325,7 +339,11 @@ endFunction
 
 ; Send a request to Mantella app and setup polling if enabled
 Function sendHTTPRequest(int handle, string route, string request)
-    F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, route)
+    if _shouldRespond
+        F4SE_HTTP.sendLocalhostHttpRequest(handle, mConsts.HTTP_PORT, route)
+    else
+        _shouldRespond = true
+    endIf
 
     ; Set two minute timeout, enough for LLM retries
     if HttpPolling                 ; Used for FO4VR
@@ -434,16 +452,7 @@ function sendRequestForPlayerInput(string playerInput)
 endFunction
 
 function sendRequestForVoiceTranscribe()
-    int handle = F4SE_HTTP.createDictionary()
-    F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_TTS)
-    string[] namesInConversation = new string[Participants.GetSize()]
-    int i = 0
-    While i < Participants.GetSize()
-        namesInConversation[i] = (Participants.GetAt(i) as Actor).GetDisplayName()
-        i += 1
-    EndWhile
-    F4SE_HTTP.setStringArray(handle, mConsts.KEY_INPUT_NAMESINCONVERSATION, namesInConversation)
-    sendHTTPRequest(handle,mConsts.HTTP_ROUTE_STT, mConsts.KEY_REQUESTTYPE_TTS)
+    sendRequestForPlayerInput("")
 endFunction
 
 function GetPlayerTextInput(string entrytype)
@@ -527,7 +536,7 @@ function WaitForSpecificNpcToFinishSpeaking(Actor selectedNpc, int handle)
    ; MantellaIsTalkingSpell.cast(selectedNpc as ObjectReference, selectedNpc as ObjectReference)
     float waitTime = 0.01
     float totalWaitTime = 0
-    Utility.Wait(2) ; allow time for _isTalking to be set
+    Utility.Wait(waitTime) ; allow time for _isTalking to be set
     while _isTalking == true ; wait until the NPC has finished speaking
         Utility.Wait(waitTime)
         totalWaitTime += waitTime

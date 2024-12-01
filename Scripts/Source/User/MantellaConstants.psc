@@ -15,10 +15,12 @@ string property EVENT_ACTIONS = "MantellaConversation_Action_" auto
 string property PREFIX = "mantella_" auto
 string property KEY_REQUESTTYPE = "mantella_request_type" auto
 string property KEY_REPLYTYPE = "mantella_reply_type" auto
+string property KEY_INPUTTYPE = "mantella_input_type" auto
 
 string property KEY_REQUEST_EXTRA_ACTIONS = "mantella_extra_actions" auto
 
 ;Conversation
+string property KEY_REQUESTTYPE_INIT = "mantella_initialize" auto
 string property KEY_REQUESTTYPE_STARTCONVERSATION = "mantella_start_conversation" auto
 string property KEY_REQUESTTYPE_CONTINUECONVERSATION = "mantella_continue_conversation" auto
 string property KEY_REQUESTTYPE_PLAYERINPUT = "mantella_player_input" auto
@@ -26,6 +28,7 @@ string property KEY_REQUESTTYPE_ENDCONVERSATION = "mantella_end_conversation" au
 
 string property KEY_REPLYTTYPE_STARTCONVERSATIONCOMPLETED = "mantella_start_conversation_completed" auto
 
+string property KEY_REPLYTTYPE_INITCOMPLETED = "mantella_init_completed" auto
 string property KEY_REPLYTYPE_NPCTALK = "mantella_npc_talk" auto
 string property KEY_REPLYTYPE_PLAYERTALK = "mantella_player_talk" auto
 string property KEY_REPLYTYPE_ENDCONVERSATION = "mantella_end_conversation" auto
@@ -62,6 +65,9 @@ string property KEY_CONTEXT_CUSTOMVALUES = "mantella_custom_context_values" auto
 string property KEY_REQUESTTYPE_TTS = "mantella_tts" auto
 string property KEY_INPUT_NAMESINCONVERSATION = "mantella_names_in_conversation" auto
 string property KEY_TRANSCRIBE = "mantella_transcribe" auto
+string property KEY_INPUTTYPE_TEXT = "mantella_text_input" auto
+string property KEY_INPUTTYPE_MIC = "mantella_mic_input" auto
+string property KEY_INPUTTYPE_PTT = "mantella_push_to_talk" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       Possible actions      ;
