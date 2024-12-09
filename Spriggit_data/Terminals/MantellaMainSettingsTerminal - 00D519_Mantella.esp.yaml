@@ -146,8 +146,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E28:Mantella.esp
-      ParameterTwoNumber: 785268264
+      ParameterTwoRecord: A33EB0:Mantella.esp
+      ParameterTwoNumber: -1432142160
       ParameterTwoString: ::microphoneEnabled_var
 - ItemText:
     TargetLanguage: English
@@ -166,8 +166,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E20:Mantella.esp
-      ParameterTwoNumber: 785268256
+      ParameterTwoRecord: A33EA8:Mantella.esp
+      ParameterTwoNumber: -1432142168
       ParameterTwoString: ::microphoneEnabled_var
 - ItemText:
     TargetLanguage: English

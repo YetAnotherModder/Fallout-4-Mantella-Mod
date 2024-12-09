@@ -153,8 +153,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E10:Mantella.esp
-      ParameterTwoNumber: 785268240
+      ParameterTwoRecord: A33E98:Mantella.esp
+      ParameterTwoNumber: -1432142184
       ParameterTwoString: ::playerTrackingOnItemAdded_var
 - ItemText:
     TargetLanguage: English
@@ -173,8 +173,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E08:Mantella.esp
-      ParameterTwoNumber: 785268232
+      ParameterTwoRecord: A33E90:Mantella.esp
+      ParameterTwoNumber: -1432142192
       ParameterTwoString: ::playerTrackingOnItemAdded_var
 - ItemText:
     TargetLanguage: English
@@ -192,8 +192,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E00:Mantella.esp
-      ParameterTwoNumber: 785268224
+      ParameterTwoRecord: A33E88:Mantella.esp
+      ParameterTwoNumber: -1432142200
       ParameterTwoString: ::playerTrackingOnHit_var
 - ItemText:
     TargetLanguage: English
@@ -210,8 +210,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DF8:Mantella.esp
-      ParameterTwoNumber: 785268216
+      ParameterTwoRecord: A33E80:Mantella.esp
+      ParameterTwoNumber: -1432142208
       ParameterTwoString: ::playerTrackingOnHit_var
 - ItemText:
     TargetLanguage: English
@@ -230,8 +230,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DF0:Mantella.esp
-      ParameterTwoNumber: 785268208
+      ParameterTwoRecord: A33E78:Mantella.esp
+      ParameterTwoNumber: -1432142216
       ParameterTwoString: ::playerTrackingOnLocationChange_var
 - ItemText:
     TargetLanguage: English
@@ -248,8 +248,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DE8:Mantella.esp
-      ParameterTwoNumber: 785268200
+      ParameterTwoRecord: A33E70:Mantella.esp
+      ParameterTwoNumber: -1432142224
       ParameterTwoString: ::playerTrackingOnLocationChange_var
 - ItemText:
     TargetLanguage: English
@@ -267,8 +267,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DE0:Mantella.esp
-      ParameterTwoNumber: 785268192
+      ParameterTwoRecord: A33E68:Mantella.esp
+      ParameterTwoNumber: -1432142232
       ParameterTwoString: ::playerTrackingOnObjectEquipped_var
 - ItemText:
     TargetLanguage: English
@@ -285,8 +285,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DD8:Mantella.esp
-      ParameterTwoNumber: 785268184
+      ParameterTwoRecord: A33E60:Mantella.esp
+      ParameterTwoNumber: -1432142240
       ParameterTwoString: ::playerTrackingOnObjectEquipped_var
 - ItemText:
     TargetLanguage: English
@@ -304,8 +304,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DD0:Mantella.esp
-      ParameterTwoNumber: 785268176
+      ParameterTwoRecord: A33E58:Mantella.esp
+      ParameterTwoNumber: -1432142248
       ParameterTwoString: ::playerTrackingOnSit_var
 - ItemText:
     TargetLanguage: English
@@ -322,8 +322,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DC8:Mantella.esp
-      ParameterTwoNumber: 785268168
+      ParameterTwoRecord: A33E50:Mantella.esp
+      ParameterTwoNumber: -1432142256
       ParameterTwoString: ::playerTrackingOnSit_var
 - ItemText:
     TargetLanguage: English
@@ -342,8 +342,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DC0:Mantella.esp
-      ParameterTwoNumber: 785268160
+      ParameterTwoRecord: A33E48:Mantella.esp
+      ParameterTwoNumber: -1432142264
       ParameterTwoString: ::playerTrackingFireWeapon_var
 - ItemText:
     TargetLanguage: English
@@ -360,8 +360,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DB8:Mantella.esp
-      ParameterTwoNumber: 785268152
+      ParameterTwoRecord: A33E40:Mantella.esp
+      ParameterTwoNumber: -1432142272
       ParameterTwoString: ::playerTrackingFireWeapon_var
 - ItemText:
     TargetLanguage: English
@@ -380,8 +380,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DB0:Mantella.esp
-      ParameterTwoNumber: 785268144
+      ParameterTwoRecord: A33E38:Mantella.esp
+      ParameterTwoNumber: -1432142280
       ParameterTwoString: ::playerTrackingRadiationDamage_var
 - ItemText:
     TargetLanguage: English
@@ -398,8 +398,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DA8:Mantella.esp
-      ParameterTwoNumber: 785268136
+      ParameterTwoRecord: A33E30:Mantella.esp
+      ParameterTwoNumber: -1432142288
       ParameterTwoString: ::playerTrackingRadiationDamage_var
 - ItemText:
     TargetLanguage: English
@@ -417,8 +417,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3DA0:Mantella.esp
-      ParameterTwoNumber: 785268128
+      ParameterTwoRecord: A33E28:Mantella.esp
+      ParameterTwoNumber: -1432142296
       ParameterTwoString: ::playerTrackingSleep_var
 - ItemText:
     TargetLanguage: English
@@ -436,8 +436,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D98:Mantella.esp
-      ParameterTwoNumber: 785268120
+      ParameterTwoRecord: A33E20:Mantella.esp
+      ParameterTwoNumber: -1432142304
       ParameterTwoString: ::playerTrackingSleep_var
 - ItemText:
     TargetLanguage: English
@@ -456,8 +456,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D90:Mantella.esp
-      ParameterTwoNumber: 785268112
+      ParameterTwoRecord: A33E18:Mantella.esp
+      ParameterTwoNumber: -1432142312
       ParameterTwoString: ::playerTrackingCripple_var
 - ItemText:
     TargetLanguage: English
@@ -475,8 +475,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D88:Mantella.esp
-      ParameterTwoNumber: 785268104
+      ParameterTwoRecord: A33E10:Mantella.esp
+      ParameterTwoNumber: -1432142320
       ParameterTwoString: ::playerTrackingCripple_var
 - ItemText:
     TargetLanguage: English
@@ -496,8 +496,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D80:Mantella.esp
-      ParameterTwoNumber: 785268096
+      ParameterTwoRecord: A33E08:Mantella.esp
+      ParameterTwoNumber: -1432142328
       ParameterTwoString: ::playerTrackingHealTeammate_var
 - ItemText:
     TargetLanguage: English
@@ -517,8 +517,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D78:Mantella.esp
-      ParameterTwoNumber: 785268088
+      ParameterTwoRecord: A33E00:Mantella.esp
+      ParameterTwoNumber: -1432142336
       ParameterTwoString: ::playerTrackingHealTeammate_var
 MajorFlags:
 - 0x10

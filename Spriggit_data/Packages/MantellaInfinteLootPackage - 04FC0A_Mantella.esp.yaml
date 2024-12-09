@@ -40,8 +40,8 @@ Conditions:
     Function: GetVMQuestVariable
     ParameterOneRecord: 000F99:Mantella.esp
     ParameterOneNumber: 16781209
-    ParameterTwoRecord: CE3D30:Mantella.esp
-    ParameterTwoNumber: 785268016
+    ParameterTwoRecord: A33D30:Mantella.esp
+    ParameterTwoNumber: -1432142544
     ParameterTwoString: ::NPCAIPackageSelector_var
 - MutagenObjectType: ConditionFloat
   CompareOperator: NotEqualTo
@@ -278,8 +278,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D28:Mantella.esp
-      ParameterTwoNumber: 785268008
+      ParameterTwoRecord: A33D28:Mantella.esp
+      ParameterTwoNumber: -1432142552
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 3
@@ -316,8 +316,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D20:Mantella.esp
-      ParameterTwoNumber: 785268000
+      ParameterTwoRecord: A33D20:Mantella.esp
+      ParameterTwoNumber: -1432142560
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -342,8 +342,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D18:Mantella.esp
-      ParameterTwoNumber: 785267992
+      ParameterTwoRecord: A33D18:Mantella.esp
+      ParameterTwoNumber: -1432142568
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -368,8 +368,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D10:Mantella.esp
-      ParameterTwoNumber: 785267984
+      ParameterTwoRecord: A33D10:Mantella.esp
+      ParameterTwoNumber: -1432142576
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -406,8 +406,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D08:Mantella.esp
-      ParameterTwoNumber: 785267976
+      ParameterTwoRecord: A33D08:Mantella.esp
+      ParameterTwoNumber: -1432142584
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -432,8 +432,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3D00:Mantella.esp
-      ParameterTwoNumber: 785267968
+      ParameterTwoRecord: A33D00:Mantella.esp
+      ParameterTwoNumber: -1432142592
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -470,8 +470,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3CF8:Mantella.esp
-      ParameterTwoNumber: 785267960
+      ParameterTwoRecord: A33CF8:Mantella.esp
+      ParameterTwoNumber: -1432142600
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -496,8 +496,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3CF0:Mantella.esp
-      ParameterTwoNumber: 785267952
+      ParameterTwoRecord: A33CF0:Mantella.esp
+      ParameterTwoNumber: -1432142608
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -534,8 +534,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3CE8:Mantella.esp
-      ParameterTwoNumber: 785267944
+      ParameterTwoRecord: A33CE8:Mantella.esp
+      ParameterTwoNumber: -1432142616
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -560,8 +560,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3CE0:Mantella.esp
-      ParameterTwoNumber: 785267936
+      ParameterTwoRecord: A33CE0:Mantella.esp
+      ParameterTwoNumber: -1432142624
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -598,8 +598,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3CD8:Mantella.esp
-      ParameterTwoNumber: 785267928
+      ParameterTwoRecord: A33CD8:Mantella.esp
+      ParameterTwoNumber: -1432142632
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -624,8 +624,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3CD0:Mantella.esp
-      ParameterTwoNumber: 785267920
+      ParameterTwoRecord: A33CD0:Mantella.esp
+      ParameterTwoNumber: -1432142640
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -662,8 +662,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3CC8:Mantella.esp
-      ParameterTwoNumber: 785267912
+      ParameterTwoRecord: A33CC8:Mantella.esp
+      ParameterTwoNumber: -1432142648
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []

@@ -1,5 +1,5 @@
 FormKey: 066FBB:Mantella.esp
-VersionControl: 12628
+VersionControl: 12680
 EditorID: MantellaConversation
 VirtualMachineAdapter:
   Scripts:
@@ -7,38 +7,41 @@ VirtualMachineAdapter:
   - Name: MantellaConversation
     Properties:
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaSpell
-      Object: 0090C7:Mantella.esp
+      Name: Participants
+      Object: 004C57:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: MantellaConversationParticipantsQuest
       Object: 01E64D:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
+      Name: MantellaFunctionTargetFaction
+      Object: 04BF41:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
       Name: mConsts
       Object: 066FBB:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaDialogueLine
-      Object: 001ED1:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaConversationParticipantsFaction
-      Object: 004C58:Mantella.esp
+      Name: MantellaIsTalkingSpell
+      Object: 04B00A:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: repository
       Object: 000F99:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: Participants
-      Object: 004C57:Mantella.esp
+      Name: MantellaConversationParticipantsFaction
+      Object: 004C58:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaFunctionTargetFaction
-      Object: 04BF41:Mantella.esp
+      Name: MantellaSpell
+      Object: 0090C7:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaIsTalkingSpell
-      Object: 04B00A:Mantella.esp
+      Name: MantellaDialogueLine
+      Object: 001ED1:Mantella.esp
+    - MutagenObjectType: ScriptObjectProperty
+      Name: StimpackItem
+      Object: 023736:Fallout4.esm
   Versioning:
   - Break0
   ExtraBindDataVersion: 0
   Script:
     Name: ''
 Data:
-  Unused: 241
+  Unused: 200
 UnusedConditions: []
 Aliases: []

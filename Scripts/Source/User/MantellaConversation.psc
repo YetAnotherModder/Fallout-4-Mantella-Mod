@@ -14,6 +14,7 @@ FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
 SPELL Property MantellaIsTalkingSpell Auto
 bool Property UseSimpleTextField = true auto
+Potion Property StimpackItem auto
 
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
@@ -76,7 +77,6 @@ event OnInit()
     SetPlayerRef()
     SaveSettings()
     repository.NPCAIPackageSelector=0
-    repository.AIPackageMoveToNPCIsActivated=false
     if !UI.isMenuRegistered(SimpleTextField.GetMenuName())
         SimpleTextField:Program.GetProgram().OnQuestInit()              ; Make sure SimpleTextField is initialized
     Endif
@@ -673,6 +673,11 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
         repository.NPCAIPackageSelector=0
         debug.notification(speaker.GetDisplayName()+" will wait")
         CauseReassignmentOfParticipantAlias()
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_HEAL_PLAYER)
+        repository.NPCAIPackageSelector=4
+        repository.NPCAIItemToUseSelector=1
+        debug.notification(speaker.GetDisplayName()+" will heal the player")
+        CauseReassignmentOfParticipantAlias()
     endIf
 endFunction
 
@@ -1022,6 +1027,8 @@ int Function BuildCustomContextValues()
         F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES, repository.MantellaFunctionInferenceActorNamesList)
         F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES, repository.MantellaFunctionInferenceActorDistanceList)
         F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCIDS, repository.MantellaFunctionInferenceActorIDsList)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPACKCOUNT, GetItemCountOfFirstNPC(StimpackItem))
+    
     endif
 
     return handleCustomContextValues
@@ -1035,6 +1042,24 @@ int function GetCurrentHourOfDay()
 	Time *= 24 ; Convert from fraction of a day to number of hours
 	int Hour = Math.Floor(Time) ; Get whole hour
 	return Hour
+endFunction
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   LLM Function Calling functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+int function GetItemCountOfFirstNPC(Form akItem)
+	int i = 0
+    ;Will only return the stimpack count of the first non-player character in conversation
+    While i < Participants.GetSize()
+        if (Participants.GetAt(i) != playerRef)
+            Actor currentactor = Participants.GetAt(i) as Actor
+            return currentactor.GetItemCount (akItem)
+        endif
+        i += 1
+    EndWhile
+    return 0   
 endFunction
 
 

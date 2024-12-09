@@ -53,7 +53,7 @@ int property NPCAIPackageSelector auto Conditional
 ;2 = attack
 ;3 = loot
 ;4 = use item (item must be specified below)
-int property NPCAIItemToUseSelector=1 auto
+int property NPCAIItemToUseSelector auto
 ;1 = stimpak
 
 
@@ -530,9 +530,10 @@ Event Onkeydown(int keycode)
 
         if keycode == startConversationkeycode
             ;Need to use an array here, as returning a scalar sometimes fails!?
-            Actor [] alist = TopicInfoPatcher.GetLastCrossHairActor()
-            CrosshairActor = alist[0]
-
+            if allowCrosshairTracking
+                Actor [] alist = TopicInfoPatcher.GetLastCrossHairActor()
+                CrosshairActor = alist[0]
+            endif
             if CrosshairActor != none
                 String actorName = CrosshairActor.GetDisplayName()
                 bool isTargetInConversation = conversation.IsActorInConversation(CrosshairActor)
@@ -580,6 +581,25 @@ function setHotkey(int keycode, string keyType)
         RegisterForKey(MantellaVisionKeycode)
     endif
 endfunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Crosshair functions    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Function RegisterForOnCrosshairRefChange()
+    ;disable for VR
+    if !isFO4VR
+        allowCrosshairTracking=true
+    endif
+EndFunction
+
+Function UnRegisterForOnCrosshairRefChange()
+    ;disable for VR
+    if !isFO4VR
+        CrosshairActor=none
+        allowCrosshairTracking=false
+    endif
+EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Textinput menu functions    ;

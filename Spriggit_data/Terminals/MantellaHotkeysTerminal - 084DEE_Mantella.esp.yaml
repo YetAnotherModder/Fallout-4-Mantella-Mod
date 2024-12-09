@@ -1,6 +1,6 @@
 FormKey: 084DEE:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12577
+VersionControl: 12657
 EditorID: MantellaHotkeysTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -113,7 +113,7 @@ MenuItems:
       Close menu to set the new hotkey to enter a custom game event input for the AI (LLM) to read. Default key is "Y". Use decima Directx scancode value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.
 
 
-      During a conversation, press the hotkey to add to type a text event in the game (e.g. "Piper heard a gunshot"). It's best to use a third person perspective to mesh with the game events that are automatically sent to the NPCs. You can do this multiple times in a row.
+      During a conversation, press the hotkey to type a text event in the game (e.g. "Piper heard a gunshot"). It's best to use a third person perspective to mesh with the game events that are automatically sent to the NPCs. You can do this multiple times in a row.
 
           When you actually reply to the NPC, either by speaking in the mic or by typing a reply (default "H" key), all the game events will be sent along the reply to the AI. Note : the game event log will get cleared at the start of a new conversation and can only store up to 5 events at a time. After 5 events newer events will override the the older ones.
 - ItemText:
@@ -141,8 +141,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E58:Mantella.esp
-      ParameterTwoNumber: 785268312
+      ParameterTwoRecord: A33EE8:Mantella.esp
+      ParameterTwoNumber: -1432142104
       ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English
@@ -166,8 +166,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E50:Mantella.esp
-      ParameterTwoNumber: 785268304
+      ParameterTwoRecord: A33ED8:Mantella.esp
+      ParameterTwoNumber: -1432142120
       ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English

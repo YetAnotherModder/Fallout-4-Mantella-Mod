@@ -85,6 +85,7 @@ string property ACTION_NPC_MOVETO_NPC = "mantella_move_character_near_npc" auto
 string property ACTION_MAKE_NPC_WAIT = "mantella_make_npc_wait" auto
 string property ACTION_NPC_ATTACK_OTHER_NPC = "mantella_npc_attack_other_npc" auto
 string property ACTION_NPC_LOOT_ITEMS = "mantella_npc_loot_items" auto
+string property ACTION_NPC_HEAL_PLAYER = "mantella_heal_me" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Special Fallout4 values   ;
@@ -113,6 +114,8 @@ string property KEY_ACTOR_CUSTOMVALUES_POSY = "mantella_actor_pos_y" auto
 string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES = "mantella_function_npc_display_names" auto
 string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES = "mantella_function_npc_distances" auto
 string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCIDS = "mantella_function_npc_ids" auto
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPACKCOUNT = "mantella_function_npc_stimpackcount" auto
+
 
 ;;;;;;;;;;; INPUT ('Mantella Mod <- Mantella Software') ;;;;;;;;;;;;;
 

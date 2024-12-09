@@ -118,8 +118,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3EA8:Mantella.esp
-      ParameterTwoNumber: 785268392
+      ParameterTwoRecord: A33DC0:Mantella.esp
+      ParameterTwoNumber: -1432142400
       ParameterTwoString: ::allowActionAggro_var
 - ItemText:
     TargetLanguage: English
@@ -136,8 +136,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3EA0:Mantella.esp
-      ParameterTwoNumber: 785268384
+      ParameterTwoRecord: A33DB8:Mantella.esp
+      ParameterTwoNumber: -1432142408
       ParameterTwoString: ::allowActionAggro_var
 - ItemText:
     TargetLanguage: English
@@ -155,8 +155,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E98:Mantella.esp
-      ParameterTwoNumber: 785268376
+      ParameterTwoRecord: A33DB0:Mantella.esp
+      ParameterTwoNumber: -1432142416
       ParameterTwoString: ::allowFollow_var
 - ItemText:
     TargetLanguage: English
@@ -173,8 +173,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E90:Mantella.esp
-      ParameterTwoNumber: 785268368
+      ParameterTwoRecord: A33DA8:Mantella.esp
+      ParameterTwoNumber: -1432142424
       ParameterTwoString: ::allowFollow_var
 - ItemText:
     TargetLanguage: English
@@ -192,8 +192,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E88:Mantella.esp
-      ParameterTwoNumber: 785268360
+      ParameterTwoRecord: A33DA0:Mantella.esp
+      ParameterTwoNumber: -1432142432
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -212,8 +212,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E80:Mantella.esp
-      ParameterTwoNumber: 785268352
+      ParameterTwoRecord: A33D98:Mantella.esp
+      ParameterTwoNumber: -1432142440
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -231,8 +231,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E78:Mantella.esp
-      ParameterTwoNumber: 785268344
+      ParameterTwoRecord: A33D90:Mantella.esp
+      ParameterTwoNumber: -1432142448
       ParameterTwoString: ::allowActionInventory_var
 - ItemText:
     TargetLanguage: English
@@ -253,8 +253,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E70:Mantella.esp
-      ParameterTwoNumber: 785268336
+      ParameterTwoRecord: A33D88:Mantella.esp
+      ParameterTwoNumber: -1432142456
       ParameterTwoString: ::allowActionInventory_var
 - ItemText:
     TargetLanguage: English
@@ -272,8 +272,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E68:Mantella.esp
-      ParameterTwoNumber: 785268328
+      ParameterTwoRecord: A33D80:Mantella.esp
+      ParameterTwoNumber: -1432142464
       ParameterTwoString: ::allowFunctionCalling_var
 - ItemText:
     TargetLanguage: English
@@ -290,8 +290,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: CE3E60:Mantella.esp
-      ParameterTwoNumber: 785268320
+      ParameterTwoRecord: A33D78:Mantella.esp
+      ParameterTwoNumber: -1432142472
       ParameterTwoString: ::allowFunctionCalling_var
 MajorFlags:
 - 0x10

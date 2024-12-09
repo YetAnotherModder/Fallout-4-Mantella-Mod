@@ -12,5 +12,6 @@ event OnEffectStart(Actor target, Actor caster)
         ;self.GetCasterActor().PlayIdle(HealingIdle) ;doesn't seem to be working
         MantellaStimpakSpell.Cast(playerRef, playerRef)
         StimpakSound.play(playerRef)
+        repository.NPCAIItemToUseSelector=0
     endif
 EndEvent
