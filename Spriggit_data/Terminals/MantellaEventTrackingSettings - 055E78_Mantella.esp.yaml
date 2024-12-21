@@ -143,8 +143,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: A33DD0:Mantella.esp
-      ParameterTwoNumber: -1432142384
+      ParameterTwoRecord: 65FDD0:Mantella.esp
+      ParameterTwoNumber: 711327184
       ParameterTwoString: ::allowCrosshairTracking_var
 - ItemText:
     TargetLanguage: English
@@ -161,8 +161,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: A33DC8:Mantella.esp
-      ParameterTwoNumber: -1432142392
+      ParameterTwoRecord: 65FDC8:Mantella.esp
+      ParameterTwoNumber: 711327176
       ParameterTwoString: ::allowCrosshairTracking_var
 MajorFlags:
 - 0x10

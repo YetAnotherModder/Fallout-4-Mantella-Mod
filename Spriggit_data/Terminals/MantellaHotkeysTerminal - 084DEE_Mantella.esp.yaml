@@ -141,8 +141,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: A33EE8:Mantella.esp
-      ParameterTwoNumber: -1432142104
+      ParameterTwoRecord: 65FEE8:Mantella.esp
+      ParameterTwoNumber: 711327464
       ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English
@@ -166,8 +166,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: A33ED8:Mantella.esp
-      ParameterTwoNumber: -1432142120
+      ParameterTwoRecord: 65FED8:Mantella.esp
+      ParameterTwoNumber: 711327448
       ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English

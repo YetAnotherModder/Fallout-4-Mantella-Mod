@@ -1,5 +1,5 @@
 FormKey: 015DA7:Mantella.esp
-VersionControl: 12628
+VersionControl: 12686
 EditorID: MantellaFollowersCompanionConversationPackage
 Flags:
 - TreatAsPlayerFollower
@@ -305,8 +305,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: A33CC0:Mantella.esp
-      ParameterTwoNumber: -1432142656
+      ParameterTwoRecord: 65FCD0:Mantella.esp
+      ParameterTwoNumber: 711326928
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     Flags:
@@ -338,8 +338,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: A33CB8:Mantella.esp
-      ParameterTwoNumber: -1432142664
+      ParameterTwoRecord: 65FCC8:Mantella.esp
+      ParameterTwoNumber: 711326920
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -367,8 +367,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: A33CB0:Mantella.esp
-      ParameterTwoNumber: -1432142672
+      ParameterTwoRecord: 65FCC0:Mantella.esp
+      ParameterTwoNumber: 711326912
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -389,7 +389,7 @@ ProcedureTree:
   FlagsOverride:
     ClearInterruptFlags:
     - HellosToPlayer
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 - BranchType: Stacked
   Conditions:
@@ -427,8 +427,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: A33CA8:Mantella.esp
-      ParameterTwoNumber: -1432142680
+      ParameterTwoRecord: 65FCB8:Mantella.esp
+      ParameterTwoNumber: 711326904
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -449,7 +449,7 @@ ProcedureTree:
   FlagsOverride:
     ClearInterruptFlags:
     - HellosToPlayer
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 - BranchType: Procedure
   Conditions:
@@ -460,8 +460,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: A33CA0:Mantella.esp
-      ParameterTwoNumber: -1432142688
+      ParameterTwoRecord: 65FCB0:Mantella.esp
+      ParameterTwoNumber: 711326896
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -489,7 +489,7 @@ ProcedureTree:
   FlagsOverride:
     ClearInterruptFlags:
     - HellosToPlayer
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 - BranchType: Procedure
   Conditions:
@@ -500,8 +500,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: A33C98:Mantella.esp
-      ParameterTwoNumber: -1432142696
+      ParameterTwoRecord: 65FCA8:Mantella.esp
+      ParameterTwoNumber: 711326888
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -529,7 +529,7 @@ ProcedureTree:
   FlagsOverride:
     ClearInterruptFlags:
     - HellosToPlayer
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 - BranchType: Procedure
   Conditions:
@@ -540,8 +540,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 0289E4:Fallout4.esm
       ParameterOneNumber: 166372
-      ParameterTwoRecord: A33C90:Mantella.esp
-      ParameterTwoNumber: -1432142704
+      ParameterTwoRecord: 65FCA0:Mantella.esp
+      ParameterTwoNumber: 711326880
       ParameterTwoString: ::AllFollowerState_var
   - MutagenObjectType: ConditionGlobal
     ComparisonValue: 02A106:Fallout4.esm
@@ -569,7 +569,7 @@ ProcedureTree:
   FlagsOverride:
     ClearInterruptFlags:
     - HellosToPlayer
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 - BranchType: Stacked
   Root:
@@ -596,7 +596,7 @@ ProcedureTree:
   FlagsOverride:
     ClearFlags:
     - TreatAsPlayerFollower
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 - BranchType: Procedure
   Conditions:
@@ -620,7 +620,7 @@ ProcedureTree:
     - RandomConversations
     - GreetCorpseBehavior
     - AllowIdleChatter
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 - BranchType: Procedure
   Conditions:
@@ -638,7 +638,7 @@ ProcedureTree:
   FlagsOverride:
     SetFlags:
     - TreatAsPlayerFollower
-    Unknown: 0x010000
+    Unknown: 0x020000
   Unknown: []
 OnBegin:
   Topics:

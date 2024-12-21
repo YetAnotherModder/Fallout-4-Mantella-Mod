@@ -1,17 +1,17 @@
-FormKey: 011955:Mantella.esp
+FormKey: 054811:Mantella.esp
 VersionControl: 12686
-EditorID: MantellaGenericConversationPackage
+EditorID: MantellaBasicAISelectorPackage
 VirtualMachineAdapter:
   ScriptFragments:
     Script:
-      Name: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      Name: Fragments:Packages:PF__01054811
     OnBegin:
       ExtraBindDataVersion: 1
-      ScriptName: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      ScriptName: Fragments:Packages:PF__01054811
       FragmentName: Fragment_Begin
     OnChange:
       ExtraBindDataVersion: 1
-      ScriptName: Fragments:Packages:PF_MantellaGenericConversati_05011955
+      ScriptName: Fragments:Packages:PF__01054811
       FragmentName: Fragment_Change
 Flags:
 - AllowSwimming
@@ -35,12 +35,15 @@ Unknown3: 0x000000
 Conditions:
 - MutagenObjectType: ConditionFloat
   CompareOperator: NotEqualTo
-  ComparisonValue: 1
+  ComparisonValue: -1
   Data:
     MutagenObjectType: FunctionConditionData
-    Function: GetInFaction
-    ParameterOneRecord: 023C01:Fallout4.esm
-    ParameterOneNumber: 146433
+    Function: GetVMQuestVariable
+    ParameterOneRecord: 000F99:Mantella.esp
+    ParameterOneNumber: 16781209
+    ParameterTwoRecord: 65FAB0:Mantella.esp
+    ParameterTwoNumber: 711326384
+    ParameterTwoString: ::NPCAIPackageSelector_var
 OwnerQuest: 01E64D:Mantella.esp
 DataInputVersion: 2
 Data:
@@ -87,6 +90,31 @@ Data:
     Flags:
     - Public
     Data: 1000
+- Key: 21
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: FunctionTarget
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetAlias
+      Alias: 15
+- Key: 22
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: Weapon
+    Flags:
+    - Public
+    Target:
+      MutagenObjectType: PackageTargetObjectType
+      Type: AnyWeapons
+- Key: 23
+  Value:
+    MutagenObjectType: PackageDataInt
+    Name: VolleysToFire
+    Flags:
+    - Public
 - Key: 25
   Value:
     MutagenObjectType: PackageDataBool
@@ -100,6 +128,20 @@ Data:
     Name: False
     Flags:
     - Public
+- Key: 33
+  Value:
+    MutagenObjectType: PackageDataInt
+    Name: Acquire One
+    Flags:
+    - Public
+    Data: 1
+- Key: 39
+  Value:
+    MutagenObjectType: PackageDataInt
+    Name: Acquire 20
+    Flags:
+    - Public
+    Data: 20
 - Key: 1
   Value:
     MutagenObjectType: APackageData
@@ -136,24 +178,6 @@ Data:
     Name: <none>
     Flags:
     - Public
-- Key: 21
-  Value:
-    MutagenObjectType: APackageData
-    Name: FunctionTarget
-    Flags:
-    - Public
-- Key: 22
-  Value:
-    MutagenObjectType: APackageData
-    Name: Weapon
-    Flags:
-    - Public
-- Key: 23
-  Value:
-    MutagenObjectType: APackageData
-    Name: VolleysToFire
-    Flags:
-    - Public
 - Key: 29
   Value:
     MutagenObjectType: APackageData
@@ -164,12 +188,6 @@ Data:
   Value:
     MutagenObjectType: APackageData
     Name: Any Object List
-    Flags:
-    - Public
-- Key: 33
-  Value:
-    MutagenObjectType: APackageData
-    Name: Acquire One
     Flags:
     - Public
 - Key: 35
@@ -188,12 +206,6 @@ Data:
   Value:
     MutagenObjectType: APackageData
     Name: RefColl 2
-    Flags:
-    - Public
-- Key: 39
-  Value:
-    MutagenObjectType: APackageData
-    Name: Acquire 20
     Flags:
     - Public
 - Key: 40
@@ -218,9 +230,86 @@ XnamMarker: 0x2B
 ProcedureTree:
 - BranchType: Sequence
   Root:
-    BranchCount: 1
+    BranchCount: 4
     Flags:
     - RepeatWhenComplete
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 65FAA8:Mantella.esp
+      ParameterTwoNumber: 711326376
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  ProcedureType: UseWeapon
+  Flags: []
+  DataInputIndices:
+  - 255
+  - 22
+  - 21
+  - 27
+  - 255
+  - 27
+  - 25
+  - 27
+  - 25
+  - 11
+  - 11
+  - 23
+  - 23
+  - 23
+  - 25
+  - 27
+  - 27
+  - 255
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 65FAA0:Mantella.esp
+      ParameterTwoNumber: 711326368
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 21
+  - 18
+  - 20
+  - 16
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Flags:
+    - OR
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 65FA98:Mantella.esp
+      ParameterTwoNumber: 711326360
+      ParameterTwoString: ::NPCAIPackageSelector_var
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
   Unknown: []
 - BranchType: Procedure
   Conditions:

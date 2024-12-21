@@ -1,17 +1,17 @@
-FormKey: 04FC0A:Mantella.esp
+FormKey: 054077:Mantella.esp
 VersionControl: 12687
-EditorID: MantellaInfinteLootPackage
+EditorID: MantellaInfinteLootPackageConsumables
 VirtualMachineAdapter:
   ScriptFragments:
     Script:
-      Name: Fragments:Packages:PF__0104FC0A
+      Name: Fragments:Packages:PF__01054077
     OnBegin:
       ExtraBindDataVersion: 1
-      ScriptName: Fragments:Packages:PF__0104FC0A
+      ScriptName: Fragments:Packages:PF__01054077
       FragmentName: Fragment_Begin
     OnChange:
       ExtraBindDataVersion: 1
-      ScriptName: Fragments:Packages:PF__0104FC0A
+      ScriptName: Fragments:Packages:PF__01054077
       FragmentName: Fragment_Change
 Flags:
 - AllowSwimming
@@ -34,13 +34,14 @@ ScheduleMinute: -1
 Unknown3: 0x000000
 Conditions:
 - MutagenObjectType: ConditionFloat
+  ComparisonValue: 4
   Data:
     MutagenObjectType: FunctionConditionData
     Function: GetVMQuestVariable
     ParameterOneRecord: 000F99:Mantella.esp
     ParameterOneNumber: 16781209
-    ParameterTwoRecord: 5A8B70:Mantella.esp
-    ParameterTwoNumber: 1012566896
+    ParameterTwoRecord: 5A8750:Mantella.esp
+    ParameterTwoNumber: 1012565840
     ParameterTwoString: ::NPCAIItemToLootSelector_var
 - MutagenObjectType: ConditionFloat
   ComparisonValue: 3
@@ -49,8 +50,8 @@ Conditions:
     Function: GetVMQuestVariable
     ParameterOneRecord: 000F99:Mantella.esp
     ParameterOneNumber: 16781209
-    ParameterTwoRecord: 5A8738:Mantella.esp
-    ParameterTwoNumber: 1012565816
+    ParameterTwoRecord: 5A89C8:Mantella.esp
+    ParameterTwoNumber: 1012566472
     ParameterTwoString: ::NPCAIPackageSelector_var
 OwnerQuest: 01E64D:Mantella.esp
 DataInputVersion: 2
@@ -158,7 +159,7 @@ Data:
     - Public
     Target:
       MutagenObjectType: PackageTargetUnknown
-      Data: 16
+      Data: 20
 - Key: 36
   Value:
     MutagenObjectType: PackageDataTarget
@@ -168,7 +169,7 @@ Data:
     Target:
       MutagenObjectType: PackageTargetUnknown
       CountOrDistance: 1
-      Data: 16
+      Data: 20
 - Key: 37
   Value:
     MutagenObjectType: PackageDataTarget
@@ -178,7 +179,7 @@ Data:
     Target:
       MutagenObjectType: PackageTargetUnknown
       CountOrDistance: 2
-      Data: 16
+      Data: 20
 - Key: 39
   Value:
     MutagenObjectType: PackageDataInt
@@ -195,7 +196,7 @@ Data:
     Target:
       MutagenObjectType: PackageTargetUnknown
       CountOrDistance: 3
-      Data: 16
+      Data: 20
 - Key: 41
   Value:
     MutagenObjectType: PackageDataTarget
@@ -205,7 +206,7 @@ Data:
     Target:
       MutagenObjectType: PackageTargetUnknown
       CountOrDistance: 4
-      Data: 16
+      Data: 20
 - Key: 42
   Value:
     MutagenObjectType: PackageDataTarget
@@ -215,7 +216,7 @@ Data:
     Target:
       MutagenObjectType: PackageTargetUnknown
       CountOrDistance: 5
-      Data: 16
+      Data: 20
 - Key: 1
   Value:
     MutagenObjectType: APackageData
@@ -279,8 +280,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8BB0:Mantella.esp
-      ParameterTwoNumber: 1012566960
+      ParameterTwoRecord: 5A89B8:Mantella.esp
+      ParameterTwoNumber: 1012566456
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 3
@@ -317,8 +318,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8690:Mantella.esp
-      ParameterTwoNumber: 1012565648
+      ParameterTwoRecord: 5A8A20:Mantella.esp
+      ParameterTwoNumber: 1012566560
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -343,8 +344,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8960:Mantella.esp
-      ParameterTwoNumber: 1012566368
+      ParameterTwoRecord: 5A89A8:Mantella.esp
+      ParameterTwoNumber: 1012566440
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -369,8 +370,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8888:Mantella.esp
-      ParameterTwoNumber: 1012566152
+      ParameterTwoRecord: 5A86F0:Mantella.esp
+      ParameterTwoNumber: 1012565744
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -407,8 +408,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A87E0:Mantella.esp
-      ParameterTwoNumber: 1012565984
+      ParameterTwoRecord: 5A89B0:Mantella.esp
+      ParameterTwoNumber: 1012566448
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -433,8 +434,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8AA8:Mantella.esp
-      ParameterTwoNumber: 1012566696
+      ParameterTwoRecord: 5A8B40:Mantella.esp
+      ParameterTwoNumber: 1012566848
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -471,8 +472,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8BA0:Mantella.esp
-      ParameterTwoNumber: 1012566944
+      ParameterTwoRecord: 5A8758:Mantella.esp
+      ParameterTwoNumber: 1012565848
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -497,8 +498,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8AF0:Mantella.esp
-      ParameterTwoNumber: 1012566768
+      ParameterTwoRecord: 5A8650:Mantella.esp
+      ParameterTwoNumber: 1012565584
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -535,8 +536,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8B80:Mantella.esp
-      ParameterTwoNumber: 1012566912
+      ParameterTwoRecord: 5A8BE8:Mantella.esp
+      ParameterTwoNumber: 1012567016
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -561,8 +562,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8A58:Mantella.esp
-      ParameterTwoNumber: 1012566616
+      ParameterTwoRecord: 5A8B30:Mantella.esp
+      ParameterTwoNumber: 1012566832
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -599,8 +600,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8708:Mantella.esp
-      ParameterTwoNumber: 1012565768
+      ParameterTwoRecord: 5A8970:Mantella.esp
+      ParameterTwoNumber: 1012566384
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []
@@ -625,8 +626,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8800:Mantella.esp
-      ParameterTwoNumber: 1012566016
+      ParameterTwoRecord: 5A8C78:Mantella.esp
+      ParameterTwoNumber: 1012567160
       ParameterTwoString: ::NPCAIPackageSelector_var
   Root:
     BranchCount: 2
@@ -663,8 +664,8 @@ ProcedureTree:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 5A8A30:Mantella.esp
-      ParameterTwoNumber: 1012566576
+      ParameterTwoRecord: 5A8618:Mantella.esp
+      ParameterTwoNumber: 1012565528
       ParameterTwoString: ::NPCAIPackageSelector_var
   ProcedureType: Acquire
   Flags: []

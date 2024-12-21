@@ -4,8 +4,6 @@ SpriggitSource:
 ModKey: Mantella.esp
 GameRelease: Fallout4
 ModHeader:
-  Stats:
-    Version: 0.95
   Author: DEFAULT
   MasterReferences:
   - Master: Fallout4.esm

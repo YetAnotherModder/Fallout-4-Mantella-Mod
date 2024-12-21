@@ -48,14 +48,20 @@ String Property MantellaFunctionInferenceActorDistanceList  Auto
 String Property MantellaFunctionInferenceActorIDsList  Auto
 int property NPCAIPackageSelector auto Conditional
 ;NPCAIPackageSelector values
+;-1 = default state
 ;0 = wait
 ;1 = follow
 ;2 = attack
 ;3 = loot
 ;4 = use item (item must be specified below)
-int property NPCAIItemToUseSelector auto
+int property NPCAIItemToUseSelector auto Conditional
 ;1 = stimpak
-
+int property NPCAIItemToLootSelector auto Conditional
+;0 = any
+;1 = weapon
+;2 = armor
+;3 = junk
+;4 = consumables
 
 bool property allowActionAggro auto Conditional
 bool property allowNPCsStayInPlace auto Conditional

@@ -32,8 +32,8 @@ Conditions:
     Function: GetVMQuestVariable
     ParameterOneRecord: 000F99:Mantella.esp
     ParameterOneNumber: 16781209
-    ParameterTwoRecord: A33C88:Mantella.esp
-    ParameterTwoNumber: -1432142712
+    ParameterTwoRecord: 65FC98:Mantella.esp
+    ParameterTwoNumber: 711326872
     ParameterTwoString: ::NPCAIPackageSelector_var
 DataInputVersion: 2
 Data:

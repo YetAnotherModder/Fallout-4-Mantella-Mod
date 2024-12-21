@@ -76,7 +76,7 @@ event OnInit()
     MantellaVoice = Game.GetFormFromFile(0x2F7A0, "mantella.esp") as VoiceType
     SetPlayerRef()
     SaveSettings()
-    repository.NPCAIPackageSelector=0
+    repository.NPCAIPackageSelector=-1
     if !UI.isMenuRegistered(SimpleTextField.GetMenuName())
         SimpleTextField:Program.GetProgram().OnQuestInit()              ; Make sure SimpleTextField is initialized
     Endif
@@ -110,10 +110,10 @@ function StartConversation(Actor[] actorsToStartConversationWith)
     endIf
 
     int handle = F4SE_HTTP.createDictionary()
-    F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_INIT)
+    ;F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_INIT)
     ; send request to initialize Mantella settings (set LLM connection, start up TTS service, load character_df etc) 
     ; while waiting for actor info and context to be prepared below
-    sendHTTPRequest(handle, mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_INIT)
+    ;sendHTTPRequest(handle, mConsts.HTTP_ROUTE_MAIN, mConsts.KEY_REQUESTTYPE_INIT)
 
     _delayedHandle=0
     _delayedActionIdentifier = new String[100]
@@ -285,14 +285,15 @@ EndFunction
 
 Function CleanupConversation()
     _delayedHandle=0
-    repository.NPCAIPackageSelector=0
+    repository.NPCAIPackageSelector=-1
     repository.hasPendingVisionCheck=false
     conversationIsEnding = true
     ClearParticipants()
     ClearIngameEvent() 
     _does_accept_player_input = false
     _isTalking = false
-    DispelAllMantellaMagicEffectsFromActors()
+    DispelSpellFromActorsInConversation(MantellaSpell)
+    DispelSpellFromActorsInConversation(MantellaIsTalkingSpell)
     RemoveAllParticipantsFromFaction(MantellaFunctionTargetFaction)
     If (MantellaConversationParticipantsQuest.IsRunning())
         MantellaConversationParticipantsQuest.Stop()
@@ -303,12 +304,12 @@ Function CleanupConversation()
     RestoreSettings()
 EndFunction
 
-Function DispelAllMantellaMagicEffectsFromActors()
+Function DispelSpellFromActorsInConversation(Spell SpellToDispel)
     int i=0
     
     While i < Participants.GetSize()
         Actor actorToDispel = Participants.GetAt(i) as actor
-        actorToDispel.DispelSpell(MantellaSpell)
+        actorToDispel.DispelSpell(SpellToDispel)
         i += 1
     EndWhile
 Endfunction
@@ -408,6 +409,8 @@ Event Ontimer( int TimerID)
     elseif TimerID==RestartLootTimer && repository.NPCAIPackageSelector==3
         If trackedPositionActor.IsOverEncumbered()
             debug.notification(trackedPositionActor.GetDisplayName()+" cannot scavenge anymore because they are overemcumbered.") 
+            repository.NPCAIPackageSelector==0
+            CauseReassignmentOfParticipantAlias()
         EndIf
         float currentPositionX = trackedPositionActor.getpositionX()
         float currentPositionY = trackedPositionActor.getpositionY()
@@ -604,13 +607,17 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
         RemoveActors(actors)
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_OFFENDED)
         SendCustomEvent("MantellaConversation_Action_mantella_npc_offended", kargs)
+        if repository.allowActionAggro 
+            speaker.StartCombat(playerRef)
+        endif
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_FORGIVEN)
         SendCustomEvent("MantellaConversation_Action_mantella_npc_forgiven", kargs)
+        speaker.StopCombat()
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_FOLLOW)
         SendCustomEvent("MantellaConversation_Action_mantella_npc_follow", kargs)
         Faction CompanionFaction = Game.GetForm(0x000023C01) as Faction
         ;NPCs not yet available as companions have -1 faction rank
-        if repository.allowNPCsStayInPlace && repository.allowNPCsStayInPlace && !speaker.IsinFaction(CompanionFaction) || speaker.GetFactionRank(CompanionFaction) < 0
+        if (repository.allowNPCsStayInPlace && repository.allowFollow && !speaker.IsinFaction(CompanionFaction)) || (speaker.GetFactionRank(CompanionFaction) < 0 && repository.allowFollow)
             Debug.Notification(speaker.GetDisplayName() + " is following")
             speaker.SetPlayerTeammate(true)
             speaker.EvaluatePackage()
@@ -634,13 +641,15 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
             If (CurrentFunctionTargetNPC==playerRef)
                 speaker.SetPlayerTeammate(true)
                 speaker.EvaluatePackage()
-                repository.NPCAIPackageSelector=0
+                repository.NPCAIPackageSelector=1
+                debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is following "+CurrentFunctionTargetNPC.GetDisplayName())
             else
                 CurrentFunctionTargetNPC.AddToFaction(MantellaFunctionTargetFaction)
                 repository.NPCAIPackageSelector=1
+                debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is moving towards "+CurrentFunctionTargetNPC.GetDisplayName())
             EndIf
             CauseReassignmentOfParticipantAlias()
-            debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is moving towards "+CurrentFunctionTargetNPC.GetDisplayName())
+            
         endif
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_ATTACK_OTHER_NPC)
         debug.notification("Attack NPC action identifier recognized")
@@ -656,13 +665,29 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
             debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is attacking "+CurrentFunctionTargetNPC.GetDisplayName())
         endif
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_LOOT_ITEMS)
+        repository.NPCAIItemToLootSelector=0
         if speaker.IsOverEncumbered()
             debug.notification(speaker.GetDisplayName()+" cannot scavenge for you because they are overemcumbered.") 
             return
         endif
-        debug.notification(speaker.GetDisplayName()+" will scavenge for you.")
-        string[] item_type_to_loot = RetrieveTargetIDFunctionInferenceValues(handle)
+        string[] item_type_to_loot= RetrieveTargetIDFunctionInferenceValues(handle)
+        if item_type_to_loot[0] == "weapons"
+            repository.NPCAIItemToLootSelector=1
+            debug.notification(speaker.GetDisplayName()+" will scavenge weapons for you.")
+        Elseif item_type_to_loot[0] == "armor"
+            repository.NPCAIItemToLootSelector=2
+            debug.notification(speaker.GetDisplayName()+" will scavenge armor for you.")
+        Elseif item_type_to_loot[0] == "junk"
+            repository.NPCAIItemToLootSelector=3
+            debug.notification(speaker.GetDisplayName()+" will scavenge junk for you.")
+        Elseif item_type_to_loot[0] == "consumables"
+            repository.NPCAIItemToLootSelector=4
+            debug.notification(speaker.GetDisplayName()+" will scavenge consumables for you.")
+        Else
+            debug.notification(speaker.GetDisplayName()+" will scavenge any items for you.")
+        endif
         repository.NPCAIPackageSelector=3
+        
         CauseReassignmentOfParticipantAlias()
         trackedPositionActor=speaker
         StoredActorPositionX = trackedPositionActor.getpositionX()
@@ -680,13 +705,6 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
         CauseReassignmentOfParticipantAlias()
     endIf
 endFunction
-
-Event Package.OnChange(package akSender, Actor akActor)
-    if repository.NPCAIPackageSelector==3
-        Debug.Trace("Package ended on " + akActor )
-        CauseReassignmentOfParticipantAlias()
-    endif
-EndEvent
 
 string[] Function RetrieveTargetIDFunctionInferenceValues(int handle)
     string[] targetIDs = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_TARGET_IDS)
