@@ -120,6 +120,19 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0303_Item_00
+Function Fragment_Stage_0303_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.RestartMantellaExe()
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0305_Item_00
 Function Fragment_Stage_0305_Item_00()
 ;BEGIN AUTOCAST TYPE mantellarepository
@@ -875,6 +888,71 @@ mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.SetVisionResize(2560)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0801_Item_00
+Function Fragment_Stage_0801_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.SetHTTPTimeoutInMinutes(2)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0802_Item_00
+Function Fragment_Stage_0802_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.SetHTTPTimeoutInMinutes(4)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0803_Item_00
+Function Fragment_Stage_0803_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.SetHTTPTimeoutInMinutes(20)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0804_Item_00
+Function Fragment_Stage_0804_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.SetHTTPTimeoutInMinutes(60)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0805_Item_00
+Function Fragment_Stage_0805_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.SetHTTPTimeoutInMinutes(1440)
 Reset()
 ;END CODE
 EndFunction

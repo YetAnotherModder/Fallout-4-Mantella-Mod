@@ -81,7 +81,7 @@ Event OnPlayerLoadGame()
 EndEvent
 
 Function LoadMantellaEvents()
-    conversation.SetPlayerRef()
+    conversation.SetGameRefs()
     repository.reloadKeys()
     registerForPlayerEvents()
     ;Will clean up all all conversation loops if they're still occuring
@@ -102,7 +102,7 @@ Function LoadMantellaEvents()
 Endfunction
 
 Function CheckGameVersionForMantella()
-    string MantellaVersion="Mantella 0.9.0"
+    string MantellaVersion="Mantella.esp 0.9.0"
     if  !IsF4SEProperlyInstalled() 
         debug.messagebox("F4SE not properly installed, Mantella will not work correctly")
     endif

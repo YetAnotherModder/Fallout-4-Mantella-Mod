@@ -1,6 +1,6 @@
 Scriptname MantellaRepository extends Quest Conditional
 
-
+Import MantellaLauncher
 ;keycode properties
 int property textkeycode auto
 int property textAndVisionKeycode auto
@@ -8,7 +8,6 @@ int property MantellaVisionKeycode auto
 int property gameEventkeycode auto
 int property startConversationkeycode auto
 
-; string property textinput auto
 int property MenuEventSelector auto
 MantellaConversation property conversation auto
 MantellaConstants property ConstantsScript auto
@@ -38,7 +37,7 @@ String property ActorsInCellArray auto
 String property VisionDistanceArray auto
 
 ;function calling parameters
-bool property hideFunctionMenu=true auto Conditional
+bool property hideFunctionMenu=false auto Conditional
 bool property allowFunctionCalling auto Conditional
 Quest Property MantellaFunctionNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaFunctionNPCCollection  Auto
@@ -50,10 +49,11 @@ int property NPCAIPackageSelector auto Conditional
 ;NPCAIPackageSelector values
 ;-1 = default state
 ;0 = wait
-;1 = follow
+;1 = follow non-player
 ;2 = attack
 ;3 = loot
 ;4 = use item (item must be specified below)
+;5 = follow player
 int property NPCAIItemToUseSelector auto Conditional
 ;1 = stimpak
 int property NPCAIItemToLootSelector auto Conditional
@@ -63,6 +63,8 @@ int property NPCAIItemToLootSelector auto Conditional
 ;3 = junk
 ;4 = consumables
 
+
+int Property HTTPTimeOutHolotapeValue Auto Conditional
 bool property allowActionAggro auto Conditional
 bool property allowNPCsStayInPlace auto Conditional
 bool property allowFollow auto Conditional
@@ -160,6 +162,11 @@ Function StopConversations()
     EndIf
 EndFunction
 
+Function RestartMantellaExe()
+    Debug.notification("Attempting to restart Mantella.exe")
+    LaunchMantellaExe() 
+Endfunction
+
 Event Ontimer( int TimerID)
     if TimerID==CleanupconversationTimer 
         ;debug.notification("checking if conversation is still running")
@@ -176,7 +183,7 @@ Function reinitializeVariables()
     ;change the below this is for debug only
     textkeycode=72
     gameEventkeycode=89
-    startConversationkeycode=72
+    startConversationkeycode=71
     reloadKeys()
     radiantEnabled = true
     radiantDistance = 20
@@ -195,6 +202,7 @@ Function reinitializeVariables()
     ConstantsScript.HTTP_PORT = 4999
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
+    HTTPTimeOutHolotapeValue = 240
     Actor PlayerRef = Game.GetPlayer()
     If !(PlayerRef.HasPerk(ActivatePerk))
         PlayerRef.AddPerk(ActivatePerk, False)
@@ -436,6 +444,12 @@ Function SetVisionResize(int resizeResolution)
     Debug.notification("Vision images will now be resized to "+visionResize)
 EndFunction
 
+Function SetHTTPTimeoutInMinutes(int inputValue)
+    HTTPTimeOutHolotapeValue = (inputValue*120)
+    ;Debug.notification("Conversation timeout value now set to "+inputValue+" minutes")
+EndFunction
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Pipboy Management    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -521,19 +535,6 @@ endEvent
 Event Onkeydown(int keycode)
     bool menuMode = TopicInfoPatcher.isMenuModeActive()
     if !menuMode
-        if keycode == MantellaVisionKeycode
-            GenerateMantellaVision()
-        endif
-        If conversation.IsRunning() 
-            if (keycode == textAndVisionKeycode )
-                conversation.GetPlayerTextInput("playerResponseTextAndVisionEntry")
-            elseif (keycode == textkeycode )
-                conversation.GetPlayerTextInput("playerResponseTextEntry")
-            ElseIf keycode == gameEventkeycode
-                conversation.GetPlayerTextInput("gameEventEntry")
-            EndIf
-        Endif
-
         if keycode == startConversationkeycode
             ;Need to use an array here, as returning a scalar sometimes fails!?
             if allowCrosshairTracking
@@ -561,6 +562,21 @@ Event Onkeydown(int keycode)
                 endif
             EndIf
         Endif
+
+        if keycode == MantellaVisionKeycode
+            GenerateMantellaVision()
+        endif
+        If conversation.IsRunning() 
+            if (keycode == textAndVisionKeycode )
+                conversation.GetPlayerTextInput("playerResponseTextAndVisionEntry")
+            elseif (keycode == textkeycode )
+                conversation.GetPlayerTextInput("playerResponseTextEntry")
+            ElseIf keycode == gameEventkeycode
+                conversation.GetPlayerTextInput("gameEventEntry")
+            EndIf
+        Endif
+
+        
     EndIf
 Endevent
 
@@ -666,6 +682,7 @@ Function TIMStartConversationHotkeyInput(string keycode)
             return
         Endif
         setHotkey(keycode as int, "StartConversation")
+        allowCrosshairTracking=true
     endif
 EndFunction
 
