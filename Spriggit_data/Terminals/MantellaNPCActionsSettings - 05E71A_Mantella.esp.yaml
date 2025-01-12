@@ -1,6 +1,6 @@
 FormKey: 05E71A:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12634
+VersionControl: 12694
 EditorID: MantellaNPCActionsSettings
 Fallout4MajorRecordFlags:
 - 0x10
@@ -118,8 +118,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FDC0:Mantella.esp
-      ParameterTwoNumber: 711327168
+      ParameterTwoRecord: 34FDC0:Mantella.esp
+      ParameterTwoNumber: -1405813312
       ParameterTwoString: ::allowActionAggro_var
 - ItemText:
     TargetLanguage: English
@@ -136,8 +136,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FDB8:Mantella.esp
-      ParameterTwoNumber: 711327160
+      ParameterTwoRecord: 34FDB8:Mantella.esp
+      ParameterTwoNumber: -1405813320
       ParameterTwoString: ::allowActionAggro_var
 - ItemText:
     TargetLanguage: English
@@ -155,8 +155,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FDB0:Mantella.esp
-      ParameterTwoNumber: 711327152
+      ParameterTwoRecord: 34FDB0:Mantella.esp
+      ParameterTwoNumber: -1405813328
       ParameterTwoString: ::allowFollow_var
 - ItemText:
     TargetLanguage: English
@@ -173,8 +173,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FDA8:Mantella.esp
-      ParameterTwoNumber: 711327144
+      ParameterTwoRecord: 34FDA8:Mantella.esp
+      ParameterTwoNumber: -1405813336
       ParameterTwoString: ::allowFollow_var
 - ItemText:
     TargetLanguage: English
@@ -192,8 +192,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FDA0:Mantella.esp
-      ParameterTwoNumber: 711327136
+      ParameterTwoRecord: 34FDA0:Mantella.esp
+      ParameterTwoNumber: -1405813344
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -212,8 +212,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FD98:Mantella.esp
-      ParameterTwoNumber: 711327128
+      ParameterTwoRecord: 34FD98:Mantella.esp
+      ParameterTwoNumber: -1405813352
       ParameterTwoString: ::allowNPCsStayInPlace_var
 - ItemText:
     TargetLanguage: English
@@ -231,8 +231,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FD90:Mantella.esp
-      ParameterTwoNumber: 711327120
+      ParameterTwoRecord: 34FD90:Mantella.esp
+      ParameterTwoNumber: -1405813360
       ParameterTwoString: ::allowActionInventory_var
 - ItemText:
     TargetLanguage: English
@@ -253,8 +253,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FD88:Mantella.esp
-      ParameterTwoNumber: 711327112
+      ParameterTwoRecord: 34FD88:Mantella.esp
+      ParameterTwoNumber: -1405813368
       ParameterTwoString: ::allowActionInventory_var
 - ItemText:
     TargetLanguage: English
@@ -266,14 +266,23 @@ MenuItems:
     Value: 'NPC Function Calling is turned OFF. NPC will now take dynamic actions through Mantella (warning: this will increase token use on your LLM service)'
   Conditions:
   - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 34FD80:Mantella.esp
+      ParameterTwoNumber: -1405813376
+      ParameterTwoString: ::hideFunctionMenu_var
+  - MutagenObjectType: ConditionFloat
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FD80:Mantella.esp
-      ParameterTwoNumber: 711327104
+      ParameterTwoRecord: 34FD78:Mantella.esp
+      ParameterTwoNumber: -1405813384
       ParameterTwoString: ::allowFunctionCalling_var
 - ItemText:
     TargetLanguage: English
@@ -290,8 +299,17 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FD78:Mantella.esp
-      ParameterTwoNumber: 711327096
+      ParameterTwoRecord: 34FD70:Mantella.esp
+      ParameterTwoNumber: -1405813392
+      ParameterTwoString: ::hideFunctionMenu_var
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetVMQuestVariable
+      ParameterOneRecord: 000F99:Mantella.esp
+      ParameterOneNumber: 16781209
+      ParameterTwoRecord: 34FD68:Mantella.esp
+      ParameterTwoNumber: -1405813400
       ParameterTwoString: ::allowFunctionCalling_var
 MajorFlags:
 - 0x10

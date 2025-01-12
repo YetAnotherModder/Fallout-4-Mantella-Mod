@@ -1,6 +1,6 @@
-FormKey: 04BF41:Mantella.esp
-VersionControl: 12837
-EditorID: MantellaFunctionTargetFaction
+FormKey: 056E10:Mantella.esp
+VersionControl: 12703
+EditorID: MantellaFunctionSourceFaction
 CrimeValues:
   Arrest: True
   AttackOnSight: True
@@ -9,32 +9,34 @@ Ranks:
   Title:
     Male:
       TargetLanguage: English
-      Value: MantellaFunctionTarget01
+      Value: Wait
     Female: {}
 - Number: 1
   Title:
     Male:
       TargetLanguage: English
-      Value: MantellaFunctionTarget02
+      Value: Follow
     Female: {}
 - Number: 2
   Title:
     Male:
       TargetLanguage: English
-      Value: MantellaFunctionTarget03
+      Value: attack
     Female: {}
 - Number: 3
   Title:
     Male:
       TargetLanguage: English
-      Value: MantellaFunctionTarget04
+      Value: loot
     Female: {}
 - Number: 4
   Title:
     Male:
       TargetLanguage: English
-      Value: MantellaFunctionTarget05
+      Value: use item
     Female: {}
+- Number: 5
+- Number: 6
 VendorValues:
   EndHour: 24
   BuysStolenItems: True

@@ -1,6 +1,6 @@
 FormKey: 00D519:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12634
+VersionControl: 12834
 EditorID: MantellaMainSettingsTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -21,6 +21,10 @@ VirtualMachineAdapter:
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
       FragmentName: Fragment_Terminal_07
+    - FragmentIndex: 5
+      Unknown2: 1
+      ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
+      FragmentName: Fragment_Terminal_05
     - FragmentIndex: 2
       Unknown2: 1
       ScriptName: Fragments:Terminals:TERM_MantellaMainSettingsTer_0700D519
@@ -95,6 +99,14 @@ MenuItems:
     Value: This will end all Mantella effects running on NPCs.
 - ItemText:
     TargetLanguage: English
+    Value: 'DEBUG : Restart Mantella Software'
+  Type: DisplayText
+  ItemId: 5
+  DisplayText:
+    TargetLanguage: English
+    Value: Mantella Software will be restarted, please wait 5-10 seconds.
+- ItemText:
+    TargetLanguage: English
     Value: Remove conversation activation option
   Type: DisplayText
   ItemId: 1
@@ -146,8 +158,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FEB0:Mantella.esp
-      ParameterTwoNumber: 711327408
+      ParameterTwoRecord: 34FEB0:Mantella.esp
+      ParameterTwoNumber: -1405813072
       ParameterTwoString: ::microphoneEnabled_var
 - ItemText:
     TargetLanguage: English
@@ -166,8 +178,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FEA8:Mantella.esp
-      ParameterTwoNumber: 711327400
+      ParameterTwoRecord: 34FEA8:Mantella.esp
+      ParameterTwoNumber: -1405813080
       ParameterTwoString: ::microphoneEnabled_var
 - ItemText:
     TargetLanguage: English

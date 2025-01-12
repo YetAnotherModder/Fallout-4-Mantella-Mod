@@ -1,5 +1,5 @@
 FormKey: 054811:Mantella.esp
-VersionControl: 12686
+VersionControl: 12837
 EditorID: MantellaBasicAISelectorPackage
 VirtualMachineAdapter:
   ScriptFragments:
@@ -34,16 +34,47 @@ ScheduleMinute: -1
 Unknown3: 0x000000
 Conditions:
 - MutagenObjectType: ConditionFloat
-  CompareOperator: NotEqualTo
-  ComparisonValue: -1
+  ComparisonValue: 1
   Data:
     MutagenObjectType: FunctionConditionData
-    Function: GetVMQuestVariable
-    ParameterOneRecord: 000F99:Mantella.esp
-    ParameterOneNumber: 16781209
-    ParameterTwoRecord: 65FAB0:Mantella.esp
-    ParameterTwoNumber: 711326384
-    ParameterTwoString: ::NPCAIPackageSelector_var
+    Function: GetInFaction
+    ParameterOneRecord: 056E10:Mantella.esp
+    ParameterOneNumber: 17133072
+- MutagenObjectType: ConditionFloat
+  Flags:
+  - OR
+  ComparisonValue: 5
+  Data:
+    MutagenObjectType: FunctionConditionData
+    Function: GetFactionRank
+    ParameterOneRecord: 056E10:Mantella.esp
+    ParameterOneNumber: 17133072
+- MutagenObjectType: ConditionFloat
+  Flags:
+  - OR
+  ComparisonValue: 1
+  Data:
+    MutagenObjectType: FunctionConditionData
+    Function: GetFactionRank
+    ParameterOneRecord: 056E10:Mantella.esp
+    ParameterOneNumber: 17133072
+- MutagenObjectType: ConditionFloat
+  Flags:
+  - OR
+  Data:
+    MutagenObjectType: FunctionConditionData
+    Function: GetFactionRank
+    ParameterOneRecord: 056E10:Mantella.esp
+    ParameterOneNumber: 17133072
+- MutagenObjectType: ConditionFloat
+  Flags:
+  - OR
+  ComparisonValue: 2
+  Data:
+    MutagenObjectType: FunctionConditionData
+    Function: GetFactionRank
+    ParameterOneRecord: 056E10:Mantella.esp
+    ParameterOneNumber: 17133072
 OwnerQuest: 01E64D:Mantella.esp
 DataInputVersion: 2
 Data:
@@ -63,7 +94,7 @@ Data:
 - Key: 14
   Value:
     MutagenObjectType: PackageDataTarget
-    Name: Target
+    Name: PlayerTarget
     Flags:
     - Public
     Type: SingleRef
@@ -93,7 +124,7 @@ Data:
 - Key: 21
   Value:
     MutagenObjectType: PackageDataTarget
-    Name: FunctionTarget
+    Name: FuncTarget01
     Flags:
     - Public
     Type: SingleRef
@@ -142,6 +173,46 @@ Data:
     Flags:
     - Public
     Data: 20
+- Key: 46
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: FuncTarget02
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetAlias
+      Alias: 30
+- Key: 47
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: FuncTarget03
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetAlias
+      Alias: 31
+- Key: 48
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: FuncTarget04
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetAlias
+      Alias: 32
+- Key: 49
+  Value:
+    MutagenObjectType: PackageDataTarget
+    Name: FuncTarget05
+    Flags:
+    - Public
+    Type: SingleRef
+    Target:
+      MutagenObjectType: PackageTargetAlias
+      Alias: 33
 - Key: 1
   Value:
     MutagenObjectType: APackageData
@@ -226,26 +297,85 @@ Data:
     Name: RefColl 5
     Flags:
     - Public
-XnamMarker: 0x2B
+- Key: 45
+  Value:
+    MutagenObjectType: APackageData
+    Name: <none>
+    Flags:
+    - Public
+XnamMarker: 0x32
 ProcedureTree:
 - BranchType: Sequence
   Root:
-    BranchCount: 4
+    BranchCount: 7
     Flags:
     - RepeatWhenComplete
   Unknown: []
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 5
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetPlayerTeammate
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 14
+  - 18
+  - 20
+  - 16
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Sequence
+  Root:
+    BranchCount: 2
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 21
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
     ComparisonValue: 2
     Data:
       MutagenObjectType: FunctionConditionData
-      Function: GetVMQuestVariable
-      ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FAA8:Mantella.esp
-      ParameterTwoNumber: 711326376
-      ParameterTwoString: ::NPCAIPackageSelector_var
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
   ProcedureType: UseWeapon
   Flags: []
   DataInputIndices:
@@ -273,15 +403,26 @@ ProcedureTree:
 - BranchType: Procedure
   Conditions:
   - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 21
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
-      Function: GetVMQuestVariable
-      ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FAA0:Mantella.esp
-      ParameterTwoNumber: 711326368
-      ParameterTwoString: ::NPCAIPackageSelector_var
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
   ProcedureType: Follow
   Flags: []
   DataInputIndices:
@@ -292,24 +433,9 @@ ProcedureTree:
   - 255
   - 255
   Unknown: []
-- BranchType: Procedure
-  Conditions:
-  - MutagenObjectType: ConditionFloat
-    Flags:
-    - OR
-    Data:
-      MutagenObjectType: FunctionConditionData
-      Function: GetVMQuestVariable
-      ParameterOneRecord: 000F99:Mantella.esp
-      ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FA98:Mantella.esp
-      ParameterTwoNumber: 711326360
-      ParameterTwoString: ::NPCAIPackageSelector_var
-  ProcedureType: Wait
-  Flags: []
-  DataInputIndices:
-  - 11
-  - 10
+- BranchType: Sequence
+  Root:
+    BranchCount: 2
   Unknown: []
 - BranchType: Procedure
   Conditions:
@@ -317,11 +443,342 @@ ProcedureTree:
     ComparisonValue: 1
     Data:
       MutagenObjectType: FunctionConditionData
-      Function: GetPlayerTeammate
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 46
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: UseWeapon
+  Flags: []
+  DataInputIndices:
+  - 255
+  - 22
+  - 46
+  - 27
+  - 255
+  - 27
+  - 25
+  - 27
+  - 25
+  - 11
+  - 11
+  - 23
+  - 23
+  - 23
+  - 25
+  - 27
+  - 27
+  - 255
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 46
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
   ProcedureType: Follow
   Flags: []
   DataInputIndices:
-  - 14
+  - 46
+  - 18
+  - 20
+  - 16
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Sequence
+  Root:
+    BranchCount: 2
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 47
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: UseWeapon
+  Flags: []
+  DataInputIndices:
+  - 255
+  - 22
+  - 47
+  - 27
+  - 255
+  - 27
+  - 25
+  - 27
+  - 25
+  - 11
+  - 11
+  - 23
+  - 23
+  - 23
+  - 25
+  - 27
+  - 27
+  - 255
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 47
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 47
+  - 18
+  - 20
+  - 16
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Sequence
+  Root:
+    BranchCount: 2
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 48
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: UseWeapon
+  Flags: []
+  DataInputIndices:
+  - 255
+  - 22
+  - 48
+  - 27
+  - 255
+  - 27
+  - 25
+  - 27
+  - 25
+  - 11
+  - 11
+  - 23
+  - 23
+  - 23
+  - 25
+  - 27
+  - 27
+  - 255
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 48
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 48
+  - 18
+  - 20
+  - 16
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Sequence
+  Root:
+    BranchCount: 2
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 4
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 4
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 49
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: UseWeapon
+  Flags: []
+  DataInputIndices:
+  - 255
+  - 22
+  - 49
+  - 27
+  - 255
+  - 27
+  - 25
+  - 27
+  - 25
+  - 11
+  - 11
+  - 23
+  - 23
+  - 23
+  - 25
+  - 27
+  - 27
+  - 255
+  - 255
+  - 255
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 4
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 059410:Mantella.esp
+      ParameterOneNumber: 17142800
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 4
+    Data:
+      MutagenObjectType: FunctionConditionData
+      RunOnType: PackageData
+      Unknown3: 49
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 056E10:Mantella.esp
+      ParameterOneNumber: 17133072
+  ProcedureType: Follow
+  Flags: []
+  DataInputIndices:
+  - 49
   - 18
   - 20
   - 16

@@ -1,11 +1,11 @@
 FormKey: 01E64D:Mantella.esp
-VersionControl: 12687
+VersionControl: 12837
 EditorID: MantellaConversationParticipantsQuest2
 Data:
   Flags:
   - RepeatsConditions
   Priority: 95
-  Unused: 205
+  Unused: 31
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
@@ -37,11 +37,10 @@ Aliases:
   - 011955:Mantella.esp
   VoiceTypes: Null
 - MutagenObjectType: QuestReferenceAlias
-  ID: 11
+  ID: 26
   Name: MantellaParticipant02
   Flags:
   - Optional
-  - MatchingRefInLoadedArea
   - AllowReserved
   - MatchingRefClosest
   - MatchingRefForActorsOnly
@@ -55,15 +54,21 @@ Aliases:
       ParameterOneRecord: 004C58:Mantella.esp
       ParameterOneNumber: 16796760
   PackageData:
+  - 0529A6:Mantella.esp
+  - 054073:Mantella.esp
+  - 054074:Mantella.esp
+  - 054076:Mantella.esp
+  - 054077:Mantella.esp
+  - 04FC0A:Mantella.esp
+  - 054811:Mantella.esp
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
   VoiceTypes: Null
 - MutagenObjectType: QuestReferenceAlias
-  ID: 12
+  ID: 27
   Name: MantellaParticipant03
   Flags:
   - Optional
-  - MatchingRefInLoadedArea
   - AllowReserved
   - MatchingRefClosest
   - MatchingRefForActorsOnly
@@ -77,15 +82,21 @@ Aliases:
       ParameterOneRecord: 004C58:Mantella.esp
       ParameterOneNumber: 16796760
   PackageData:
+  - 0529A6:Mantella.esp
+  - 054073:Mantella.esp
+  - 054074:Mantella.esp
+  - 054076:Mantella.esp
+  - 054077:Mantella.esp
+  - 04FC0A:Mantella.esp
+  - 054811:Mantella.esp
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
   VoiceTypes: Null
 - MutagenObjectType: QuestReferenceAlias
-  ID: 13
+  ID: 28
   Name: MantellaParticipant04
   Flags:
   - Optional
-  - MatchingRefInLoadedArea
   - AllowReserved
   - MatchingRefClosest
   - MatchingRefForActorsOnly
@@ -99,15 +110,21 @@ Aliases:
       ParameterOneRecord: 004C58:Mantella.esp
       ParameterOneNumber: 16796760
   PackageData:
+  - 0529A6:Mantella.esp
+  - 054073:Mantella.esp
+  - 054074:Mantella.esp
+  - 054076:Mantella.esp
+  - 054077:Mantella.esp
+  - 04FC0A:Mantella.esp
+  - 054811:Mantella.esp
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
   VoiceTypes: Null
 - MutagenObjectType: QuestReferenceAlias
-  ID: 14
+  ID: 29
   Name: MantellaParticipant05
   Flags:
   - Optional
-  - MatchingRefInLoadedArea
   - AllowReserved
   - MatchingRefClosest
   - MatchingRefForActorsOnly
@@ -121,6 +138,13 @@ Aliases:
       ParameterOneRecord: 004C58:Mantella.esp
       ParameterOneNumber: 16796760
   PackageData:
+  - 0529A6:Mantella.esp
+  - 054073:Mantella.esp
+  - 054074:Mantella.esp
+  - 054076:Mantella.esp
+  - 054077:Mantella.esp
+  - 04FC0A:Mantella.esp
+  - 054811:Mantella.esp
   - 015DA7:Mantella.esp
   - 011955:Mantella.esp
   VoiceTypes: Null
@@ -137,6 +161,104 @@ Aliases:
     Data:
       MutagenObjectType: FunctionConditionData
       Function: GetInFaction
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 30
+  Name: MantellaFunctionTarget02
+  Flags:
+  - Optional
+  - AllowReserved
+  - MatchingRefClosest
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 31
+  Name: MantellaFunctionTarget03
+  Flags:
+  - Optional
+  - AllowReserved
+  - MatchingRefClosest
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 2
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 32
+  Name: MantellaFunctionTarget04
+  Flags:
+  - Optional
+  - AllowReserved
+  - MatchingRefClosest
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 3
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  VoiceTypes: Null
+- MutagenObjectType: QuestReferenceAlias
+  ID: 33
+  Name: MantellaFunctionTarget05
+  Flags:
+  - Optional
+  - AllowReserved
+  - MatchingRefClosest
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetInFaction
+      ParameterOneRecord: 04BF41:Mantella.esp
+      ParameterOneNumber: 17088321
+  - MutagenObjectType: ConditionFloat
+    ComparisonValue: 4
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetFactionRank
       ParameterOneRecord: 04BF41:Mantella.esp
       ParameterOneNumber: 17088321
   VoiceTypes: Null

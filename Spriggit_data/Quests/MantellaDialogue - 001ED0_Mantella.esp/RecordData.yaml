@@ -9,9 +9,9 @@ Data:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 205
+  Unused: 31
 UnusedConditions: []
 Stages:
 - {}
 Aliases: []
-Unknown: 702
+Unknown: 499

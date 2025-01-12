@@ -1,6 +1,6 @@
 FormKey: 084DEE:Mantella.esp
 MajorRecordFlagsRaw: 8208
-VersionControl: 12657
+VersionControl: 12702
 EditorID: MantellaHotkeysTerminal
 Fallout4MajorRecordFlags:
 - 0x10
@@ -98,7 +98,7 @@ MenuItems:
   DisplayText:
     TargetLanguage: English
     Value: >+
-      Close menu to set the new hotkey to start a conversation. Default key is "H". Use decimal Directx scancode value, ex: "h" = 72 or "y" = 89). See the keycode chart in the holotape.
+      Close menu to set the new hotkey to start a conversation. Default key is "G". Use decimal Directx scancode value, ex: "g" = 71, "h" = 72 or "y" = 89). See the keycode chart in the holotape.
 - ItemText:
     TargetLanguage: English
     Value: Set Game Event Hotkey
@@ -141,8 +141,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FEE8:Mantella.esp
-      ParameterTwoNumber: 711327464
+      ParameterTwoRecord: 34FEE8:Mantella.esp
+      ParameterTwoNumber: -1405813016
       ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English
@@ -166,8 +166,8 @@ MenuItems:
       Function: GetVMQuestVariable
       ParameterOneRecord: 000F99:Mantella.esp
       ParameterOneNumber: 16781209
-      ParameterTwoRecord: 65FED8:Mantella.esp
-      ParameterTwoNumber: 711327448
+      ParameterTwoRecord: 34FED8:Mantella.esp
+      ParameterTwoNumber: -1405813032
       ParameterTwoString: ::hideVisionMenu_var
 - ItemText:
     TargetLanguage: English

@@ -1,13 +1,17 @@
 FormKey: 000F99:Mantella.esp
-VersionControl: 12635
+VersionControl: 12834
 EditorID: MantellaQuest
 VirtualMachineAdapter:
   Scripts:
   - Name: mantellarepository
     Properties:
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaVisibleCollectionQuest
-      Object: 048A0A:Mantella.esp
+      Name: MantellaFunctionNPCCollection
+      Object: 04B7A6:Mantella.esp
+      Alias: 0
+    - MutagenObjectType: ScriptObjectProperty
+      Name: MantellaNPCCollectionQuest
+      Object: 04A86F:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: HealthAV
       Object: 0002D4:Fallout4.esm
@@ -15,7 +19,7 @@ VirtualMachineAdapter:
       Name: MantellaFunctionNPCCollectionQuest
       Object: 04B7A6:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: conversation
+      Name: ConstantsScript
       Object: 066FBB:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: RadsAV
@@ -24,26 +28,22 @@ VirtualMachineAdapter:
       Name: MantellaSpell
       Object: 0090C7:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaNPCCollectionQuest
-      Object: 04A86F:Mantella.esp
+      Name: MantellaVisibleCollectionQuest
+      Object: 048A0A:Mantella.esp
     - MutagenObjectType: ScriptObjectProperty
       Name: MantellaVisibleNPCRefCollection
       Object: 048A0A:Mantella.esp
       Alias: 0
     - MutagenObjectType: ScriptObjectProperty
-      Name: ActivatePerk
-      Object: 084DED:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
-      Name: ConstantsScript
+      Name: conversation
       Object: 066FBB:Mantella.esp
-    - MutagenObjectType: ScriptObjectProperty
-      Name: MantellaFunctionNPCCollection
-      Object: 04B7A6:Mantella.esp
-      Alias: 0
     - MutagenObjectType: ScriptObjectProperty
       Name: MantellaNPCCollection
       Object: 04A86F:Mantella.esp
       Alias: 0
+    - MutagenObjectType: ScriptObjectProperty
+      Name: ActivatePerk
+      Object: 084DED:Mantella.esp
   Script:
     Name: Fragments:Quests:QF_MantellaQuest_07000F99
   Fragments:
@@ -55,6 +55,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0430_Item_00
+  - Stage: 801
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0801_Item_00
   - Stage: 707
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -63,6 +67,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0203_Item_00
+  - Stage: 803
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0803_Item_00
   - Stage: 428
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -79,10 +87,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0705_Item_00
-  - Stage: 605
+  - Stage: 507
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
-    FragmentName: Fragment_Stage_0605_Item_00
+    FragmentName: Fragment_Stage_0507_Item_00
   - Stage: 411
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -119,10 +127,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0510_Item_00
-  - Stage: 508
+  - Stage: 602
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
-    FragmentName: Fragment_Stage_0508_Item_00
+    FragmentName: Fragment_Stage_0602_Item_00
   - Stage: 701
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -135,6 +143,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0412_Item_00
+  - Stage: 804
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0804_Item_00
   - Stage: 416
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -203,6 +215,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0301_Item_00
+  - Stage: 805
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0805_Item_00
   - Stage: 426
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -223,6 +239,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0424_Item_00
+  - Stage: 303
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0303_Item_00
   - Stage: 202
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -239,6 +259,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0704_Item_00
+  - Stage: 802
+    Unknown2: 1
+    ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
+    FragmentName: Fragment_Stage_0802_Item_00
   - Stage: 422
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -251,10 +275,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0606_Item_00
-  - Stage: 501
+  - Stage: 605
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
-    FragmentName: Fragment_Stage_0501_Item_00
+    FragmentName: Fragment_Stage_0605_Item_00
   - Stage: 305
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -263,10 +287,10 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0604_Item_00
-  - Stage: 503
+  - Stage: 508
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
-    FragmentName: Fragment_Stage_0503_Item_00
+    FragmentName: Fragment_Stage_0508_Item_00
   - Stage: 401
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -283,14 +307,14 @@ VirtualMachineAdapter:
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
     FragmentName: Fragment_Stage_0506_Item_00
-  - Stage: 507
+  - Stage: 503
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
-    FragmentName: Fragment_Stage_0507_Item_00
-  - Stage: 602
+    FragmentName: Fragment_Stage_0503_Item_00
+  - Stage: 501
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
-    FragmentName: Fragment_Stage_0602_Item_00
+    FragmentName: Fragment_Stage_0501_Item_00
   - Stage: 408
     Unknown2: 1
     ScriptName: Fragments:Quests:QF_MantellaQuest_07000F99
@@ -316,52 +340,52 @@ VirtualMachineAdapter:
     - Name: MantellaListenerScript
       Properties:
       - MutagenObjectType: ScriptObjectProperty
-        Name: AmmoKeyword
-        Object: 0F4AE8:Fallout4.esm
+        Name: PotentialActor2
+        Object: 004C76:Mantella.esp
+        Alias: 1
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaFunctionTargetFaction
+        Object: 04BF41:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaNPCCollectionQuest
+        Object: 04A86F:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: PlayerRef
+        Object: 000014:Fallout4.esm
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaActorList
         Object: 004C76:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaGun
-        Object: 001734:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
         Name: repository
         Object: 000F99:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
-        Name: conversation
-        Object: 066FBB:Mantella.esp
+        Name: MantellaGun
+        Object: 001734:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
         Name: PotentialActor1
         Object: 004C76:Mantella.esp
         Alias: 0
       - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaSettingsHolotape
-        Object: 00D51A:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: PotentialActor2
-        Object: 004C76:Mantella.esp
-        Alias: 1
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaSpell
-        Object: 0090C7:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaNPCCollectionQuest
-        Object: 04A86F:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaRadiantDistance
-        Object: 015DC0:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: MantellaFunctionTargetFaction
-        Object: 04BF41:Mantella.esp
+        Name: AmmoKeyword
+        Object: 0F4AE8:Fallout4.esm
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaRadiantEnabled
         Object: 00D51E:Mantella.esp
       - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaSpell
+        Object: 0090C7:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaSettingsHolotape
+        Object: 00D51A:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: MantellaRadiantDistance
+        Object: 015DC0:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
+        Name: conversation
+        Object: 066FBB:Mantella.esp
+      - MutagenObjectType: ScriptObjectProperty
         Name: MantellaRadiantFrequency
         Object: 015DC1:Mantella.esp
-      - MutagenObjectType: ScriptObjectProperty
-        Name: PlayerRef
-        Object: 000014:Fallout4.esm
       - MutagenObjectType: ScriptObjectProperty
         Name: MantellaNPCCollection
         Object: 04A86F:Mantella.esp
@@ -374,7 +398,7 @@ Data:
   - StartGameEnabled
   - StartsEnabled
   - RunOnce
-  Unused: 42
+  Unused: 170
 UnusedConditions: []
 Stages:
 - {}
@@ -410,6 +434,10 @@ Stages:
   LogEntries:
   - Flags: []
     Note: This will stop all ongoing NPC conversations
+- Index: 303
+  LogEntries:
+  - Flags: []
+    Note: This restarts Mantella
 - Index: 305
   LogEntries:
   - Flags: []
@@ -638,6 +666,26 @@ Stages:
   LogEntries:
   - Flags: []
     Note: This set the image resize value to 2560x2560
+- Index: 801
+  LogEntries:
+  - Flags: []
+    Note: This set the conversation menu timeout to 2 minutes
+- Index: 802
+  LogEntries:
+  - Flags: []
+    Note: This set the conversation menu timeout to 4 minutes
+- Index: 803
+  LogEntries:
+  - Flags: []
+    Note: This set the conversation menu timeout to 20 minutes
+- Index: 804
+  LogEntries:
+  - Flags: []
+    Note: This set the conversation menu timeout to 60 minutes
+- Index: 805
+  LogEntries:
+  - Flags: []
+    Note: This set the conversation menu timeout to 1440 minutes
 Aliases:
 - MutagenObjectType: QuestReferenceAlias
   Name: PlayerRef

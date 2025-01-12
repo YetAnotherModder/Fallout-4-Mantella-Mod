@@ -2,7 +2,7 @@ FormKey: 04A86F:Mantella.esp
 VersionControl: 12584
 EditorID: MantellaNPCCollectionQuest
 Data:
-  Unused: 205
+  Unused: 31
 UnusedConditions: []
 Aliases:
 - MutagenObjectType: QuestCollectionAlias

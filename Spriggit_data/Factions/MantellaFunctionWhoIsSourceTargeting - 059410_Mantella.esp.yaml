@@ -1,6 +1,6 @@
-FormKey: 04BF41:Mantella.esp
+FormKey: 059410:Mantella.esp
 VersionControl: 12837
-EditorID: MantellaFunctionTargetFaction
+EditorID: MantellaFunctionWhoIsSourceTargeting
 CrimeValues:
   Arrest: True
   AttackOnSight: True

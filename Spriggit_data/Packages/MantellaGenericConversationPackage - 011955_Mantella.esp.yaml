@@ -1,5 +1,5 @@
 FormKey: 011955:Mantella.esp
-VersionControl: 12686
+VersionControl: 12703
 EditorID: MantellaGenericConversationPackage
 VirtualMachineAdapter:
   ScriptFragments:
@@ -218,9 +218,23 @@ XnamMarker: 0x2B
 ProcedureTree:
 - BranchType: Sequence
   Root:
-    BranchCount: 1
+    BranchCount: 2
     Flags:
     - RepeatWhenComplete
+  Unknown: []
+- BranchType: Procedure
+  Conditions:
+  - MutagenObjectType: ConditionFloat
+    CompareOperator: NotEqualTo
+    ComparisonValue: 1
+    Data:
+      MutagenObjectType: FunctionConditionData
+      Function: GetPlayerTeammate
+  ProcedureType: Wait
+  Flags: []
+  DataInputIndices:
+  - 11
+  - 10
   Unknown: []
 - BranchType: Procedure
   Conditions:
