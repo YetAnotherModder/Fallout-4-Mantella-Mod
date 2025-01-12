@@ -80,6 +80,7 @@ Function TryToGiveItems()
         If !(PlayerRef.HasPerk(repository.ActivatePerk))
             PlayerRef.AddPerk(repository.ActivatePerk, False)
         Endif
+        itemsGiven=true
         StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
 	endif
 EndFunction
