@@ -125,6 +125,7 @@ int CleanupconversationTimer=2
 ;Callback variables for SimpleTextField
 ScriptObject CBscript =  none
 string CBfunction
+bool Property isFirstConvo = true auto
 
 
 
@@ -181,9 +182,9 @@ Event Ontimer( int TimerID)
 
 Function reinitializeVariables()
     ;change the below this is for debug only
-    textkeycode=72
-    gameEventkeycode=89
-    startConversationkeycode=71
+    textkeycode=72                  ;H
+    gameEventkeycode=89             ;Y
+    startConversationkeycode=71     ;G
     reloadKeys()
     radiantEnabled = true
     radiantDistance = 20
@@ -198,15 +199,15 @@ Function reinitializeVariables()
     allowFollow = false
     allowNPCsStayInPlace = true
     MenuEventSelector=0
-    microphoneEnabled = true
+    microphoneEnabled = isFO4VR
     ConstantsScript.HTTP_PORT = 4999
     togglePlayerEventTracking(true)
     toggleTargetEventTracking(true)
     HTTPTimeOutHolotapeValue = 240
     Actor PlayerRef = Game.GetPlayer()
-    If !(PlayerRef.HasPerk(ActivatePerk))
-        PlayerRef.AddPerk(ActivatePerk, False)
-    Endif
+    ; If !(PlayerRef.HasPerk(ActivatePerk))
+    ;     PlayerRef.AddPerk(ActivatePerk, False)
+    ; Endif
     conversation.conversationIsEnding = false
 EndFunction
 
@@ -538,8 +539,9 @@ Event Onkeydown(int keycode)
         if keycode == startConversationkeycode
             ;Need to use an array here, as returning a scalar sometimes fails!?
             if allowCrosshairTracking
-                Actor [] alist = TopicInfoPatcher.GetLastCrossHairActor()
-                CrosshairActor = alist[0]
+                float [] Actorxyz = TopicInfoPatcher.GetLastActorCoords()
+                CrosshairActor = Game.FindClosestActor(Actorxyz[0], Actorxyz[1], Actorxyz[2], 20.0)
+                Debug.Notification("Actor is: " + CrosshairActor. GetDisplayName())
             endif
             if CrosshairActor != none
                 String actorName = CrosshairActor.GetDisplayName()

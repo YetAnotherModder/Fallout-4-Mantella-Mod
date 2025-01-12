@@ -118,6 +118,10 @@ function StartConversation(Actor[] actorsToStartConversationWith)
         return
     endIf
 
+    if repository.isFirstConvo
+        Debug.MessageBox("Mantella conversation started! NPC will speak first.")
+        EndIf
+
     int handle = F4SE_HTTP.createDictionary()
     ;F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_INIT)
     ; send request to initialize Mantella settings (set LLM connection, start up TTS service, load character_df etc) 
@@ -173,9 +177,20 @@ function ContinueConversation(int handle)
         RequestContinueConversation()
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_PLAYERTALK)
         If (repository.microphoneEnabled)
+            If repository.isFirstConvo
+                Debug.MessageBox("Speak slowly and clearly into your microphone when you see the 'Listening...' prompt")
+                Debug.MessageBox("Say 'goodbye' as a response to end the conversation")
+                repository.isFirstConvo = false
+            EndIf
             Debug.Notification("Listening...")
             sendRequestForVoiceTranscribe()
         Else
+            If repository.isFirstConvo
+                Debug.MessageBox("Use the 'H' key to enter your response")
+                Debug.MessageBox("You can also use the 'Y' key to send events to the LLM")
+                Debug.MessageBox("Type 'goodbye' as a response to end the conversation")
+                repository.isFirstConvo = false
+            Endif
             Debug.Notification("Awaiting player text input...")
             _does_accept_player_input = True
         EndIf

@@ -62,11 +62,24 @@ Function TryToGiveItems()
 		;RegisterForPlayerTeleport() ;not nessary to interact with this anymore as it's handled in LoadMantellaEvents()
 	else
 		;UnregisterForPlayerTeleport()  ;not nessary to interact with this anymore as it's handled in LoadMantellaEvents()
+        Debug.MessageBox("Welcome to Mantella. Mantella is now active. Start a conversation using one of the following options:")
+        Utility.Wait(0.5)
+        Debug.MessageBox("Approach an NPC and use the 'CONVERSATION' option ('R' key)")
+        Utility.Wait(0.5)
+        If !repository.isFO4VR
+            Debug.MessageBox("OR: Approach an NPC and use the 'start conversation' key (currently 'H')")
+            Utility.Wait(0.5)
+        Endif
+        Debug.MessageBox("OR: Use the Mantella pistol to shoot an NPC")
+        Utility.Wait(0.5)
+        Debug.MessageBox("Use the Mantella settings holotape to change key assignments or other options")
+        Utility.Wait(0.5)
+        repository.allowCrosshairTracking = true
 		PlayerRef.AddItem(MantellaGun, 1, false)
         PlayerRef.AddItem(MantellaSettingsHolotape, 1, false)
-        itemsGiven=true
-        Utility.Wait(0.5)
-        ;debug.messagebox("OnInit : Starting timer "+RadiantFrequencyTimerID+" for "+repository.radiantFrequency)
+        If !(PlayerRef.HasPerk(repository.ActivatePerk))
+            PlayerRef.AddPerk(repository.ActivatePerk, False)
+        Endif
         StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
 	endif
 EndFunction
