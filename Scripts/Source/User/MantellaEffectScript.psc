@@ -73,7 +73,10 @@ Endfunction
 
 function showAndResolveActorIsInConvoMessage(Actor target)
     int aButton=MantellaActorIsInConvoMessage.show()
-    if aButton==1 ;player chose no
+    if aButton==2 ;
+        repository.StopConversations()
+        debug.notification("Attempting to stop all conversations")
+    elseif aButton==1 ;player chose no
          ;do nothing
     elseif aButton==0 ;player chose yes
         debug.notification("Removing "+target.getdisplayname()+" from the conversation")
@@ -82,6 +85,11 @@ function showAndResolveActorIsInConvoMessage(Actor target)
         Actor[] actorsToRemove = new Actor[1]
         actorsToRemove[0] = target
         conversation.RemoveActorsFromConversation(actorsToRemove)
+        int participantsCount = conversation.CountActorsInConversation()
+        if participantsCount ==0
+            debug.notification("No more participants in the conversation, ending the conversation.")
+            repository.StopConversations()
+        endif
     endif 
 Endfunction
 

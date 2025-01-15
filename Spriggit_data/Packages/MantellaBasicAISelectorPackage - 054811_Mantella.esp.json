@@ -1,0 +1,1139 @@
+{
+  "FormKey": "054811:Mantella.esp",
+  "VersionControl": 12837,
+  "EditorID": "MantellaBasicAISelectorPackage",
+  "VirtualMachineAdapter": {
+    "ScriptFragments": {
+      "Script": {
+        "Name": "Fragments:Packages:PF__01054811"
+      },
+      "OnBegin": {
+        "ExtraBindDataVersion": 1,
+        "ScriptName": "Fragments:Packages:PF__01054811",
+        "FragmentName": "Fragment_Begin"
+      },
+      "OnChange": {
+        "ExtraBindDataVersion": 1,
+        "ScriptName": "Fragments:Packages:PF__01054811",
+        "FragmentName": "Fragment_Change"
+      }
+    }
+  },
+  "Flags": [
+    "AllowSwimming"
+  ],
+  "Type": "Package",
+  "PreferredSpeed": "Run",
+  "InteruptFlags": [
+    "ObserveCombatBehavior",
+    "GreetCorpseBehavior",
+    "ReactionToPlayerActions",
+    "AggroRadiusBehavior",
+    "WorldInteractions",
+    "0x800",
+    "0x1000",
+    "0x2000",
+    "0x4000",
+    "0x8000"
+  ],
+  "ScheduleDayOfWeek": "255",
+  "ScheduleHour": -1,
+  "ScheduleMinute": -1,
+  "Unknown3": "0x000000",
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "ComparisonValue": 1.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetInFaction",
+        "ParameterOneRecord": "056E10:Mantella.esp",
+        "ParameterOneNumber": 17133072
+      }
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Flags": [
+        "OR"
+      ],
+      "ComparisonValue": 5.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetFactionRank",
+        "ParameterOneRecord": "056E10:Mantella.esp",
+        "ParameterOneNumber": 17133072
+      }
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Flags": [
+        "OR"
+      ],
+      "ComparisonValue": 1.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetFactionRank",
+        "ParameterOneRecord": "056E10:Mantella.esp",
+        "ParameterOneNumber": 17133072
+      }
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Flags": [
+        "OR"
+      ],
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetFactionRank",
+        "ParameterOneRecord": "056E10:Mantella.esp",
+        "ParameterOneNumber": 17133072
+      }
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "Flags": [
+        "OR"
+      ],
+      "ComparisonValue": 2.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetFactionRank",
+        "ParameterOneRecord": "056E10:Mantella.esp",
+        "ParameterOneNumber": 17133072
+      }
+    }
+  ],
+  "OwnerQuest": "01E64D:Mantella.esp",
+  "DataInputVersion": 2,
+  "Data": [
+    {
+      "Key": 10,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "StopMovement",
+        "Flags": [],
+        "Data": true
+      }
+    },
+    {
+      "Key": 11,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "ActualSeconds",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 5000.0
+      }
+    },
+    {
+      "Key": 14,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "PlayerTarget",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetSpecificReference",
+          "Reference": "000014:Fallout4.esm"
+        }
+      }
+    },
+    {
+      "Key": 16,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "GoToLeadersGoal",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 18,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "MinDist",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 100.0
+      }
+    },
+    {
+      "Key": 20,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "MaxDist",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 1000.0
+      }
+    },
+    {
+      "Key": 21,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget01",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 15
+        }
+      }
+    },
+    {
+      "Key": 22,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "Weapon",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetObjectType",
+          "Type": "AnyWeapons"
+        }
+      }
+    },
+    {
+      "Key": 23,
+      "Value": {
+        "MutagenObjectType": "PackageDataInt",
+        "Name": "VolleysToFire",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 25,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "True",
+        "Flags": [
+          "Public"
+        ],
+        "Data": true
+      }
+    },
+    {
+      "Key": 27,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "False",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 33,
+      "Value": {
+        "MutagenObjectType": "PackageDataInt",
+        "Name": "Acquire One",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 1
+      }
+    },
+    {
+      "Key": 39,
+      "Value": {
+        "MutagenObjectType": "PackageDataInt",
+        "Name": "Acquire 20",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 20
+      }
+    },
+    {
+      "Key": 46,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget02",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 30
+        }
+      }
+    },
+    {
+      "Key": 47,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget03",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 31
+        }
+      }
+    },
+    {
+      "Key": 48,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget04",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 32
+        }
+      }
+    },
+    {
+      "Key": 49,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget05",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 33
+        }
+      }
+    },
+    {
+      "Key": 1,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Place to Travel",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 3,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Prefer Preferred Path?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 4,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Headtrack Target",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 6,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Rotate to Target?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 8,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Headtrack during Travel?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 13,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "<none>",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 29,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl0",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 31,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Any Object List",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 35,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl 0",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 36,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl 1",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 37,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl 2",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 40,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl 3",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 41,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl 4",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 42,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl 5",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 45,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "<none>",
+        "Flags": [
+          "Public"
+        ]
+      }
+    }
+  ],
+  "XnamMarker": "0x32",
+  "ProcedureTree": [
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 7,
+        "Flags": [
+          "RepeatWhenComplete"
+        ]
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        11,
+        10
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 5.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetPlayerTeammate"
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
+        18,
+        20,
+        16,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 21,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "UseWeapon",
+      "Flags": [],
+      "DataInputIndices": [
+        255,
+        22,
+        21,
+        27,
+        255,
+        27,
+        25,
+        27,
+        25,
+        11,
+        11,
+        23,
+        23,
+        23,
+        25,
+        27,
+        27,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 21,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        21,
+        18,
+        20,
+        16,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 46,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "UseWeapon",
+      "Flags": [],
+      "DataInputIndices": [
+        255,
+        22,
+        46,
+        27,
+        255,
+        27,
+        25,
+        27,
+        25,
+        11,
+        11,
+        23,
+        23,
+        23,
+        25,
+        27,
+        27,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 46,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        46,
+        18,
+        20,
+        16,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 47,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "UseWeapon",
+      "Flags": [],
+      "DataInputIndices": [
+        255,
+        22,
+        47,
+        27,
+        255,
+        27,
+        25,
+        27,
+        25,
+        11,
+        11,
+        23,
+        23,
+        23,
+        25,
+        27,
+        27,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 47,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        47,
+        18,
+        20,
+        16,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 48,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "UseWeapon",
+      "Flags": [],
+      "DataInputIndices": [
+        255,
+        22,
+        48,
+        27,
+        255,
+        27,
+        25,
+        27,
+        25,
+        11,
+        11,
+        23,
+        23,
+        23,
+        25,
+        27,
+        27,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 48,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        48,
+        18,
+        20,
+        16,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 4.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 4.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 49,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "UseWeapon",
+      "Flags": [],
+      "DataInputIndices": [
+        255,
+        22,
+        49,
+        27,
+        255,
+        27,
+        25,
+        27,
+        25,
+        11,
+        11,
+        23,
+        23,
+        23,
+        25,
+        27,
+        27,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 4.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 4.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 49,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        49,
+        18,
+        20,
+        16,
+        255,
+        255
+      ],
+      "Unknown": []
+    }
+  ],
+  "OnBegin": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  },
+  "OnEnd": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  },
+  "OnChange": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  }
+}

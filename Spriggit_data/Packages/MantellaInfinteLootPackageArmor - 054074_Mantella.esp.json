@@ -1,0 +1,998 @@
+{
+  "FormKey": "054074:Mantella.esp",
+  "VersionControl": 12687,
+  "EditorID": "MantellaInfinteLootPackageArmor",
+  "VirtualMachineAdapter": {
+    "ScriptFragments": {
+      "Script": {
+        "Name": "Fragments:Packages:PF__01054074"
+      },
+      "OnBegin": {
+        "ExtraBindDataVersion": 1,
+        "ScriptName": "Fragments:Packages:PF__01054074",
+        "FragmentName": "Fragment_Begin"
+      },
+      "OnChange": {
+        "ExtraBindDataVersion": 1,
+        "ScriptName": "Fragments:Packages:PF__01054074",
+        "FragmentName": "Fragment_Change"
+      }
+    }
+  },
+  "Flags": [
+    "AllowSwimming"
+  ],
+  "Type": "Package",
+  "PreferredSpeed": "Run",
+  "InteruptFlags": [
+    "ObserveCombatBehavior",
+    "GreetCorpseBehavior",
+    "ReactionToPlayerActions",
+    "AggroRadiusBehavior",
+    "WorldInteractions",
+    "0x800",
+    "0x1000",
+    "0x2000",
+    "0x4000",
+    "0x8000"
+  ],
+  "ScheduleDayOfWeek": "255",
+  "ScheduleHour": -1,
+  "ScheduleMinute": -1,
+  "Unknown3": "0x000000",
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "ComparisonValue": 2.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetVMQuestVariable",
+        "ParameterOneRecord": "000F99:Mantella.esp",
+        "ParameterOneNumber": 16781209,
+        "ParameterTwoRecord": "173C68:Mantella.esp",
+        "ParameterTwoNumber": 722943080,
+        "ParameterTwoString": "::NPCAIItemToLootSelector_var"
+      }
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "ComparisonValue": 3.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetVMQuestVariable",
+        "ParameterOneRecord": "000F99:Mantella.esp",
+        "ParameterOneNumber": 16781209,
+        "ParameterTwoRecord": "173C60:Mantella.esp",
+        "ParameterTwoNumber": 722943072,
+        "ParameterTwoString": "::NPCAIPackageSelector_var"
+      }
+    }
+  ],
+  "OwnerQuest": "01E64D:Mantella.esp",
+  "DataInputVersion": 2,
+  "Data": [
+    {
+      "Key": 10,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "StopMovement",
+        "Flags": [],
+        "Data": true
+      }
+    },
+    {
+      "Key": 11,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "ActualSeconds",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 5.0
+      }
+    },
+    {
+      "Key": 14,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "Target",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetSpecificReference",
+          "Reference": "000014:Fallout4.esm"
+        }
+      }
+    },
+    {
+      "Key": 16,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "GoToLeadersGoal",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 18,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "MinDist",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 100.0
+      }
+    },
+    {
+      "Key": 20,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "MaxDist",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 1000.0
+      }
+    },
+    {
+      "Key": 21,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FunctionTarget",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 15
+        }
+      }
+    },
+    {
+      "Key": 22,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "Weapon",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetObjectType",
+          "Type": "AnyWeapons"
+        }
+      }
+    },
+    {
+      "Key": 23,
+      "Value": {
+        "MutagenObjectType": "PackageDataInt",
+        "Name": "VolleysToFire",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 25,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "True",
+        "Flags": [
+          "Public"
+        ],
+        "Data": true
+      }
+    },
+    {
+      "Key": 27,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "False",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 31,
+      "Value": {
+        "MutagenObjectType": "PackageDataObjectList",
+        "Name": "Any Object List",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 1500.0
+      }
+    },
+    {
+      "Key": 33,
+      "Value": {
+        "MutagenObjectType": "PackageDataInt",
+        "Name": "Acquire One",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 1
+      }
+    },
+    {
+      "Key": 35,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "RefColl 0",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetUnknown",
+          "Data": 18
+        }
+      }
+    },
+    {
+      "Key": 36,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "RefColl 1",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetUnknown",
+          "CountOrDistance": 1,
+          "Data": 18
+        }
+      }
+    },
+    {
+      "Key": 37,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "RefColl 2",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetUnknown",
+          "CountOrDistance": 2,
+          "Data": 18
+        }
+      }
+    },
+    {
+      "Key": 39,
+      "Value": {
+        "MutagenObjectType": "PackageDataInt",
+        "Name": "Acquire 20",
+        "Flags": [
+          "Public"
+        ],
+        "Data": 20
+      }
+    },
+    {
+      "Key": 40,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "RefColl 3",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetUnknown",
+          "CountOrDistance": 3,
+          "Data": 18
+        }
+      }
+    },
+    {
+      "Key": 41,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "RefColl 4",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetUnknown",
+          "CountOrDistance": 4,
+          "Data": 18
+        }
+      }
+    },
+    {
+      "Key": 42,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "RefColl 5",
+        "Flags": [
+          "Public"
+        ],
+        "Target": {
+          "MutagenObjectType": "PackageTargetUnknown",
+          "CountOrDistance": 5,
+          "Data": 18
+        }
+      }
+    },
+    {
+      "Key": 1,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Place to Travel",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 3,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Prefer Preferred Path?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 4,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Headtrack Target",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 6,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Rotate to Target?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 8,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Headtrack during Travel?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 13,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "<none>",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 29,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "RefColl0",
+        "Flags": [
+          "Public"
+        ]
+      }
+    }
+  ],
+  "XnamMarker": "0x2B",
+  "ProcedureTree": [
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 12,
+        "Flags": [
+          "RepeatWhenComplete"
+        ]
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "IsOverEncumbered"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C58:Mantella.esp",
+            "ParameterTwoNumber": 722943064,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 3
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Find",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
+        35,
+        31,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        11,
+        10
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C50:Mantella.esp",
+            "ParameterTwoNumber": 722943056,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "ProcedureType": "Acquire",
+      "Flags": [],
+      "DataInputIndices": [
+        31,
+        39,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C48:Mantella.esp",
+            "ParameterTwoNumber": 722943048,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "ProcedureType": "Acquire",
+      "Flags": [],
+      "DataInputIndices": [
+        31,
+        39,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C40:Mantella.esp",
+            "ParameterTwoNumber": 722943040,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Find",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
+        36,
+        31,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        11,
+        10
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C38:Mantella.esp",
+            "ParameterTwoNumber": 722943032,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "ProcedureType": "Acquire",
+      "Flags": [],
+      "DataInputIndices": [
+        31,
+        39,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C30:Mantella.esp",
+            "ParameterTwoNumber": 722943024,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Find",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
+        37,
+        31,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        11,
+        10
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C28:Mantella.esp",
+            "ParameterTwoNumber": 722943016,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "ProcedureType": "Acquire",
+      "Flags": [],
+      "DataInputIndices": [
+        31,
+        39,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C20:Mantella.esp",
+            "ParameterTwoNumber": 722943008,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Find",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
+        40,
+        31,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        11,
+        10
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C18:Mantella.esp",
+            "ParameterTwoNumber": 722943000,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "ProcedureType": "Acquire",
+      "Flags": [],
+      "DataInputIndices": [
+        31,
+        39,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C10:Mantella.esp",
+            "ParameterTwoNumber": 722942992,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Find",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
+        41,
+        31,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        11,
+        10
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C08:Mantella.esp",
+            "ParameterTwoNumber": 722942984,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "ProcedureType": "Acquire",
+      "Flags": [],
+      "DataInputIndices": [
+        31,
+        39,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173C00:Mantella.esp",
+            "ParameterTwoNumber": 722942976,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Find",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
+        42,
+        31,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        11,
+        10
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173BF8:Mantella.esp",
+            "ParameterTwoNumber": 722942968,
+            "ParameterTwoString": "::NPCAIPackageSelector_var"
+          }
+        }
+      ],
+      "ProcedureType": "Acquire",
+      "Flags": [],
+      "DataInputIndices": [
+        31,
+        39,
+        27,
+        27,
+        27
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    }
+  ],
+  "OnBegin": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  },
+  "OnEnd": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  },
+  "OnChange": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  }
+}

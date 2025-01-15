@@ -1,0 +1,44 @@
+{
+  "FormKey": "04B00B:Mantella.esp",
+  "VersionControl": 12589,
+  "EditorID": "MantellaIsTalkingEffect",
+  "VirtualMachineAdapter": {
+    "Scripts": [
+      {
+        "Name": "MantellaIsTalkingEffectScript",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaConversationQuest",
+            "Object": "066FBB:Mantella.esp"
+          }
+        ]
+      }
+    ]
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "MantellaIsTalkingEffect"
+  },
+  "Archetype": {
+    "MutagenObjectType": "MagicEffectArchetype",
+    "ActorValue": "0002D4:Fallout4.esm"
+  },
+  "DualCastScale": 1.0,
+  "CastingSoundLevel": "Normal",
+  "Sounds": [],
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  },
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "ComparisonValue": 1.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "IsTalking"
+      }
+    }
+  ]
+}

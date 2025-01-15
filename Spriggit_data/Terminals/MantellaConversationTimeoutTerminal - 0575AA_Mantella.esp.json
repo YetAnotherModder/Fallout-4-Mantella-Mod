@@ -1,0 +1,354 @@
+{
+  "FormKey": "0575AA:Mantella.esp",
+  "MajorRecordFlagsRaw": 8208,
+  "VersionControl": 12834,
+  "EditorID": "MantellaConversationTimeoutTerminal",
+  "Fallout4MajorRecordFlags": [
+    "0x10",
+    "0x2000"
+  ],
+  "VirtualMachineAdapter": {
+    "ScriptFragments": {
+      "Script": {
+        "Name": "Fragments:Terminals:TERM_MantellaConversationTim_010575AA",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaQuest",
+            "Object": "000F99:Mantella.esp"
+          }
+        ]
+      },
+      "Fragments": [
+        {
+          "FragmentIndex": 5,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaConversationTim_010575AA",
+          "FragmentName": "Fragment_Terminal_05"
+        },
+        {
+          "FragmentIndex": 2,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaConversationTim_010575AA",
+          "FragmentName": "Fragment_Terminal_02"
+        },
+        {
+          "FragmentIndex": 1,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaConversationTim_010575AA",
+          "FragmentName": "Fragment_Terminal_01"
+        },
+        {
+          "FragmentIndex": 3,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaConversationTim_010575AA",
+          "FragmentName": "Fragment_Terminal_03"
+        },
+        {
+          "FragmentIndex": 4,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaConversationTim_010575AA",
+          "FragmentName": "Fragment_Terminal_04"
+        }
+      ]
+    }
+  },
+  "ObjectBounds": {
+    "First": "-18, -52, 86",
+    "Second": "21, 0, 135"
+  },
+  "HeaderText": {
+    "TargetLanguage": "English",
+    "Value": "Mantella - Conversation Timeout"
+  },
+  "WelcomeText": {
+    "TargetLanguage": "English",
+    "Value": "Select a timeout option for ongoing conversation"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "[Settings] Mantella Settings"
+  },
+  "Model": {
+    "File": "Furniture\\Terminals\\TerminalWall01.nif",
+    "Data": "0x0400000000000000000000000000000000000000"
+  },
+  "Keywords": [
+    "0A56D7:Fallout4.esm",
+    "06D5BB:Fallout4.esm",
+    "0C2022:Fallout4.esm"
+  ],
+  "PNAM": "0xCC4C3300",
+  "FNAM": "0x0000",
+  "Holotapes": [],
+  "Flags": [
+    "HasModel"
+  ],
+  "WorkbenchData": "0x00",
+  "MarkerModel": "Markers\\MarkerWallTerminal3rdP.nif",
+  "MarkerParameters": [
+    {
+      "Enabled": true,
+      "Offset": "0, -86, 0",
+      "EntryTypes": [
+        "Front",
+        "Behind",
+        "Right",
+        "Left",
+        "Other",
+        "0x20",
+        "0x40",
+        "0x80"
+      ],
+      "Unknown": "0xFFFFFF"
+    }
+  ],
+  "BodyTexts": [
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Set timeout value in minutes (Current: 2)"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 240.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D90:Mantella.esp",
+            "ParameterTwoNumber": 722943376,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Set timeout value in minutes (Current: 4)"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 480.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D88:Mantella.esp",
+            "ParameterTwoNumber": 722943368,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Set timeout value in minutes (Current: 20)"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2400.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D80:Mantella.esp",
+            "ParameterTwoNumber": 722943360,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Set timeout value in minutes (Current: 60)\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 7200.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D78:Mantella.esp",
+            "ParameterTwoNumber": 722943352,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Set timeout value in minutes (Current: 1440)"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 172800.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D70:Mantella.esp",
+            "ParameterTwoNumber": 722943344,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Set timeout value in minutes"
+      }
+    }
+  ],
+  "MenuItems": [
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "2"
+      },
+      "Type": "SubmenuForceRedraw",
+      "ItemId": 1,
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 240.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D68:Mantella.esp",
+            "ParameterTwoNumber": 722943336,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "4"
+      },
+      "Type": "SubmenuForceRedraw",
+      "ItemId": 2,
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 480.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D60:Mantella.esp",
+            "ParameterTwoNumber": 722943328,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "20"
+      },
+      "Type": "SubmenuForceRedraw",
+      "ItemId": 3,
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 2400.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D58:Mantella.esp",
+            "ParameterTwoNumber": 722943320,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "60"
+      },
+      "Type": "SubmenuForceRedraw",
+      "ItemId": 4,
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 7200.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D50:Mantella.esp",
+            "ParameterTwoNumber": 722943312,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "1440"
+      },
+      "Type": "SubmenuForceRedraw",
+      "ItemId": 5,
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 172800.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D48:Mantella.esp",
+            "ParameterTwoNumber": 722943304,
+            "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Back to Settings"
+      },
+      "Type": "SubmenuTerminal",
+      "ItemId": 6,
+      "Submenu": "00D51D:Mantella.esp"
+    }
+  ],
+  "MajorFlags": [
+    "0x10",
+    "0x2000"
+  ]
+}

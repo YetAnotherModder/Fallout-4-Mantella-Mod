@@ -1,0 +1,20 @@
+{
+  "FormKey": "001736:Mantella.esp",
+  "VersionControl": 12390,
+  "EditorID": "MantellaEnchantment",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Mantella Enchantment"
+  },
+  "CastType": "FireAndForget",
+  "TargetType": "Touch",
+  "EnchantType": "Enchantment",
+  "Effects": [
+    {
+      "BaseEffect": "001735:Mantella.esp",
+      "Data": {
+        "Duration": 86400
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "FormKey": "04A86F:Mantella.esp",
+  "VersionControl": 12584,
+  "EditorID": "MantellaNPCCollectionQuest",
+  "Data": {
+    "Unused": 138
+  },
+  "UnusedConditions": [],
+  "Aliases": [
+    {
+      "MutagenObjectType": "QuestCollectionAlias",
+      "Collection": [
+        {
+          "MaxInitialFillCount": 30
+        }
+      ]
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "Name": "MantellaNPCCollection",
+      "Flags": [
+        "Optional",
+        "MatchingRefInLoadedArea",
+        "AllowReserved",
+        "MatchingRefClosest",
+        "MatchingRefForActorsOnly"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "LessThanOrEqualTo",
+          "ComparisonValue": 25000.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetDistance",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    }
+  ]
+}

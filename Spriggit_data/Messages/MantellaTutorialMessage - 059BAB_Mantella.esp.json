@@ -1,0 +1,35 @@
+{
+  "FormKey": "059BAB:Mantella.esp",
+  "VersionControl": 12844,
+  "EditorID": "MantellaTutorialMessage",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": "Welcome to Mantella. Do you want to activate the tutorial?"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Activate tutorial?"
+  },
+  "OwnerQuest": "000F99:Mantella.esp",
+  "Flags": [
+    "MessageBox"
+  ],
+  "ShortTitle": {
+    "TargetLanguage": "English",
+    "Value": "Activate tutorial?"
+  },
+  "MenuButtons": [
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Yes."
+      }
+    },
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "No."
+      }
+    }
+  ]
+}

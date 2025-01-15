@@ -90,6 +90,33 @@ Reset()
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0207_Item_00
+Function Fragment_Stage_0207_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.RegisterForMenuOpenCloseEvent("PipboyMenu")
+kmyQuest.MenuEventSelector=8
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0208_Item_00
+Function Fragment_Stage_0208_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.TriggerTutorialVariables(false)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0301_Item_00
 Function Fragment_Stage_0301_Item_00()
 ;BEGIN AUTOCAST TYPE mantellarepository
@@ -953,6 +980,45 @@ mantellarepository kmyQuest = __temp as mantellarepository
 ;END AUTOCAST
 ;BEGIN CODE
 kmyQuest.SetHTTPTimeoutInMinutes(1440)
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0901_Item_00
+Function Fragment_Stage_0901_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.TIM_Set_HTTP_Port("29999")
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0902_Item_00
+Function Fragment_Stage_0902_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.TIM_Set_HTTP_Port("39999")
+Reset()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Stage_0903_Item_00
+Function Fragment_Stage_0903_Item_00()
+;BEGIN AUTOCAST TYPE mantellarepository
+Quest __temp = self as Quest
+mantellarepository kmyQuest = __temp as mantellarepository
+;END AUTOCAST
+;BEGIN CODE
+kmyQuest.TIM_Set_HTTP_Port("49999")
 Reset()
 ;END CODE
 EndFunction

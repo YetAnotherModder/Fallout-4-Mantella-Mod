@@ -1,0 +1,256 @@
+{
+  "FormKey": "026EEF:Mantella.esp",
+  "MajorRecordFlagsRaw": 8208,
+  "VersionControl": 12535,
+  "EditorID": "MantellaResizeSettingsTerminal",
+  "Fallout4MajorRecordFlags": [
+    "0x10",
+    "0x2000"
+  ],
+  "VirtualMachineAdapter": {
+    "ScriptFragments": {
+      "Script": {
+        "Name": "Fragments:Terminals:TERM_MantellaResizeSettingsT_07026EEF",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaQuest",
+            "Object": "000F99:Mantella.esp"
+          }
+        ]
+      },
+      "Fragments": [
+        {
+          "FragmentIndex": 9,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaResizeSettingsT_07026EEF",
+          "FragmentName": "Fragment_Terminal_09"
+        },
+        {
+          "FragmentIndex": 2,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaResizeSettingsT_07026EEF",
+          "FragmentName": "Fragment_Terminal_02"
+        },
+        {
+          "FragmentIndex": 10,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaResizeSettingsT_07026EEF",
+          "FragmentName": "Fragment_Terminal_10"
+        },
+        {
+          "FragmentIndex": 1,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaResizeSettingsT_07026EEF",
+          "FragmentName": "Fragment_Terminal_01"
+        },
+        {
+          "FragmentIndex": 3,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaResizeSettingsT_07026EEF",
+          "FragmentName": "Fragment_Terminal_03"
+        }
+      ]
+    }
+  },
+  "ObjectBounds": {
+    "First": "-18, -52, 86",
+    "Second": "21, 0, 135"
+  },
+  "HeaderText": {
+    "TargetLanguage": "English",
+    "Value": "Mantella - Image Resize Settings"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "[Settings] Mantella Settings"
+  },
+  "Model": {
+    "File": "Furniture\\Terminals\\TerminalWall01.nif",
+    "Data": "0x0400000000000000000000000000000000000000"
+  },
+  "Keywords": [
+    "0A56D7:Fallout4.esm",
+    "06D5BB:Fallout4.esm",
+    "0C2022:Fallout4.esm"
+  ],
+  "PNAM": "0xCC4C3300",
+  "FNAM": "0x0000",
+  "Holotapes": [],
+  "Flags": [
+    "HasModel"
+  ],
+  "WorkbenchData": "0x00",
+  "MarkerModel": "Markers\\MarkerWallTerminal3rdP.nif",
+  "MarkerParameters": [
+    {
+      "Enabled": true,
+      "Offset": "0, -86, 0",
+      "EntryTypes": [
+        "Front",
+        "Behind",
+        "Right",
+        "Left",
+        "Other",
+        "0x20",
+        "0x40",
+        "0x80"
+      ],
+      "Unknown": "0xFFFFFF"
+    }
+  ],
+  "BodyTexts": [
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Choose option from the below for the value you want to use by Mantella Software when resizing images before sending them to the LLM. If the resolution chosen is larger than the actual width screen resolution then the image will be left untouched.\r\n\r\n A higher resolution will spend more tokens and have longer response times but will be more precise. A lower resolution mean the LLM might miss details such as small text when analysing the image."
+      }
+    }
+  ],
+  "MenuItems": [
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "512x512"
+      },
+      "Type": "DisplayText",
+      "ItemId": 9,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Mantella Software will now resize images sent to the LLM to 512x512\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 512.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E28:Mantella.esp",
+            "ParameterTwoNumber": 722943528,
+            "ParameterTwoString": "::visionResize_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "1024x1024 (recommended)"
+      },
+      "Type": "DisplayText",
+      "ItemId": 10,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Mantella Software will now resize images sent to the LLM to 1024x1024\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 1024.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E20:Mantella.esp",
+            "ParameterTwoNumber": 722943520,
+            "ParameterTwoString": "::visionResize_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "1536x1536"
+      },
+      "Type": "DisplayText",
+      "ItemId": 1,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Mantella Software will now resize images sent to the LLM to 1536x1536\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 1536.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E18:Mantella.esp",
+            "ParameterTwoNumber": 722943512,
+            "ParameterTwoString": "::visionResize_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "2048x2048"
+      },
+      "Type": "DisplayText",
+      "ItemId": 2,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Mantella Software will now resize images sent to the LLM to 2048x2048\r\n\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 2048.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E10:Mantella.esp",
+            "ParameterTwoNumber": 722943504,
+            "ParameterTwoString": "::visionResize_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "2560x2560"
+      },
+      "Type": "DisplayText",
+      "ItemId": 3,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Mantella Software will now resize images sent to the LLM to 2560x2560\r\n\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "NotEqualTo",
+          "ComparisonValue": 2560.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E08:Mantella.esp",
+            "ParameterTwoNumber": 722943496,
+            "ParameterTwoString": "::visionResize_var"
+          }
+        }
+      ]
+    }
+  ],
+  "MajorFlags": [
+    "0x10",
+    "0x2000"
+  ]
+}

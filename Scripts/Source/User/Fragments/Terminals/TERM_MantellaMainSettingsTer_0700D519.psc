@@ -41,6 +41,14 @@ MantellaQuest.SetStage(303)
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Terminal_06
+Function Fragment_Terminal_06(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(207)
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Terminal_07
 Function Fragment_Terminal_07(ObjectReference akTerminalRef)
 ;BEGIN CODE
@@ -53,6 +61,14 @@ EndFunction
 Function Fragment_Terminal_08(ObjectReference akTerminalRef)
 ;BEGIN CODE
 MantellaQuest.SetStage(306)
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_Terminal_09
+Function Fragment_Terminal_09(ObjectReference akTerminalRef)
+;BEGIN CODE
+MantellaQuest.SetStage(208)
 ;END CODE
 EndFunction
 ;END FRAGMENT

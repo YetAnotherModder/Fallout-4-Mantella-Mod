@@ -1,0 +1,960 @@
+{
+  "FormKey": "015DA7:Mantella.esp",
+  "VersionControl": 12703,
+  "EditorID": "MantellaFollowersCompanionConversationPackage",
+  "Flags": [
+    "TreatAsPlayerFollower",
+    "AllowSwimming"
+  ],
+  "Type": "Package",
+  "PreferredSpeed": "Run",
+  "InteruptFlags": [
+    "GreetCorpseBehavior",
+    "ReactionToPlayerActions",
+    "FriendlyFireComments",
+    "AggroRadiusBehavior",
+    "AllowIdleChatter",
+    "WorldInteractions",
+    "OffForImportantScene",
+    "0x800",
+    "0x1000",
+    "0x2000",
+    "0x4000",
+    "0x8000"
+  ],
+  "ScheduleDayOfWeek": "255",
+  "ScheduleHour": -1,
+  "ScheduleMinute": -1,
+  "Unknown3": "0x000000",
+  "Conditions": [
+    {
+      "MutagenObjectType": "ConditionFloat",
+      "ComparisonValue": 1.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetInFaction",
+        "ParameterOneRecord": "023C01:Fallout4.esm",
+        "ParameterOneNumber": 146433
+      }
+    }
+  ],
+  "OwnerQuest": "01E64D:Mantella.esp",
+  "DataInputVersion": 28,
+  "Data": [
+    {
+      "Key": 32,
+      "Value": {
+        "MutagenObjectType": "PackageDataLocation",
+        "Name": "\"Go Home\" Sandbox Location",
+        "Flags": [
+          "Public"
+        ],
+        "Location": {
+          "Target": {
+            "MutagenObjectType": "LocationFallback",
+            "Type": "NearEditorLocation"
+          },
+          "Radius": 1000
+        }
+      }
+    },
+    {
+      "Key": 41,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "Allow Loitering Sandbox?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 4,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "Target",
+        "Flags": [],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetSpecificReference",
+          "Reference": "000014:Fallout4.esm"
+        }
+      }
+    },
+    {
+      "Key": 5,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Near Follow Min Radius",
+        "Flags": [],
+        "Data": 150.0
+      }
+    },
+    {
+      "Key": 6,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Near Follow Max Radius",
+        "Flags": [],
+        "Data": 300.0
+      }
+    },
+    {
+      "Key": 27,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Medium Follow Min Radius",
+        "Flags": [],
+        "Data": 300.0
+      }
+    },
+    {
+      "Key": 28,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Medium Follow Max Radius",
+        "Flags": [],
+        "Data": 600.0
+      }
+    },
+    {
+      "Key": 29,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Far Follow Min Radius",
+        "Flags": [],
+        "Data": 600.0
+      }
+    },
+    {
+      "Key": 30,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Far Follow Max Radius",
+        "Flags": [],
+        "Data": 1000.0
+      }
+    },
+    {
+      "Key": 10,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "Ride Horse if Possible?",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 0,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "UseDynamicGoalInstead",
+        "Flags": [],
+        "Data": true
+      }
+    },
+    {
+      "Key": 14,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "GoalRadius (Ignored, UseDynamicGoalInstead)",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 18,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "GoToLeadersGoal",
+        "Flags": [],
+        "Data": true
+      }
+    },
+    {
+      "Key": 20,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "NeedLOS",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 25,
+      "Value": {
+        "MutagenObjectType": "PackageDataLocation",
+        "Name": "Wait Destination",
+        "Flags": [],
+        "Location": {
+          "Target": {
+            "MutagenObjectType": "LocationFallback",
+            "Type": "NearSelf"
+          }
+        }
+      }
+    },
+    {
+      "Key": 8,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "True",
+        "Flags": [],
+        "Data": true
+      }
+    },
+    {
+      "Key": 24,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "False",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 35,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Sandbox Energy",
+        "Flags": [],
+        "Data": 50.0
+      }
+    },
+    {
+      "Key": 37,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Sandbox Min Wander Distance",
+        "Flags": [],
+        "Data": 300.0
+      }
+    },
+    {
+      "Key": 39,
+      "Value": {
+        "MutagenObjectType": "PackageDataLocation",
+        "Name": "Loiter Sandbox Target",
+        "Flags": [],
+        "Location": {
+          "Target": {
+            "MutagenObjectType": "LocationTarget",
+            "Link": "000014:Fallout4.esm"
+          },
+          "Radius": 1000
+        }
+      }
+    },
+    {
+      "Key": 43,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Loiter Delay",
+        "Flags": [],
+        "Data": 15.0
+      }
+    },
+    {
+      "Key": 45,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "Loiter Hellos & Idles?",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 48,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "Find: Scene StandHere Marker",
+        "Flags": [],
+        "Target": {
+          "MutagenObjectType": "PackageTargetObjectID",
+          "Reference": "08BE67:Fallout4.esm"
+        }
+      }
+    },
+    {
+      "Key": 50,
+      "Value": {
+        "MutagenObjectType": "PackageDataLocation",
+        "Name": "Find Location: Near Player",
+        "Flags": [],
+        "Location": {
+          "Target": {
+            "MutagenObjectType": "LocationTarget",
+            "Link": "000014:Fallout4.esm"
+          },
+          "Radius": 500
+        }
+      }
+    },
+    {
+      "Key": 52,
+      "Value": {
+        "MutagenObjectType": "PackageDataObjectList",
+        "Name": "Find Object List",
+        "Flags": [],
+        "Data": 0.0
+      }
+    },
+    {
+      "Key": 57,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Conditionalized Wait for Setting Flags, Time Needs to be 0",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 59,
+      "Value": {
+        "MutagenObjectType": "PackageDataBool",
+        "Name": "Warp on Fast Travel",
+        "Flags": [
+          "Public"
+        ],
+        "Data": true
+      }
+    },
+    {
+      "Key": 61,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Elevator Follow Min Radius",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 62,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Elevator Follow Max Radius",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 64,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Sneak Follow Min Radius",
+        "Flags": [],
+        "Data": 150.0
+      }
+    },
+    {
+      "Key": 66,
+      "Value": {
+        "MutagenObjectType": "PackageDataFloat",
+        "Name": "Sneak Follow Max Radius",
+        "Flags": [],
+        "Data": 250.0
+      }
+    },
+    {
+      "Key": 1,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "GoalRadius",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 2,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "AvoidNodeRadius",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 3,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "FleeDist",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 12,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Flee To (Ignored, UseDynamicGoalInstead)",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 16,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Backup (Flee) Radius",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 21,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "ActualSeconds",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 22,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "StopMovement",
+        "Flags": []
+      }
+    },
+    {
+      "Key": 46,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "TargetSelector",
+        "Flags": [
+          "Public"
+        ]
+      }
+    },
+    {
+      "Key": 54,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "Flag Setting Wait Time",
+        "Flags": []
+      }
+    }
+  ],
+  "XnamMarker": "0x2A",
+  "ProcedureTree": [
+    {
+      "BranchType": "Simultaneous",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Stacked",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": "02A107:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "0289E4:Fallout4.esm",
+            "ParameterOneNumber": 166372,
+            "ParameterTwoRecord": "173B00:Mantella.esp",
+            "ParameterTwoNumber": 722942720,
+            "ParameterTwoString": "::AllFollowerState_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": "02A107:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000344:Fallout4.esm",
+            "ParameterOneNumber": 836
+          }
+        }
+      ],
+      "ProcedureType": "Travel",
+      "Flags": [],
+      "DataInputIndices": [
+        25,
+        10,
+        24,
+        255,
+        255,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Stacked",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "0289E4:Fallout4.esm",
+            "ParameterOneNumber": 166372,
+            "ParameterTwoRecord": "173AF8:Mantella.esp",
+            "ParameterTwoNumber": 722942712,
+            "ParameterTwoString": "::AllFollowerState_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000344:Fallout4.esm",
+            "ParameterOneNumber": 836
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "0AEF5E:Fallout4.esm",
+            "ParameterOneNumber": 716638
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "0289E4:Fallout4.esm",
+            "ParameterOneNumber": 166372,
+            "ParameterTwoRecord": "173AF0:Mantella.esp",
+            "ParameterTwoNumber": 722942704,
+            "ParameterTwoString": "::AllFollowerState_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000344:Fallout4.esm",
+            "ParameterOneNumber": 836
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        4,
+        61,
+        62,
+        18,
+        10,
+        20
+      ],
+      "FlagsOverride": {
+        "ClearInterruptFlags": [
+          "HellosToPlayer"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Stacked",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetNumericPackageData",
+            "ParameterOneRecord": "00003B:Fallout4.esm",
+            "ParameterOneNumber": 59
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "IsPlayerMovingIntoNewSpace"
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 4
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "Reference",
+            "Reference": "000014:Fallout4.esm",
+            "Function": "IsSneaking"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "0289E4:Fallout4.esm",
+            "ParameterOneNumber": 166372,
+            "ParameterTwoRecord": "173AE8:Mantella.esp",
+            "ParameterTwoNumber": 722942696,
+            "ParameterTwoString": "::AllFollowerState_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000344:Fallout4.esm",
+            "ParameterOneNumber": 836
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        4,
+        64,
+        66,
+        18,
+        10,
+        20
+      ],
+      "FlagsOverride": {
+        "ClearInterruptFlags": [
+          "HellosToPlayer"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "0289E4:Fallout4.esm",
+            "ParameterOneNumber": 166372,
+            "ParameterTwoRecord": "173AE0:Mantella.esp",
+            "ParameterTwoNumber": 722942688,
+            "ParameterTwoString": "::AllFollowerState_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000344:Fallout4.esm",
+            "ParameterOneNumber": 836
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A109:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000345:Fallout4.esm",
+            "ParameterOneNumber": 837
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        4,
+        5,
+        6,
+        18,
+        10,
+        20
+      ],
+      "FlagsOverride": {
+        "ClearInterruptFlags": [
+          "HellosToPlayer"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "0289E4:Fallout4.esm",
+            "ParameterOneNumber": 166372,
+            "ParameterTwoRecord": "173AD8:Mantella.esp",
+            "ParameterTwoNumber": 722942680,
+            "ParameterTwoString": "::AllFollowerState_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000344:Fallout4.esm",
+            "ParameterOneNumber": 836
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A10A:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000345:Fallout4.esm",
+            "ParameterOneNumber": 837
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        4,
+        27,
+        28,
+        18,
+        10,
+        20
+      ],
+      "FlagsOverride": {
+        "ClearInterruptFlags": [
+          "HellosToPlayer"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "0289E4:Fallout4.esm",
+            "ParameterOneNumber": 166372,
+            "ParameterTwoRecord": "173AD0:Mantella.esp",
+            "ParameterTwoNumber": 722942672,
+            "ParameterTwoString": "::AllFollowerState_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A106:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000344:Fallout4.esm",
+            "ParameterOneNumber": 836
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionGlobal",
+          "ComparisonValue": "02A10B:Fallout4.esm",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetValue",
+            "ParameterOneRecord": "000345:Fallout4.esm",
+            "ParameterOneNumber": 837
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        4,
+        29,
+        30,
+        18,
+        10,
+        20
+      ],
+      "FlagsOverride": {
+        "ClearInterruptFlags": [
+          "HellosToPlayer"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Stacked",
+      "Root": {
+        "BranchCount": 3
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetNumericPackageData",
+            "ParameterOneRecord": "00003B:Fallout4.esm",
+            "ParameterOneNumber": 59
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "IsPlayerMovingIntoNewSpace"
+          }
+        }
+      ],
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        57,
+        24
+      ],
+      "FlagsOverride": {
+        "ClearFlags": [
+          "TreatAsPlayerFollower"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "Reference",
+            "Reference": "000014:Fallout4.esm",
+            "Function": "IsInDialogueCamera"
+          }
+        }
+      ],
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        57,
+        24
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "TreatAsPlayerFollower"
+        ],
+        "ClearInterruptFlags": [
+          "HellosToPlayer",
+          "RandomConversations",
+          "GreetCorpseBehavior",
+          "AllowIdleChatter"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "Reference",
+            "Reference": "000014:Fallout4.esm",
+            "Function": "IsInDialogueCamera"
+          }
+        }
+      ],
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        57,
+        24
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "TreatAsPlayerFollower"
+        ],
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    }
+  ],
+  "OnBegin": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  },
+  "OnEnd": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  },
+  "OnChange": {
+    "Topics": [
+      {
+        "MutagenObjectType": "TopicReference"
+      }
+    ]
+  }
+}

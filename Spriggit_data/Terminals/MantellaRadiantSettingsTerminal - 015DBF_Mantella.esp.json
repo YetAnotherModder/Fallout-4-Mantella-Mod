@@ -1,0 +1,164 @@
+{
+  "FormKey": "015DBF:Mantella.esp",
+  "MajorRecordFlagsRaw": 8208,
+  "VersionControl": 12341,
+  "EditorID": "MantellaRadiantSettingsTerminal",
+  "Fallout4MajorRecordFlags": [
+    "0x10",
+    "0x2000"
+  ],
+  "VirtualMachineAdapter": {
+    "ScriptFragments": {
+      "Script": {
+        "Name": "Fragments:Terminals:TERM_MantellaRadiantSettings_07015DBF",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaRadiantEnabled",
+            "Object": "00D51E:Mantella.esp"
+          }
+        ]
+      },
+      "Fragments": [
+        {
+          "FragmentIndex": 2,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaRadiantSettings_07015DBF",
+          "FragmentName": "Fragment_Terminal_02"
+        },
+        {
+          "FragmentIndex": 1,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaRadiantSettings_07015DBF",
+          "FragmentName": "Fragment_Terminal_01"
+        }
+      ]
+    }
+  },
+  "ObjectBounds": {
+    "First": "-18, -52, 86",
+    "Second": "21, 0, 135"
+  },
+  "HeaderText": {
+    "TargetLanguage": "English",
+    "Value": "Mantella - Radiant Settings"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "[Settings] Mantella Settings"
+  },
+  "Model": {
+    "File": "Furniture\\Terminals\\TerminalWall01.nif",
+    "Data": "0x0400000000000000000000000000000000000000"
+  },
+  "Keywords": [
+    "0A56D7:Fallout4.esm",
+    "06D5BB:Fallout4.esm",
+    "0C2022:Fallout4.esm"
+  ],
+  "PNAM": "0xCC4C3300",
+  "FNAM": "0x0000",
+  "Holotapes": [],
+  "Flags": [
+    "HasModel"
+  ],
+  "WorkbenchData": "0x00",
+  "MarkerModel": "Markers\\MarkerWallTerminal3rdP.nif",
+  "MarkerParameters": [
+    {
+      "Enabled": true,
+      "Offset": "0, -86, 0",
+      "EntryTypes": [
+        "Front",
+        "Behind",
+        "Right",
+        "Left",
+        "Other",
+        "0x20",
+        "0x40",
+        "0x80"
+      ],
+      "Unknown": "0xFFFFFF"
+    }
+  ],
+  "BodyTexts": [
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Choose menu"
+      }
+    }
+  ],
+  "MenuItems": [
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn radiant Dialogue ON"
+      },
+      "Type": "SubmenuForceRedraw",
+      "ItemId": 1,
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "00D51E:Mantella.esp",
+            "ParameterOneNumber": 16831774
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn radiant Dialogue OFF"
+      },
+      "Type": "SubmenuForceRedraw",
+      "ItemId": 2,
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "00D51E:Mantella.esp",
+            "ParameterOneNumber": 16831774
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Set Radiant distance"
+      },
+      "Type": "SubmenuTerminal",
+      "ItemId": 3,
+      "Submenu": "015DC2:Mantella.esp"
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Set Radiant frequency"
+      },
+      "Type": "SubmenuTerminal",
+      "ItemId": 5,
+      "Submenu": "01A213:Mantella.esp"
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Back to main menu"
+      },
+      "Type": "SubmenuTerminal",
+      "ItemId": 4,
+      "Submenu": "00D51D:Mantella.esp"
+    }
+  ],
+  "MajorFlags": [
+    "0x10",
+    "0x2000"
+  ]
+}

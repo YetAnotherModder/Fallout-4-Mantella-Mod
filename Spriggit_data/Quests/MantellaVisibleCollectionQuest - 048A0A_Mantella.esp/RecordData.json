@@ -1,0 +1,44 @@
+{
+  "FormKey": "048A0A:Mantella.esp",
+  "VersionControl": 12584,
+  "EditorID": "MantellaVisibleCollectionQuest",
+  "Data": {
+    "Unused": 138
+  },
+  "UnusedConditions": [],
+  "Aliases": [
+    {
+      "MutagenObjectType": "QuestCollectionAlias",
+      "Collection": [
+        {
+          "MaxInitialFillCount": 10
+        }
+      ]
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "Name": "MantellaVisibleNPCRefCollection",
+      "Flags": [
+        "Optional",
+        "MatchingRefInLoadedArea",
+        "AllowReserved",
+        "MatchingRefClosest",
+        "MatchingRefForActorsOnly"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "LessThanOrEqualTo",
+          "ComparisonValue": 5000.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetDistance",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    }
+  ]
+}

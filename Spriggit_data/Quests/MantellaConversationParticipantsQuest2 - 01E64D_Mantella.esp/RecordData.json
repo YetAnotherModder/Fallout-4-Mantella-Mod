@@ -1,0 +1,786 @@
+{
+  "FormKey": "01E64D:Mantella.esp",
+  "VersionControl": 12837,
+  "EditorID": "MantellaConversationParticipantsQuest2",
+  "Data": {
+    "Flags": [
+      "RepeatsConditions"
+    ],
+    "Priority": 95,
+    "Unused": 138
+  },
+  "UnusedConditions": [],
+  "Aliases": [
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 2,
+      "Name": "MantellaParticipant01",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest",
+        "MatchingRefForActorsOnly",
+        "CanApplyDataToNonAliasedRefs"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "004C58:Mantella.esp",
+            "ParameterOneNumber": 16796760
+          }
+        }
+      ],
+      "PackageData": [
+        "0529A6:Mantella.esp",
+        "054073:Mantella.esp",
+        "054074:Mantella.esp",
+        "054076:Mantella.esp",
+        "054077:Mantella.esp",
+        "04FC0A:Mantella.esp",
+        "054811:Mantella.esp",
+        "015DA7:Mantella.esp",
+        "011955:Mantella.esp"
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 26,
+      "Name": "MantellaParticipant02",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest",
+        "MatchingRefForActorsOnly",
+        "CanApplyDataToNonAliasedRefs"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "004C58:Mantella.esp",
+            "ParameterOneNumber": 16796760
+          }
+        }
+      ],
+      "PackageData": [
+        "0529A6:Mantella.esp",
+        "054073:Mantella.esp",
+        "054074:Mantella.esp",
+        "054076:Mantella.esp",
+        "054077:Mantella.esp",
+        "04FC0A:Mantella.esp",
+        "054811:Mantella.esp",
+        "015DA7:Mantella.esp",
+        "011955:Mantella.esp"
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 27,
+      "Name": "MantellaParticipant03",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest",
+        "MatchingRefForActorsOnly",
+        "CanApplyDataToNonAliasedRefs"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "004C58:Mantella.esp",
+            "ParameterOneNumber": 16796760
+          }
+        }
+      ],
+      "PackageData": [
+        "0529A6:Mantella.esp",
+        "054073:Mantella.esp",
+        "054074:Mantella.esp",
+        "054076:Mantella.esp",
+        "054077:Mantella.esp",
+        "04FC0A:Mantella.esp",
+        "054811:Mantella.esp",
+        "015DA7:Mantella.esp",
+        "011955:Mantella.esp"
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 28,
+      "Name": "MantellaParticipant04",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest",
+        "MatchingRefForActorsOnly",
+        "CanApplyDataToNonAliasedRefs"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "004C58:Mantella.esp",
+            "ParameterOneNumber": 16796760
+          }
+        }
+      ],
+      "PackageData": [
+        "0529A6:Mantella.esp",
+        "054073:Mantella.esp",
+        "054074:Mantella.esp",
+        "054076:Mantella.esp",
+        "054077:Mantella.esp",
+        "04FC0A:Mantella.esp",
+        "054811:Mantella.esp",
+        "015DA7:Mantella.esp",
+        "011955:Mantella.esp"
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 29,
+      "Name": "MantellaParticipant05",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest",
+        "MatchingRefForActorsOnly",
+        "CanApplyDataToNonAliasedRefs"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "004C58:Mantella.esp",
+            "ParameterOneNumber": 16796760
+          }
+        }
+      ],
+      "PackageData": [
+        "0529A6:Mantella.esp",
+        "054073:Mantella.esp",
+        "054074:Mantella.esp",
+        "054076:Mantella.esp",
+        "054077:Mantella.esp",
+        "04FC0A:Mantella.esp",
+        "054811:Mantella.esp",
+        "015DA7:Mantella.esp",
+        "011955:Mantella.esp"
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 15,
+      "Name": "MantellaFunctionTarget01",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 30,
+      "Name": "MantellaFunctionTarget02",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 31,
+      "Name": "MantellaFunctionTarget03",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 32,
+      "Name": "MantellaFunctionTarget04",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 33,
+      "Name": "MantellaFunctionTarget05",
+      "Flags": [
+        "Optional",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetInFaction",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 4.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestCollectionAlias",
+      "Collection": [
+        {
+          "AliasID": 16,
+          "MaxInitialFillCount": 20
+        }
+      ]
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 16,
+      "Name": "MantellaFunctionItemRefColl",
+      "Flags": [
+        "Optional",
+        "MatchingRefInLoadedArea",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "LessThan",
+          "ComparisonValue": 1500.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetDistance",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000011:Fallout4.esm",
+            "ParameterOneNumber": 17
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000001:Fallout4.esm",
+            "ParameterOneNumber": 1
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000005:Fallout4.esm",
+            "ParameterOneNumber": 5
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "00000C:Fallout4.esm",
+            "ParameterOneNumber": 12
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000007:Fallout4.esm",
+            "ParameterOneNumber": 7
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "00006E:Fallout4.esm",
+            "ParameterOneNumber": 110
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000036:Fallout4.esm",
+            "ParameterOneNumber": 54
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000002:Fallout4.esm",
+            "ParameterOneNumber": 2
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000053:Fallout4.esm",
+            "ParameterOneNumber": 83
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestCollectionAlias",
+      "Collection": [
+        {
+          "AliasID": 20,
+          "MaxInitialFillCount": 20
+        }
+      ]
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 20,
+      "Name": "MantellaFunctionItemRefCollConsumables",
+      "Flags": [
+        "Optional",
+        "MatchingRefInLoadedArea",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "LessThan",
+          "ComparisonValue": 1500.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetDistance",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000011:Fallout4.esm",
+            "ParameterOneNumber": 17
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestCollectionAlias",
+      "Collection": [
+        {
+          "AliasID": 19,
+          "MaxInitialFillCount": 20
+        }
+      ]
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 19,
+      "Name": "MantellaFunctionItemRefColJunk",
+      "Flags": [
+        "Optional",
+        "MatchingRefInLoadedArea",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "LessThan",
+          "ComparisonValue": 1500.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetDistance",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000005:Fallout4.esm",
+            "ParameterOneNumber": 5
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000007:Fallout4.esm",
+            "ParameterOneNumber": 7
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000036:Fallout4.esm",
+            "ParameterOneNumber": 54
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000002:Fallout4.esm",
+            "ParameterOneNumber": 2
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestCollectionAlias",
+      "Collection": [
+        {
+          "AliasID": 18,
+          "MaxInitialFillCount": 20
+        }
+      ]
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 18,
+      "Name": "MantellaFunctionItemRefCollArmor",
+      "Flags": [
+        "Optional",
+        "MatchingRefInLoadedArea",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "LessThan",
+          "ComparisonValue": 1500.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetDistance",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000001:Fallout4.esm",
+            "ParameterOneNumber": 1
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000053:Fallout4.esm",
+            "ParameterOneNumber": 83
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    },
+    {
+      "MutagenObjectType": "QuestCollectionAlias",
+      "Collection": [
+        {
+          "AliasID": 17,
+          "MaxInitialFillCount": 20
+        }
+      ]
+    },
+    {
+      "MutagenObjectType": "QuestReferenceAlias",
+      "ID": 17,
+      "Name": "MantellaFunctionItemRefCollWeapon",
+      "Flags": [
+        "Optional",
+        "MatchingRefInLoadedArea",
+        "AllowReserved",
+        "MatchingRefClosest"
+      ],
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "CompareOperator": "LessThan",
+          "ComparisonValue": 1500.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetDistance",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "000014:Fallout4.esm",
+            "ParameterOneNumber": 20
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "00000C:Fallout4.esm",
+            "ParameterOneNumber": 12
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Flags": [
+            "OR"
+          ],
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetIsObjectType",
+            "ParameterOneRecord": "00006E:Fallout4.esm",
+            "ParameterOneNumber": 110
+          }
+        }
+      ],
+      "VoiceTypes": "Null"
+    }
+  ]
+}

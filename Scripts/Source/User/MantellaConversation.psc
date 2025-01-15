@@ -337,6 +337,10 @@ Function CleanupConversation()
     F4SE_HTTP.clearAllDictionaries() 
     _lastNpcToSpeak = none
     RestoreSettings()
+    if repository.isFirstConvo
+        Debug.messagebox("The conversation started but something went wrong. Make sure that Mantella.exe is running and that your filepaths are correctly set.")
+        Debug.messagebox("If the problem persists, come to the discord channel and ask for help in the #issues channel (link to the discord on the Mantella Nexus page)")
+    endif
 EndFunction
 
 Function DispelSpellFromActorsInConversation(Spell SpellToDispel)

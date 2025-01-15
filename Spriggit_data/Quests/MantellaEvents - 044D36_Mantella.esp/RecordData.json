@@ -1,0 +1,17 @@
+{
+  "FormKey": "044D36:Mantella.esp",
+  "VersionControl": 12495,
+  "EditorID": "MantellaEvents",
+  "Data": {
+    "Flags": [
+      "StartGameEnabled",
+      "StartsEnabled",
+      "RunOnce"
+    ],
+    "Unused": 138,
+    "Type": "Misc"
+  },
+  "Filter": "MantellaEvents\\",
+  "UnusedConditions": [],
+  "Aliases": []
+}

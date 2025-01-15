@@ -127,7 +127,15 @@ ScriptObject CBscript =  none
 string CBfunction
 bool Property isFirstConvo = true auto
 
-
+;tutorial variables
+bool property tutorialActivated auto Conditional
+bool property showHolotapeSettingsTutorial auto
+bool property showHotkeysTutorial auto
+bool property showHTTPSettingsTutorial auto
+bool property showRadiantSettingsTutorial auto
+bool property showVisionSettingsTutorial auto
+bool property showNPCActionsTutorial auto
+bool property showEventTrackingTutorial auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Game management functions and events   ;
@@ -462,8 +470,10 @@ Function listMenuState(String aMenu)
         else
             debug.notification("Alt conversation start option is ON")
         endif
+        doMainSettingsTutorial()
     elseif aMenu=="HTTP_Settings"
         debug.notification("The HTTP port is currently "+ConstantsScript.HTTP_PORT)
+        doHTTPTutorial()
     elseif aMenu=="Hotkeys"
         if textkeycode!=0
             Debug.notification("Current text response hotkey is "+textkeycode)
@@ -490,6 +500,7 @@ Function listMenuState(String aMenu)
         ElseIf (true)
             Debug.notification("Current Mantella Vision (screenshot) hotkey is unassigned")
         endif
+        doHotkeysTutorial()
     elseif aMenu=="Events"
         if playerTrackingOnItemAdded
             Debug.notification("Player events are being tracked by Mantella")
@@ -523,7 +534,9 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
     elseif(asMenuName== "PipboyMenu") && MenuEventSelector==6 && !abOpening
 	    OpenHotkeyPrompt("playerInputTextAndVisionHotkey")     
     elseif(asMenuName== "PipboyMenu") && MenuEventSelector==7 && !abOpening
-	    OpenHotkeyPrompt("playerInputMantellaVisionHotkey")     
+	    OpenHotkeyPrompt("playerInputMantellaVisionHotkey")    
+    elseif(asMenuName== "PipboyMenu") && MenuEventSelector==8 && !abOpening
+	    ResetTutorial()
     endif
 endEvent
 
@@ -537,11 +550,10 @@ Event Onkeydown(int keycode)
     bool menuMode = TopicInfoPatcher.isMenuModeActive()
     if !menuMode
         if keycode == startConversationkeycode
-            ;Need to use an array here, as returning a scalar sometimes fails!?
             if allowCrosshairTracking
                 float [] Actorxyz = TopicInfoPatcher.GetLastActorCoords()
                 CrosshairActor = Game.FindClosestActor(Actorxyz[0], Actorxyz[1], Actorxyz[2], 20.0)
-                Debug.Notification("Actor is: " + CrosshairActor. GetDisplayName())
+                Debug.Notification("Crosshair actor is: " + CrosshairActor.GetDisplayName())
             endif
             if CrosshairActor != none
                 String actorName = CrosshairActor.GetDisplayName()
@@ -1109,4 +1121,114 @@ Actor[] Function GetFunctionInferenceActorList()
     return ScanAndReturnNearbyActors(MantellaFunctionNPCCollectionQuest ,MantellaFunctionNPCCollection, true)
 Endfunction 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Tutorial Functions   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+Function ResetTutorial()
+    TriggerTutorialVariables(true)
+    doTutorialIntro()
+Endfunction
+
+Function TriggerTutorialVariables(bool aBool)
+    tutorialActivated=aBool
+    showHolotapeSettingsTutorial=aBool
+    showHotkeysTutorial=aBool
+    isFirstConvo = aBool
+    showHTTPSettingsTutorial = aBool
+    showRadiantSettingsTutorial = aBool
+    showVisionSettingsTutorial = aBool
+    showNPCActionsTutorial = aBool
+    showEventTrackingTutorial = aBool
+Endfunction
+
+function doTutorialIntro()
+    if tutorialActivated
+        Debug.MessageBox("Mantella is now active. Start a conversation using one of the following options:")
+        Utility.Wait(0.2)
+        If !isFO4VR
+            Debug.MessageBox("Approach an NPC and use the 'CONVERSATION' option ('R' key)")
+        else
+            Debug.MessageBox("Approach an NPC and use the 'CONVERSATION' option ('Grab' key)")
+        endif
+        Utility.Wait(0.2)
+        If !isFO4VR
+            Debug.MessageBox("OR: Approach an NPC and use the 'start conversation' key (currently 'G'). You can also use the Mantella Gun to shoot an NPC to start the conversation (the gun does no damage).")
+            Utility.Wait(0.2)
+        Endif
+        Debug.MessageBox("Use the Mantella settings holotape to change key assignments or other options. Mantella will use the keyboard by default but you can turn on the microphone in your holotape.")
+        Utility.Wait(0.2)
+        Debug.MessageBox("Try opening the Mantella Settings holotape now. It should be in your Pipboy inventory under 'Misc'.")
+        Utility.Wait(0.2)
+    endif
+Endfunction
+
+function doMainSettingsTutorial()
+    if tutorialActivated && showHolotapeSettingsTutorial
+        debug.MessageBox("In this menu you can completely stop all conversations or reset the Mantella.exe. Do this if you're experiencing synchronization issues.")
+        debug.MessageBox("You can toggle on or off the perk that allows the extra conversation option. Do this if you're experiencing conflicts with other mods such as Quick Trade or What's your name.")
+        debug.MessageBox("You can turn the microphone on or off here. You can only use text responses if you turn the microphone OFF")
+        debug.MessageBox("Finally you can reset all the settings and hotkeys to their default values with 'Reset default settings'.")
+        showHolotapeSettingsTutorial=false
+    endif
+Endfunction
+
+Function doHotkeysTutorial()
+if tutorialActivated && showHolotapeSettingsTutorial && !isFO4VR
+    debug.MessageBox("To change the hotkeys you have to enter scan codes numbers. For example :'H' is 72. 'G' is 71. The complete list is in the holotape options of this submenu. ")
+    debug.MessageBox("Text response will only work if the microphone is OFF.")
+    debug.MessageBox("The initiate conversation button works by tracking the player crossshair and will only work if the crosshair event tracking is on (see event submenu)")
+    debug.MessageBox("Game events are discrete blocks of information that you can send to the AI without having it respond immediately. You can use it to narrate game events out of character.")
+    debug.MessageBox("Text/Vision response will take a screenshot and send your response to the LLM at the same time (require vision to be turned on and a vision capable LLM AI)")
+    debug.MessageBox("Mantella Vision(screenshot) immedidately takes a screenshot, but that screenshot is only sent to the AI when you respond.")
+    showHotkeysTutorial=false
+endif
+EndFunction
+
+Function doHTTPTutorial()
+    if tutorialActivated && showHTTPSettingsTutorial && !isFO4VR
+        debug.MessageBox("To change the hotkeys you have to enter scan codes numbers. For example :'H' is 72. 'G' is 71. The complete list is in the holotape options of this submenu. ")
+        debug.MessageBox("Text response will only work if the microphone is OFF.")
+        debug.MessageBox("The initiate conversation button works by tracking the player crossshair and will only work if the crosshair event tracking is on (see event submenu)")
+        debug.MessageBox("Game events are discrete blocks of information that you can send to the AI without having it respond immediately. You can use it to narrate game events out of character.")
+        debug.MessageBox("Text/Vision response will take a screenshot and send your response to the LLM at the same time (require vision to be turned on and a vision capable LLM AI)")
+        debug.MessageBox("Mantella Vision(screenshot) immedidately takes a screenshot, but that screenshot is only sent to the AI when you respond.")
+        showHotkeysTutorial=false
+    endif
+EndFunction
+
+Function    showRadiantSettingsTutorial()
+    debug.MessageBox("Turn ON radiant dialogue to have NPCs start conversations between themselves at set intervals. Keep in mind this will use tokens from your AI subscription service")
+    debug.MessageBox("You can jump in a radiant conversation at any time by using the usual conversation activation methods.")
+    debug.MessageBox("you can adjust the frequency and distance at which at conversation will occuer (distance based on player and nearest eligible NPCs).")
+    showRadiantSettingsTutorial=false
+EndFunction
+Function    showVisionSettingsTutorial()
+    debug.MessageBox("These options allow the AI to see what you see. You must be using a vision enabled LLM for this to work (refer to the description of the model in the Mantella.exe web interface)")
+    debug.MessageBox("Turning on automatic vision will send a screenshot of the player view  to the AI at the time of the player's response.")
+    debug.MessageBox("To accelerate response speed and dimish token costs, try reducing the resolution of the image or choosing a lower resize value.")
+    debug.MessageBox("Visions hints will send the names of the NPCs in the player's field of view at the time of the image capture to help it roleplay better.")
+    if !isFO4VR
+        debug.MessageBox("You can also set hotkeys to capture images to send to the AI in the hotkey submenu.")
+    endif
+    showVisionSettingsTutorial = false
+Function    showNPCActionsTutorial()
+    debug.MessageBox("You can choose multiple additional actions in this tab.")
+    debug.MessageBox("'NPC aggro' allow NPCs to get offended by your comments which means they might attack you. You can then beg for forgiveness to get them to stop.")
+    debug.MessageBox("'NPC follow' allow NPCs to become your teammates for the duration fo the conversation.")
+    debug.MessageBox("'NPC inventory' allow NPCs to show you their inventory when trading is being discussed.")
+    debug.MessageBox("NPC aggro, follow, openInventory all need to be enabled in Mantella.exe to work as intended, see the 'other' tab in the browser interface.")
+    debug.MessageBox("NPC stay in place does exactly what the name implies, it prevents the NPC from moving during the conversation (will not impact followers)")
+    showNPCActionsTutorial = false
+EndFunction
+Function    showEventTrackingTutorial()
+    debug.MessageBox("In here you can turn ON/OFF events that Mantella tracks. The player and NPC events will  be sent to the AI")
+    debug.MessageBox("Player events are things like the player does like picking up objects, sleeping, sitting, firing their weapon, getting hit, chaning locations, etc.")
+    debug.MessageBox("NPCs events are similar but also includes entering combat & commands given to the NPC through the FO4 interface.")
+    debug.MessageBox("Mantella will only track a maximum number of actions. This can be adjusted in the web interface.")
+    debug.MessageBox("Considering turning event tracking OFF if you notice the AI getting confused by the game's feedback.")
+    if !isFO4VR
+        debug.MessageBox("The Crosshair tracking is used for the Initiate Conversation hotkey. It needs to be turned on for that key to work.")
+    endif
+    showEventTrackingTutorial = false
+EndFunction

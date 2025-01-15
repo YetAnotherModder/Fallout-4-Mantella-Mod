@@ -1,0 +1,72 @@
+{
+  "FormKey": "056E10:Mantella.esp",
+  "VersionControl": 12703,
+  "EditorID": "MantellaFunctionSourceFaction",
+  "CrimeValues": {
+    "Arrest": true,
+    "AttackOnSight": true
+  },
+  "Ranks": [
+    {
+      "Number": 0,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "Wait"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 1,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "Follow"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 2,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "attack"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 3,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "loot"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 4,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "use item"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 5
+    },
+    {
+      "Number": 6
+    }
+  ],
+  "VendorValues": {
+    "EndHour": 24,
+    "BuysStolenItems": true,
+    "BuysNonStolenItems": true
+  }
+}

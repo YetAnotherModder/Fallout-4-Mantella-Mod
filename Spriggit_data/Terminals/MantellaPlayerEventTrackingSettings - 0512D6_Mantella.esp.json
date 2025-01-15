@@ -1,0 +1,736 @@
+{
+  "FormKey": "0512D6:Mantella.esp",
+  "MajorRecordFlagsRaw": 8208,
+  "VersionControl": 12634,
+  "EditorID": "MantellaPlayerEventTrackingSettings",
+  "Fallout4MajorRecordFlags": [
+    "0x10",
+    "0x2000"
+  ],
+  "VirtualMachineAdapter": {
+    "ScriptFragments": {
+      "Script": {
+        "Name": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaQuest",
+            "Object": "000F99:Mantella.esp"
+          }
+        ]
+      },
+      "Fragments": [
+        {
+          "FragmentIndex": 11,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_11"
+        },
+        {
+          "FragmentIndex": 10,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_10"
+        },
+        {
+          "FragmentIndex": 1,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_01"
+        },
+        {
+          "FragmentIndex": 20,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_20"
+        },
+        {
+          "FragmentIndex": 9,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_09"
+        },
+        {
+          "FragmentIndex": 2,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_02"
+        },
+        {
+          "FragmentIndex": 3,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_03"
+        },
+        {
+          "FragmentIndex": 8,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_08"
+        },
+        {
+          "FragmentIndex": 19,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_19"
+        },
+        {
+          "FragmentIndex": 5,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_05"
+        },
+        {
+          "FragmentIndex": 14,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_14"
+        },
+        {
+          "FragmentIndex": 18,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_18"
+        },
+        {
+          "FragmentIndex": 15,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_15"
+        },
+        {
+          "FragmentIndex": 4,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_04"
+        },
+        {
+          "FragmentIndex": 12,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_12"
+        },
+        {
+          "FragmentIndex": 7,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_07"
+        },
+        {
+          "FragmentIndex": 17,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_17"
+        },
+        {
+          "FragmentIndex": 6,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_06"
+        },
+        {
+          "FragmentIndex": 13,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_13"
+        },
+        {
+          "FragmentIndex": 16,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaPlayerEventTr_010512D6_1",
+          "FragmentName": "Fragment_Terminal_16"
+        }
+      ]
+    }
+  },
+  "ObjectBounds": {
+    "First": "-18, -52, 86",
+    "Second": "21, 0, 135"
+  },
+  "HeaderText": {
+    "TargetLanguage": "English",
+    "Value": "Mantella - Player Events Tracking Settings"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "[Settings] Mantella Player Events Tracking Settings"
+  },
+  "Model": {
+    "File": "Furniture\\Terminals\\TerminalWall01.nif",
+    "Data": "0x0400000000000000000000000000000000000000"
+  },
+  "Keywords": [
+    "0A56D7:Fallout4.esm",
+    "06D5BB:Fallout4.esm",
+    "0C2022:Fallout4.esm"
+  ],
+  "PNAM": "0xCC4C3300",
+  "FNAM": "0x0000",
+  "Holotapes": [],
+  "Flags": [
+    "HasModel"
+  ],
+  "WorkbenchData": "0x00",
+  "MarkerModel": "Markers\\MarkerWallTerminal3rdP.nif",
+  "MarkerParameters": [
+    {
+      "Enabled": true,
+      "Offset": "0, -86, 0",
+      "EntryTypes": [
+        "Front",
+        "Behind",
+        "Right",
+        "Left",
+        "Other",
+        "0x20",
+        "0x40",
+        "0x80"
+      ],
+      "Unknown": "0xFFFFFF"
+    }
+  ],
+  "BodyTexts": [
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Choose an option"
+      }
+    }
+  ],
+  "MenuItems": [
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player item tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 3,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player item pickup and drop tracking is turned OFF\r\n\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173EC8:Mantella.esp",
+            "ParameterTwoNumber": 722943688,
+            "ParameterTwoString": "::playerTrackingOnItemAdded_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player item tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 1,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player item pickup and drop tracking is turned ON\r\n\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173EC0:Mantella.esp",
+            "ParameterTwoNumber": 722943680,
+            "ParameterTwoString": "::playerTrackingOnItemAdded_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player hit tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 2,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player getting hit tracking is turned OFF"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173EB8:Mantella.esp",
+            "ParameterTwoNumber": 722943672,
+            "ParameterTwoString": "::playerTrackingOnHit_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player hit tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 4,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player getting hit tracking is turned ON"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173EB0:Mantella.esp",
+            "ParameterTwoNumber": 722943664,
+            "ParameterTwoString": "::playerTrackingOnHit_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn location change tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 5,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Location change tracking is turned OFF\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173EA8:Mantella.esp",
+            "ParameterTwoNumber": 722943656,
+            "ParameterTwoString": "::playerTrackingOnLocationChange_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn location change tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 6,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Location change tracking is turned ON"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173EA0:Mantella.esp",
+            "ParameterTwoNumber": 722943648,
+            "ParameterTwoString": "::playerTrackingOnLocationChange_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player equip tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 7,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player item equiping /unequiping is turned OFF"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E98:Mantella.esp",
+            "ParameterTwoNumber": 722943640,
+            "ParameterTwoString": "::playerTrackingOnObjectEquipped_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player equip tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 8,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player item equiping /unequiping is turned OFF"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E90:Mantella.esp",
+            "ParameterTwoNumber": 722943632,
+            "ParameterTwoString": "::playerTrackingOnObjectEquipped_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player sitting tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 9,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player sitting or using workbench tracking is turned OFF"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E88:Mantella.esp",
+            "ParameterTwoNumber": 722943624,
+            "ParameterTwoString": "::playerTrackingOnSit_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player sitting tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 10,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player sitting or using workbenches tracking is turned ON"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E80:Mantella.esp",
+            "ParameterTwoNumber": 722943616,
+            "ParameterTwoString": "::playerTrackingOnSit_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player attacking tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 11,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player firing a weapon or using melee tracking is turned OFF\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E78:Mantella.esp",
+            "ParameterTwoNumber": 722943608,
+            "ParameterTwoString": "::playerTrackingFireWeapon_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player attacking tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 12,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player firing a weapon or using melee tracking is turned ON"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E70:Mantella.esp",
+            "ParameterTwoNumber": 722943600,
+            "ParameterTwoString": "::playerTrackingFireWeapon_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player radiation dmg tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 13,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player taking radiation damage tracking is turned OFF\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E68:Mantella.esp",
+            "ParameterTwoNumber": 722943592,
+            "ParameterTwoString": "::playerTrackingRadiationDamage_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player radiation dmg tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 14,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player taking radiation damage tracking is turned ON"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E60:Mantella.esp",
+            "ParameterTwoNumber": 722943584,
+            "ParameterTwoString": "::playerTrackingRadiationDamage_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player sleep tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 15,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player sleep tracking is turned OFF"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E58:Mantella.esp",
+            "ParameterTwoNumber": 722943576,
+            "ParameterTwoString": "::playerTrackingSleep_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player sleep tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 16,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player sleep tracking is turned OFF\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E50:Mantella.esp",
+            "ParameterTwoNumber": 722943568,
+            "ParameterTwoString": "::playerTrackingSleep_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player crippling tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 17,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player taking crippling damage tracking is turned OFF\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E48:Mantella.esp",
+            "ParameterTwoNumber": 722943560,
+            "ParameterTwoString": "::playerTrackingCripple_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player crippling tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 18,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player taking crippling damage tracking is turned ON\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E40:Mantella.esp",
+            "ParameterTwoNumber": 722943552,
+            "ParameterTwoString": "::playerTrackingCripple_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player heal team tracking OFF"
+      },
+      "Type": "DisplayText",
+      "ItemId": 19,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player taking healing allies tracking is turned OFF\r\n\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E38:Mantella.esp",
+            "ParameterTwoNumber": 722943544,
+            "ParameterTwoString": "::playerTrackingHealTeammate_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Turn player heal team tracking ON"
+      },
+      "Type": "DisplayText",
+      "ItemId": 20,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Player taking healing allies tracking is turned ON\r\n\r\n\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173E30:Mantella.esp",
+            "ParameterTwoNumber": 722943536,
+            "ParameterTwoString": "::playerTrackingHealTeammate_var"
+          }
+        }
+      ]
+    }
+  ],
+  "MajorFlags": [
+    "0x10",
+    "0x2000"
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "FormKey": "0529A5:Mantella.esp",
+  "VersionControl": 12642,
+  "EditorID": "MantellaStimpakSpell",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "MantellaStimpakSpell"
+  },
+  "EquipmentType": "013F44:Fallout4.esm",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  },
+  "CastType": "FireAndForget",
+  "Effects": [
+    {
+      "BaseEffect": "21DDB8:Fallout4.esm",
+      "Data": {
+        "Magnitude": 200.0,
+        "Duration": 6
+      }
+    },
+    {
+      "BaseEffect": "05C529:Fallout4.esm",
+      "Data": {
+        "Magnitude": 100.0
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "000846:Fallout4.esm",
+            "ParameterOneNumber": 2118
+          }
+        }
+      ]
+    },
+    {
+      "BaseEffect": "05C52C:Fallout4.esm",
+      "Data": {
+        "Magnitude": 100.0
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "000846:Fallout4.esm",
+            "ParameterOneNumber": 2118
+          }
+        }
+      ]
+    },
+    {
+      "BaseEffect": "05C52C:Fallout4.esm",
+      "Data": {
+        "Magnitude": 100.0
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "000846:Fallout4.esm",
+            "ParameterOneNumber": 2118
+          }
+        }
+      ]
+    },
+    {
+      "BaseEffect": "05C52A:Fallout4.esm",
+      "Data": {
+        "Magnitude": 100.0
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "000846:Fallout4.esm",
+            "ParameterOneNumber": 2118
+          }
+        }
+      ]
+    },
+    {
+      "BaseEffect": "05C52B:Fallout4.esm",
+      "Data": {
+        "Magnitude": 100.0
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "000846:Fallout4.esm",
+            "ParameterOneNumber": 2118
+          }
+        }
+      ]
+    },
+    {
+      "BaseEffect": "05C52E:Fallout4.esm",
+      "Data": {
+        "Magnitude": 100.0
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "000846:Fallout4.esm",
+            "ParameterOneNumber": 2118
+          }
+        }
+      ]
+    }
+  ]
+}

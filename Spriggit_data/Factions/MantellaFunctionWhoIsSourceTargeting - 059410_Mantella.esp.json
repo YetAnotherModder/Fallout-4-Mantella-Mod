@@ -1,0 +1,66 @@
+{
+  "FormKey": "059410:Mantella.esp",
+  "VersionControl": 12837,
+  "EditorID": "MantellaFunctionWhoIsSourceTargeting",
+  "CrimeValues": {
+    "Arrest": true,
+    "AttackOnSight": true
+  },
+  "Ranks": [
+    {
+      "Number": 0,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "MantellaFunctionTarget01"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 1,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "MantellaFunctionTarget02"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 2,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "MantellaFunctionTarget03"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 3,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "MantellaFunctionTarget04"
+        },
+        "Female": {}
+      }
+    },
+    {
+      "Number": 4,
+      "Title": {
+        "Male": {
+          "TargetLanguage": "English",
+          "Value": "MantellaFunctionTarget05"
+        },
+        "Female": {}
+      }
+    }
+  ],
+  "VendorValues": {
+    "EndHour": 24,
+    "BuysStolenItems": true,
+    "BuysNonStolenItems": true
+  }
+}

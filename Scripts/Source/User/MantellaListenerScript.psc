@@ -34,6 +34,7 @@ bool itemsGiven
 Quest Property MantellaNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaNPCCollection  Auto
 Faction Property MantellaFunctionTargetFaction Auto
+Message property MantellaTutorialMessage auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Initialization events and functions  ;
@@ -41,8 +42,9 @@ Faction Property MantellaFunctionTargetFaction Auto
 
 Event OnInit ()
 	PrewarWorldspace = Game.GetFormFromFile(0x000A7FF4, "Fallout4.esm") as Worldspace
-	TryToGiveItems()
     LoadMantellaEvents()
+	TryToGiveItems()
+    
 EndEvent
 
 Event OnPlayerTeleport()
@@ -62,18 +64,8 @@ Function TryToGiveItems()
 		;RegisterForPlayerTeleport() ;not nessary to interact with this anymore as it's handled in LoadMantellaEvents()
 	else
 		;UnregisterForPlayerTeleport()  ;not nessary to interact with this anymore as it's handled in LoadMantellaEvents()
-        Debug.MessageBox("Welcome to Mantella. Mantella is now active. Start a conversation using one of the following options:")
-        Utility.Wait(0.5)
-        Debug.MessageBox("Approach an NPC and use the 'CONVERSATION' option ('R' key)")
-        Utility.Wait(0.5)
-        If !repository.isFO4VR
-            Debug.MessageBox("OR: Approach an NPC and use the 'start conversation' key (currently 'H')")
-            Utility.Wait(0.5)
-        Endif
-        Debug.MessageBox("OR: Use the Mantella pistol to shoot an NPC")
-        Utility.Wait(0.5)
-        Debug.MessageBox("Use the Mantella settings holotape to change key assignments or other options")
-        Utility.Wait(0.5)
+        showAndResolveTutorialMessage()
+        repository.doTutorialIntro()
         repository.allowCrosshairTracking = true
 		PlayerRef.AddItem(MantellaGun, 1, false)
         PlayerRef.AddItem(MantellaSettingsHolotape, 1, false)
@@ -84,6 +76,26 @@ Function TryToGiveItems()
         StartTimer(MantellaRadiantFrequency.getValue(),RadiantFrequencyTimerID)   
 	endif
 EndFunction
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Message and tutorial resolution  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+function showAndResolveTutorialMessage()
+    int aButton=MantellaTutorialMessage.show()
+    if aButton==1 ;player chose no
+        repository.tutorialActivated = false
+        Debug.MessageBox("You can reactivate the tutorial at any time by using the holotape in main settings.")
+    elseif aButton==0 ;player chose yes
+        repository.tutorialActivated = true
+        
+    endif 
+Endfunction
+
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Events and functions at player load  ;
@@ -130,6 +142,7 @@ Function CheckGameVersionForMantella()
     elseif repository.currentFO4version == "1.2.72.0"
         repository.isFO4VR = true
         debug.notification("Currently running "+ MantellaVersion+" VR")
+        repository.microphoneEnabled = repository.isFO4VR
     else
         debug.messagebox("The current FO4 version doesn't support Mantella.")
     endif

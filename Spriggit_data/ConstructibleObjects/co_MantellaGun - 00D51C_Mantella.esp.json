@@ -1,0 +1,19 @@
+{
+  "FormKey": "00D51C:Mantella.esp",
+  "VersionControl": 12341,
+  "EditorID": "co_MantellaGun",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  },
+  "CreatedObject": "001734:Mantella.esp",
+  "WorkbenchKeyword": "102158:Fallout4.esm",
+  "Categories": [
+    "06980C:Fallout4.esm"
+  ],
+  "CreatedObjectCounts": [
+    {
+      "Count": 1
+    }
+  ]
+}

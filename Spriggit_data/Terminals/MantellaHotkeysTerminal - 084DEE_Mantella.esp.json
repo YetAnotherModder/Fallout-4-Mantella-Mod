@@ -1,0 +1,236 @@
+{
+  "FormKey": "084DEE:Mantella.esp",
+  "MajorRecordFlagsRaw": 8208,
+  "VersionControl": 12844,
+  "EditorID": "MantellaHotkeysTerminal",
+  "Fallout4MajorRecordFlags": [
+    "0x10",
+    "0x2000"
+  ],
+  "VirtualMachineAdapter": {
+    "ScriptFragments": {
+      "Script": {
+        "Name": "Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE",
+        "Properties": [
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaQuest",
+            "Object": "000F99:Mantella.esp"
+          }
+        ]
+      },
+      "Fragments": [
+        {
+          "FragmentIndex": 2,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE",
+          "FragmentName": "Fragment_Terminal_02"
+        },
+        {
+          "FragmentIndex": 6,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE",
+          "FragmentName": "Fragment_Terminal_06"
+        },
+        {
+          "FragmentIndex": 1,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE",
+          "FragmentName": "Fragment_Terminal_01"
+        },
+        {
+          "FragmentIndex": 3,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE",
+          "FragmentName": "Fragment_Terminal_03"
+        },
+        {
+          "FragmentIndex": 4,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaHotkeysTerminal_07084DEE",
+          "FragmentName": "Fragment_Terminal_04"
+        }
+      ]
+    }
+  },
+  "ObjectBounds": {
+    "First": "-18, -52, 86",
+    "Second": "21, 0, 135"
+  },
+  "HeaderText": {
+    "TargetLanguage": "English",
+    "Value": "Mantella - Main Settings"
+  },
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "[Settings] Mantella Settings"
+  },
+  "Model": {
+    "File": "Furniture\\Terminals\\TerminalWall01.nif",
+    "Data": "0x0400000000000000000000000000000000000000"
+  },
+  "Keywords": [
+    "0A56D7:Fallout4.esm",
+    "06D5BB:Fallout4.esm",
+    "0C2022:Fallout4.esm"
+  ],
+  "PNAM": "0xCC4C3300",
+  "FNAM": "0x0000",
+  "Holotapes": [],
+  "Flags": [
+    "HasModel"
+  ],
+  "WorkbenchData": "0x00",
+  "MarkerModel": "Markers\\MarkerWallTerminal3rdP.nif",
+  "MarkerParameters": [
+    {
+      "Enabled": true,
+      "Offset": "0, -86, 0",
+      "EntryTypes": [
+        "Front",
+        "Behind",
+        "Right",
+        "Left",
+        "Other",
+        "0x20",
+        "0x40",
+        "0x80"
+      ],
+      "Unknown": "0xFFFFFF"
+    }
+  ],
+  "BodyTexts": [
+    {
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Choose option"
+      }
+    }
+  ],
+  "MenuItems": [
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Set Text Response Hotkey"
+      },
+      "ResponseText": {
+        "TargetLanguage": "English",
+        "Value": "Close the Pipboy to update the keycode."
+      },
+      "Type": "DisplayText",
+      "ItemId": 3,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Close menu to set the new hotkey for player text input. Default key is \"H\". Use decima Directx scancode value, ex: \"h\" = 72 or \"y\" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work.\r\n"
+      }
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Set Initiate Conversation Hotkey"
+      },
+      "ResponseText": {
+        "TargetLanguage": "English",
+        "Value": "Close the Pipboy to update the keycode."
+      },
+      "Type": "DisplayText",
+      "ItemId": 6,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Close menu to set the new hotkey to start a conversation. Default key is \"G\". Use decimal Directx scancode value, ex: \"g\" = 71, \"h\" = 72 or \"y\" = 89). See the keycode chart in the holotape. Requires crosshair event tracking to be turned ON (see event submenu)"
+      }
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Set Game Event Hotkey"
+      },
+      "ResponseText": {
+        "TargetLanguage": "English",
+        "Value": "Close the Pipboy to update the keycode."
+      },
+      "Type": "DisplayText",
+      "ItemId": 2,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Close menu to set the new hotkey to enter a custom game event input for the AI (LLM) to read. Default key is \"Y\". Use decima Directx scancode value, ex: \"h\" = 72 or \"y\" = 89). See the keycode chart in the holotape.\r\n\r\nDuring a conversation, press the hotkey to type a text event in the game (e.g. \"Piper heard a gunshot\"). It's best to use a third person perspective to mesh with the game events that are automatically sent to the NPCs. You can do this multiple times in a row.\r\n\r\n    When you actually reply to the NPC, either by speaking in the mic or by typing a reply (default \"H\" key), all the game events will be sent along the reply to the AI. Note : the game event log will get cleared at the start of a new conversation and can only store up to 5 events at a time. After 5 events newer events will override the the older ones.\r\n"
+      }
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": " Set Text/Vision Response Hotkey"
+      },
+      "ResponseText": {
+        "TargetLanguage": "English",
+        "Value": "Close the Pipboy to update the keycode."
+      },
+      "Type": "DisplayText",
+      "ItemId": 4,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Close menu to set the new hotkey for player text input with vision. Use the decimal Directx scancode value, ex: \"g\" = 71 or \"y\" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work (see Mantella Software's config.ini)\r\n\r\nThis key has the same function as the standard TextResponseHotkey but will additionnaly send a screenshot to the LLM for vision analysis. Please note that this will only work with specific LLMs (e.g. ChatGPT4-o., or a local LLM using a mmproj file)\r\n\r\nIf both text response and text vision are the same button then the text/vision hotkey will override the other one.\r\n"
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D40:Mantella.esp",
+            "ParameterTwoNumber": 722943296,
+            "ParameterTwoString": "::hideVisionMenu_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Mantella Vision (screenshot) Hotkey"
+      },
+      "ResponseText": {
+        "TargetLanguage": "English",
+        "Value": "Close the Pipboy to update the keycode."
+      },
+      "Type": "DisplayText",
+      "ItemId": 1,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Close menu to set the new hotkey for Mantella Vison Screenshots. Use the decimal Directx scancode value, ex: \"g\" = 71 or \"y\" = 89). See the keycode chart in the holotape. The microphone setting must be off for this hotkey to work (see Mantella Software's config.ini)\r\n\r\nAny screenshot taken with this hotkey will be sent to the LLM on your next reply."
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "173D38:Mantella.esp",
+            "ParameterTwoNumber": 722943288,
+            "ParameterTwoString": "::hideVisionMenu_var"
+          }
+        }
+      ]
+    },
+    {
+      "ItemText": {
+        "TargetLanguage": "English",
+        "Value": "Display keycode chart (DirectX scancodes)"
+      },
+      "Type": "DisplayText",
+      "ItemId": 5,
+      "DisplayText": {
+        "TargetLanguage": "English",
+        "Value": "Button          Dec\r\nBACKSPACE       8\r\nTAB             9\r\nENTER           13\r\nCAPS LOCK       20\r\nESCAPE          27\r\nSPACE           32\r\nPGUP            33\r\nPGDOWN          34\r\nEND             35\r\nHOME            36\r\nLEFT            37\r\nUP              38\r\nRIGHT           39\r\nDOWN            40\r\nDELETE          46\r\n0               48\r\n1               49\r\n2               50\r\n3               51\r\n4               52\r\n5               53\r\n6               54\r\n7               55\r\n8               56\r\n9               57\r\nA               65\r\nB               66\r\nC               67\r\nD               68\r\nE               69\r\nF               70\r\nG               71\r\nH               72\r\nI               73\r\nJ               74\r\nK               75\r\nL               76\r\nM               77\r\nN               78\r\nO               79\r\nP               80\r\nQ               81\r\nR               82\r\nS               83\r\nT               84\r\nU               85\r\nV               86\r\nW               87\r\nX               88\r\nY               89\r\nZ               90\r\nSUPER           92\r\nNum0            96\r\nNum1            97\r\nNum2            98\r\nNum3            99\r\nNum4            100\r\nNum5            101\r\nNum6            102\r\nNum7            103\r\nNum8            104\r\nNum9            105\r\nNum*            106\r\nNum+            107\r\nNum-            109\r\nNum.            110\r\nNum/            111\r\nF1              112\r\nF2              113\r\nF3              114\r\nF4              115\r\nF5              116\r\nF6              117\r\nF7              118\r\nF8              119\r\nF9              120\r\nF10             121\r\nF11             122\r\nNUMLOCK         144\r\nSCRLOCK         145\r\nL-SHIFT         160\r\nR-SHIFT         161\r\nL-CTRL          162\r\nR-CTRL          163\r\nL-ALT           164\r\nR-ALT           165\r\n;               186\r\n=               187\r\n,               188\r\n-               189\r\n.               190\r\n/               191\r\n[               219\r\n\\               220\r\n]               221\r\n'               222\r\n\\               226\r\nMouse1          256\r\nMouse2          257\r\nMouse3          258\r\nMouse4          259\r\nMouse5          260\r\n"
+      }
+    }
+  ],
+  "MajorFlags": [
+    "0x10",
+    "0x2000"
+  ]
+}

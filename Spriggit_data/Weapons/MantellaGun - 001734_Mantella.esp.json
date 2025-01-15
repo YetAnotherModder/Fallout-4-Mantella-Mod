@@ -1,0 +1,232 @@
+{
+  "FormKey": "001734:Mantella.esp",
+  "MajorRecordFlagsRaw": 1073741824,
+  "VersionControl": 12324,
+  "EditorID": "MantellaGun",
+  "Fallout4MajorRecordFlags": [
+    "0x40000000"
+  ],
+  "PreviewTransform": "071DDD:Fallout4.esm",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "Mantella"
+  },
+  "Model": {
+    "File": "Weapons\\10mmPistol\\10mmRecieverDummy.nif",
+    "Data": "0x0400000000000000000000000000000000000000"
+  },
+  "ObjectEffect": "001736:Mantella.esp",
+  "EquipmentType": "013F42:Fallout4.esm",
+  "BlockBashImpactDataSet": "0183FF:Fallout4.esm",
+  "PickUpSound": "034922:Fallout4.esm",
+  "PutDownSound": "01F5C1:Fallout4.esm",
+  "Keywords": [
+    "092A86:Fallout4.esm",
+    "01F948:Fallout4.esm",
+    "0DC8E8:Fallout4.esm",
+    "0DD4CC:Fallout4.esm",
+    "03ADB3:Fallout4.esm",
+    "0F4AEA:Fallout4.esm",
+    "10C485:Fallout4.esm",
+    "18898C:Fallout4.esm",
+    "1C9E78:Fallout4.esm",
+    "1B3FAC:Fallout4.esm"
+  ],
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  },
+  "InstanceNaming": "2377CF:Fallout4.esm",
+  "AttachParentSlots": [
+    "024004:Fallout4.esm",
+    "1E32C8:Fallout4.esm"
+  ],
+  "ObjectTemplates": [
+    {
+      "IsEditorOnly": true,
+      "Name": {
+        "TargetLanguage": "English",
+        "Value": "Default"
+      },
+      "Default": true,
+      "Includes": [
+        {
+          "Mod": "1275CC:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275D1:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275CE:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275CD:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "18898B:Fallout4.esm",
+          "DontUseAll": true
+        }
+      ]
+    },
+    {
+      "IsEditorOnly": true,
+      "Name": {
+        "TargetLanguage": "English",
+        "Value": "Simple"
+      },
+      "Keywords": [
+        "160404:Fallout4.esm"
+      ],
+      "Includes": [
+        {
+          "Mod": "1275CC:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275D1:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275CE:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275CD:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "18898B:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275D3:Fallout4.esm",
+          "DontUseAll": true
+        }
+      ]
+    },
+    {
+      "IsEditorOnly": true,
+      "Name": {
+        "TargetLanguage": "English",
+        "Value": "Standard"
+      },
+      "Includes": [
+        {
+          "Mod": "1275CC:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275D1:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275CE:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275CD:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "18898B:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1275D3:Fallout4.esm",
+          "DontUseAll": true
+        }
+      ]
+    },
+    {
+      "IsEditorOnly": true,
+      "Name": {
+        "TargetLanguage": "English",
+        "Value": "Simple Epic"
+      },
+      "AddonIndex": 1,
+      "Keywords": [
+        "05F42D:Fallout4.esm"
+      ]
+    },
+    {
+      "IsEditorOnly": true,
+      "Name": {
+        "TargetLanguage": "English",
+        "Value": "Standard Epic"
+      },
+      "AddonIndex": 2,
+      "Keywords": [
+        "05F42D:Fallout4.esm"
+      ],
+      "Includes": [
+        {
+          "Mod": "1ADA2A:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1ADA25:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1ADA27:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1ADA26:Fallout4.esm",
+          "DontUseAll": true
+        },
+        {
+          "Mod": "1ADA29:Fallout4.esm",
+          "DontUseAll": true
+        }
+      ]
+    }
+  ],
+  "Speed": 1.0,
+  "ReloadSpeed": 1.0,
+  "Reach": 1.0,
+  "MinRange": 1.0,
+  "MaxRange": 999.0,
+  "AttackDelay": 0.15,
+  "DamageOutOfRangeMult": 0.5,
+  "Flags": [
+    "CritEffectOnDeath",
+    "NonHostile"
+  ],
+  "Capacity": 999,
+  "AnimationType": "Gun",
+  "SecondaryDamage": 0.0001,
+  "Value": 125,
+  "SoundLevel": "Normal",
+  "AttackFailSound": "01DACD:Fallout4.esm",
+  "EquipSound": "06D01A:Fallout4.esm",
+  "UnequipSound": "1526AC:Fallout4.esm",
+  "FastEquipSound": "1D9336:Fallout4.esm",
+  "AccuracyBonus": 100,
+  "AnimationAttackSeconds": 0.6666667,
+  "ActionPointCost": 0.0001,
+  "Stagger": "Small",
+  "Unknown3": 2139095039,
+  "ExtraData": {
+    "AnimationFireSeconds": 1E-05,
+    "RumbleLeftMotorStrength": 0.6,
+    "RumbleRightMotorStrength": 0.3,
+    "RumbleDuration": 0.2,
+    "AnimationReloadSeconds": 2.3333435,
+    "BoltAnimSeconds": 1.833333,
+    "SightedTransitionSeconds": 0.15,
+    "NumProjectiles": 1
+  },
+  "CritDamageMult": 1.0,
+  "CritChargeBonus": 1.0,
+  "ImpactDataSet": "004B37:Fallout4.esm",
+  "NpcAddAmmoList": "1AE255:Fallout4.esm",
+  "AimModel": "19E154:Fallout4.esm",
+  "MajorFlags": [
+    "0x40000000"
+  ]
+}

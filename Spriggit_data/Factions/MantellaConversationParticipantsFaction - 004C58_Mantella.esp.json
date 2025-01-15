@@ -1,0 +1,14 @@
+{
+  "FormKey": "004C58:Mantella.esp",
+  "VersionControl": 12513,
+  "EditorID": "MantellaConversationParticipantsFaction",
+  "CrimeValues": {
+    "Arrest": true,
+    "AttackOnSight": true
+  },
+  "VendorValues": {
+    "EndHour": 24,
+    "BuysStolenItems": true,
+    "BuysNonStolenItems": true
+  }
+}

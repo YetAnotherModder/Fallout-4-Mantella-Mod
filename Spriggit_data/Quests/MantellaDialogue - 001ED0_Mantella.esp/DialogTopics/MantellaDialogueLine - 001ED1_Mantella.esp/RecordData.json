@@ -1,0 +1,14 @@
+{
+  "FormKey": "001ED1:Mantella.esp",
+  "VersionControl": 12182,
+  "EditorID": "MantellaDialogueLine",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "MantellaTopic"
+  },
+  "Quest": "001ED0:Mantella.esp",
+  "Category": "Misc",
+  "Subtype": "StandonFurniture",
+  "SubtypeName": "STOF",
+  "Unknown": 624
+}
