@@ -86,10 +86,10 @@ EndFunction
 function showAndResolveTutorialMessage()
     int aButton=MantellaTutorialMessage.show()
     if aButton==1 ;player chose no
-        repository.tutorialActivated = false
+        repository.TriggerTutorialVariables(false)
         Debug.MessageBox("You can reactivate the tutorial at any time by using the holotape in main settings.")
     elseif aButton==0 ;player chose yes
-        repository.tutorialActivated = true
+        repository.TriggerTutorialVariables(true)
         
     endif 
 Endfunction
