@@ -27,7 +27,7 @@ float property radiantDistance auto
 float property radiantFrequency auto
 
 ;vision parameters
-bool property hideVisionMenu=true auto Conditional
+bool property hideVisionMenu=false auto Conditional
 bool property allowVision auto Conditional
 bool property allowVisionHints auto Conditional
 bool property hasPendingVisionCheck auto
@@ -546,6 +546,7 @@ Event OnMenuOpenCloseEvent(string asMenuName, bool abOpening)
 	    OpenHotkeyPrompt("playerInputMantellaVisionHotkey")    
     elseif(asMenuName== "PipboyMenu") && MenuEventSelector==8 && !abOpening
 	    ResetTutorial()
+        UnregisterForMenuOpenCloseEvent("PipboyMenu")
     endif
 endEvent
 
