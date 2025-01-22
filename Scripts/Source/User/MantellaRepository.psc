@@ -46,6 +46,7 @@ String Property MantellaFunctionInferenceActorNamesList  Auto
 String Property MantellaFunctionInferenceActorDistanceList  Auto
 String Property MantellaFunctionInferenceActorIDsList  Auto
 int property NPCAIPackageSelector auto Conditional
+bool property isAParticipantInteractingWithGroundItems auto conditional
 ;NPCAIPackageSelector values
 ;-1 = default state
 ;0 = wait

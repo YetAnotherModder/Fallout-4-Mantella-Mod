@@ -11,6 +11,7 @@ bool property conversationIsEnding auto
 Faction Property MantellaConversationParticipantsFaction Auto
 Faction Property MantellaFunctionTargetFaction Auto
 Faction Property MantellaFunctionSourceFaction Auto
+Faction Property MantellaFunctionModeFaction Auto
 Faction Property MantellaFunctionWhoIsSourceTargeting Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
@@ -67,12 +68,22 @@ string[] _delayedActionIdentifier
 actor[] _delayedSpeaker 
 string[] _delayedlineToSpeak
 
-;AI PackageManagement variables, used to track the position of an actor and reset their AI package in case they get stuck in the same place
-int RestartLootTimer = 1
+;Ingame AI PackageManagement variables, used to track the position of an actor and reset their AI package in case they get stuck in the same place
+
+int RestartLootTimer = 200 ;Reserving 200 to 204
 float StoredActorPositionX
 float StoredActorPositionY
 float StoredActorPositionZ
 Actor trackedPositionActor
+Struct StoredActorData
+    float PositionX
+    float PositionY
+    float PositionZ
+    Actor ActorRef
+EndStruct
+StoredActorData[] CurrentStoredParticipantData
+
+int CurrentStoredParticipantDataPointer
 bool SettingsSaved = false
 bool SettingsApplied = false
 
@@ -136,8 +147,17 @@ function StartConversation(Actor[] actorsToStartConversationWith)
     _ingameEvents = new string[0]
     _extraRequestActions = new string[0]
 
+    CurrentStoredParticipantData = new StoredActorData[5]
+    int i = 0
+    while i < CurrentStoredParticipantData.Length
+        CurrentStoredParticipantData[i] = new StoredActorData
+        i += 1
+    endWhile
+    CurrentStoredParticipantDataPointer = 0
+
     CurrentFunctionTargetArray = new Actor[5]
     CurrentFunctionTargetPointer = 0
+    repository.isAParticipantInteractingWithGroundItems = false
 
     AddActors(actorsToStartConversationWith)
 
@@ -183,7 +203,15 @@ function ContinueConversation(int handle)
                 repository.isFirstConvo = false
             EndIf
             Debug.Notification("Listening...")
+            if repository.allowVision
+                repository.GenerateMantellaVision()
+            endif
+            if repository.allowFunctionCalling
+                repository.resetFunctionInferenceNPCArrays()
+                repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
+            endif
             sendRequestForVoiceTranscribe()
+            repository.ResetEventSpamBlockers()  ;reset spam blockers to allow the Listener Script to pick up on those again
         Else
             If repository.isFirstConvo
                 Debug.MessageBox("Use the 'H' key to enter your response")
@@ -194,19 +222,11 @@ function ContinueConversation(int handle)
             Debug.Notification("Awaiting player text input...")
             _does_accept_player_input = True
         EndIf
-    elseIf (nextAction == mConsts.KEY_REQUESTTYPE_TTS)
+
+    elseIf (nextAction == mConsts.KEY_REQUESTTYPE_TTS) ; This is defunct and not used by Mantella anymore since Dec 1rst 2024
         string transcribe = F4SE_HTTP.getString(handle, mConsts.KEY_TRANSCRIBE, "*Complete gibberish*")
-        if repository.allowVision
-            repository.GenerateMantellaVision()
-        endif
-        if repository.allowFunctionCalling
-            repository.resetFunctionInferenceNPCArrays()
-            repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
-        endif
         sendRequestForPlayerInput(transcribe)
-        repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         Debug.Notification("Thinking...")
-        
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_ENDCONVERSATION)
         CleanupConversation()
     endIf
@@ -323,12 +343,14 @@ Function CleanupConversation()
     DispelSpellFromActorsInConversation(MantellaIsTalkingSpell)
     RemoveAllParticipantsFromFaction(MantellaFunctionTargetFaction)
     RemoveAllParticipantsFromFaction(MantellaFunctionSourceFaction)
+    RemoveAllParticipantsFromFaction(MantellaFunctionModeFaction)
     RemoveAllParticipantsFromFaction(MantellaFunctionWhoIsSourceTargeting)
     MantellaFunctionWhoIsSourceTargeting
     ClearAllFunctionTargets()
     Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection, false)
     repository.RemoveFactionFromActors(ActorsInCell,MantellaFunctionTargetFaction)
     repository.RemoveFactionFromActors(ActorsInCell,MantellaFunctionSourceFaction)
+    repository.RemoveFactionFromActors(ActorsInCell,MantellaFunctionModeFaction)
     repository.RemoveFactionFromActors(ActorsInCell,MantellaFunctionWhoIsSourceTargeting)
     If (MantellaConversationParticipantsQuest.IsRunning())
         MantellaConversationParticipantsQuest.Stop()
@@ -446,26 +468,26 @@ Event Ontimer( int TimerID)
         _does_accept_player_input = False
         repository.ResetEventSpamBlockers() ;reset spam blockers to allow the Listener Script to pick up on those again
         Debug.Notification("Thinking...")
-    elseif TimerID==RestartLootTimer && repository.NPCAIPackageSelector==3
-        If trackedPositionActor.IsOverEncumbered()
-            debug.notification(trackedPositionActor.GetDisplayName()+" cannot scavenge anymore because they are overemcumbered.") 
-            repository.NPCAIPackageSelector==0
-            CauseReassignmentOfParticipantAlias()
-        EndIf
-        float currentPositionX = trackedPositionActor.getpositionX()
-        float currentPositionY = trackedPositionActor.getpositionY()
-        float currentPositionZ = trackedPositionActor.getpositionZ()      
-        if currentPositionX==StoredActorPositionX && currentPositionY==StoredActorPositionY &&  currentPositionZ==StoredActorPositionZ
-            StoredActorPositionX=currentPositionX
-            StoredActorPositionY=currentPositionY
-            StoredActorPositionZ=currentPositionZ
-            CauseReassignmentOfParticipantAlias()
-        Else
-            StoredActorPositionX=currentPositionX
-            StoredActorPositionY=currentPositionY
-            StoredActorPositionZ=currentPositionZ
+    elseif TimerID>=RestartLootTimer && TimerID<=(RestartLootTimer+4) ;Checking if the timer is within bounds of a restart loot timer
+        int ArrayNumberForStoredData = (TimerID-RestartLootTimer) ;Deducing the Array number from the restart timer
+        actor CurrentActor = CurrentStoredParticipantData[ArrayNumberForStoredData].ActorRef
+        if CurrentActor.GetFactionRank(MantellaFunctionSourceFaction) == 3 ;Check if actor is still looting
+            If CurrentActor.IsOverEncumbered()
+                debug.notification(CurrentActor.GetDisplayName()+" cannot scavenge anymore because they are overemcumbered.") 
+                CurrentActor.setFactionRank(MantellaFunctionSourceFaction, 0) ;Setting Source Faction rank to 0 which means "wait" 
+                CauseReassignmentOfParticipantAlias() ;Forcing participant to wait
+            EndIf
+            float currentPositionX = CurrentActor.getpositionX()
+            float currentPositionY = CurrentActor.getpositionY()
+            float currentPositionZ = CurrentActor.getpositionZ()      
+            if currentPositionX==CurrentStoredParticipantData[ArrayNumberForStoredData].PositionX && currentPositionY==CurrentStoredParticipantData[ArrayNumberForStoredData].PositionY &&  currentPositionZ==CurrentStoredParticipantData[ArrayNumberForStoredData].PositionZ
+                CauseReassignmentOfParticipantAlias() ;Forcing participant to start looting again of if they haven't moved in the last four seconds
+            endif
+            CurrentStoredParticipantData[ArrayNumberForStoredData].PositionX=currentPositionX
+            CurrentStoredParticipantData[ArrayNumberForStoredData].PositionY=currentPositionY
+            CurrentStoredParticipantData[ArrayNumberForStoredData].PositionZ=currentPositionZ
+            StartTimer(4,(RestartLootTimer+ArrayNumberForStoredData)) 
         endif
-        StartTimer(4,RestartLootTimer) 
     ElseIf TimerID == _HttpPollTimer  ; Used with VR, need to poll for HTTP received data
         if PollTimerActive
             int gotData = CheckForHttpReply()
@@ -680,9 +702,10 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
             speaker.SetFactionRank(MantellaFunctionSourceFaction, 1)
             CurrentFunctionTargetNPC=targetNPC
             If (CurrentFunctionTargetNPC==playerRef)
+                speaker.SetFactionRank(MantellaFunctionSourceFaction, 5)
                 speaker.SetPlayerTeammate(true)
                 speaker.EvaluatePackage()
-                repository.NPCAIPackageSelector=1
+                repository.NPCAIPackageSelector=5
                 debug.notification("Target NPC found, "+speaker.GetDisplayName()+" is following "+CurrentFunctionTargetNPC.GetDisplayName())
             else
                 actor[] speakerArrayOfOne = new actor[1]
@@ -771,36 +794,105 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
             CauseReassignmentOfParticipantAlias()
             
         endif
-    ElseIf (actionIdentifier == mConsts.ACTION_NPC_LOOT_ITEMS)
+    ElseIf (actionIdentifier == mConsts. ACTION_MULTI_NPC_LOOT_ITEMS)
+        
+        actor[] LootingActors = BuildActorArrayFromFormlist(Participants)
+        string[] sourceIDs = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_SOURCE_IDS)
+        LootingActors = FilterActorArrayFromIDs(sourceIDs, LootingActors)
+        string[] item_type_to_loot = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_MODES)
         repository.NPCAIItemToLootSelector=0
+        string lootNotification = "" 
+        if item_type_to_loot[0] == "weapons"
+            repository.NPCAIItemToLootSelector=1
+            lootNotification=" will scavenge weapons for you."
+        Elseif item_type_to_loot[0] == "armor"
+            repository.NPCAIItemToLootSelector=2
+            lootNotification=" will scavenge armor for you."
+        Elseif item_type_to_loot[0] == "junk"
+            repository.NPCAIItemToLootSelector=3
+            lootNotification=" will scavenge junk for you."
+        Elseif item_type_to_loot[0] == "consumables"
+            repository.NPCAIItemToLootSelector=4
+            lootNotification=" will scavenge consumables for you."
+        Else
+            repository.NPCAIItemToLootSelector
+            lootNotification=" will scavenge any items for you."
+        endif
+        if !LootingActors
+            return
+        endif
+        int i = 0
+        actor currentActor
+        repository.NPCAIPackageSelector=3
+        repository.isAParticipantInteractingWithGroundItems=true ;Need to set this to true for the RefColls to be filled
+        While i < LootingActors.Length
+            currentActor = LootingActors[i]
+            if currentActor.IsOverEncumbered()
+                debug.notification(currentActor.GetDisplayName()+" cannot scavenge for you because they are overemcumbered.") 
+            Else
+                currentActor.SetFactionRank(MantellaFunctionModeFaction, repository.NPCAIItemToLootSelector) ;Attributing the mode number to the faction
+                debug.notification(currentActor.GetDisplayName()+lootNotification)
+                currentActor.SetFactionRank(MantellaFunctionSourceFaction, 3) ; MantellaFunctionSourceFaction Rank 3 means looting
+                CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].ActorRef = speaker
+                CurrentStoredParticipantData[CurrentStoredParticipantDataPointer]
+                CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].PositionX = speaker.getpositionX()
+                CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].PositionY = speaker.getpositionY()
+                CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].PositionZ = speaker.getpositionZ()
+                StartTimer(4,RestartLootTimer+CurrentStoredParticipantDataPointer) ;Adding CurrentStoredParticipantDataPointer to the loot timer
+                if CurrentStoredParticipantDataPointer < CurrentStoredParticipantData.Length
+                CurrentStoredParticipantDataPointer+1
+                else 
+                    CurrentStoredParticipantDataPointer=0
+                endif
+            endif
+            i+=1
+        EndWhile
+        CauseReassignmentOfParticipantAlias()
+        
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_LOOT_ITEMS)
+        
         if speaker.IsOverEncumbered()
             debug.notification(speaker.GetDisplayName()+" cannot scavenge for you because they are overemcumbered.") 
             return
         endif
-        string[] item_type_to_loot= RetrieveTargetIDFunctionInferenceValues(handle)
+        repository.NPCAIItemToLootSelector=0
+        speaker.SetFactionRank(MantellaFunctionSourceFaction, 3) ; MantellaFunctionSourceFaction Rank 3 means looting
+        string[] item_type_to_loot = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_MODES)
         if item_type_to_loot[0] == "weapons"
             repository.NPCAIItemToLootSelector=1
+            speaker.SetFactionRank(MantellaFunctionModeFaction, 1)
             debug.notification(speaker.GetDisplayName()+" will scavenge weapons for you.")
         Elseif item_type_to_loot[0] == "armor"
             repository.NPCAIItemToLootSelector=2
+            speaker.SetFactionRank(MantellaFunctionModeFaction, 2)
             debug.notification(speaker.GetDisplayName()+" will scavenge armor for you.")
         Elseif item_type_to_loot[0] == "junk"
             repository.NPCAIItemToLootSelector=3
+            speaker.SetFactionRank(MantellaFunctionModeFaction, 3)
             debug.notification(speaker.GetDisplayName()+" will scavenge junk for you.")
         Elseif item_type_to_loot[0] == "consumables"
             repository.NPCAIItemToLootSelector=4
+            speaker.SetFactionRank(MantellaFunctionModeFaction, 4)
             debug.notification(speaker.GetDisplayName()+" will scavenge consumables for you.")
         Else
+            speaker.SetFactionRank(MantellaFunctionModeFaction, 0)
             debug.notification(speaker.GetDisplayName()+" will scavenge any items for you.")
         endif
         repository.NPCAIPackageSelector=3
         
+        repository.isAParticipantInteractingWithGroundItems=true ;Need to set this to true for the RefColls to be filled
         CauseReassignmentOfParticipantAlias()
-        trackedPositionActor=speaker
-        StoredActorPositionX = trackedPositionActor.getpositionX()
-        StoredActorPositionY = trackedPositionActor.getpositionY()
-        StoredActorPositionZ = trackedPositionActor.getpositionZ()
-        StartTimer(4,RestartLootTimer)
+        CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].ActorRef = speaker
+        CurrentStoredParticipantData[CurrentStoredParticipantDataPointer]
+        CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].PositionX = speaker.getpositionX()
+        CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].PositionY = speaker.getpositionY()
+        CurrentStoredParticipantData[CurrentStoredParticipantDataPointer].PositionZ = speaker.getpositionZ()
+        StartTimer(4,RestartLootTimer+CurrentStoredParticipantDataPointer) ;Adding CurrentStoredParticipantDataPointer to the loot timer
+        if CurrentStoredParticipantDataPointer <CurrentStoredParticipantData.Length
+            CurrentStoredParticipantDataPointer+1
+        else 
+            CurrentStoredParticipantDataPointer=0
+        endif
     ElseIf (actionIdentifier == mConsts.ACTION_MAKE_NPC_WAIT)
         repository.NPCAIPackageSelector=0
         speaker.AddToFaction(MantellaFunctionSourceFaction)
@@ -957,6 +1049,9 @@ Function CauseReassignmentOfParticipantAlias()
     If (MantellaConversationParticipantsQuest.IsRunning())
         MantellaConversationParticipantsQuest.Stop()
     EndIf
+    if repository.allowFunctionCalling
+        repository.isAParticipantInteractingWithGroundItems=CheckIfAtLeastOneParticipantHasSpecificFactionRank(MantellaFunctionSourceFaction,3) ;Confirming if a participant is looting by checking rank to avoid pointless refColl checks
+    endif
     if repository.allowNPCsStayInPlace || repository.allowFunctionCalling
         MantellaConversationParticipantsQuest.Reset()
         MantellaConversationParticipantsQuest.Start()
@@ -1031,6 +1126,7 @@ Function RemoveActors(Actor[] actorsToRemove)
             Participants.RemoveAddedForm(tmpActor)
             StopFollowing(tmpActor)
             tmpActor.RemoveFromFaction(MantellaFunctionSourceFaction)
+            tmpActor.RemoveFromFaction(MantellaFunctionModeFaction)
             tmpActor.RemoveFromFaction(MantellaFunctionWhoIsSourceTargeting)
             wasActorRemoved = true
         EndIf
@@ -1229,7 +1325,7 @@ int function GetCurrentHourOfDay()
 	return Hour
 endFunction
 
-
+;Function Calling Functions
 
 actor function UpdateCurrentFunctionTarget(actor[] SourceWhoAreTargeting, actor ActorToInsert)
     
@@ -1327,6 +1423,21 @@ bool function AreAllParticipantsGenericNPCsCheck()
     debug.notification("All participants are generic NPCs")
     return true
 endFunction
+
+bool function CheckIfAtLeastOneParticipantHasSpecificFactionRank(Faction aFaction, int aRank)
+	int i = 0
+    ;Will only return the stimpack count of the first non-player character in conversation
+    While i < Participants.GetSize()
+        Actor currentactor = Participants.GetAt(i) as Actor
+        if currentactor.GetFactionRank(aFaction) == aRank
+            return true
+        endif
+        i += 1
+    EndWhile
+    return false
+endFunction
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   SUP_F4SE & SUP_F4SEVR functions   ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

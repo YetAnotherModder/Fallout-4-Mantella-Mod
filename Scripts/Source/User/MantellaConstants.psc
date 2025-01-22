@@ -88,6 +88,7 @@ string property ACTION_MULTI_MAKE_NPC_WAIT = "mantella_multi_make_npc_wait" auto
 string property ACTION_NPC_ATTACK_OTHER_NPC = "mantella_npc_attack_other_npc" auto
 string property ACTION_MULTI_NPC_ATTACK_OTHER_NPC = "mantella_multi_npc_attack_other_npc" auto
 string property ACTION_NPC_LOOT_ITEMS = "mantella_npc_loot_items" auto
+string property ACTION_MULTI_NPC_LOOT_ITEMS ="mantella_multi_npc_loot_items" auto
 string property ACTION_NPC_HEAL_PLAYER = "mantella_heal_me" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -124,3 +125,4 @@ string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPACKCOUNT = "mantella_fun
 string property FUNCTION_DATA_TARGET_IDS = "mantella_function_data_target_ids" auto
 string property FUNCTION_DATA_TARGET_NAMES = "mantella_function_data_target_names"auto
 string property FUNCTION_DATA_SOURCE_IDS = "mantella_function_data_source_ids"auto
+string property FUNCTION_DATA_MODES = "mantella_function_data_modes" auto
