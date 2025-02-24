@@ -90,6 +90,9 @@ string property ACTION_MULTI_NPC_ATTACK_OTHER_NPC = "mantella_multi_npc_attack_o
 string property ACTION_NPC_LOOT_ITEMS = "mantella_npc_loot_items" auto
 string property ACTION_MULTI_NPC_LOOT_ITEMS ="mantella_multi_npc_loot_items" auto
 string property ACTION_NPC_HEAL_PLAYER = "mantella_heal_me" auto
+string property ACTION_NPC_USE_ITEM = "mantella_npc_use_item_on_target" auto
+string property ACTION_MULTI_NPC_USE_ITEM = "mantella_multi_use_item_on_target" auto
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;   Special Fallout4 values   ;
@@ -104,9 +107,12 @@ string property KEY_ACTOR_CUSTOMVALUES_VISION_HINTSNAMEARRAY = "mantella_vision_
 string property KEY_ACTOR_CUSTOMVALUES_VISION_HINTSDISTANCEARRAY = "mantella_vision_hints_distance" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSX = "mantella_actor_pos_x" auto
 string property KEY_ACTOR_CUSTOMVALUES_POSY = "mantella_actor_pos_y" auto
-string property KEY_ACTOR_CUSTOMVALUES_ACTORS_ALL_FOLLOWERS = "mantella_actors_all_followers" auto
-string property KEY_ACTOR_CUSTOMVALUES_ACTORS_ALL_SETTLERS = "mantella_actors_all_settlers" auto
-string property KEY_ACTOR_CUSTOMVALUES_ACTORS_ALL_GENERICNPCS = "mantella_actors_all_generic_npcs" auto
+;string property KEY_CONTEXT_CUSTOMVALUES_ACTORS_ALL_FOLLOWERS = "mantella_actors_all_followers" auto
+;string property KEY_CONTEXT_CUSTOMVALUES_ACTORS_ALL_SETTLERS = "mantella_actors_all_settlers" auto
+;string property KEY_CONTEXT_CUSTOMVALUES_ACTORS_ALL_GENERICNPCS = "mantella_actors_all_generic_npcs" auto
+string property KEY_CONTEXT_CUSTOMVALUES_ACTORS_AT_LEAST_ONE_FOLLOWER = "mantella_actors_one_follower" auto
+string property KEY_CONTEXT_CUSTOMVALUES_ACTORS_AT_LEAST_ONE_SETTLER = "mantella_actors_one_settler" auto
+string property KEY_CONTEXT_CUSTOMVALUES_ACTORS_AT_LEAST_ONE_GENERIC = "mantella_actors_one_generic" auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       Functions Inference Value (MantellaMod -> Mantella Software)      ;
@@ -114,11 +120,13 @@ string property KEY_ACTOR_CUSTOMVALUES_ACTORS_ALL_GENERICNPCS = "mantella_actors
 
 ;;;;;;;;;;; OUPUT ('Mantella Mod -> Mantella Software') ;;;;;;;;;;;;;
 string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_ENABLED = "mantella_function_enabled" auto
+
 string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES = "mantella_function_npc_display_names" auto
 string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES = "mantella_function_npc_distances" auto
 string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCIDS = "mantella_function_npc_ids" auto
-string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPACKCOUNT = "mantella_function_npc_stimpackcount" auto
-
+;string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPACKCOUNT = "mantella_function_npc_stimpackcount" auto
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPAK_ACTOR_LIST = "mantella_function_npc_stimpak_list" auto
+string property KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_RADAWAY_ACTOR_LIST = "mantella_function_npc_radaway_list" auto
 
 ;;;;;;;;;;; INPUT ('Mantella Mod <- Mantella Software') ;;;;;;;;;;;;;
 

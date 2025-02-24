@@ -1,6 +1,6 @@
 {
   "FormKey": "054811:Mantella.esp",
-  "VersionControl": 12837,
+  "VersionControl": 12873,
   "EditorID": "MantellaBasicAISelectorPackage",
   "VirtualMachineAdapter": {
     "ScriptFragments": {
@@ -471,7 +471,7 @@
     {
       "BranchType": "Sequence",
       "Root": {
-        "BranchCount": 7,
+        "BranchCount": 8,
         "Flags": [
           "RepeatWhenComplete"
         ]
@@ -1106,6 +1106,99 @@
       "Flags": [],
       "DataInputIndices": [
         49,
+        18,
+        20,
+        16,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 5.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "UseWeapon",
+      "Flags": [],
+      "DataInputIndices": [
+        255,
+        22,
+        14,
+        27,
+        255,
+        27,
+        25,
+        27,
+        25,
+        11,
+        11,
+        23,
+        23,
+        23,
+        25,
+        27,
+        27,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 5.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "056E10:Mantella.esp",
+            "ParameterOneNumber": 17133072
+          }
+        }
+      ],
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        14,
         18,
         20,
         16,

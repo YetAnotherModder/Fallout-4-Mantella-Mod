@@ -129,8 +129,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173E28:Mantella.esp",
-            "ParameterTwoNumber": 722943528,
+            "ParameterTwoRecord": "0AFE38:Mantella.esp",
+            "ParameterTwoNumber": -1442120136,
             "ParameterTwoString": "::visionResize_var"
           }
         }
@@ -157,8 +157,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173E20:Mantella.esp",
-            "ParameterTwoNumber": 722943520,
+            "ParameterTwoRecord": "0AFE30:Mantella.esp",
+            "ParameterTwoNumber": -1442120144,
             "ParameterTwoString": "::visionResize_var"
           }
         }
@@ -185,8 +185,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173E18:Mantella.esp",
-            "ParameterTwoNumber": 722943512,
+            "ParameterTwoRecord": "0AFE28:Mantella.esp",
+            "ParameterTwoNumber": -1442120152,
             "ParameterTwoString": "::visionResize_var"
           }
         }
@@ -213,8 +213,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173E10:Mantella.esp",
-            "ParameterTwoNumber": 722943504,
+            "ParameterTwoRecord": "0AFE20:Mantella.esp",
+            "ParameterTwoNumber": -1442120160,
             "ParameterTwoString": "::visionResize_var"
           }
         }
@@ -241,8 +241,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173E08:Mantella.esp",
-            "ParameterTwoNumber": 722943496,
+            "ParameterTwoRecord": "0AFE18:Mantella.esp",
+            "ParameterTwoNumber": -1442120168,
             "ParameterTwoString": "::visionResize_var"
           }
         }

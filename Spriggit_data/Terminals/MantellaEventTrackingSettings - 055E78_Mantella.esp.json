@@ -191,8 +191,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173E00:Mantella.esp",
-            "ParameterTwoNumber": 722943488,
+            "ParameterTwoRecord": "0AFE10:Mantella.esp",
+            "ParameterTwoNumber": -1442120176,
             "ParameterTwoString": "::allowCrosshairTracking_var"
           }
         }
@@ -217,8 +217,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173DF8:Mantella.esp",
-            "ParameterTwoNumber": 722943480,
+            "ParameterTwoRecord": "0AFE08:Mantella.esp",
+            "ParameterTwoNumber": -1442120184,
             "ParameterTwoString": "::allowCrosshairTracking_var"
           }
         }

@@ -1,7 +1,7 @@
 {
   "FormKey": "00D51D:Mantella.esp",
   "MajorRecordFlagsRaw": 8208,
-  "VersionControl": 12844,
+  "VersionControl": 12850,
   "EditorID": "MantellaSettingsTerminal",
   "Fallout4MajorRecordFlags": [
     "0x10",
@@ -21,6 +21,12 @@
       },
       "Fragments": [
         {
+          "FragmentIndex": 4,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D",
+          "FragmentName": "Fragment_Terminal_04"
+        },
+        {
           "FragmentIndex": 7,
           "Unknown2": 1,
           "ScriptName": "Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D",
@@ -31,6 +37,12 @@
           "Unknown2": 1,
           "ScriptName": "Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D",
           "FragmentName": "Fragment_Terminal_05"
+        },
+        {
+          "FragmentIndex": 2,
+          "Unknown2": 1,
+          "ScriptName": "Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D",
+          "FragmentName": "Fragment_Terminal_02"
         },
         {
           "FragmentIndex": 6,
@@ -51,10 +63,10 @@
           "FragmentName": "Fragment_Terminal_03"
         },
         {
-          "FragmentIndex": 4,
+          "FragmentIndex": 8,
           "Unknown2": 1,
           "ScriptName": "Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D",
-          "FragmentName": "Fragment_Terminal_04"
+          "FragmentName": "Fragment_Terminal_08"
         }
       ]
     }
@@ -184,8 +196,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173ED0:Mantella.esp",
-            "ParameterTwoNumber": 722943696,
+            "ParameterTwoRecord": "0AFEE8:Mantella.esp",
+            "ParameterTwoNumber": -1442119960,
             "ParameterTwoString": "::hideVisionMenu_var"
           }
         }

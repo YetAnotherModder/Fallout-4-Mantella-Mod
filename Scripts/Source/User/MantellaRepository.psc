@@ -27,7 +27,7 @@ float property radiantDistance auto
 float property radiantFrequency auto
 
 ;vision parameters
-bool property hideVisionMenu=false auto Conditional
+bool property hideVisionMenu auto Conditional
 bool property allowVision auto Conditional
 bool property allowVisionHints auto Conditional
 bool property hasPendingVisionCheck auto
@@ -37,11 +37,11 @@ String property ActorsInCellArray auto
 String property VisionDistanceArray auto
 
 ;function calling parameters
-bool property hideFunctionMenu=false auto Conditional
+bool property hideFunctionMenu auto Conditional
 bool property allowFunctionCalling auto Conditional
 Quest Property MantellaFunctionNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaFunctionNPCCollection  Auto
-Actor[] Property MantellaFunctionInferenceActorList  Auto
+Actor[] Property MantellaFunctionInferenceActorList  Auto ;is this really necessary?
 String Property MantellaFunctionInferenceActorNamesList  Auto
 String Property MantellaFunctionInferenceActorDistanceList  Auto
 String Property MantellaFunctionInferenceActorIDsList  Auto
@@ -219,6 +219,8 @@ Function reinitializeVariables()
     ;     PlayerRef.AddPerk(ActivatePerk, False)
     ; Endif
     conversation.conversationIsEnding = false
+    hideFunctionMenu=false
+    hideVisionMenu=false
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -825,20 +827,20 @@ Endfunction
 Function UpdateFunctionInferenceNPCArrays(Actor[] ActorArray) 
     actor playerRef = game.GetPlayer()
     Float[] currentDistanceArray = new Float[0]
-    String[] currentFormIDArray = new String[0]
+    String[] currentFormIDArray = new String[0] ;is this line really necessary? 
     int icount = ActorArray.Length
     int iindex = 0
-    MantellaFunctionInferenceActorList = new Actor[0]
+    MantellaFunctionInferenceActorList = new Actor[0] 
     while (iindex < icount)
         Actor Actori = ActorArray[iindex]
         float currentDistance = playerRef.GetDistance(Actori)
         string currentFormID = Actori.GetFormID() as string
-        MantellaFunctionInferenceActorList.add(Actori)
+        MantellaFunctionInferenceActorList.add(Actori) ;is this line really necessary? Could be done in one shot out of the loop
         currentDistanceArray.add(currentDistance)
-        currentFormIDArray.add(currentFormID)
+        currentFormIDArray.add(currentFormID) ;is this line really necessary? 
         iindex = iindex + 1
     endwhile
-    MantellaFunctionInferenceActorNamesList=ActorsArrayToString(MantellaFunctionInferenceActorList)
+    MantellaFunctionInferenceActorNamesList=ActorsArrayToString(MantellaFunctionInferenceActorList) 
     MantellaFunctionInferenceActorDistanceList = currentDistanceArrayToString(currentDistanceArray)
     MantellaFunctionInferenceActorIDsList = ActorsArrayToFormIDString(MantellaFunctionInferenceActorList)
 Endfunction

@@ -118,8 +118,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D90:Mantella.esp",
-            "ParameterTwoNumber": 722943376,
+            "ParameterTwoRecord": "0AFDA0:Mantella.esp",
+            "ParameterTwoNumber": -1442120288,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -139,8 +139,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D88:Mantella.esp",
-            "ParameterTwoNumber": 722943368,
+            "ParameterTwoRecord": "0AFD98:Mantella.esp",
+            "ParameterTwoNumber": -1442120296,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -160,8 +160,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D80:Mantella.esp",
-            "ParameterTwoNumber": 722943360,
+            "ParameterTwoRecord": "0AFD90:Mantella.esp",
+            "ParameterTwoNumber": -1442120304,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -181,8 +181,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D78:Mantella.esp",
-            "ParameterTwoNumber": 722943352,
+            "ParameterTwoRecord": "0AFD88:Mantella.esp",
+            "ParameterTwoNumber": -1442120312,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -202,8 +202,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D70:Mantella.esp",
-            "ParameterTwoNumber": 722943344,
+            "ParameterTwoRecord": "0AFD80:Mantella.esp",
+            "ParameterTwoNumber": -1442120320,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -234,8 +234,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D68:Mantella.esp",
-            "ParameterTwoNumber": 722943336,
+            "ParameterTwoRecord": "0AFD78:Mantella.esp",
+            "ParameterTwoNumber": -1442120328,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -258,8 +258,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D60:Mantella.esp",
-            "ParameterTwoNumber": 722943328,
+            "ParameterTwoRecord": "0AFD70:Mantella.esp",
+            "ParameterTwoNumber": -1442120336,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -282,8 +282,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D58:Mantella.esp",
-            "ParameterTwoNumber": 722943320,
+            "ParameterTwoRecord": "0AFD68:Mantella.esp",
+            "ParameterTwoNumber": -1442120344,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -306,8 +306,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D50:Mantella.esp",
-            "ParameterTwoNumber": 722943312,
+            "ParameterTwoRecord": "0AFD60:Mantella.esp",
+            "ParameterTwoNumber": -1442120352,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }
@@ -330,8 +330,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "173D48:Mantella.esp",
-            "ParameterTwoNumber": 722943304,
+            "ParameterTwoRecord": "0AFD58:Mantella.esp",
+            "ParameterTwoNumber": -1442120360,
             "ParameterTwoString": "::HTTPTimeOutHolotapeValue_var"
           }
         }

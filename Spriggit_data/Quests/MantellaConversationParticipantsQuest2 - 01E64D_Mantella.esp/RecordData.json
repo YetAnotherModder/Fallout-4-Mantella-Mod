@@ -1,13 +1,13 @@
 {
   "FormKey": "01E64D:Mantella.esp",
-  "VersionControl": 12837,
+  "VersionControl": 12851,
   "EditorID": "MantellaConversationParticipantsQuest2",
   "Data": {
     "Flags": [
       "RepeatsConditions"
     ],
     "Priority": 95,
-    "Unused": 138
+    "Unused": 136
   },
   "UnusedConditions": [],
   "Aliases": [
@@ -41,6 +41,7 @@
         "054076:Mantella.esp",
         "054077:Mantella.esp",
         "04FC0A:Mantella.esp",
+        "05B278:Mantella.esp",
         "054811:Mantella.esp",
         "015DA7:Mantella.esp",
         "011955:Mantella.esp"
@@ -49,7 +50,7 @@
     },
     {
       "MutagenObjectType": "QuestReferenceAlias",
-      "ID": 26,
+      "ID": 34,
       "Name": "MantellaParticipant02",
       "Flags": [
         "Optional",
@@ -77,6 +78,7 @@
         "054076:Mantella.esp",
         "054077:Mantella.esp",
         "04FC0A:Mantella.esp",
+        "05B278:Mantella.esp",
         "054811:Mantella.esp",
         "015DA7:Mantella.esp",
         "011955:Mantella.esp"
@@ -85,7 +87,7 @@
     },
     {
       "MutagenObjectType": "QuestReferenceAlias",
-      "ID": 27,
+      "ID": 35,
       "Name": "MantellaParticipant03",
       "Flags": [
         "Optional",
@@ -113,6 +115,7 @@
         "054076:Mantella.esp",
         "054077:Mantella.esp",
         "04FC0A:Mantella.esp",
+        "05B278:Mantella.esp",
         "054811:Mantella.esp",
         "015DA7:Mantella.esp",
         "011955:Mantella.esp"
@@ -121,7 +124,7 @@
     },
     {
       "MutagenObjectType": "QuestReferenceAlias",
-      "ID": 28,
+      "ID": 36,
       "Name": "MantellaParticipant04",
       "Flags": [
         "Optional",
@@ -149,6 +152,7 @@
         "054076:Mantella.esp",
         "054077:Mantella.esp",
         "04FC0A:Mantella.esp",
+        "05B278:Mantella.esp",
         "054811:Mantella.esp",
         "015DA7:Mantella.esp",
         "011955:Mantella.esp"
@@ -157,7 +161,7 @@
     },
     {
       "MutagenObjectType": "QuestReferenceAlias",
-      "ID": 29,
+      "ID": 37,
       "Name": "MantellaParticipant05",
       "Flags": [
         "Optional",
@@ -185,6 +189,7 @@
         "054076:Mantella.esp",
         "054077:Mantella.esp",
         "04FC0A:Mantella.esp",
+        "05B278:Mantella.esp",
         "054811:Mantella.esp",
         "015DA7:Mantella.esp",
         "011955:Mantella.esp"
@@ -377,6 +382,19 @@
       "Conditions": [
         {
           "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "0AFD08:Mantella.esp",
+            "ParameterTwoNumber": -1442120440,
+            "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
           "CompareOperator": "LessThan",
           "ComparisonValue": 1500.0,
           "Data": {
@@ -541,6 +559,19 @@
       "Conditions": [
         {
           "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "0AFCE0:Mantella.esp",
+            "ParameterTwoNumber": -1442120480,
+            "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
           "CompareOperator": "LessThan",
           "ComparisonValue": 1500.0,
           "Data": {
@@ -583,6 +614,19 @@
         "MatchingRefClosest"
       ],
       "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "0AFCD8:Mantella.esp",
+            "ParameterTwoNumber": -1442120488,
+            "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
+          }
+        },
         {
           "MutagenObjectType": "ConditionFloat",
           "CompareOperator": "LessThan",
@@ -671,6 +715,19 @@
       "Conditions": [
         {
           "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "0AFCD0:Mantella.esp",
+            "ParameterTwoNumber": -1442120496,
+            "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
           "CompareOperator": "LessThan",
           "ComparisonValue": 1500.0,
           "Data": {
@@ -729,6 +786,19 @@
         "MatchingRefClosest"
       ],
       "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetVMQuestVariable",
+            "ParameterOneRecord": "000F99:Mantella.esp",
+            "ParameterOneNumber": 16781209,
+            "ParameterTwoRecord": "0AFCC8:Mantella.esp",
+            "ParameterTwoNumber": -1442120504,
+            "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
+          }
+        },
         {
           "MutagenObjectType": "ConditionFloat",
           "CompareOperator": "LessThan",

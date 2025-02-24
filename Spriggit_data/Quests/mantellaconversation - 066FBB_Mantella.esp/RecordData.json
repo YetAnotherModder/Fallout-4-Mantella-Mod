@@ -1,6 +1,6 @@
 {
   "FormKey": "066FBB:Mantella.esp",
-  "VersionControl": 12837,
+  "VersionControl": 12873,
   "EditorID": "MantellaConversation",
   "VirtualMachineAdapter": {
     "Scripts": [
@@ -9,14 +9,48 @@
         "Properties": [
           {
             "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaConversationParticipantsFaction",
+            "Object": "004C58:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
             "Name": "mConsts",
             "Object": "066FBB:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaNPCCollection",
-            "Object": "04A86F:Mantella.esp",
-            "Alias": 0
+            "Name": "MantellaIsTalkingSpell",
+            "Object": "04B00A:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "StimpackItem",
+            "Object": "023736:Fallout4.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaDialogueLine",
+            "Object": "001ED1:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "Participants",
+            "Object": "004C57:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaFunctionSourceFaction",
+            "Object": "056E10:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaFunctionModeFaction",
+            "Object": "05B279:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaConversationParticipantsQuest",
+            "Object": "01E64D:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -30,8 +64,14 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaDialogueLine",
-            "Object": "001ED1:Mantella.esp"
+            "Name": "MantellaNPCCollection",
+            "Object": "04A86F:Mantella.esp",
+            "Alias": 0
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "RadawayItem",
+            "Object": "023742:Fallout4.esm"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -40,8 +80,8 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "Participants",
-            "Object": "004C57:Mantella.esp"
+            "Name": "MantellaSpell",
+            "Object": "0090C7:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -50,33 +90,8 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaSpell",
-            "Object": "0090C7:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaConversationParticipantsFaction",
-            "Object": "004C58:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaIsTalkingSpell",
-            "Object": "04B00A:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaConversationParticipantsQuest",
-            "Object": "01E64D:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "StimpackItem",
-            "Object": "023736:Fallout4.esm"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaFunctionSourceFaction",
-            "Object": "056E10:Mantella.esp"
+            "Name": "MantellaIsUsingItem",
+            "Object": "0529A2:Mantella.esp"
           }
         ]
       },
@@ -93,7 +108,7 @@
     }
   },
   "Data": {
-    "Unused": 138
+    "Unused": 136
   },
   "UnusedConditions": [],
   "Aliases": []

@@ -1,6 +1,6 @@
 {
   "FormKey": "0529A3:Mantella.esp",
-  "VersionControl": 12642,
+  "VersionControl": 12860,
   "EditorID": "MantellaNPCIsUsingItemEffect",
   "VirtualMachineAdapter": {
     "Scripts": [
@@ -9,13 +9,13 @@
         "Properties": [
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "HealingIdle",
-            "Object": "164331:Fallout4.esm"
+            "Name": "MantellaStimpakSpell",
+            "Object": "0529A5:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaStimpakSpell",
-            "Object": "0529A5:Mantella.esp"
+            "Name": "MantellaFunctionSourceFaction",
+            "Object": "056E10:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -24,13 +24,43 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "repository",
-            "Object": "000F99:Mantella.esp"
+            "Name": "StimpakSound",
+            "Object": "02BAF2:Fallout4.esm"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "StimpakSound",
-            "Object": "02BAF2:Fallout4.esm"
+            "Name": "MantellaFunctionModeFaction",
+            "Object": "05B279:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "StimpakItem",
+            "Object": "023736:Fallout4.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaRadAwaySpell",
+            "Object": "05D0DE:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "HealingIdle",
+            "Object": "164331:Fallout4.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "RadawaySound",
+            "Object": "02BAF4:Fallout4.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "RadawayItem",
+            "Object": "023742:Fallout4.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "repository",
+            "Object": "000F99:Mantella.esp"
           }
         ]
       }
@@ -42,7 +72,8 @@
   },
   "Flags": [
     "NoHitEvent",
-    "Painless"
+    "Painless",
+    "NoDeathDispel"
   ],
   "Archetype": {
     "MutagenObjectType": "MagicEffectArchetype",

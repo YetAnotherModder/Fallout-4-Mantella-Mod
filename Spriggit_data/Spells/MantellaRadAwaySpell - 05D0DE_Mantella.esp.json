@@ -1,0 +1,43 @@
+{
+  "FormKey": "05D0DE:Mantella.esp",
+  "VersionControl": 12860,
+  "EditorID": "MantellaRadAwaySpell",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "MantellaRadAwaySpell"
+  },
+  "EquipmentType": "013F44:Fallout4.esm",
+  "Description": {
+    "TargetLanguage": "English",
+    "Value": ""
+  },
+  "CastType": "FireAndForget",
+  "Effects": [
+    {
+      "BaseEffect": "023738:Fallout4.esm",
+      "Data": {
+        "Magnitude": 60.0,
+        "Duration": 5
+      }
+    },
+    {
+      "BaseEffect": "249F2F:Fallout4.esm",
+      "Data": {
+        "Magnitude": 60.0,
+        "Duration": 50
+      },
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetGlobalValue",
+            "ParameterOneRecord": "00088A:Fallout4.esm",
+            "ParameterOneNumber": 2186
+          }
+        }
+      ]
+    }
+  ]
+}

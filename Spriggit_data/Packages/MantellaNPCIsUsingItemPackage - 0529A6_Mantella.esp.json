@@ -1,21 +1,18 @@
 {
   "FormKey": "0529A6:Mantella.esp",
-  "VersionControl": 12642,
+  "VersionControl": 12873,
   "EditorID": "MantellaNPCIsUsingItemPackage",
+  "Flags": [
+    "AllowSwimming"
+  ],
   "Type": "Package",
   "PreferredSpeed": "Run",
   "InteruptFlags": [
-    "HellosToPlayer",
-    "RandomConversations",
     "ObserveCombatBehavior",
     "GreetCorpseBehavior",
     "ReactionToPlayerActions",
-    "FriendlyFireComments",
     "AggroRadiusBehavior",
-    "AllowIdleChatter",
-    "0x100",
     "WorldInteractions",
-    "OffForImportantScene",
     "0x800",
     "0x1000",
     "0x2000",
@@ -29,18 +26,26 @@
   "Conditions": [
     {
       "MutagenObjectType": "ConditionFloat",
+      "ComparisonValue": 1.0,
+      "Data": {
+        "MutagenObjectType": "FunctionConditionData",
+        "Function": "GetInFaction",
+        "ParameterOneRecord": "056E10:Mantella.esp",
+        "ParameterOneNumber": 17133072
+      }
+    },
+    {
+      "MutagenObjectType": "ConditionFloat",
       "ComparisonValue": 4.0,
       "Data": {
         "MutagenObjectType": "FunctionConditionData",
-        "Function": "GetVMQuestVariable",
-        "ParameterOneRecord": "000F99:Mantella.esp",
-        "ParameterOneNumber": 16781209,
-        "ParameterTwoRecord": "173C70:Mantella.esp",
-        "ParameterTwoNumber": 722943088,
-        "ParameterTwoString": "::NPCAIPackageSelector_var"
+        "Function": "GetFactionRank",
+        "ParameterOneRecord": "056E10:Mantella.esp",
+        "ParameterOneNumber": 17133072
       }
     }
   ],
+  "OwnerQuest": "01E64D:Mantella.esp",
   "DataInputVersion": 2,
   "Data": [
     {
@@ -274,6 +279,81 @@
       }
     },
     {
+      "Key": 58,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget01",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 15
+        }
+      }
+    },
+    {
+      "Key": 59,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget02",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 30
+        }
+      }
+    },
+    {
+      "Key": 60,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget03",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 31
+        }
+      }
+    },
+    {
+      "Key": 61,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget04",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 32
+        }
+      }
+    },
+    {
+      "Key": 62,
+      "Value": {
+        "MutagenObjectType": "PackageDataTarget",
+        "Name": "FuncTarget05",
+        "Flags": [
+          "Public"
+        ],
+        "Type": "SingleRef",
+        "Target": {
+          "MutagenObjectType": "PackageTargetAlias",
+          "Alias": 33
+        }
+      }
+    },
+    {
       "Key": 3,
       "Value": {
         "MutagenObjectType": "APackageData",
@@ -420,12 +500,643 @@
           "Public"
         ]
       }
+    },
+    {
+      "Key": 57,
+      "Value": {
+        "MutagenObjectType": "APackageData",
+        "Name": "FunctTarget01",
+        "Flags": [
+          "Public"
+        ]
+      }
     }
   ],
-  "XnamMarker": "0x37",
+  "XnamMarker": "0x3F",
   "ProcedureTree": [
     {
       "BranchType": "Sequence",
+      "Root": {
+        "BranchCount": 6
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 58,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 3
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Travel",
+      "Flags": [],
+      "DataInputIndices": [
+        58,
+        54,
+        52,
+        54,
+        54,
+        255,
+        255,
+        255
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "ClearInterruptFlags": [
+          "HellosToPlayer",
+          "RandomConversations"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "UseMagic",
+      "Flags": [
+        "SuccessCompletesPackage"
+      ],
+      "DataInputIndices": [
+        58,
+        1,
+        58,
+        8,
+        22,
+        24,
+        26,
+        28,
+        31,
+        34,
+        36
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        50,
+        41
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        58,
+        47,
+        48,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 59,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 1.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 3
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Travel",
+      "Flags": [],
+      "DataInputIndices": [
+        59,
+        54,
+        52,
+        54,
+        54,
+        255,
+        255,
+        255
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "UseMagic",
+      "Flags": [
+        "SuccessCompletesPackage"
+      ],
+      "DataInputIndices": [
+        59,
+        1,
+        59,
+        8,
+        22,
+        24,
+        26,
+        28,
+        31,
+        34,
+        36
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        50,
+        41
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        59,
+        47,
+        48,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 60,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 2.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 3
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Travel",
+      "Flags": [],
+      "DataInputIndices": [
+        60,
+        54,
+        52,
+        54,
+        54,
+        255,
+        255,
+        255
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "UseMagic",
+      "Flags": [
+        "SuccessCompletesPackage"
+      ],
+      "DataInputIndices": [
+        60,
+        1,
+        60,
+        8,
+        22,
+        24,
+        26,
+        28,
+        31,
+        34,
+        36
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        50,
+        41
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        60,
+        47,
+        48,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 61,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 3.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 3
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Travel",
+      "Flags": [],
+      "DataInputIndices": [
+        61,
+        54,
+        52,
+        54,
+        54,
+        255,
+        255,
+        255
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "UseMagic",
+      "Flags": [
+        "SuccessCompletesPackage"
+      ],
+      "DataInputIndices": [
+        61,
+        1,
+        61,
+        8,
+        22,
+        24,
+        26,
+        28,
+        31,
+        34,
+        36
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        50,
+        41
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        61,
+        47,
+        48,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 4.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "RunOnType": "PackageData",
+            "Unknown3": 62,
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "04BF41:Mantella.esp",
+            "ParameterOneNumber": 17088321
+          }
+        },
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 4.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        }
+      ],
+      "Root": {
+        "BranchCount": 3
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Travel",
+      "Flags": [],
+      "DataInputIndices": [
+        62,
+        54,
+        52,
+        54,
+        54,
+        255,
+        255,
+        255
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Simultaneous",
+      "Root": {
+        "BranchCount": 2
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "UseMagic",
+      "Flags": [
+        "SuccessCompletesPackage"
+      ],
+      "DataInputIndices": [
+        62,
+        1,
+        62,
+        8,
+        22,
+        24,
+        26,
+        28,
+        31,
+        34,
+        36
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Wait",
+      "Flags": [],
+      "DataInputIndices": [
+        50,
+        41
+      ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
+      "Unknown": []
+    },
+    {
+      "BranchType": "Procedure",
+      "ProcedureType": "Follow",
+      "Flags": [],
+      "DataInputIndices": [
+        62,
+        47,
+        48,
+        255,
+        255,
+        255
+      ],
+      "Unknown": []
+    },
+    {
+      "BranchType": "Sequence",
+      "Conditions": [
+        {
+          "MutagenObjectType": "ConditionFloat",
+          "ComparisonValue": 5.0,
+          "Data": {
+            "MutagenObjectType": "FunctionConditionData",
+            "Function": "GetFactionRank",
+            "ParameterOneRecord": "059410:Mantella.esp",
+            "ParameterOneNumber": 17142800
+          }
+        }
+      ],
       "Root": {
         "BranchCount": 3
       },
@@ -445,6 +1156,13 @@
         255,
         255
       ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
       "Unknown": []
     },
     {
@@ -461,9 +1179,9 @@
         "SuccessCompletesPackage"
       ],
       "DataInputIndices": [
-        0,
+        45,
         1,
-        2,
+        45,
         8,
         22,
         24,
@@ -473,6 +1191,13 @@
         34,
         36
       ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
       "Unknown": []
     },
     {
@@ -483,6 +1208,13 @@
         50,
         41
       ],
+      "FlagsOverride": {
+        "SetFlags": [
+          "PreferredSpeed"
+        ],
+        "PreferredSpeed": "Run",
+        "Unknown": "0x020000"
+      },
       "Unknown": []
     },
     {

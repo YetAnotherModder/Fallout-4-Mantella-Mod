@@ -11,6 +11,7 @@ Message property MantellaStartConversationMessage auto
 Message property MantellaActorIsInConvoMessage auto
 Keyword Property AmmoKeyword Auto Const
 Spell Property MantellaIsUsingItem auto ;Used to track if a NPC is using attempting to use spell that is used a signal to signal that the NPC is using an item
+Faction Property MantellaFunctionSourceFaction Auto
 
 ;##############################################################
 ;#            Magic Effect Start and finish Event managers    #
@@ -187,13 +188,14 @@ endEvent
 
 
 Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
-    if akBaseObject == MantellaIsUsingItem && repository.NPCAIPackageSelector==4
+    if akBaseObject == MantellaIsUsingItem && (self.GetTargetActor().GetFactionRank(MantellaFunctionSourceFaction)==4)
         ;If MantellaIsUsingItem  gets equipped by an NPC (will happen through the AI package) then the NPC gets shifted to waiting mode and activates the spell (the spell has to be activated through script because it will only get stuck in 'preparing to cast' mode forever if called through the AI package.
         ;Once it's done the spell gets added and removed. It can't be removed directly because the game will consider it a 'temp' value since the NPC never truly gained the spell ingame.
         repository.NPCAIPackageSelector=0
         conversation.CauseReassignmentOfParticipantAlias()
         self.GetTargetActor().AddSpell(MantellaIsUsingItem)
-        MantellaIsUsingItem.cast(self.GetTargetActor())
+        actor functionTargetActor = conversation.getFunctionTargetForActor(self.GetTargetActor())
+        MantellaIsUsingItem.cast(self.GetTargetActor(), functionTargetActor)
         self.GetTargetActor().UnequipItem(MantellaIsUsingItem, false, false)
         self.GetTargetActor().RemoveSpell(MantellaIsUsingItem)
         self.GetTargetActor().RemoveItem(MantellaIsUsingItem,-1)

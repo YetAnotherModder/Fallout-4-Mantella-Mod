@@ -16,8 +16,10 @@ Faction Property MantellaFunctionWhoIsSourceTargeting Auto
 FormList Property Participants auto
 Quest Property MantellaConversationParticipantsQuest auto
 SPELL Property MantellaIsTalkingSpell Auto
+Spell Property MantellaIsUsingItem auto ;Used to track if a NPC is using attempting to use spell that is used a signal to signal that the NPC is using an item
 bool Property UseSimpleTextField = true auto
 Potion Property StimpackItem auto
+Potion Property RadawayItem auto
 Quest Property MantellaNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaNPCCollection  Auto
 
@@ -202,16 +204,17 @@ function ContinueConversation(int handle)
                 Debug.MessageBox("Say 'goodbye' as a response to end the conversation")
                 repository.isFirstConvo = false
             EndIf
-            Debug.Notification("Listening...")
+            Debug.Notification("Listening...")      
             if repository.allowVision
                 repository.GenerateMantellaVision()
             endif
             if repository.allowFunctionCalling
                 repository.resetFunctionInferenceNPCArrays()
                 repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
-            endif
+            endif   
             sendRequestForVoiceTranscribe()
             repository.ResetEventSpamBlockers()  ;reset spam blockers to allow the Listener Script to pick up on those again
+            
         Else
             If repository.isFirstConvo
                 Debug.MessageBox("Use the 'H' key to enter your response")
@@ -223,10 +226,18 @@ function ContinueConversation(int handle)
             _does_accept_player_input = True
         EndIf
 
-    elseIf (nextAction == mConsts.KEY_REQUESTTYPE_TTS) ; This is defunct and not used by Mantella anymore since Dec 1rst 2024
+    elseIf (nextAction == mConsts.KEY_REQUESTTYPE_TTS) 
         string transcribe = F4SE_HTTP.getString(handle, mConsts.KEY_TRANSCRIBE, "*Complete gibberish*")
         sendRequestForPlayerInput(transcribe)
         Debug.Notification("Thinking...")
+        if repository.allowVision
+            repository.GenerateMantellaVision()
+        endif
+        if repository.allowFunctionCalling
+            repository.resetFunctionInferenceNPCArrays()
+            repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
+        endif
+        repository.ResetEventSpamBlockers()  ;reset spam blockers to allow the Listener Script to pick up on those again
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_ENDCONVERSATION)
         CleanupConversation()
     endIf
@@ -345,7 +356,6 @@ Function CleanupConversation()
     RemoveAllParticipantsFromFaction(MantellaFunctionSourceFaction)
     RemoveAllParticipantsFromFaction(MantellaFunctionModeFaction)
     RemoveAllParticipantsFromFaction(MantellaFunctionWhoIsSourceTargeting)
-    MantellaFunctionWhoIsSourceTargeting
     ClearAllFunctionTargets()
     Actor[] ActorsInCell = repository.ScanAndReturnNearbyActors(MantellaNPCCollectionQuest, MantellaNPCCollection, false)
     repository.RemoveFactionFromActors(ActorsInCell,MantellaFunctionTargetFaction)
@@ -917,10 +927,75 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
         EndWhile
         CauseReassignmentOfParticipantAlias()
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_HEAL_PLAYER)
-        repository.NPCAIPackageSelector=4
-        repository.NPCAIItemToUseSelector=1
+        speaker.SetFactionRank(MantellaFunctionSourceFaction, 4)
+        speaker.SetFactionRank(MantellaFunctionModeFaction, 1)
         debug.notification(speaker.GetDisplayName()+" will heal the player")
         CauseReassignmentOfParticipantAlias()
+    ElseIf (actionIdentifier == mConsts.ACTION_NPC_USE_ITEM)
+        string[] targetIDs= RetrieveTargetIDFunctionInferenceValues(handle)
+        debug.notification("Target IDs array fetched "+targetIDs)
+        actor targetNPC = repository.getActorFromArray(targetIDs[0],repository.MantellaFunctionInferenceActorList)
+        
+        
+        string[] item_type_to_use = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_MODES)
+        int factionModeRankToUse = 0
+        if (item_type_to_use[0] == "stimpak") || (item_type_to_use[0] == "stimpak")
+            factionModeRankToUse = 1
+        Elseif item_type_to_use[0] == "radaway"
+            factionModeRankToUse = 2
+        Else
+            debug.notification("No appropriate item detected, aborting 'multi use item' function.")
+        endif
+        if targetNPC && factionModeRankToUse!=0
+            actor[] speakerArrayOfOne = new actor[1]
+            speakerArrayOfOne[0]=speaker
+            speaker.UnequipItem(MantellaIsUsingItem, false, false)
+            speaker.RemoveSpell(MantellaIsUsingItem)
+            speaker.RemoveItem(MantellaIsUsingItem,-1)
+            CurrentFunctionTargetNPC=targetNPC
+            UpdateCurrentFunctionTarget(speakerArrayOfOne,CurrentFunctionTargetNPC)
+            speaker.SetFactionRank(MantellaFunctionSourceFaction, 4)
+            speaker.SetFactionRank(MantellaFunctionModeFaction, factionModeRankToUse)
+            debug.notification(speaker.GetDisplayName()+" is attempting to use "+item_type_to_use[0]+" on "+CurrentFunctionTargetNPC.GetDisplayName())
+            CauseReassignmentOfParticipantAlias()
+        endif
+    ElseIf (actionIdentifier == mConsts.ACTION_MULTI_NPC_USE_ITEM)
+        string[] targetIDs= RetrieveTargetIDFunctionInferenceValues(handle)
+        debug.notification("Target IDs array fetched "+targetIDs)
+        actor targetNPC = repository.getActorFromArray(targetIDs[0],repository.MantellaFunctionInferenceActorList)
+        
+        
+        string[] item_type_to_use = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_MODES)
+        int factionModeRankToUse = 0
+        if (item_type_to_use[0] == "stimpak") || (item_type_to_use[0] == "stimpak")
+            factionModeRankToUse = 1
+        Elseif item_type_to_use[0] == "radaway"
+            factionModeRankToUse = 2
+        Else
+            debug.notification("No appropriate item detected, aborting 'multi use item' function.")
+        endif
+        if targetNPC && factionModeRankToUse!=0
+            actor[] ActorsUsingItems = BuildActorArrayFromFormlist(Participants)
+            string[] sourceIDs = F4SE_HTTP.getStringArray(handle, mConsts.FUNCTION_DATA_SOURCE_IDS)
+            ActorsUsingItems = FilterActorArrayFromIDs(sourceIDs, ActorsUsingItems)
+
+            CurrentFunctionTargetNPC=targetNPC
+            int i=0
+            Actor currentActor
+            UpdateCurrentFunctionTarget(ActorsUsingItems,CurrentFunctionTargetNPC)
+            While i < ActorsUsingItems.Length
+                currentActor.UnequipItem(MantellaIsUsingItem, false, false)
+                currentActor.RemoveSpell(MantellaIsUsingItem)
+                currentActor.RemoveItem(MantellaIsUsingItem,-1)
+                currentActor = ActorsUsingItems[i]
+                currentActor.SetFactionRank(MantellaFunctionSourceFaction, 4)
+                currentActor.SetFactionRank(MantellaFunctionModeFaction, factionModeRankToUse)
+                debug.notification(currentActor.GetDisplayName()+" is attempting to use "+item_type_to_use[0]+" on "+CurrentFunctionTargetNPC.GetDisplayName())
+                i+=1
+            EndWhile
+            CauseReassignmentOfParticipantAlias()
+            
+        endif
     endIf
 endFunction
 
@@ -1301,10 +1376,20 @@ int Function BuildCustomContextValues()
     endif
     if repository.allowFunctionCalling
         F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_ENABLED, repository.allowFunctionCalling)
-        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPACKCOUNT, GetItemCountOfFirstNPC(StimpackItem))
-        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_ACTORS_ALL_FOLLOWERS, AreAllParticipantsFollowersCheck())
-        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_ACTORS_ALL_SETTLERS, AreAllParticipantsSettlersCheck())
-        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_ACTOR_CUSTOMVALUES_ACTORS_ALL_GENERICNPCS, AreAllParticipantsGenericNPCsCheck())
+        ;F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPACKCOUNT, GetItemCountOfFirstNPC(StimpackItem))
+        actor[] ActorsWithStimpaks = GetArrayofParticipantCarryingItem(StimpackItem)
+        string StringOfActorsWithStimpaks = repository.ActorsArrayToString(ActorsWithStimpaks)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_STIMPAK_ACTOR_LIST, StringOfActorsWithStimpaks)
+        actor[] ActorsWithRadaway = GetArrayofParticipantCarryingItem(RadAwayItem)
+        string StringOfActorsWithRadaway = repository.ActorsArrayToString(ActorsWithRadaway)
+        F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_RADAWAY_ACTOR_LIST, StringOfActorsWithRadaway)
+        ;F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_ACTORS_ALL_FOLLOWERS, AreAllParticipantsFollowersCheck())
+        ;F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_ACTORS_ALL_SETTLERS, AreAllParticipantsSettlersCheck())
+        ;F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_ACTORS_ALL_GENERICNPCS, AreAllParticipantsGenericNPCsCheck())
+        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_ACTORS_AT_LEAST_ONE_FOLLOWER, IsAtLeastOneParticipantFollowerCheck())
+        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_ACTORS_AT_LEAST_ONE_SETTLER, IsAtLeastOneParticipantSettlerCheck())
+        F4SE_HTTP.setBool(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_ACTORS_AT_LEAST_ONE_GENERIC, IsAtLeastOneParticipantGenericCheck())
+
         if repository.MantellaFunctionInferenceActorNamesList
             F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISPLAYNAMES, repository.MantellaFunctionInferenceActorNamesList)
             F4SE_HTTP.setString(handleCustomContextValues, mConsts.KEY_CONTEXT_CUSTOMVALUES_FUNCTIONS_NPCDISTANCES, repository.MantellaFunctionInferenceActorDistanceList)
@@ -1327,7 +1412,7 @@ endFunction
 
 ;Function Calling Functions
 
-actor function UpdateCurrentFunctionTarget(actor[] SourceWhoAreTargeting, actor ActorToInsert)
+function UpdateCurrentFunctionTarget(actor[] SourceWhoAreTargeting, actor ActorToInsert)
     
     ;Clearing the currentFunctionTarget from all factions before putting in a new ref
     CurrentFunctionTargetArray[CurrentFunctionTargetPointer] 
@@ -1337,7 +1422,11 @@ actor function UpdateCurrentFunctionTarget(actor[] SourceWhoAreTargeting, actor 
     int i = 0
     ;Set all sources to the same faction rank so that they're all targeting the same target
     While i < SourceWhoAreTargeting.Length
-        SourceWhoAreTargeting[i].SetFactionRank(MantellaFunctionWhoIsSourceTargeting,CurrentFunctionTargetPointer)
+        if ActorToInsert==playerRef ;if the source is the player we directly use AI package MantellaFunctionWhoIsSourceTargeting # 5 to prevent faction attribution issues
+            SourceWhoAreTargeting[i].SetFactionRank(MantellaFunctionWhoIsSourceTargeting,5)
+        else
+            SourceWhoAreTargeting[i].SetFactionRank(MantellaFunctionWhoIsSourceTargeting,CurrentFunctionTargetPointer)
+        endif
         i = i + 1
     EndWhile
     ;Set the new target
@@ -1349,6 +1438,16 @@ actor function UpdateCurrentFunctionTarget(actor[] SourceWhoAreTargeting, actor 
         CurrentFunctionTargetPointer= CurrentFunctionTargetPointer+1 ;incrmeent thepointer
     else
         CurrentFunctionTargetPointer= 0
+    endif
+endfunction
+
+actor function getFunctionTargetForActor (actor targetingActor)
+    int FactionRank= targetingActor.GetFactionRank(MantellaFunctionWhoIsSourceTargeting)
+    if CurrentFunctionTargetArray[FactionRank]
+        actor actorToReturn = CurrentFunctionTargetArray[FactionRank]
+        return actorToReturn
+    else
+        return None
     endif
 endfunction
 
@@ -1374,6 +1473,22 @@ int function GetItemCountOfFirstNPC(Form akItem)
         i += 1
     EndWhile
     return 0   
+endFunction
+
+Actor[] function GetArrayofParticipantCarryingItem(Form akItem)
+	int i = 0
+    Actor[] actorList = new Actor[0]
+    ;Will only return the stimpack count of the first non-player character in conversation
+    While i < Participants.GetSize()
+        if (Participants.GetAt(i) != playerRef)
+            Actor currentactor = Participants.GetAt(i) as Actor
+            if currentactor.GetItemCount (akItem)>0
+                actorList.add(currentactor)
+            endif
+        endif
+        i += 1
+    EndWhile
+    return actorList 
 endFunction
 
 bool function AreAllParticipantsFollowersCheck()
@@ -1420,8 +1535,56 @@ bool function AreAllParticipantsGenericNPCsCheck()
         endif
         i += 1
     EndWhile
-    debug.notification("All participants are generic NPCs")
+    ;debug.notification("All participants are generic NPCs")
     return true
+endFunction
+
+bool function IsAtLeastOneParticipantFollowerCheck()
+	int i = 0
+    ;Will only return the stimpack count of the first non-player character in conversation
+    While i < Participants.GetSize()
+        if (Participants.GetAt(i) as Actor != playerRef)
+            Actor currentactor = Participants.GetAt(i) as Actor
+            if currentactor.IsinFaction(CompanionFaction) || (currentactor.GetFactionRank(CompanionFaction))>0
+                ;debug.notification("At least one participant is a follower " + currentactor.GetDisplayName())
+                return true
+            endif
+        endif
+        i += 1
+    EndWhile
+    return false
+endFunction
+
+bool function IsAtLeastOneParticipantSettlerCheck()
+	int i = 0
+    ;Will only return the stimpack count of the first non-player character in conversation
+    While i < Participants.GetSize()
+        if (Participants.GetAt(i) as Actor != playerRef)
+            Actor currentactor = Participants.GetAt(i) as Actor
+            if currentactor.IsinFaction(SettlerFaction) && currentactor.IsinFaction(PlayerFaction)
+                ;debug.notification("At least one participant is a settler")
+                return true
+            endif
+        endif
+        i += 1
+    EndWhile
+    return false
+endFunction
+
+bool function IsAtLeastOneParticipantGenericCheck()
+	int i = 0
+    ;Will only return the stimpack count of the first non-player character in conversation
+    While i < Participants.GetSize()
+        if (Participants.GetAt(i)as Actor != playerRef)
+            Actor currentactor = Participants.GetAt(i) as Actor
+            if !currentactor.IsinFaction(PlayerFaction) && !currentactor.IsinFaction(CompanionFaction) 
+                ;debug.notification("At least one paticipant is a generic NPC")
+                return true
+            endif
+        endif
+        i += 1
+    EndWhile
+    return false
 endFunction
 
 bool function CheckIfAtLeastOneParticipantHasSpecificFactionRank(Faction aFaction, int aRank)

@@ -14,13 +14,13 @@
         "Properties": [
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaQuest",
-            "Object": "000F99:Mantella.esp"
+            "Name": "MantellaRadiantDistance",
+            "Object": "015DC0:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaRadiantDistance",
-            "Object": "015DC0:Mantella.esp"
+            "Name": "MantellaQuest",
+            "Object": "000F99:Mantella.esp"
           }
         ]
       },

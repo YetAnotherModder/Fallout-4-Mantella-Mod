@@ -1,6 +1,6 @@
 {
   "FormKey": "001735:Mantella.esp",
-  "VersionControl": 12642,
+  "VersionControl": 12863,
   "EditorID": "MantellaMagicEffect",
   "VirtualMachineAdapter": {
     "Scripts": [
@@ -14,33 +14,18 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "PlayerRef",
+            "Object": "000014:Fallout4.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
             "Name": "conversation",
             "Object": "066FBB:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaWaitTimeBuffer",
-            "Object": "01E665:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "repository",
-            "Object": "000F99:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaDialogueLine",
-            "Object": "001ED1:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaStartConversationMessage",
-            "Object": "05A2C9:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "PlayerRef",
-            "Object": "000014:Fallout4.esm"
+            "Name": "MantellaFunctionSourceFaction",
+            "Object": "056E10:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -49,8 +34,28 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "repository",
+            "Object": "000F99:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
             "Name": "MantellaActorIsInConvoMessage",
             "Object": "00D4FE:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaStartConversationMessage",
+            "Object": "05A2C9:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaWaitTimeBuffer",
+            "Object": "01E665:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaDialogueLine",
+            "Object": "001ED1:Mantella.esp"
           }
         ]
       }

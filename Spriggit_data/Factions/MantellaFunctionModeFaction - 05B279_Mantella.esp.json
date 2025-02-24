@@ -1,7 +1,7 @@
 {
-  "FormKey": "059410:Mantella.esp",
-  "VersionControl": 12873,
-  "EditorID": "MantellaFunctionWhoIsSourceTargeting",
+  "FormKey": "05B279:Mantella.esp",
+  "VersionControl": 12851,
+  "EditorID": "MantellaFunctionModeFaction",
   "CrimeValues": {
     "Arrest": true,
     "AttackOnSight": true
@@ -12,7 +12,7 @@
       "Title": {
         "Male": {
           "TargetLanguage": "English",
-          "Value": "MantellaFunctionTarget01"
+          "Value": "Loot Any"
         },
         "Female": {}
       }
@@ -22,7 +22,7 @@
       "Title": {
         "Male": {
           "TargetLanguage": "English",
-          "Value": "MantellaFunctionTarget01"
+          "Value": "Loot Weapon"
         },
         "Female": {}
       }
@@ -32,7 +32,7 @@
       "Title": {
         "Male": {
           "TargetLanguage": "English",
-          "Value": "MantellaFunctionTarget02"
+          "Value": "Loot Armor"
         },
         "Female": {}
       }
@@ -42,7 +42,7 @@
       "Title": {
         "Male": {
           "TargetLanguage": "English",
-          "Value": "MantellaFunctionTarget03"
+          "Value": "Loot Junk"
         },
         "Female": {}
       }
@@ -52,20 +52,16 @@
       "Title": {
         "Male": {
           "TargetLanguage": "English",
-          "Value": "MantellaFunctionTarget04"
+          "Value": "Loot Consumables"
         },
         "Female": {}
       }
     },
     {
-      "Number": 5,
-      "Title": {
-        "Male": {
-          "TargetLanguage": "English",
-          "Value": "playerRef"
-        },
-        "Female": {}
-      }
+      "Number": 5
+    },
+    {
+      "Number": 6
     }
   ],
   "VendorValues": {
