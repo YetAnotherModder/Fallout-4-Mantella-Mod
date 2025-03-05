@@ -188,20 +188,22 @@ endEvent
 
 
 Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
-    if akBaseObject == MantellaIsUsingItem && (self.GetTargetActor().GetFactionRank(MantellaFunctionSourceFaction)==4)
+    Actor actorUsing =  self.GetTargetActor()
+
+    if akBaseObject == MantellaIsUsingItem && (actorUsing.GetFactionRank(MantellaFunctionSourceFaction)==4)
         ;If MantellaIsUsingItem  gets equipped by an NPC (will happen through the AI package) then the NPC gets shifted to waiting mode and activates the spell (the spell has to be activated through script because it will only get stuck in 'preparing to cast' mode forever if called through the AI package.
         ;Once it's done the spell gets added and removed. It can't be removed directly because the game will consider it a 'temp' value since the NPC never truly gained the spell ingame.
         repository.NPCAIPackageSelector=0
         conversation.CauseReassignmentOfParticipantAlias()
-        self.GetTargetActor().AddSpell(MantellaIsUsingItem)
-        actor functionTargetActor = conversation.getFunctionTargetForActor(self.GetTargetActor())
-        MantellaIsUsingItem.cast(self.GetTargetActor(), functionTargetActor)
-        self.GetTargetActor().UnequipItem(MantellaIsUsingItem, false, false)
-        self.GetTargetActor().RemoveSpell(MantellaIsUsingItem)
-        self.GetTargetActor().RemoveItem(MantellaIsUsingItem,-1)
+        actorUsing.AddSpell(MantellaIsUsingItem)
+        actor functionTargetActor = conversation.getFunctionTargetForActor(actorUsing)
+        MantellaIsUsingItem.cast(actorUsing, functionTargetActor)
+        actorUsing.UnequipItem(MantellaIsUsingItem, false, false)
+        actorUsing.RemoveSpell(MantellaIsUsingItem)
+        actorUsing.RemoveItem(MantellaIsUsingItem,-1)
     endif
-    if repository.targetTrackingOnObjectEquipped  && akBaseObject!=MantellaIsUsingItem
-        String selfName = self.GetTargetActor().getdisplayname()
+    if repository.targetTrackingOnObjectEquipped && akBaseObject!=MantellaIsUsingItem && conversation.IsActorInConversation(actorUsing)
+        String selfName = actorUsing.getdisplayname()
         string itemEquipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" equipped " + itemEquipped)
         conversation.AddIngameEvent(selfName+" equipped " + itemEquipped) 
@@ -209,8 +211,10 @@ Event OnItemEquipped(Form akBaseObject, ObjectReference akReference)
 endEvent
 
 Event OnItemUnequipped(Form akBaseObject, ObjectReference akReference)
-    if repository.targetTrackingOnObjectUnequipped && akBaseObject!=MantellaIsUsingItem
-        String selfName = self.GetTargetActor().getdisplayname()
+    Actor actorUsing =  self.GetTargetActor()
+
+    if repository.targetTrackingOnObjectUnequipped && akBaseObject!=MantellaIsUsingItem && conversation.IsActorInConversation(actorUsing)
+        String selfName = actorUsing.getdisplayname()
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" unequipped " + itemUnequipped)
         conversation.AddIngameEvent(selfName+" unequipped " + itemUnequipped) 
@@ -218,8 +222,10 @@ Event OnItemUnequipped(Form akBaseObject, ObjectReference akReference)
 endEvent
 
 Event OnSit(ObjectReference akFurniture)
-    if repository.targetTrackingOnSit
-        String selfName = self.GetTargetActor().getdisplayname()
+    Actor actorUsing =  self.GetTargetActor()
+
+    if repository.targetTrackingOnSit && conversation.IsActorInConversation(actorUsing)
+        String selfName = actorUsing.getdisplayname()
         ;Debug.MessageBox(selfName+" sat down.")
         String furnitureName = akFurniture.getbaseobject().getname()
         ; only save event if actor is sitting / resting on furniture (and not just, for example, leaning on a bar table)
@@ -230,8 +236,10 @@ Event OnSit(ObjectReference akFurniture)
 endEvent
 
 Event OnGetUp(ObjectReference akFurniture)
-    if  repository.targetTrackingOnGetUp
-        String selfName = self.GetTargetActor().getdisplayname()
+    Actor actorUsing =  self.GetTargetActor()
+
+    if  repository.targetTrackingOnGetUp && conversation.IsActorInConversation(actorUsing)
+        String selfName = actorUsing.getdisplayname()
         ;Debug.MessageBox(selfName+" stood up.")
         String furnitureName = akFurniture.getbaseobject().getname()
         ; only save event if actor is sitting / resting on furniture (and not just, for example, leaning on a bar table)
