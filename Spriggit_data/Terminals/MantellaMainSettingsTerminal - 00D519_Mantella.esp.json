@@ -236,8 +236,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFD20:Mantella.esp",
-            "ParameterTwoNumber": -1442120416,
+            "ParameterTwoRecord": "CABD28:Mantella.esp",
+            "ParameterTwoNumber": -1412776664,
             "ParameterTwoString": "::microphoneEnabled_var"
           }
         }
@@ -262,8 +262,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFD18:Mantella.esp",
-            "ParameterTwoNumber": -1442120424,
+            "ParameterTwoRecord": "CABD20:Mantella.esp",
+            "ParameterTwoNumber": -1412776672,
             "ParameterTwoString": "::microphoneEnabled_var"
           }
         }
@@ -313,8 +313,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFD10:Mantella.esp",
-            "ParameterTwoNumber": -1442120432,
+            "ParameterTwoRecord": "CABD18:Mantella.esp",
+            "ParameterTwoNumber": -1412776680,
             "ParameterTwoString": "::tutorialActivated_var"
           }
         }

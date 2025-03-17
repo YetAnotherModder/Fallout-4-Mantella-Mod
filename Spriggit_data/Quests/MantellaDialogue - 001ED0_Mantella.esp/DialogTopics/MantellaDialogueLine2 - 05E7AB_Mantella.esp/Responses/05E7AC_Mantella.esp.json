@@ -1,0 +1,24 @@
+{
+  "FormKey": "05E7AC:Mantella.esp",
+  "VersionControl": 12891,
+  "Flags": {},
+  "PreviousDialog": "Null",
+  "Responses": [
+    {
+      "Emotion": "FFFFFF:Mantella.esp",
+      "ResponseNumber": 1,
+      "CameraTargetAlias": -1,
+      "CameraLocationAlias": -1,
+      "Text": {
+        "TargetLanguage": "English",
+        "Value": "Mantella01Mantella02Mantella03Mantella04Mantella05Mantella06Mantella07Mantella08Mantella09Mantella10Mantella11Mantella12Mantella13Mantella14Mantella15"
+      },
+      "ScriptNotes": "",
+      "Edits": "",
+      "AlternateLipText": "",
+      "TextHash": "0x20BB3F4B9289DB01"
+    }
+  ],
+  "StartScenePhase": "",
+  "SubtitlePriority": "Low"
+}

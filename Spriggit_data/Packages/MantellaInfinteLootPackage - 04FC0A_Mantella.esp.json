@@ -434,8 +434,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCB8:Mantella.esp",
-            "ParameterTwoNumber": -1442120520,
+            "ParameterTwoRecord": "CABC98:Mantella.esp",
+            "ParameterTwoNumber": -1412776808,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -487,8 +487,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCB0:Mantella.esp",
-            "ParameterTwoNumber": -1442120528,
+            "ParameterTwoRecord": "CABC90:Mantella.esp",
+            "ParameterTwoNumber": -1412776816,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -522,8 +522,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCA8:Mantella.esp",
-            "ParameterTwoNumber": -1442120536,
+            "ParameterTwoRecord": "CABC88:Mantella.esp",
+            "ParameterTwoNumber": -1412776824,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -557,8 +557,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCA0:Mantella.esp",
-            "ParameterTwoNumber": -1442120544,
+            "ParameterTwoRecord": "CABC80:Mantella.esp",
+            "ParameterTwoNumber": -1412776832,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -610,8 +610,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC98:Mantella.esp",
-            "ParameterTwoNumber": -1442120552,
+            "ParameterTwoRecord": "CABC78:Mantella.esp",
+            "ParameterTwoNumber": -1412776840,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -645,8 +645,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC90:Mantella.esp",
-            "ParameterTwoNumber": -1442120560,
+            "ParameterTwoRecord": "CABC70:Mantella.esp",
+            "ParameterTwoNumber": -1412776848,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -698,8 +698,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC88:Mantella.esp",
-            "ParameterTwoNumber": -1442120568,
+            "ParameterTwoRecord": "CABC68:Mantella.esp",
+            "ParameterTwoNumber": -1412776856,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -733,8 +733,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC80:Mantella.esp",
-            "ParameterTwoNumber": -1442120576,
+            "ParameterTwoRecord": "CABC60:Mantella.esp",
+            "ParameterTwoNumber": -1412776864,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -786,8 +786,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC78:Mantella.esp",
-            "ParameterTwoNumber": -1442120584,
+            "ParameterTwoRecord": "CABC58:Mantella.esp",
+            "ParameterTwoNumber": -1412776872,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -821,8 +821,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC70:Mantella.esp",
-            "ParameterTwoNumber": -1442120592,
+            "ParameterTwoRecord": "CABC50:Mantella.esp",
+            "ParameterTwoNumber": -1412776880,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -874,8 +874,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC68:Mantella.esp",
-            "ParameterTwoNumber": -1442120600,
+            "ParameterTwoRecord": "CABC48:Mantella.esp",
+            "ParameterTwoNumber": -1412776888,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -909,8 +909,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC60:Mantella.esp",
-            "ParameterTwoNumber": -1442120608,
+            "ParameterTwoRecord": "CABC40:Mantella.esp",
+            "ParameterTwoNumber": -1412776896,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }
@@ -962,8 +962,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFC58:Mantella.esp",
-            "ParameterTwoNumber": -1442120616,
+            "ParameterTwoRecord": "CABC38:Mantella.esp",
+            "ParameterTwoNumber": -1412776904,
             "ParameterTwoString": "::NPCAIPackageSelector_var"
           }
         }

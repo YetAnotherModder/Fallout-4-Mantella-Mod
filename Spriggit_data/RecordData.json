@@ -1,11 +1,14 @@
 {
   "SpriggitSource": {
-    "PackageName": "0.36.13",
+    "PackageName": "0.36.14",
     "Version": ""
   },
   "ModKey": "Mantella.esp",
   "GameRelease": "Fallout4",
   "ModHeader": {
+    "Stats": {
+      "Version": 0.95
+    },
     "Author": "DEFAULT",
     "MasterReferences": [
       {
@@ -17,7 +20,8 @@
       {
         "FormType": 78,
         "Links": [
-          "001ED1:Mantella.esp"
+          "001ED1:Mantella.esp",
+          "05E7AB:Mantella.esp"
         ]
       }
     ],

@@ -1,0 +1,14 @@
+{
+  "FormKey": "05E7AB:Mantella.esp",
+  "VersionControl": 12891,
+  "EditorID": "MantellaDialogueLine2",
+  "Name": {
+    "TargetLanguage": "English",
+    "Value": "MantellaTopic2"
+  },
+  "Quest": "001ED0:Mantella.esp",
+  "Category": "Misc",
+  "Subtype": "DestroyObject",
+  "SubtypeName": "DEOB",
+  "Unknown": 580
+}

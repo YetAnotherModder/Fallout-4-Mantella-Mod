@@ -21,10 +21,10 @@
       },
       "Fragments": [
         {
-          "FragmentIndex": 4,
+          "FragmentIndex": 8,
           "Unknown2": 1,
           "ScriptName": "Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D",
-          "FragmentName": "Fragment_Terminal_04"
+          "FragmentName": "Fragment_Terminal_08"
         },
         {
           "FragmentIndex": 7,
@@ -63,10 +63,10 @@
           "FragmentName": "Fragment_Terminal_03"
         },
         {
-          "FragmentIndex": 8,
+          "FragmentIndex": 4,
           "Unknown2": 1,
           "ScriptName": "Fragments:Terminals:TERM_MantellaSettingsTermina_0700D51D",
-          "FragmentName": "Fragment_Terminal_08"
+          "FragmentName": "Fragment_Terminal_04"
         }
       ]
     }
@@ -196,8 +196,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFEE8:Mantella.esp",
-            "ParameterTwoNumber": -1442119960,
+            "ParameterTwoRecord": "CABD10:Mantella.esp",
+            "ParameterTwoNumber": -1412776688,
             "ParameterTwoString": "::hideVisionMenu_var"
           }
         }

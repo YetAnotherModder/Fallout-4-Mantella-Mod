@@ -7,7 +7,7 @@
       "RepeatsConditions"
     ],
     "Priority": 95,
-    "Unused": 136
+    "Unused": 122
   },
   "UnusedConditions": [],
   "Aliases": [
@@ -388,8 +388,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFD08:Mantella.esp",
-            "ParameterTwoNumber": -1442120440,
+            "ParameterTwoRecord": "CABD08:Mantella.esp",
+            "ParameterTwoNumber": -1412776696,
             "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
           }
         },
@@ -565,8 +565,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCE0:Mantella.esp",
-            "ParameterTwoNumber": -1442120480,
+            "ParameterTwoRecord": "CABCC0:Mantella.esp",
+            "ParameterTwoNumber": -1412776768,
             "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
           }
         },
@@ -622,8 +622,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCD8:Mantella.esp",
-            "ParameterTwoNumber": -1442120488,
+            "ParameterTwoRecord": "CABCB8:Mantella.esp",
+            "ParameterTwoNumber": -1412776776,
             "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
           }
         },
@@ -721,8 +721,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCD0:Mantella.esp",
-            "ParameterTwoNumber": -1442120496,
+            "ParameterTwoRecord": "CABCB0:Mantella.esp",
+            "ParameterTwoNumber": -1412776784,
             "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
           }
         },
@@ -794,8 +794,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFCC8:Mantella.esp",
-            "ParameterTwoNumber": -1442120504,
+            "ParameterTwoRecord": "CABCA8:Mantella.esp",
+            "ParameterTwoNumber": -1412776792,
             "ParameterTwoString": "::isAParticipantInteractingWithGroundItems_var"
           }
         },

@@ -9,13 +9,8 @@
         "Properties": [
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaStimpakSpell",
-            "Object": "0529A5:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaFunctionSourceFaction",
-            "Object": "056E10:Mantella.esp"
+            "Name": "StimpakItem",
+            "Object": "023736:Fallout4.esm"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -24,8 +19,13 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "StimpakSound",
-            "Object": "02BAF2:Fallout4.esm"
+            "Name": "MantellaRadAwaySpell",
+            "Object": "05D0DE:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaFunctionSourceFaction",
+            "Object": "056E10:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -34,13 +34,13 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "StimpakItem",
-            "Object": "023736:Fallout4.esm"
+            "Name": "RadawayItem",
+            "Object": "023742:Fallout4.esm"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaRadAwaySpell",
-            "Object": "05D0DE:Mantella.esp"
+            "Name": "MantellaStimpakSpell",
+            "Object": "0529A5:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -54,8 +54,8 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "RadawayItem",
-            "Object": "023742:Fallout4.esm"
+            "Name": "StimpakSound",
+            "Object": "02BAF2:Fallout4.esm"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",

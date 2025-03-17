@@ -3,5 +3,6 @@
   "FormKey": "01E665:Mantella.esp",
   "VersionControl": 12342,
   "EditorID": "MantellaWaitTimeBuffer",
-  "Data": 1.5
+  "Data": 1.5,
+  "OutputChar": true
 }

@@ -9,14 +9,13 @@
         "Properties": [
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaFunctionNPCCollection",
-            "Object": "04B7A6:Mantella.esp",
-            "Alias": 0
+            "Name": "MantellaFunctionNPCCollectionQuest",
+            "Object": "04B7A6:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaFunctionNPCCollectionQuest",
-            "Object": "04B7A6:Mantella.esp"
+            "Name": "HealthAV",
+            "Object": "0002D4:Fallout4.esm"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -25,19 +24,29 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaVisibleCollectionQuest",
+            "Object": "048A0A:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "RadsAV",
+            "Object": "0002E1:Fallout4.esm"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "MantellaFunctionNPCCollection",
+            "Object": "04B7A6:Mantella.esp",
+            "Alias": 0
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
+            "Name": "ActivatePerk",
+            "Object": "084DED:Mantella.esp"
+          },
+          {
+            "MutagenObjectType": "ScriptObjectProperty",
             "Name": "conversation",
             "Object": "066FBB:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "ConstantsScript",
-            "Object": "066FBB:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaVisibleNPCRefCollection",
-            "Object": "048A0A:Mantella.esp",
-            "Alias": 0
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
@@ -47,28 +56,19 @@
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "RadsAV",
-            "Object": "0002E1:Fallout4.esm"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
             "Name": "MantellaNPCCollectionQuest",
             "Object": "04A86F:Mantella.esp"
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "HealthAV",
-            "Object": "0002D4:Fallout4.esm"
+            "Name": "MantellaVisibleNPCRefCollection",
+            "Object": "048A0A:Mantella.esp",
+            "Alias": 0
           },
           {
             "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "ActivatePerk",
-            "Object": "084DED:Mantella.esp"
-          },
-          {
-            "MutagenObjectType": "ScriptObjectProperty",
-            "Name": "MantellaVisibleCollectionQuest",
-            "Object": "048A0A:Mantella.esp"
+            "Name": "ConstantsScript",
+            "Object": "066FBB:Mantella.esp"
           }
         ]
       }
@@ -162,10 +162,10 @@
         "FragmentName": "Fragment_Stage_0409_Item_00"
       },
       {
-        "Stage": 505,
+        "Stage": 607,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0505_Item_00"
+        "FragmentName": "Fragment_Stage_0607_Item_00"
       },
       {
         "Stage": 306,
@@ -186,10 +186,10 @@
         "FragmentName": "Fragment_Stage_0405_Item_00"
       },
       {
-        "Stage": 703,
+        "Stage": 501,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0703_Item_00"
+        "FragmentName": "Fragment_Stage_0501_Item_00"
       },
       {
         "Stage": 510,
@@ -198,16 +198,16 @@
         "FragmentName": "Fragment_Stage_0510_Item_00"
       },
       {
-        "Stage": 508,
+        "Stage": 602,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0508_Item_00"
+        "FragmentName": "Fragment_Stage_0602_Item_00"
       },
       {
-        "Stage": 503,
+        "Stage": 701,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0503_Item_00"
+        "FragmentName": "Fragment_Stage_0701_Item_00"
       },
       {
         "Stage": 407,
@@ -324,10 +324,10 @@
         "FragmentName": "Fragment_Stage_0406_Item_00"
       },
       {
-        "Stage": 901,
+        "Stage": 207,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0901_Item_00"
+        "FragmentName": "Fragment_Stage_0207_Item_00"
       },
       {
         "Stage": 301,
@@ -354,10 +354,10 @@
         "FragmentName": "Fragment_Stage_0417_Item_00"
       },
       {
-        "Stage": 903,
+        "Stage": 205,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0903_Item_00"
+        "FragmentName": "Fragment_Stage_0205_Item_00"
       },
       {
         "Stage": 419,
@@ -396,10 +396,10 @@
         "FragmentName": "Fragment_Stage_0420_Item_00"
       },
       {
-        "Stage": 606,
+        "Stage": 504,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0606_Item_00"
+        "FragmentName": "Fragment_Stage_0504_Item_00"
       },
       {
         "Stage": 704,
@@ -408,22 +408,22 @@
         "FragmentName": "Fragment_Stage_0704_Item_00"
       },
       {
-        "Stage": 605,
+        "Stage": 901,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0605_Item_00"
+        "FragmentName": "Fragment_Stage_0901_Item_00"
       },
       {
-        "Stage": 501,
+        "Stage": 703,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0501_Item_00"
+        "FragmentName": "Fragment_Stage_0703_Item_00"
       },
       {
-        "Stage": 607,
+        "Stage": 505,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0607_Item_00"
+        "FragmentName": "Fragment_Stage_0505_Item_00"
       },
       {
         "Stage": 802,
@@ -450,22 +450,22 @@
         "FragmentName": "Fragment_Stage_0429_Item_00"
       },
       {
-        "Stage": 602,
+        "Stage": 903,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0602_Item_00"
+        "FragmentName": "Fragment_Stage_0903_Item_00"
       },
       {
-        "Stage": 701,
+        "Stage": 204,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0701_Item_00"
+        "FragmentName": "Fragment_Stage_0204_Item_00"
       },
       {
-        "Stage": 208,
+        "Stage": 603,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0208_Item_00"
+        "FragmentName": "Fragment_Stage_0603_Item_00"
       },
       {
         "Stage": 305,
@@ -504,22 +504,22 @@
         "FragmentName": "Fragment_Stage_0307_Item_00"
       },
       {
-        "Stage": 603,
+        "Stage": 208,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0603_Item_00"
+        "FragmentName": "Fragment_Stage_0208_Item_00"
       },
       {
-        "Stage": 204,
+        "Stage": 503,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0204_Item_00"
+        "FragmentName": "Fragment_Stage_0503_Item_00"
       },
       {
-        "Stage": 205,
+        "Stage": 508,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0205_Item_00"
+        "FragmentName": "Fragment_Stage_0508_Item_00"
       },
       {
         "Stage": 408,
@@ -534,16 +534,16 @@
         "FragmentName": "Fragment_Stage_0403_Item_00"
       },
       {
-        "Stage": 207,
+        "Stage": 605,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0207_Item_00"
+        "FragmentName": "Fragment_Stage_0605_Item_00"
       },
       {
-        "Stage": 504,
+        "Stage": 606,
         "Unknown2": 1,
         "ScriptName": "Fragments:Quests:QF_MantellaQuest_07000F99",
-        "FragmentName": "Fragment_Stage_0504_Item_00"
+        "FragmentName": "Fragment_Stage_0606_Item_00"
       }
     ],
     "Aliases": [
@@ -559,8 +559,66 @@
             "Properties": [
               {
                 "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "MantellaSpell",
+                "Object": "0090C7:Mantella.esp"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "MantellaRadiantEnabled",
+                "Object": "00D51E:Mantella.esp"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "MantellaNPCCollection",
+                "Object": "04A86F:Mantella.esp",
+                "Alias": 0
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "MantellaNPCCollectionQuest",
+                "Object": "04A86F:Mantella.esp"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "MantellaGun",
+                "Object": "001734:Mantella.esp"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "MantellaActorList",
+                "Object": "004C76:Mantella.esp"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "PotentialActor2",
+                "Object": "004C76:Mantella.esp",
+                "Alias": 1
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "PotentialActor1",
+                "Object": "004C76:Mantella.esp",
+                "Alias": 0
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "PlayerRef",
+                "Object": "000014:Fallout4.esm"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "MantellaRadiantDistance",
+                "Object": "015DC0:Mantella.esp"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
                 "Name": "MantellaTutorialMessage",
                 "Object": "059BAB:Mantella.esp"
+              },
+              {
+                "MutagenObjectType": "ScriptObjectProperty",
+                "Name": "conversation",
+                "Object": "066FBB:Mantella.esp"
               },
               {
                 "MutagenObjectType": "ScriptObjectProperty",
@@ -579,71 +637,13 @@
               },
               {
                 "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "MantellaSpell",
-                "Object": "0090C7:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
                 "Name": "repository",
                 "Object": "000F99:Mantella.esp"
               },
               {
                 "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "MantellaNPCCollection",
-                "Object": "04A86F:Mantella.esp",
-                "Alias": 0
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "PotentialActor1",
-                "Object": "004C76:Mantella.esp",
-                "Alias": 0
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "PotentialActor2",
-                "Object": "004C76:Mantella.esp",
-                "Alias": 1
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "conversation",
-                "Object": "066FBB:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "MantellaRadiantEnabled",
-                "Object": "00D51E:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "MantellaRadiantDistance",
-                "Object": "015DC0:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "MantellaGun",
-                "Object": "001734:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "MantellaNPCCollectionQuest",
-                "Object": "04A86F:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
                 "Name": "MantellaFunctionTargetFaction",
                 "Object": "04BF41:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "MantellaActorList",
-                "Object": "004C76:Mantella.esp"
-              },
-              {
-                "MutagenObjectType": "ScriptObjectProperty",
-                "Name": "PlayerRef",
-                "Object": "000014:Fallout4.esm"
               }
             ]
           }
@@ -661,7 +661,7 @@
       "StartsEnabled",
       "RunOnce"
     ],
-    "Unused": 170
+    "Unused": 171
   },
   "UnusedConditions": [],
   "Stages": [

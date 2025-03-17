@@ -33,6 +33,9 @@ string property KEY_REPLYTYPE_NPCTALK = "mantella_npc_talk" auto
 string property KEY_REPLYTYPE_PLAYERTALK = "mantella_player_talk" auto
 string property KEY_REPLYTYPE_ENDCONVERSATION = "mantella_end_conversation" auto
 
+string property KEY_STARTCONVERSATION_USENARRATOR = "mantella_use_narrator" auto
+string property KEY_CONTINUECONVERSATION_TOPICINFOFILE = "mantella_topicinfofile" auto
+
 ;Actors
 string property KEY_ACTORS = "mantella_actors" auto
 string property KEY_ACTOR_BASEID = "mantella_actor_baseid" auto
@@ -50,6 +53,7 @@ string property KEY_ACTOR_CUSTOMVALUES = "mantella_actor_custom_values" auto
 ;sentence
 string property KEY_ACTOR_SPEAKER = "mantella_actor_speaker" auto
 string property KEY_ACTOR_LINETOSPEAK = "mantella_actor_line_to_speak" auto
+string property KEY_ACTOR_ISNARRATION = "mantella_is_narration" auto
 string property KEY_ACTOR_VOICEFILE= "mantella_actor_voice_file" auto
 string property KEY_ACTOR_DURATION = "mantella_actor_line_duration" auto
 string property KEY_ACTOR_ACTIONS = "mantella_actor_actions" auto

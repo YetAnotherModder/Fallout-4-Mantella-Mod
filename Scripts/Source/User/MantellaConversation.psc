@@ -3,7 +3,8 @@ Scriptname MantellaConversation extends Quest hidden
 Import F4SE
 Import Utility
 
-Topic property MantellaDialogueLine auto
+Topic property MantellaDialogueLine1 auto
+Topic property MantellaDialogueLine2 auto
 MantellaRepository property repository auto
 MantellaConstants property mConsts auto
 Spell property MantellaSpell auto
@@ -22,6 +23,7 @@ Potion Property StimpackItem auto
 Potion Property RadawayItem auto
 Quest Property MantellaNPCCollectionQuest Auto 
 RefCollectionAlias Property MantellaNPCCollection  Auto
+ReferenceAlias Property Narrator Auto
 
 
 CustomEvent MantellaConversation_Action_mantella_reload_conversation
@@ -41,14 +43,17 @@ String[] _ingameEvents
 String[] _extraRequestActions
 bool _does_accept_player_input = false
 bool _hasBeenStopped
+bool _allowTopicSwitching = false
 int _DictionaryCleanTimer
 int _PlayerTextInputTimer
 string _PlayerTextInput
+bool _useNarrator = True
 Faction CompanionFaction
 Faction SettlerFaction
 Faction PlayerFaction
 actor[] CurrentFunctionTargetArray
 int CurrentFunctionTargetPointer
+
 
 VoiceType MantellaVoice
 Topic MantellaTopic
@@ -56,7 +61,7 @@ Actor lastSpokenTo = none
 Actor _lastNpcToSpeak = none
 Actor property playerRef auto
 
-Actor CurrentFunctionTargetNPC
+Actor CurrentFunctionTargetNPC ;should be remove since actions can have multiple sources with multiple targets now.
 bool _isTalking = false
 int HttpTimeout
 int _HttpPollTimer = 12 const
@@ -64,6 +69,7 @@ float HttpPeriod = 0.2
 bool property HttpPolling = false auto             ; polling mode, used by VR
 bool PollTimerActive
 bool _shouldRespond = true
+int _lastTopicInfo = 0
 
 int _delayedHandle
 string[] _delayedActionIdentifier
@@ -187,11 +193,31 @@ Function RemoveActorsFromConversation(Actor[] actorsToRemove)
     RemoveActors(actorsToRemove)  
 EndFunction
 
+int Function GetNextTopicID()
+    If (_lastTopicInfo == 0 || _lastTopicInfo == 2)
+        return 1
+    Else
+        return 2
+    EndIf
+EndFunction
+
+Topic Function GetTopicToUse(int transmittedID)
+    If (transmittedID == 2 && _allowTopicSwitching)
+        return MantellaDialogueLine2
+    Else
+        return MantellaDialogueLine1
+    EndIf
+EndFunction
+
 
 function ContinueConversation(int handle)
     string nextAction = F4SE_HTTP.getString(handle, mConsts.KEY_REPLYTYPE, "Error: Did not receive reply type")
     ; Debug.Notification(nextAction)
     if(nextAction == mConsts.KEY_REPLYTTYPE_STARTCONVERSATIONCOMPLETED)
+        _hasBeenStopped = false
+        if(F4SE_HTTP.hasKey(handle,mConsts.KEY_STARTCONVERSATION_USENARRATOR))
+            _useNarrator = F4SE_HTTP.getBool(handle, mConsts.KEY_STARTCONVERSATION_USENARRATOR, false) as bool
+        endif
         RequestContinueConversation()
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_NPCTALK)
         int npcTalkHandle = F4SE_HTTP.getNestedDictionary(handle, mConsts.KEY_REPLYTYPE_NPCTALK)
@@ -228,8 +254,6 @@ function ContinueConversation(int handle)
 
     elseIf (nextAction == mConsts.KEY_REQUESTTYPE_TTS) 
         string transcribe = F4SE_HTTP.getString(handle, mConsts.KEY_TRANSCRIBE, "*Complete gibberish*")
-        sendRequestForPlayerInput(transcribe)
-        Debug.Notification("Thinking...")
         if repository.allowVision
             repository.GenerateMantellaVision()
         endif
@@ -237,6 +261,9 @@ function ContinueConversation(int handle)
             repository.resetFunctionInferenceNPCArrays()
             repository.UpdateFunctionInferenceNPCArrays(repository.GetFunctionInferenceActorList())
         endif
+        sendRequestForPlayerInput(transcribe)
+        Debug.Notification("Thinking...")
+        
         repository.ResetEventSpamBlockers()  ;reset spam blockers to allow the Listener Script to pick up on those again
     elseIf(nextAction == mConsts.KEY_REPLYTYPE_ENDCONVERSATION)
         CleanupConversation()
@@ -248,6 +275,11 @@ function RequestContinueConversation()
         int handle = F4SE_HTTP.createDictionary()
         F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_CONTINUECONVERSATION)
         AddCurrentActorsAndContext(handle)
+        if _allowTopicSwitching
+            int nextTopicInfo = GetNextTopicID()
+            F4SE_HTTP.setInt(handle, mConsts.KEY_CONTINUECONVERSATION_TOPICINFOFILE, nextTopicInfo)
+            _lastTopicInfo = nextTopicInfo
+        endif
         if(_extraRequestActions && _extraRequestActions.Length > 0)
             ;Debug.Trace("_extraRequestActions contains items. Sending them along with continue!")
             F4SE_HTTP.setStringArray(handle, mConsts.KEY_REQUEST_EXTRA_ACTIONS, _extraRequestActions)
@@ -260,18 +292,39 @@ endFunction
 
 function ProcessNpcSpeak(int handle)
     string speakerName = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_SPEAKER, "Error: No speaker transmitted for action 'NPC talk'")
-    Actor speaker = GetActorInConversation(speakerName)
-  
+    Actor speaker = none
+    bool isNarration = False
+    float lineDuration = 0
+    if _useNarrator
+        isNarration = F4SE_HTTP.getBool(handle, mConsts.KEY_ACTOR_ISNARRATION, false) as bool
+    endIf
+    if isNarration
+        ;speaker = Narrator.GetReference() as Actor
+        speaker = playerRef ;Using player ref due to issues with narrator
+        speakerName = "MantellaNarrator"
+        lineDuration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
+        ;Debug.Notification("Using Narrator.")
+    ; If actor is already loaded, do not load again from actors list
+    else
+        speaker = GetActorInConversation(speakerName)
+    endIf
+
     if speaker != none
         Actor spokenTo = GetActorSpokenTo(speaker)
-        ;WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak,-1)
+        WaitForNpcToFinishSpeaking(speaker, _lastNpcToSpeak,-1)
+        string lineToSpeakError = "Error: No line transmitted for actor to speak"
         string lineToSpeak = F4SE_HTTP.getString(handle, mConsts.KEY_ACTOR_LINETOSPEAK, "Error: No line transmitted for actor to speak")
-        float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
+        ;float duration = F4SE_HTTP.getFloat(handle, mConsts.KEY_ACTOR_DURATION, 0)
         string[] actions = F4SE_HTTP.getStringArray(handle, mConsts.KEY_ACTOR_ACTIONS)
+        
 
+
+        int topidID = F4SE_HTTP.getInt(handle, mConsts.KEY_CONTINUECONVERSATION_TOPICINFOFILE,1)
         RaiseActionEvent(speaker, lineToSpeak, actions, handle)
-        NpcSpeak(speaker, lineToSpeak, spokenTo, duration)
-        ;Utility.wait(1.0)
+        if lineToSpeak != lineToSpeakError
+            Topic topicToUse = GetTopicToUse(topidID)
+            NpcSpeak(speaker, lineToSpeak, topicToUse, isNarration, lineDuration, spokenTo)
+        endif
 
         if speaker != playerRef
             _lastNpcToSpeak = speaker
@@ -279,18 +332,19 @@ function ProcessNpcSpeak(int handle)
     endIf
 endFunction
 
-function NpcSpeak(Actor actorSpeaking, string lineToSay, Actor actorToSpeakTo, float duration)
+function NpcSpeak(Actor actorSpeaking, string lineToSay, Topic topicToUse, bool isSpokenByNarrator, float duration, Actor actorToSpeakTo)
     actorSpeaking.SetOverrideVoiceType(MantellaVoice)                       ;Force every line to 'MantellaVoice00'   
  
-    int ret = TopicInfoPatcher.PatchTopicInfo(MantellaTopic, lineToSay)          ;Patch the in-memory text to the new value
+    int ret = TopicInfoPatcher.PatchTopicInfo(topicToUse, lineToSay)          ;Patch the in-memory text to the new value
     if ret != 0
         Debug.Notification("Patcher returned " + ret);                      ; Probably only if len>150
     Endif
-
-    actorSpeaking.SetLookAt(actorToSpeakTo)
-    AllSetLookAt(actorSpeaking)
+    if !isSpokenByNarrator
+        actorSpeaking.SetLookAt(actorToSpeakTo)
+        AllSetLookAt(actorSpeaking)
+    endif
     
-    actorSpeaking.Say(MantellaTopic, abSpeakInPlayersHead=false)
+    actorSpeaking.Say(topicToUse, abSpeakInPlayersHead=isSpokenByNarrator)
     actorSpeaking.SetOverrideVoiceType(none)
     
     float durationAdjusted = duration - 0.5
@@ -759,9 +813,9 @@ Function TriggerCorrectCustomEvent(string actionIdentifier, Actor speaker, strin
                     currentActor.EvaluatePackage()
                     debug.notification(currentActor.GetDisplayName()+" is moving towards "+CurrentFunctionTargetNPC.GetDisplayName())
                 EndIf
-                CauseReassignmentOfParticipantAlias()
                 i+=1
             EndWhile
+            CauseReassignmentOfParticipantAlias()
         endif
     ElseIf (actionIdentifier == mConsts.ACTION_NPC_ATTACK_OTHER_NPC)
         debug.notification("Attack NPC action identifier recognized")
@@ -1503,7 +1557,7 @@ bool function AreAllParticipantsFollowersCheck()
         endif
         i += 1
     EndWhile
-    debug.notification("All participants are followers")
+    ;debug.notification("All participants are followers")
     return true
 endFunction
 
@@ -1519,7 +1573,7 @@ bool function AreAllParticipantsSettlersCheck()
         endif
         i += 1
     EndWhile
-    debug.notification("All participants are settlers")
+    ;debug.notification("All participants are settlers")
     return true
 endFunction
 

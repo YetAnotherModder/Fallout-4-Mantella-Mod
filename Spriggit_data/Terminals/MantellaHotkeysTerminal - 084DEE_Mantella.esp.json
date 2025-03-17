@@ -179,8 +179,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFD50:Mantella.esp",
-            "ParameterTwoNumber": -1442120368,
+            "ParameterTwoRecord": "CABD58:Mantella.esp",
+            "ParameterTwoNumber": -1412776616,
             "ParameterTwoString": "::hideVisionMenu_var"
           }
         }
@@ -209,8 +209,8 @@
             "Function": "GetVMQuestVariable",
             "ParameterOneRecord": "000F99:Mantella.esp",
             "ParameterOneNumber": 16781209,
-            "ParameterTwoRecord": "0AFD48:Mantella.esp",
-            "ParameterTwoNumber": -1442120376,
+            "ParameterTwoRecord": "CABD50:Mantella.esp",
+            "ParameterTwoNumber": -1412776624,
             "ParameterTwoString": "::hideVisionMenu_var"
           }
         }
