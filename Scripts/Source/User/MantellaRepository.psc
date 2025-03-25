@@ -47,7 +47,7 @@ String Property MantellaFunctionInferenceActorDistanceList  Auto
 String Property MantellaFunctionInferenceActorIDsList  Auto
 int property NPCAIPackageSelector auto Conditional
 bool property isAParticipantInteractingWithGroundItems auto conditional
-;NPCAIPackageSelector values
+;MantellaFunctionSourceFaction values
 ;-1 = default state
 ;0 = wait
 ;1 = follow non-player
@@ -55,6 +55,7 @@ bool property isAParticipantInteractingWithGroundItems auto conditional
 ;3 = loot
 ;4 = use item (item must be specified below)
 ;5 = follow player
+;6 = use spell (skyrim only)
 int property NPCAIItemToUseSelector auto Conditional
 ;1 = stimpak
 int property NPCAIItemToLootSelector auto Conditional
@@ -87,6 +88,8 @@ bool property playerTrackingRadiationDamage auto Conditional
 bool property playerTrackingSleep auto Conditional
 bool property playerTrackingCripple auto Conditional
 bool property playerTrackingHealTeammate auto Conditional
+
+bool property allowTrackPlayerState auto Conditional
 
 
 ;variables below for Mantella Target tracking
@@ -221,6 +224,7 @@ Function reinitializeVariables()
     conversation.conversationIsEnding = false
     hideFunctionMenu=false
     hideVisionMenu=false
+    allowTrackPlayerState=true
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1041,7 +1045,7 @@ string function constructPlayerState()
         playerStateArray[playerStatePositiveCount]="heavily wounded" 
         playerStatePositiveCount+=1
     endif
-    if PlayerRadiationPercent > 0.05 && PlayerRadiationPercent <= 0.3
+    if PlayerRadiationPercent > 0.15 && PlayerRadiationPercent <= 0.3
         playerStateArray[playerStatePositiveCount]="lightly irradiated"  
         playerStatePositiveCount+=1
     ElseIf PlayerRadiationPercent > 0.3 && PlayerRadiationPercent <= 0.6

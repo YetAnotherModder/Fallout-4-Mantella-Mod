@@ -420,7 +420,7 @@ Function CleanupConversation()
         MantellaConversationParticipantsQuest.Stop()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
-    F4SE_HTTP.clearAllDictionaries() 
+    F4SE_HTTP.clearAllDictionaries()
     _lastNpcToSpeak = none
     RestoreSettings()
     if repository.isFirstConvo
@@ -566,7 +566,9 @@ Endevent
 
 function sendRequestForPlayerInput(string playerInput)
     if _hasBeenStopped==false
-        AddIngameEvent(repository.constructPlayerState())
+        if repository.allowTrackPlayerState
+            AddIngameEvent(repository.constructPlayerState())
+        endif
         int handle = F4SE_HTTP.createDictionary()
         F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE, mConsts.KEY_REQUESTTYPE_PLAYERINPUT)
         F4SE_HTTP.setString(handle, mConsts.KEY_REQUESTTYPE_PLAYERINPUT, playerinput)
