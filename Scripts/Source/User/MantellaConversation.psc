@@ -420,7 +420,7 @@ Function CleanupConversation()
         MantellaConversationParticipantsQuest.Stop()
     EndIf  
     StartTimer(4,_DictionaryCleanTimer)  ;starting timer with ID 10 for 4 seconds
-    F4SE_HTTP.clearAllDictionaries()
+    ;F4SE_HTTP.clearAllDictionaries() ;This is commented out because it randomly leads to issue if a Mantella conversation is prematurely ended (infamous Error : Cannot retrieve Error bug)
     _lastNpcToSpeak = none
     RestoreSettings()
     if repository.isFirstConvo
